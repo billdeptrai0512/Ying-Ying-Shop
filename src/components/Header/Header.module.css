@@ -1,0 +1,52 @@
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100vw;
+}
+  
+.banner {
+    display: flex;
+    justify-content: center;
+    background-color: #CEF6FF;
+    font-size: 18px;
+    padding: 1em;
+    color: #000000;
+}
+
+.main {
+    display: flex;
+    justify-content: space-between;
+    padding: 60px 94px
+}
+
+.logo h1 {
+    align-items: start;
+    font-size: 24px;
+    line-height: 1.1;
+}
+
+.logo p {
+    font-size: 20px;
+    color: #696969
+}
+
+.contact {
+    display: flex;
+    font-size: 20px;
+    width: 24%;
+    align-items: start;
+    justify-content: space-evenly;
+    color: #868686;
+}
+
+.contact div {
+    cursor: pointer;
+}
+
+.middle {
+    padding: 0 2em;
+    border-left: 1px solid;
+    border-right: 1px solid;
+}
+

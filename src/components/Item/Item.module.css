@@ -1,0 +1,91 @@
+.inventory {
+    width: 100%;
+}
+
+.inventory h2{
+    font-size: 20px;
+}
+
+.information {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+.amount {
+    font-size: 14px;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+}
+
+.image {
+    display: flex;
+    overflow: hidden;
+    max-width: calc(68px * 5 + 1em * 5);
+    padding-top: 0.5em;
+    padding-right: 1em;
+    gap: 1em;
+}
+
+.image div{
+    position: relative;
+    height: 68px;
+    width: 68px;
+    border: 1px solid #BABABA;
+    cursor: pointer;
+    
+}
+
+.image img{
+    height: 68px;
+    width: 68px;
+}
+
+.image div img[alt="selectedItem"] {
+    position: absolute; 
+}
+
+.size {
+    padding-top: 0.1em;
+}
+
+/* .size div div{
+    border: 1px solid red;
+} */
+
+.size h3{
+    font-size: 16px;
+    color: #696868;
+}
+
+.options {
+    display: flex;
+    padding-top: 0.1em;
+    gap: 1em;
+}
+
+.options div{
+    font-size: 14px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #D9D9D9;
+    height: 26px;
+    width: 52px;
+    cursor: pointer;
+}
+
+.options img{
+    position: absolute;
+    pointer-events: none;
+}
+
+.extra .inventory {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
