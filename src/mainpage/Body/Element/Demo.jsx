@@ -4,6 +4,8 @@ const facebookLink = "https://www.facebook.com/media/set/?set=a.1221065012965704
 
 export default function DemoPage({outFit}) {
 
+    console.log(outFit)
+
     const selectedOutFit = Object.entries(outFit)
         .filter(([key, value]) => key !== "total" && value?.item?.demoImage)
         .map(([key, value], index) => (

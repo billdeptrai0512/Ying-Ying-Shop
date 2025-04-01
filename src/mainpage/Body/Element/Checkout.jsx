@@ -30,10 +30,14 @@ export default function CheckOut({outFit, setMissingSize, saveOutFitInCart, rese
             .filter(([category, item]) => category !== "total" && category !== "bow" && category !== "bag" && item.item && !item.size)
             .map(([category]) => category)
 
+        //if outFit. all key = null then prevent them to send empty cart
         if (missingSizes.length === 0) {
 
+            console.log(outFit)
+
             saveOutFitInCart(outFit)
-            return resetDefault()
+            resetDefault()
+            return
 
         } else {
             return setMissingSize(missingSizes)

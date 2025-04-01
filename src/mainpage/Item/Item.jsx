@@ -38,7 +38,6 @@ export default function Item({props, UpdateSize, UpdateOutFit, setChoosen, isCho
 
         setSelectedItem(null)
         
-
     }, [resetTrigger])
 
     const itemSection = props.inventory[0].section

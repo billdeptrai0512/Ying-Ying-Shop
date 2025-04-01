@@ -31,6 +31,10 @@
     padding: 1em;
 }
 
+.example a:visited {
+    color: blue !important
+}
+
 .primary, .secondary {
     display: flex;
     flex-direction: column;

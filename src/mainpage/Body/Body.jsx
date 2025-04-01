@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Outlet } from "react-router-dom"
 import styles from "./Body.module.css"
 import Item from "../Item/Item"
 import CheckOut from "./Element/Checkout"
@@ -257,12 +258,11 @@ const inventory = {
     }
 }
 
-export default function Body({saveOutFitInCart}) {
+export default function Body({setResetTrigger}) {
 
     const [bottomSelected, setBottomSelected] = useState(null)
     const [jacketSelected, setJacketSelected] = useState(null)
     const [missingSize, setMissingSize] = useState(null)
-    const [resetTrigger, setResetTrigger] = useState(false)
     
     const [outFit, setOutFit] = useState({
         top: {
@@ -385,6 +385,9 @@ export default function Body({saveOutFitInCart}) {
     }
 
     const resetDefault = () => {
+
+        console.log("setResetTrigger" + setResetTrigger)
+
         setOutFit({
             top: { item: null, size: null },
             bottom: { item: null, size: null },
@@ -407,23 +410,19 @@ export default function Body({saveOutFitInCart}) {
             <DemoPage 
                 outFit={outFit} 
             />
-            <div className={styles.primary}>
-                <Item props={inventory.top} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
-                <Item props={inventory.bottom_short} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} setChoosen={setBottomSelected} isChoosen={bottomSelected} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
-                <Item props={inventory.bottom_long} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} setChoosen={setBottomSelected} isChoosen={bottomSelected} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
-                <Item props={inventory.sweater} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
-            </div>
-            <div className={styles.secondary}>
-                <Item props={inventory.gakuran} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} setChoosen={setJacketSelected} isChoosen={jacketSelected} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger} />
-                <Item props={inventory.blazer} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} setChoosen={setJacketSelected} isChoosen={jacketSelected} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
-                <Extra props={inventory.extra} UpdateOutFit={UpdateOutFit} resetTrigger={resetTrigger}/> 
-                <CheckOut 
-                    setMissingSize={setMissingSize}
-                    saveOutFitInCart={saveOutFitInCart}
-                    outFit={outFit}
-                    resetDefault={resetDefault}
-                />
-            </div>
+            <Outlet context={{
+                inventory,
+                outFit,
+                UpdateOutFit,
+                UpdateSize,
+                resetDefault,
+                bottomSelected,
+                setBottomSelected,
+                jacketSelected,
+                setJacketSelected,
+                missingSize,
+                setMissingSize,
+            }} />
         </div>
     )
 }
