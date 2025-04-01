@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 // eslint-disable-next-line no-unused-vars
 import { useSpring, animated } from "@react-spring/web";
-import styles from "../Body.module.css"
-import { ShoppingCart } from 'lucide-react'; 
+import styles from "./Body.module.css"
+import { useCart } from "../../main";
 
-export default function CheckOut({outFit, setMissingSize, saveOutFitInCart, resetDefault}) {
 
+export default function CheckOut({outFit, setMissingSize, resetDefault}) {
+
+    const { saveOutFitInCart } = useCart()
     const [prevTotal, setPrevTotal] = useState(outFit.total);
 
     useEffect(() => {
@@ -33,17 +35,16 @@ export default function CheckOut({outFit, setMissingSize, saveOutFitInCart, rese
         //if outFit. all key = null then prevent them to send empty cart
         if (missingSizes.length === 0) {
 
-            console.log(outFit)
-
             saveOutFitInCart(outFit)
+
             resetDefault()
-            return
 
         } else {
-            return setMissingSize(missingSizes)
+
+            setMissingSize(missingSizes)
+
         }
         
-
         // we must prevent the user to checkout if the user not select size for all item they have picked
         //how do we track the size element of the each category in outfit ?????
     }

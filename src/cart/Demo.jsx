@@ -1,10 +1,10 @@
-import styles from "./Body.module.css"
+import styles from "./Cart.module.css"
 
 const facebookLink = "https://www.facebook.com/media/set/?set=a.122106501296570424&type=3"
 
-export default function DemoPage({outFit}) {
+export default function Demo({cart}) {
 
-    const selectedOutFit = Object.entries(outFit)
+    const selectedCart = Object.entries(cart[0])
         .filter(([key, value]) => key !== "total" && value?.item?.demoImage)
         .map(([key, value], index) => (
             <img 
@@ -14,12 +14,11 @@ export default function DemoPage({outFit}) {
                 alt={key} 
             />
         ));
-    
-    
+
     return (
         <div className={styles.demo}>
             <div className={styles.output}>
-                {selectedOutFit.length > 0 ? selectedOutFit : null}
+                {selectedCart.length > 0 ? selectedCart : null}
             </div>
             <div className={styles.example}> 
                 Bấm vào <a href={facebookLink} target="_blank" rel="noopener noreferrer"> đây</a> tham khảo nếu bạn bí ý tưởng nha 😉

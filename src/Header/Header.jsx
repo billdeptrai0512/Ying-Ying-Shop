@@ -1,18 +1,19 @@
 import styles from "./Header.module.css"
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
+import { useCart } from "../main"
 
-export default function Header({cart, resetTrigger}) {
+export default function Header() {
+
+    const { cart } = useCart()
 
     const [numberOfCart, setNumberOfCart] = useState(0)
 
     useEffect(() => {
 
-        setNumberOfCart(cart.number)
+        setNumberOfCart(cart.length)
 
-        console.log(cart.number)
-
-    }, [cart.number, resetTrigger])
+    }, [cart])
 
     return (
         <header className={styles.header}>
@@ -29,7 +30,7 @@ export default function Header({cart, resetTrigger}) {
                 </div>
                 <div className={styles.contact}>
                     <Link className={styles.cartLink} to={`/cart`}>
-                        CART {cart.number === 0 ? null : <span style={{ color: '#DC1E1E' }}>( {numberOfCart} )</span>}
+                        CART {cart.length === 0 ? null : <span style={{ color: '#DC1E1E' }}>( {numberOfCart} )</span>}
                     </Link>
                     {/* <div className={styles.middle}>FANPAGE</div>
                     <div>TIKTOK</div> */}

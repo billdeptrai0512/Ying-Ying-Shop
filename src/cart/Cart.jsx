@@ -1,33 +1,30 @@
-import { useState } from "react"
+import { useCart } from "../main";
 import styles from "./Cart.module.css"
+import Demo from "./Demo";
 
+export default function Cart() {
 
-// import fullset from "../../assets/demo/fullset.png"
+    const { cart } = useCart()
 
-export default function Cart({ cart }) {
-    console.log(cart);
+    console.log(cart[0])
+
+    const selectedCart = Object.entries(cart[0])
+    .filter(([key, value]) => key !== "total" && value?.item)
+    .map(([key, value], index) => (
+        <img 
+            key={`${key}-${index}`} 
+            style={{zIndex: value.item.zIndex || 0}}
+            src={value.item.demoImage} 
+            alt={key} 
+        />
+    ));
 
     return (
-        <div>
-            <h2>Cart Items</h2>
-            {cart.item?.map((item, index) => (
-                <div key={index} style={{ border: "1px solid black", margin: "10px", padding: "10px" }}>
-                    <h3>Item {index + 1}</h3>
-                    {item.bottom?.item && (
-                        <div>
-                            <p>Bottom ID: {item.bottom.item.id}</p>
-                            <img src={item.bottom.item.image} alt="Bottom Item" width="50" />
-                            <p>Size: {item.bottom.size}</p>
-                        </div>
-                    )}
-                    {item.top?.item && (
-                        <div>
-                            <p>Top Size: {item.top.size}</p>
-                        </div>
-                    )}
-                    <p>Total: {item.total}</p>
-                </div>
-            ))}
+        <div className={styles.body}>
+            <Demo 
+                cart={cart} 
+            />
+            {selectedCart}
         </div>
     );
 }

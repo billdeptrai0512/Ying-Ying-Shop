@@ -1,11 +1,3 @@
-import { useState } from "react"
-import { Outlet } from "react-router-dom"
-import styles from "./Body.module.css"
-import Item from "../Item/Item"
-import CheckOut from "./Element/Checkout"
-import DemoPage from "./Element/Demo"
-import Extra from "../Item/Extra"
-
 import somi from "../../assets/inventory/somi1.png"
 import aolen from "../../assets/inventory/aolen1.png"
 import chanvay from "../../assets/inventory/cv1.png"
@@ -44,6 +36,13 @@ import bag4demo from "../../assets/demo/tui4.png"
 
 // import fullset from "../../assets/demo/fullset.png"
 
+import { useState } from "react"
+import styles from "./Body.module.css"
+
+import Item from "../Item/Item.jsx"
+import Extra from "../Item/Extra.jsx"
+import Demo from "./Demo.jsx"
+import CheckOut from "./Checkout.jsx"
 
 const inventory = {
     top : {
@@ -258,12 +257,12 @@ const inventory = {
     }
 }
 
-export default function Body({setResetTrigger}) {
+export default function Body() {
 
     const [bottomSelected, setBottomSelected] = useState(null)
     const [jacketSelected, setJacketSelected] = useState(null)
     const [missingSize, setMissingSize] = useState(null)
-    
+    const [resetTrigger, setResetTrigger] = useState(false)
     const [outFit, setOutFit] = useState({
         top: {
             item: null,
@@ -386,8 +385,6 @@ export default function Body({setResetTrigger}) {
 
     const resetDefault = () => {
 
-        console.log("setResetTrigger" + setResetTrigger)
-
         setOutFit({
             top: { item: null, size: null },
             bottom: { item: null, size: null },
@@ -402,27 +399,30 @@ export default function Body({setResetTrigger}) {
         setJacketSelected(null);
         setMissingSize(null);
     
-        setResetTrigger(prev => !prev); 
+        return setResetTrigger(prev => !prev); 
     }
 
     return (
         <div className={styles.body}>
-            <DemoPage 
+            <Demo 
                 outFit={outFit} 
             />
-            <Outlet context={{
-                inventory,
-                outFit,
-                UpdateOutFit,
-                UpdateSize,
-                resetDefault,
-                bottomSelected,
-                setBottomSelected,
-                jacketSelected,
-                setJacketSelected,
-                missingSize,
-                setMissingSize,
-            }} />
+            <div className={styles.primary}>
+                <Item props={inventory.top} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
+                <Item props={inventory.bottom_short} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} setChoosen={setBottomSelected} isChoosen={bottomSelected} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
+                <Item props={inventory.bottom_long} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} setChoosen={setBottomSelected} isChoosen={bottomSelected} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
+                <Item props={inventory.sweater} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
+            </div>
+            <div className={styles.secondary}>
+                <Item props={inventory.gakuran} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} setChoosen={setJacketSelected} isChoosen={jacketSelected} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger} />
+                <Item props={inventory.blazer} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} setChoosen={setJacketSelected} isChoosen={jacketSelected} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
+                <Extra props={inventory.extra} UpdateOutFit={UpdateOutFit} resetTrigger={resetTrigger}/> 
+                <CheckOut 
+                    setMissingSize={setMissingSize}
+                    outFit={outFit}
+                    resetDefault={resetDefault}
+                />
+            </div> 
         </div>
     )
 }

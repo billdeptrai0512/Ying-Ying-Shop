@@ -1,17 +1,13 @@
 import './MainPage.css'
-import { useState } from "react"
 import Header from '../Header/Header'
-import Body from './Body/body'
+import { Outlet } from "react-router-dom"
 
-
-export default function MainPage({cart}) {
-
-  const [resetTrigger, setResetTrigger] = useState(false)
+export default function MainPage() {
 
   return (
     <>
-      <Header cart={cart} resetTrigger={resetTrigger}/>
-      <Body setResetTrigger={setResetTrigger}/>
+      <Header />
+      <Outlet />
     </>
   )
 }
