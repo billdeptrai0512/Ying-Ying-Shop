@@ -36,7 +36,13 @@ export default function Image({name, inventory, selectedItem, pickItem}) {
         <div className={styles.container}>
             {inventory.length > 5 ? (
                 <>
-                {atStart === true ? null : <Play color="#626262" onClick={scrollLeft} style={{ position: "absolute", transform: "translateX(-150%) rotate(180deg)"}} />}
+                    <Play color="#626262" onClick={scrollLeft} 
+                        style={{ 
+                            display: atStart === true ? 'none' : 'block',
+                            position: "absolute", 
+                            transform: "translateX(-150%) rotate(180deg)"
+                        }} 
+                    />
                     <div className={styles.image} ref={scrollContainer}>
                         
                         {inventory.map((item, index) => (
@@ -45,9 +51,13 @@ export default function Image({name, inventory, selectedItem, pickItem}) {
                                 <img src={item.image} alt={name}></img>
                             </div>
                         ))}
-                    
                     </div>
-                {atEnd === true ? null : <Play color="#626262" onClick={scrollRight} style={{ transform: "translateX(-20%) " }}/>}
+                    <Play color="#626262" onClick={scrollRight} 
+                        style={{ 
+                            display: atEnd === true ? 'none' : 'block',
+                            transform: "translateX(-20%)" 
+                        }}
+                    />
                 </>
             )
             :

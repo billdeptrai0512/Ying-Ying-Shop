@@ -1,30 +1,39 @@
+import { useState } from "react";
 import { useCart } from "../main";
 import styles from "./Cart.module.css"
 import Demo from "./Demo";
+import Outfit from "./Outfit";
+import Total from "./Total";
 
 export default function Cart() {
 
     const { cart } = useCart()
 
-    console.log(cart[0])
+    const [selectedOutFit, setSelectedOutFit] = useState(0)
 
-    const selectedCart = Object.entries(cart[0])
-    .filter(([key, value]) => key !== "total" && value?.item)
-    .map(([key, value], index) => (
-        <img 
-            key={`${key}-${index}`} 
-            style={{zIndex: value.item.zIndex || 0}}
-            src={value.item.demoImage} 
-            alt={key} 
-        />
-    ));
+    const pickOutFit = (index) => {
+
+        return setSelectedOutFit(index)
+
+    }
 
     return (
         <div className={styles.body}>
             <Demo 
-                cart={cart} 
+                cart={cart}
+                selectedOutFit={selectedOutFit}
             />
-            {selectedCart}
+            <div className={styles.primary}>
+                <Outfit 
+                    cart={cart} 
+                    pickOutFit={pickOutFit}/>
+            </div>
+            <div className={styles.secondary}>
+                <Total 
+                    cart={cart}
+                    selectedOutFit={selectedOutFit} 
+                />
+            </div>
         </div>
     );
 }

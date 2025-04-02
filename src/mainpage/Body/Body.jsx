@@ -82,6 +82,22 @@ const inventory = {
                 size: ["S", "M", "L", "XL"],
                 total: 20000
             },
+            {
+                id: Math.random(),
+                image: somi,
+                demoImage: somidemo,
+                amount: 10,
+                size: ["S", "M", "L", "XL"],
+                total: 20000
+            },
+            {
+                id: Math.random(),
+                image: somi,
+                demoImage: somidemo,
+                amount: 10,
+                size: ["S", "M", "L", "XL"],
+                total: 20000
+            },
         ]
     },
 
@@ -257,6 +273,9 @@ const inventory = {
     }
 }
 
+// we need to make it responsive 
+// slide left and right somehow adjust the gap between 2 grid element. fix it
+
 export default function Body() {
 
     const [bottomSelected, setBottomSelected] = useState(null)
@@ -421,8 +440,9 @@ export default function Body() {
                     setMissingSize={setMissingSize}
                     outFit={outFit}
                     resetDefault={resetDefault}
-                />
+            />
             </div> 
+
         </div>
     )
 }

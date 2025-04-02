@@ -52,13 +52,15 @@
     padding-top: 0.1em;
 }
 
-/* .size div div{
-    border: 1px solid red;
-} */
-
 .size h3{
     font-size: 16px;
     color: #696868;
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1em;
 }
 
 .options {
@@ -82,6 +84,10 @@
 .options img{
     position: absolute;
     pointer-events: none;
+}
+
+.warning {
+    color: #FF0404;
 }
 
 .extra .inventory {

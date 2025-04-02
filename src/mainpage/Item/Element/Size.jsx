@@ -71,19 +71,22 @@ export default function Size({category, selectedItem, isChoosen, itemSection, Up
     return (
         <div className={styles.size}>
             <h3> Size </h3>
-            <div className={styles.options}>
-                {selectedItem.size.map((size, index) => (
-                    <div key={index} >
-                        {sizeSelected === index ? (<img src={sizeCover} alt="selectedSize"></img>) : null}
-                        <div   
-                            style={buttonStyle}
-                            onClick={() => pickSize(index)}
-                            onMouseEnter={(e) => handleMouseEnter(e)}
-                            onMouseLeave={() => handleMouseLeave()}
-                            >{size}
+            <div className={styles.wrapper}>
+                <div className={styles.options}>
+                    {selectedItem.size.map((size, index) => (
+                        <div key={index} >
+                            {sizeSelected === index ? (<img src={sizeCover} alt="selectedSize"></img>) : null}
+                            <div   
+                                style={buttonStyle}
+                                onClick={() => pickSize(index)}
+                                onMouseEnter={(e) => handleMouseEnter(e)}
+                                onMouseLeave={() => handleMouseLeave()}
+                                >{size}
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
+                {isMissingSize ? <div className={styles.warning}> * chon size ban oi</div> : null}
             </div>
             {isHovered && (
                 <div

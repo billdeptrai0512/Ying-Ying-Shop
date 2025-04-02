@@ -2,20 +2,20 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     width: 100vw;
-    height: 35em;
-    padding: 0 94px;
+    height: auto;
+    padding: 0 6em;
     gap: 5em
 }
 
 .demo {
     background-color: #F2EFEA;
-    width: 30em;
+    width: 33em;
     border: 2px solid #696868;
 }
 
 .output {
-    margin: 30px 30px;
-    height: 33em;
+    margin: 30px 30px 0 30px;
+    height: 35em;
 }
 
 .output img {
@@ -23,7 +23,6 @@
     position: absolute;
     height: auto;
     width: 30em;
-    transform: translateX(-33px);
 }
 
 .example {
@@ -47,6 +46,7 @@
     width: 100%;
     align-items: start;
     flex-direction: column;
+    margin-top: 2em;
     gap: 1em;
 }
 
