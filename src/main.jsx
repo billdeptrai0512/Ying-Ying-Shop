@@ -3,10 +3,10 @@ import { StrictMode, useContext } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import './index.css'
-import MainPage from './mainpage/MainPage.jsx'
-import Body from './mainpage/Body/body.jsx';
+import MainPage from './Mainpage/MainPage.jsx'
+import Body from './Mainpage/Body/body.jsx';
 import ErrorPage from './Error-Page.jsx';
-import Cart from './cart/Cart.jsx';
+import Cart from './Cart/Cart.jsx';
 //one way is to wrap up a function + state and return the router
 
 import { createContext, useState } from 'react';
