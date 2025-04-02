@@ -1,8 +1,8 @@
 import { useState, useEffect} from "react"
 import styles from "./Item.module.css"
 
-import Information from "./Element/Information"
-import Image from "./Element/Image"
+import Information from "./elements/Information"
+import Image from "./elements/Image"
 
 export default function Extra({props, UpdateOutFit, resetTrigger}) {
 
