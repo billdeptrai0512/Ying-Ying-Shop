@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://billdeptrai0512.github.io/ying-shop/",
+  "homepage": "https://billdeptrai0512.github.io/ying-shop",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
