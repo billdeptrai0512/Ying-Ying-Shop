@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
 import styles from "./Item.module.css"
 
-import Information from "./elements/Information"
-import Image from "./elements/Image"
-import Size from "./elements/Size"
+import Information from "./element/Information"
+import Image from "./element/Image"
+import Size from "./element/Size"
 
 export default function Item({props, UpdateSize, UpdateOutFit, setChoosen, isChoosen, missingSize , setMissingSize, resetTrigger}) {
 
