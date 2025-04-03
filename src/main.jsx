@@ -8,7 +8,7 @@ import MainPage from "./mainpage/MainPage.jsx"
 import ErrorPage from './Error-Page.jsx';
 import Cart from './cart/Cart.jsx';
 //one way is to wrap up a function + state and return the router
-
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { createContext, useState } from 'react';
 
 const CartContext = createContext()
@@ -34,31 +34,48 @@ function CartProvider({ children }) {
   );
 }
 
+// function App() {
+
+//     const router = createBrowserRouter([
+//       {
+//         path: "/",
+//         element: <MainPage />,
+//         errorElement: <ErrorPage />,
+//         children: [
+//           {
+//             path: "", //default body
+//             element: <Body />,
+//           },
+//           {
+//             path: "cart",
+//             element: <Cart />
+//           }
+//         ]
+//       },
+//     ])
+
+//     return (
+//       <CartProvider>
+//         <RouterProvider router={router} />
+//       </CartProvider>
+//     );
+// }
+
+
 function App() {
-
-    const router = createBrowserRouter([
-      {
-        path: "/",
-        element: <MainPage />,
-        errorElement: <ErrorPage />,
-        children: [
-          {
-            path: "", //default body
-            element: <Body />,
-          },
-          {
-            path: "cart",
-            element: <Cart />
-          }
-        ]
-      },
-    ])
-
-    return (
-      <CartProvider>
-        <RouterProvider router={router} />
-      </CartProvider>
-    );
+  return (
+    <CartProvider>
+      <HashRouter>
+        <Routes>
+          <Route path="/" element={<MainPage />}>
+            <Route index element={<Body />} />
+            <Route path="cart" element={<Cart />} />
+          </Route>
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
+      </HashRouter>
+    </CartProvider>
+  );
 }
 
 createRoot(document.getElementById('root')).render(
