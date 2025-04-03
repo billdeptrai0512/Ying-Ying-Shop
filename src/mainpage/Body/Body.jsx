@@ -39,7 +39,7 @@ import bag4demo from "../../assets/demo/tui4.png"
 import { useState } from "react"
 import styles from "./Body.module.css"
 
-import Item from "../item/Item.jsx"
+import Item from "../Item/Item.jsx"
 import Extra from "../item/Extra.jsx"
 import Demo from "./Demo.jsx"
 import CheckOut from "./Checkout.jsx"
