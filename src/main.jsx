@@ -3,7 +3,7 @@ import { StrictMode, useContext } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import './index.css'
-import Body from './mainpage/Body/body.jsx'
+import Body from './mainpage/body/Body.jsx'
 import MainPage from "./mainpage/MainPage.jsx"
 import ErrorPage from './Error-Page.jsx';
 import Cart from './cart/Cart.jsx';
