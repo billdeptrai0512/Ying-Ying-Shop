@@ -7,15 +7,11 @@ import Total from "./Total";
 
 export default function Cart() {
 
-    const { cart } = useCart()
+    const { cart , removeOutFit, editOutFit} = useCart()
 
     const [selectedOutFit, setSelectedOutFit] = useState(0)
 
-    const pickOutFit = (index) => {
-
-        return setSelectedOutFit(index)
-
-    }
+    const pickOutFit = (index) => setSelectedOutFit(index)
 
     return (
         <div className={styles.body}>
@@ -26,7 +22,9 @@ export default function Cart() {
             <div className={styles.primary}>
                 <Outfit 
                     cart={cart} 
-                    pickOutFit={pickOutFit}/>
+                    pickOutFit={pickOutFit}
+                    removeOutFit={removeOutFit}
+                    editOutFit={editOutFit}/>
             </div>
             <div className={styles.secondary}>
                 <Total 

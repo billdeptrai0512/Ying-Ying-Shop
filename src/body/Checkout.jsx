@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 // eslint-disable-next-line no-unused-vars
 import { useSpring, animated } from "@react-spring/web";
 import styles from "./Body.module.css"
-import { useCart } from "../../main";
+import { useCart } from "../main";
 
 
 export default function CheckOut({outFit, setMissingSize, resetDefault}) {
 
-    const { saveOutFitInCart } = useCart()
+    const { saveOutFit } = useCart()
+
     const [prevTotal, setPrevTotal] = useState(outFit.total);
 
     useEffect(() => {
@@ -32,10 +33,11 @@ export default function CheckOut({outFit, setMissingSize, resetDefault}) {
             .filter(([category, item]) => category !== "total" && category !== "bow" && category !== "bag" && item.item && !item.size)
             .map(([category]) => category)
 
+        //TODO prevent save empty outfit
         //if outFit. all key = null then prevent them to send empty cart
         if (missingSizes.length === 0) {
 
-            saveOutFitInCart(outFit)
+            saveOutFit(outFit)
 
             resetDefault()
 

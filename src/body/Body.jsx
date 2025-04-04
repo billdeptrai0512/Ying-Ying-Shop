@@ -1,46 +1,46 @@
-import somi from "../../assets/inventory/somi1.png"
-import aolen from "../../assets/inventory/aolen1.png"
-import chanvay from "../../assets/inventory/cv1.png"
-import quandai from "../../assets/inventory/quan1.png"
-import gakuran from "../../assets/inventory/gakuran1.png"
-import blazer from "../../assets/inventory/blazer1.png"
-import bow1 from "../../assets/inventory/bow1.png"
-import bow2 from "../../assets/inventory/bow2.png"
-import bow3 from "../../assets/inventory/bow3.png"
-import cavat1 from "../../assets/inventory/cavat1.png"
-import cavat2 from "../../assets/inventory/cavat2.png"
-import cavat3 from "../../assets/inventory/cavat3.png"
-import cavat4 from "../../assets/inventory/cavat4.png"
-import bag1 from "../../assets/inventory/tui1.png"
-import bag2 from "../../assets/inventory/tui2.png"
-import bag3 from "../../assets/inventory/tui3.png"
-import bag4 from "../../assets/inventory/tui4.png"
+import somi from "../assets/inventory/somi1.png"
+import aolen from "../assets/inventory/aolen1.png"
+import chanvay from "../assets/inventory/cv1.png"
+import quandai from "../assets/inventory/quan1.png"
+import gakuran from "../assets/inventory/gakuran1.png"
+import blazer from "../assets/inventory/blazer1.png"
+import bow1 from "../assets/inventory/bow1.png"
+import bow2 from "../assets/inventory/bow2.png"
+import bow3 from "../assets/inventory/bow3.png"
+import cavat1 from "../assets/inventory/cavat1.png"
+import cavat2 from "../assets/inventory/cavat2.png"
+import cavat3 from "../assets/inventory/cavat3.png"
+import cavat4 from "../assets/inventory/cavat4.png"
+import bag1 from "../assets/inventory/tui1.png"
+import bag2 from "../assets/inventory/tui2.png"
+import bag3 from "../assets/inventory/tui3.png"
+import bag4 from "../assets/inventory/tui4.png"
 
-import somidemo from "../../assets/demo/somi1.png"
-import blazerdemo from "../../assets/demo/blazer1.png"
-import aolendemo from "../../assets/demo/aolen1.png"
-import chanvaydemo from "../../assets/demo/cv1.png"
-import quandaidemo from "../../assets/demo/quan1.png"
-import gakurandemo from "../../assets/demo/gakuran1.png"
-import bow1demo from "../../assets/demo/bow1.png"
-import bow2demo from "../../assets/demo/bow2.png"
-import bow3demo from "../../assets/demo/bow3.png"
-import cavat1demo from "../../assets/demo/cavat1.png"
-import cavat2demo from "../../assets/demo/cavat2.png"
-import cavat3demo from "../../assets/demo/cavat3.png"
-import cavat4demo from "../../assets/demo/cavat4.png"
-import bag1demo from "../../assets/demo/tui1.png"
-import bag2demo from "../../assets/demo/tui2.png"
-import bag3demo from "../../assets/demo/tui3.png"
-import bag4demo from "../../assets/demo/tui4.png"
+import somidemo from "../assets/demo/somi1.png"
+import blazerdemo from "../assets/demo/blazer1.png"
+import aolendemo from "../assets/demo/aolen1.png"
+import chanvaydemo from "..//assets/demo/cv1.png"
+import quandaidemo from "../assets/demo/quan1.png"
+import gakurandemo from "../assets/demo/gakuran1.png"
+import bow1demo from "../assets/demo/bow1.png"
+import bow2demo from "../assets/demo/bow2.png"
+import bow3demo from "../assets/demo/bow3.png"
+import cavat1demo from "../assets/demo/cavat1.png"
+import cavat2demo from "../assets/demo/cavat2.png"
+import cavat3demo from "../assets/demo/cavat3.png"
+import cavat4demo from "../assets/demo/cavat4.png"
+import bag1demo from "../assets/demo/tui1.png"
+import bag2demo from "../assets/demo/tui2.png"
+import bag3demo from "../assets/demo/tui3.png"
+import bag4demo from "../assets/demo/tui4.png"
 
 // import fullset from "../../assets/demo/fullset.png"
 
 import { useState } from "react"
 import styles from "./Body.module.css"
 
-import Item from "../Item/Item.jsx"
-import Extra from "../Item/Extra.jsx"
+import Item from "../mainpage/Item/Item.jsx"
+import Extra from "../mainpage/Item/Extra.jsx"
 import Demo from "./Demo.jsx"
 import CheckOut from "./Checkout.jsx"
 
@@ -283,6 +283,7 @@ export default function Body() {
     const [missingSize, setMissingSize] = useState(null)
     const [resetTrigger, setResetTrigger] = useState(false)
     const [outFit, setOutFit] = useState({
+        id: Math.random(),
         top: {
             item: null,
             size: null
@@ -405,6 +406,7 @@ export default function Body() {
     const resetDefault = () => {
 
         setOutFit({
+            id: Math.random(),
             top: { item: null, size: null },
             bottom: { item: null, size: null },
             sweater: { item: null, size: null },

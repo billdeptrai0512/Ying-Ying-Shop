@@ -29,13 +29,13 @@ export default function Header() {
                     <p>Tự phối seifuku theo style của bạn! ❤</p>
                 </div>
                 <div className={styles.contact}>
-                    {cart.length === 0 ? 
-                        <div className={styles.cartLink}> CART </div>
-                     : 
-                        <Link className={styles.cartLink} to={`/cart`}>
-                            CART <span style={{ color: '#DC1E1E' }}>( {numberOfCart} )</span>
-                        </Link>
-                    }
+                    <Link className={styles.cartLink} to={`/cart`}>
+                            CART 
+                            {
+                            cart.length === 0 ? null :
+                            <span style={{ color: '#DC1E1E' }}> ( {numberOfCart} )</span>
+                            } 
+                    </Link>
                     <div className={styles.middle}>FANPAGE</div>
                     <div>TIKTOK</div>
                 </div>

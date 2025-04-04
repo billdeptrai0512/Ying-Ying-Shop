@@ -1,33 +1,44 @@
 import styles from "./Cart.module.css"
-export default function Outfit({cart, pickOutFit}) {
+export default function Outfit({cart, pickOutFit, removeOutFit, editOutFit}) {
 
     if (!cart || cart.length === 0) {
         return <div>No outfits in cart.</div>;
     }
 
-    //first we need div to represent each outfit in cart 
-    //if cart.length > 0
+    //feature may need:
+    // add new item from set
+    // scroll Y
 
     return (
         <>
-            {cart.map((outfit, index) => {
-                const theOutFit = Object.entries(outfit)
-                    .filter(([key,value]) => key !== "total" && value?.item)
+            {cart
+                .filter(outfit => outfit && typeof outfit === 'object')
+                .map((outfit, index) => {
+                const everyOutFit =  Object.entries(outfit)
+                    .filter(([keyCategory ,value]) => keyCategory !== "total" && value?.item)
                     .map(([key, value], IMGindex) => (
-                        <img 
-                            key={`${key}-${IMGindex}`} 
-                            style={{zIndex: value.item.zIndex || 0}}
-                            src={value.item.image} 
-                            alt={key} 
-                        />
+                        <div key={`${outfit.id}-${key}`}>
+                            <img 
+                                key={`${key}-${IMGindex}`} 
+                                style={{zIndex: value.item.zIndex || 0}}
+                                src={value.item.image} 
+                                alt={key} 
+                            />
+                            <button onClick={() => editOutFit(outfit, key)}> x </button>
+                        </div>
+                            
+
                     ))
+
                 return (
-                    <div key={index} className={styles.outfit} onClick={() => pickOutFit(index)}>
-                        {theOutFit}
-                    </div>
+                    <>
+                        <div key={index + 1}> SET {index + 1} <button  onClick={() => removeOutFit(outfit)}> delete </button> </div>
+                        <div key={index} className={styles.outfit}  onClick={() => pickOutFit(index)}>
+                                {everyOutFit}
+                        </div>
+                    </>
                 )
             })}
         </>
-
     );
 }

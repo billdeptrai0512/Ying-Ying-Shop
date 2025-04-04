@@ -3,12 +3,11 @@ import { StrictMode, useContext } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import './index.css'
-import Body from './mainpage/Body/Body.jsx';
+import Body from './body/body.jsx';
 import MainPage from "./mainpage/MainPage.jsx"
 import ErrorPage from './Error-Page.jsx';
 import Cart from './cart/Cart.jsx';
-//one way is to wrap up a function + state and return the router
-import { HashRouter, Routes, Route } from "react-router-dom";
+
 import { createContext, useState } from 'react';
 
 const CartContext = createContext()
@@ -21,61 +20,76 @@ function CartProvider({ children }) {
 
   const [cart, setCart] = useState([]);
 
-  const saveOutFitInCart = (outfit) => {
+  const saveOutFit = (outfit) => {
 
     setCart(prevCart => [...prevCart, outfit]);
  
   };
 
+  const editOutFit = (outfit, key) => {
+
+    setCart(prevCart => {
+
+      return prevCart.map(OutFit => {
+
+        if (OutFit.id === outfit.id) {
+
+          const newItem = OutFit[key].size ? {item: null, size: null} : {item: null}
+          const newTotal = OutFit.total - outfit[key].item.total
+
+          if (newTotal === 0) return null
+
+          return {
+            ...OutFit,
+            [key] : newItem,
+            total: newTotal,
+          }
+
+        }
+
+        return OutFit;
+
+      })
+      .filter(outfit => outfit !== null);
+    })
+  }
+
+  const removeOutFit = (outfitToRemove) => {
+    setCart(prevCart => prevCart.filter(outfit => outfit.id !== outfitToRemove.id));
+  };
+
   return (
-    <CartContext.Provider value={{ cart, saveOutFitInCart }}>
+    <CartContext.Provider value={{ cart, saveOutFit, removeOutFit, editOutFit}}>
       {children}
     </CartContext.Provider>
   );
 }
 
-// function App() {
-
-//     const router = createBrowserRouter([
-//       {
-//         path: "/",
-//         element: <MainPage />,
-//         errorElement: <ErrorPage />,
-//         children: [
-//           {
-//             path: "", //default body
-//             element: <Body />,
-//           },
-//           {
-//             path: "cart",
-//             element: <Cart />
-//           }
-//         ]
-//       },
-//     ])
-
-//     return (
-//       <CartProvider>
-//         <RouterProvider router={router} />
-//       </CartProvider>
-//     );
-// }
-
-
 function App() {
-  return (
-    <CartProvider>
-      <HashRouter>
-        <Routes>
-          <Route path="/" element={<MainPage />}>
-            <Route index element={<Body />} />
-            <Route path="cart" element={<Cart />} />
-          </Route>
-          <Route path="*" element={<ErrorPage />} />
-        </Routes>
-      </HashRouter>
-    </CartProvider>
-  );
+
+    const router = createBrowserRouter([
+      {
+        path: "/",
+        element: <MainPage />,
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            path: "", //default body
+            element: <Body />,
+          },
+          {
+            path: "cart",
+            element: <Cart />
+          }
+        ]
+      },
+    ])
+
+    return (
+      <CartProvider>
+        <RouterProvider router={router} />
+      </CartProvider>
+    );
 }
 
 createRoot(document.getElementById('root')).render(
