@@ -37,14 +37,28 @@
 .primary, .secondary {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 1em;
+    gap: 2em;
+}
+
+.set {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    border-bottom: 2px solid #696868;
+}
+
+.set button {
+    border: none;
+    background-color: #FFFFFF;
+    color: #868686;
+    font-weight: 500;
 }
 
 .outfit {
     display: flex;
     gap: 0.5em;
     padding: 1em;
+    margin-top: 0.5em;
     background-color: #F6F4F0;
 }
 
@@ -54,28 +68,40 @@
     width: 6em;
 }
 
+.outfit button {
+    position: absolute;
+    background-color: #868686;
+    color: #FFFFFF;
+    border: none;
+    width: 1em;
+    transform: translateX(-1em);
+}
+
 .total {
-    border: 1px black solid;
-}
-
-.checkout {
+    background-color: #F6F4F0;
     display: flex;
-    width: 100%;
-    align-items: start;
     flex-direction: column;
-    gap: 1em;
+    padding: 1em 2em;
+    width: 30em
 }
 
-.checkout h4{
-    font-size: 20px;
+.final {
+    display: flex;
+    margin: 2em 0;
+    justify-content: space-between;
 }
 
-.checkout button{
-    border: 1px solid #FF0000;
-    background-color: #FFE1E1;
-    height: 46px;
-    width: 280px;
-    font-size: 20px;
-    color: #FF0404;
+.final .number {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.cta {
+    background-color: #E21E1E;
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 0.5em;
+    color: #FFFFFF;
     cursor: pointer;
 }

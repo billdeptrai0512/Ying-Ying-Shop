@@ -18,25 +18,30 @@ export default function Outfit({cart, pickOutFit, removeOutFit, editOutFit}) {
                     .filter(([keyCategory ,value]) => keyCategory !== "total" && value?.item)
                     .map(([key, value], IMGindex) => (
                         <div key={`${outfit.id}-${key}`}>
-                            <img 
-                                key={`${key}-${IMGindex}`} 
-                                style={{zIndex: value.item.zIndex || 0}}
-                                src={value.item.image} 
-                                alt={key} 
-                            />
-                            <button onClick={() => editOutFit(outfit, key)}> x </button>
+                            <div>
+                                <img 
+                                    key={`${key}-${IMGindex}`} 
+                                    style={{zIndex: value.item.zIndex || 0}}
+                                    src={value.item.image} 
+                                    alt={key} 
+                                />
+                                <button onClick={() => editOutFit(outfit, key)}> x </button>
+                            </div>
                         </div>
                             
 
                     ))
 
                 return (
-                    <>
-                        <div key={index + 1}> SET {index + 1} <button  onClick={() => removeOutFit(outfit)}> delete </button> </div>
+                    <div className={styles.wrapper}>
+                        <div className={styles.set} key={index + 1}>
+                            <h4>SET {index + 1} </h4>
+                            <button  onClick={() => removeOutFit(outfit)}> XÓA </button> 
+                        </div>
                         <div key={index} className={styles.outfit}  onClick={() => pickOutFit(index)}>
                                 {everyOutFit}
                         </div>
-                    </>
+                    </div>
                 )
             })}
         </>

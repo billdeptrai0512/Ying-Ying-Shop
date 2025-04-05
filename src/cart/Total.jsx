@@ -13,7 +13,11 @@ export default function Total({cart, selectedOutFit}) {
 
     return (
         <div className={styles.total}>
-            Tong tien : {formatCurrency(total)}
+            <div className={styles.final}> 
+                <p>Tổng:</p>
+                <div className={styles.number}>{formatCurrency(total)}</div>
+            </div>
+            <button className={styles.cta}>ĐẶT CỌC</button>
         </div>
     )
 }
