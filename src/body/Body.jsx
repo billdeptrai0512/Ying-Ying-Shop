@@ -38,11 +38,10 @@ import bag4demo from "../assets/demo/tui4.png"
 
 import { useState } from "react"
 import styles from "./Body.module.css"
-
-import Item from "../mainpage/Item/Item.jsx"
-import Extra from "../mainpage/Item/Extra.jsx"
 import Demo from "./Demo.jsx"
 import CheckOut from "./Checkout.jsx"
+import Extra from "../mainpage/item/Extra.jsx"
+import Item from "../mainpage/item/Item.jsx"
 
 const inventory = {
     top : {
