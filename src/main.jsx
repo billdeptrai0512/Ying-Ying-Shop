@@ -2,6 +2,7 @@
 import { StrictMode, useContext } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Analytics } from '@vercel/analytics/react';
 import './index.css'
 import Body from './body/Body.jsx';
 import MainPage from "./mainpage/MainPage.jsx"
@@ -88,6 +89,7 @@ function App() {
     return (
       <CartProvider>
         <RouterProvider router={router} />
+        <Analytics />
       </CartProvider>
     );
 }
