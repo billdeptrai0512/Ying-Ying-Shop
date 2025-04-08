@@ -19,14 +19,14 @@ export default function Header() {
         <header className={styles.header}>
 
             <div className={styles.banner}>
-                <Link className={styles.cartLink} to={`/`}>
+                <Link to={`/`}>
                     <p>❤ Ying Ying - Tiệm thuê đồ cosplay, seifuku ❤</p> 
                 </Link>
             </div>
             <div className={styles.main}>
                 <div className={styles.logo}>
                     <h1>YING YING COSPLAY SHOP</h1>
-                    <p>Tự phối seifuku theo style của bạn! ❤</p>
+                    <p>Tự phối seifuku theo style của bạn! 💙</p>
                 </div>
                 <div className={styles.contact}>
                     <Link className={styles.cartLink} to={`/cart`}>

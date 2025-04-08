@@ -1,5 +1,4 @@
 import { useRef, useState } from "react"
-
 import styles from "../Item.module.css"
 import imageCover from "../../../assets/khung_item.png"
 import { Play } from "lucide-react"
@@ -41,8 +40,8 @@ export default function Image({name, inventory, selectedItem, pickItem}) {
                             display: atStart === true ? 'none' : 'block',
                             position: "absolute", 
                             transform: "translateX(-150%) rotate(180deg)"
-                        }} 
-                    />
+                        }} />
+                        
                     <div className={styles.image} ref={scrollContainer}>
                         
                         {inventory.map((item, index) => (
@@ -51,13 +50,14 @@ export default function Image({name, inventory, selectedItem, pickItem}) {
                                 <img src={item.image} alt={name}></img>
                             </div>
                         ))}
+
                     </div>
+
                     <Play color="#626262" onClick={scrollRight} 
                         style={{ 
                             display: atEnd === true ? 'none' : 'block',
                             transform: "translateX(-20%)" 
-                        }}
-                    />
+                        }} />
                 </>
             )
             :

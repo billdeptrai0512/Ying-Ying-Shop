@@ -1,9 +1,8 @@
 .body {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    width: 100vw;
-    height: 35em;
-    padding: 0 94px;
+    height: auto;
+    padding: 0 6em;
     gap: 5em
 }
 
@@ -38,6 +37,13 @@
     display: flex;
     flex-direction: column;
     gap: 2em;
+    flex-shrink: 0;
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
+
 }
 
 .set {
@@ -48,33 +54,51 @@
 }
 
 .set button {
+    position: relative;
     border: none;
     background-color: #FFFFFF;
     color: #868686;
     font-weight: 500;
+    cursor: pointer;
 }
 
 .outfit {
+    max-width: 30em;
+    background-color: #f6f4f0;
+    margin-top: 0.5em;
+    padding: 1em;
+}
+
+.scrollContainer {
     display: flex;
     gap: 0.5em;
-    padding: 1em;
-    margin-top: 0.5em;
-    background-color: #F6F4F0;
+    overflow: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
-.outfit img {
+.scrollContainer::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.item {
+    position: relative;
+}
+
+.scrollContainer img {
     border: 1px solid #696868;
     background-color: #FFFFFF;
-    width: 6em;
+    width: 5em;
 }
 
-.outfit button {
+.edit {
     position: absolute;
     background-color: #868686;
     color: #FFFFFF;
     border: none;
     width: 1em;
     transform: translateX(-1em);
+    cursor: pointer;
 }
 
 .total {
@@ -82,7 +106,7 @@
     display: flex;
     flex-direction: column;
     padding: 1em 2em;
-    width: 30em
+    width: 100%;
 }
 
 .final {
