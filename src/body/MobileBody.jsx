@@ -37,7 +37,7 @@ import bag4demo from "../assets/demo/tui4.png"
 // import fullset from "../../assets/demo/fullset.png"
 
 import { useState } from "react"
-import styles from "./Body.module.css"
+import styles from "./MobileBody.module.css"
 import Demo from "./Demo.jsx"
 import CheckOut from "./Checkout.jsx"
 import Extra from "../mainpage/item/Extra.jsx"
@@ -105,6 +105,51 @@ const inventory = {
         name: "Chân váy",
         zIndex: 3,
         inventory: [
+            {
+                id: Math.random(),
+                section: "short",
+                image: chanvay,
+                demoImage: chanvaydemo,
+                amount: 10,
+                size: ["S", "M", "L", "XL"],
+                total: 50000,
+            },
+            {
+                id: Math.random(),
+                section: "short",
+                image: chanvay,
+                demoImage: chanvaydemo,
+                amount: 10,
+                size: ["S", "M", "L", "XL"],
+                total: 50000,
+            },
+            {
+                id: Math.random(),
+                section: "short",
+                image: chanvay,
+                demoImage: chanvaydemo,
+                amount: 10,
+                size: ["S", "M", "L", "XL"],
+                total: 50000,
+            },
+            {
+                id: Math.random(),
+                section: "short",
+                image: chanvay,
+                demoImage: chanvaydemo,
+                amount: 10,
+                size: ["S", "M", "L", "XL"],
+                total: 50000,
+            },
+            {
+                id: Math.random(),
+                section: "short",
+                image: chanvay,
+                demoImage: chanvaydemo,
+                amount: 10,
+                size: ["S", "M", "L", "XL"],
+                total: 50000,
+            },
             {
                 id: Math.random(),
                 section: "short",
@@ -272,10 +317,7 @@ const inventory = {
     }
 }
 
-// we need to make it responsive 
-// slide left and right somehow adjust the gap between 2 grid element. fix it
-
-export default function Body() {
+export default function MobileBody() {
 
     const [bottomSelected, setBottomSelected] = useState(null)
     const [jacketSelected, setJacketSelected] = useState(null)
@@ -425,27 +467,25 @@ export default function Body() {
     return (
         <div className={styles.body}>
             <Demo 
-                outFit={outFit} 
+                outFit={outFit}
                 styles={styles}
             />
             <div className={styles.primary}>
-                <Item props={inventory.top} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
-                <Item props={inventory.bottom_short} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} setChoosen={setBottomSelected} isChoosen={bottomSelected} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
-                <Item props={inventory.bottom_long} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} setChoosen={setBottomSelected} isChoosen={bottomSelected} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
-                <Item props={inventory.sweater} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
-            </div>
-            <div className={styles.secondary}>
-                <Item props={inventory.gakuran} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} setChoosen={setJacketSelected} isChoosen={jacketSelected} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger} />
-                <Item props={inventory.blazer} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} setChoosen={setJacketSelected} isChoosen={jacketSelected} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
-                <Extra props={inventory.extra} UpdateOutFit={UpdateOutFit} resetTrigger={resetTrigger}/> 
+                <div className={styles.selection}>
+                    <Item props={inventory.top} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
+                    <Item props={inventory.bottom_short} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} setChoosen={setBottomSelected} isChoosen={bottomSelected} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
+                    <Item props={inventory.bottom_long} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} setChoosen={setBottomSelected} isChoosen={bottomSelected} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
+                    <Item props={inventory.sweater} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
+                    {/* <Item props={inventory.gakuran} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} setChoosen={setJacketSelected} isChoosen={jacketSelected} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger} />
+                    <Item props={inventory.blazer} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} setChoosen={setJacketSelected} isChoosen={jacketSelected} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
+                    <Extra props={inventory.extra} UpdateOutFit={UpdateOutFit} resetTrigger={resetTrigger}/>  */}
+                </div>
                 <CheckOut 
                     setMissingSize={setMissingSize}
                     outFit={outFit}
                     resetDefault={resetDefault}
-                    styles={styles}
-            />
-            </div> 
-
+                    styles={styles}/>
+            </div>
         </div>
     )
 }

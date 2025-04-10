@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 // eslint-disable-next-line no-unused-vars
 import { useSpring, animated } from "@react-spring/web";
-import styles from "./Body.module.css"
 import { useCart } from "../main";
 
 
-export default function CheckOut({outFit, setMissingSize, resetDefault}) {
+export default function CheckOut({outFit, setMissingSize, resetDefault, styles}) {
 
     const { saveOutFit } = useCart()
 
@@ -46,18 +45,17 @@ export default function CheckOut({outFit, setMissingSize, resetDefault}) {
             setMissingSize(missingSizes)
 
         }
-        
-        // we must prevent the user to checkout if the user not select size for all item they have picked
-        //how do we track the size element of the each category in outfit ?????
+    
     }
 
     return (
         <div className={styles.checkout}> 
-            <h4 data-testid="total-text">Tổng tiền: 
+            <div className={styles.total}>
+                <h4 data-testid="total-text">Tổng tiền: </h4>    
                 <animated.span>
                     {springProps.value.to((val) => ` ${formatCurrency(val)}`)}
                 </animated.span>
-            </h4>    
+            </div>
             <button onClick={addToCart}>
                 Thêm vào giỏ hàng
             </button>

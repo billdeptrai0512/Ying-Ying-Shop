@@ -1,13 +1,18 @@
 import { useRef, useState } from "react"
-import styles from "../Item.module.css"
 import imageCover from "../../../assets/khung_item.png"
+import DesktopStyles from "../Item.module.css"
+import MobileStyles from "../MobileItem.module.css"
 import { Play } from "lucide-react"
+import { useCart } from "../../../main"
 
 export default function Image({name, inventory, selectedItem, pickItem}) {
 
     const scrollContainer = useRef(null)
     const [atStart, setAtStart] = useState(true);
     const [atEnd, setAtEnd] = useState(false);
+    const { isMobile } = useCart()
+
+    const styles = isMobile ? MobileStyles : DesktopStyles
 
     const updateScrollLimits = () => {
         if (!scrollContainer.current) return;
@@ -35,7 +40,7 @@ export default function Image({name, inventory, selectedItem, pickItem}) {
         <div className={styles.container}>
             {inventory.length > 5 ? (
                 <>
-                    <Play color="#626262" onClick={scrollLeft} 
+                    <Play color="#331D1C" onClick={scrollLeft} 
                         style={{ 
                             display: atStart === true ? 'none' : 'block',
                             position: "absolute", 
@@ -53,10 +58,11 @@ export default function Image({name, inventory, selectedItem, pickItem}) {
 
                     </div>
 
-                    <Play color="#626262" onClick={scrollRight} 
+                    <Play color="#331D1C" onClick={scrollRight} 
                         style={{ 
                             display: atEnd === true ? 'none' : 'block',
-                            transform: "translateX(-20%)" 
+                            position: "absolute",
+                            transform: isMobile ? "translateX(83vw)" : "translateX(-20%)" 
                         }} />
                 </>
             )

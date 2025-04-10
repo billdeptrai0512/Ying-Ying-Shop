@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react"
-import styles from "./Item.module.css"
-
 import Information from "./element/Information"
 import Image from "./element/Image"
 import Size from "./element/Size"
+import DesktopStyles from "./Item.module.css"
+import MobileStyles from "./MobileItem.module.css"
+import { useCart } from "../../main"
+
 
 export default function Item({props, UpdateSize, UpdateOutFit, setChoosen, isChoosen, missingSize , setMissingSize, resetTrigger}) {
 
     const [selectedItem, setSelectedItem] = useState(null)
     const [sizeSelected, setSizeSelected] = useState(null)
-    
+    const { isMobile } = useCart()
+
     const pickItem = (index, inventory) => {
 
         const selected = inventory[index]
@@ -26,6 +29,8 @@ export default function Item({props, UpdateSize, UpdateOutFit, setChoosen, isCho
 
     }
 
+    const styles = isMobile ? MobileStyles : DesktopStyles
+    
     useEffect(() => {
 
         if (isChoosen !== props.inventory[0].section) {

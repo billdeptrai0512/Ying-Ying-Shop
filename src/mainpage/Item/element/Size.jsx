@@ -1,12 +1,16 @@
 import { useState, useEffect, useRef } from "react"
-import styles from "../Item.module.css"
 import sizeCover from "../../../assets/khung_size.png"
+import DesktopStyles from "../Item.module.css"
+import MobileStyles from "../MobileItem.module.css"
+import { useCart } from "../../../main"
 
 export default function Size({category, selectedItem, isChoosen, itemSection, UpdateSize, sizeSelected, setSizeSelected, missingSize, isMissingSize, setMissingSize}) {
 
     const [isHovered, setIsHovered] = useState(false)
     const [position, setPosition] = useState({x: 0, y:0})
     const hoverTimeoutRef = useRef(null);
+    const { isMobile } = useCart()
+    const styles = isMobile ? MobileStyles : DesktopStyles
     
     const pickSize = (index) => {
         

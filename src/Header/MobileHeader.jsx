@@ -1,9 +1,9 @@
-import styles from "./Header.module.css"
+import styles from "./MobileHeader.module.css"
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { useCart } from "../main"
 
-export default function Header() {
+export default function MobileHeader() {
 
     const { cart } = useCart()
 
@@ -17,6 +17,7 @@ export default function Header() {
 
     return (
         <header className={styles.header}>
+
             <div className={styles.banner}>
                 <Link to={`/`}>
                     <p>❤ Ying Ying - Tiệm thuê đồ cosplay, seifuku ❤</p> 
@@ -27,7 +28,7 @@ export default function Header() {
                     <h1>YING YING COSPLAY SHOP</h1>
                     <p>Tự phối seifuku theo style của bạn! ❤️</p>
                 </div>
-                <div className={styles.contact}>
+                {/* <div className={styles.contact}>
                     <Link className={styles.cartLink} to={`/cart`}>
                             CART 
                             {
@@ -37,8 +38,9 @@ export default function Header() {
                     </Link>
                     <div className={styles.middle}>FANPAGE</div>
                     <div>TIKTOK</div>
-                </div>
+                </div> */}
             </div>
+
         </header>
     )
 }

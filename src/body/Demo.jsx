@@ -1,8 +1,6 @@
-import styles from "./Body.module.css"
-
 const facebookLink = "https://www.facebook.com/media/set/?set=a.122106501296570424&type=3"
 
-export default function Demo({outFit}) {
+export default function Demo({outFit, styles}) {
 
     const selectedOutFit = Object.entries(outFit)
         .filter(([key, value]) => key !== "total" && value?.item?.demoImage)

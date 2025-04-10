@@ -2,9 +2,11 @@
 import { StrictMode, useContext } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { useMediaQuery } from 'react-responsive';
 import { Analytics } from '@vercel/analytics/react';
 import './index.css'
 import Body from './body/Body.jsx';
+import MobileBody from './body/MobileBody.jsx';
 import MainPage from "./mainpage/MainPage.jsx"
 import ErrorPage from './Error-Page.jsx';
 import Cart from './cart/Cart.jsx';
@@ -20,6 +22,8 @@ export function useCart() {
 function CartProvider({ children }) {
 
   const [cart, setCart] = useState([]);
+
+  const isMobile = useMediaQuery({ maxWidth: 768 })
 
   const saveOutFit = (outfit) => {
 
@@ -60,7 +64,7 @@ function CartProvider({ children }) {
   };
 
   return (
-    <CartContext.Provider value={{ cart, saveOutFit, removeOutFit, editOutFit}}>
+    <CartContext.Provider value={{ cart, saveOutFit, removeOutFit, editOutFit, isMobile}}>
       {children}
     </CartContext.Provider>
   );
@@ -68,30 +72,32 @@ function CartProvider({ children }) {
 
 function App() {
 
-    const router = createBrowserRouter([
-      {
-        path: "/",
-        element: <MainPage />,
-        errorElement: <ErrorPage />,
-        children: [
-          {
-            path: "", //default body
-            element: <Body />,
-          },
-          {
-            path: "cart",
-            element: <Cart />
-          }
-        ]
-      },
-    ])
+  const isMobile = useMediaQuery({ maxWidth: 768 })
 
-    return (
-      <CartProvider>
-        <RouterProvider router={router} />
-        <Analytics />
-      </CartProvider>
-    );
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <MainPage />,
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          path: "", //default body
+          element: isMobile ? <MobileBody /> : <Body />,
+        },
+        {
+          path: "cart",
+          element: <Cart />
+        }
+      ]
+    },
+  ])
+
+  return (
+    <CartProvider>
+      <RouterProvider router={router} />
+      <Analytics />
+    </CartProvider>
+  );
 }
 
 createRoot(document.getElementById('root')).render(
