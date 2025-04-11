@@ -9,8 +9,6 @@ export default function MainPage() {
 
   const { isMobile } = useCart()
 
-  // const isMobile = useMediaQuery({ maxWidth: 768 })
-
   return (
     <>
       {isMobile ? <MobileHeader /> : <Header />} 

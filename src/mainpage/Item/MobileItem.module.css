@@ -40,15 +40,15 @@
 
 .image div{
     position: relative;
-    height: 50px;
-    width: 50px;
+    height: 55px;
+    width: 55px;
     border: 1px solid #BABABA;
     cursor: pointer;
 }
 
 .image img{
-    height: 50px;
-    width: 50px;
+    height: 55px;
+    width: 55px;
 }
 
 .image div img[alt="selectedItem"] {
