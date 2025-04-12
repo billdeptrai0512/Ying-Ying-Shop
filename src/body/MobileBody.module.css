@@ -1,7 +1,7 @@
 .body {
     display: grid;
     grid-template-rows: 1fr auto;
-    height: 87.5vh;
+    height: 85%;
 }
 
 .demo {
@@ -15,14 +15,14 @@
 .output {
     position: relative;
     margin: 30px 30px 0 30px;
-    height: 42vh;
+    height: 45vh;
 }
 
 .output img {
-    display: flex;
     position: absolute;
+    display: block;
     height: auto;
-    width: 21em;
+    width: 100%;
 }
 
 .example {
