@@ -40,15 +40,15 @@
 
 .image div{
     position: relative;
-    height: 55px;
-    width: 55px;
+    height: 15vw;
+    width: auto;
     border: 1px solid #BABABA;
     cursor: pointer;
 }
 
 .image img{
-    height: 55px;
-    width: 55px;
+    height: 15vw;
+    width: auto;
 }
 
 .image div img[alt="selectedItem"] {
@@ -78,7 +78,7 @@
 }
 
 .options div{
-    font-size: 10px;
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -86,11 +86,12 @@
     border: 1px solid #D9D9D9;
     height: 17px;
     width: 32px;
+    font-size: 10px;
     cursor: pointer;
 }
 
 .options img{
-    position: block;
+    position: absolute;
     height: 17px;
     width: 100%;
     pointer-events: none;

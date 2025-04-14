@@ -13,7 +13,6 @@ export default function Demo({outFit, styles}) {
             />
         ));
     
-    
     return (
         <div className={styles.demo}>
             <div className={styles.output}>

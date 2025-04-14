@@ -2,10 +2,11 @@
 
 #root {
   background-color: #F5F5F5;
-  height: 100vh;
+  height: 100dvh;
 }
 
-
+/* test heigh = 100dvh for mobile device */
+/* layout vh for ipad - layout for macbook */
 * {
   margin: 0;
   padding: 0;
