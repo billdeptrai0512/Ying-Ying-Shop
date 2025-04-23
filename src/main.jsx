@@ -2,11 +2,9 @@
 import { StrictMode, useContext } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { useMediaQuery } from 'react-responsive';
 import { Analytics } from '@vercel/analytics/react';
 import './index.css'
-import Body from './body/Body.jsx';
-import MobileBody from './body/MobileBody.jsx';
+import Body from './body/body.jsx';
 import MainPage from "./mainpage/MainPage.jsx"
 import ErrorPage from './Error-Page.jsx';
 import Cart from './cart/Cart.jsx';
