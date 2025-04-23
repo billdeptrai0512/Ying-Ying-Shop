@@ -23,8 +23,6 @@ function CartProvider({ children }) {
 
   const [cart, setCart] = useState([]);
 
-  const isMobile = useMediaQuery({ maxWidth: 768 })
-
   const saveOutFit = (outfit) => {
 
     setCart(prevCart => [...prevCart, outfit]);
@@ -64,15 +62,14 @@ function CartProvider({ children }) {
   };
 
   return (
-    <CartContext.Provider value={{ cart, saveOutFit, removeOutFit, editOutFit, isMobile}}>
+    <CartContext.Provider value={{ cart, saveOutFit, removeOutFit, editOutFit}}>
       {children}
     </CartContext.Provider>
   );
+  
 }
 
 function App() {
-
-  const isMobile = useMediaQuery({ maxWidth: 768 })
 
   const router = createBrowserRouter([
     {
@@ -82,7 +79,7 @@ function App() {
       children: [
         {
           path: "", //default body
-          element: isMobile ? <MobileBody /> : <Body />,
+          element: <Body />,
         },
         {
           path: "cart",

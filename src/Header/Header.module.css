@@ -1,67 +1,90 @@
-.header {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: auto;
-    width: 100%;
-}
-  
-.banner {
-    display: flex;
-    justify-content: center;
-    background-color: #E3C4C1;
-    font-size: 16px;
-    padding: 1em;
-    color: #000000;
+
+h1 {
+    font-weight: 600;
+    margin-top: 0;
 }
 
-.banner a {
-    text-decoration: none;
+h2 {
+    font-weight: 600;
+    color: #696969;
 }
 
-.banner a:visited {
+h1 a {
     color: #000000 !important;
 }
 
-.main {
-    display: flex;
-    justify-content: space-between;
-    padding: 60px 94px
-}
-
-.logo h1 {
-    align-items: start;
-    font-size: 24px;
-    line-height: 1.1;
-}
-
-.logo p {
-    font-size: 20px;
-    color: #696969
-}
-
-.contact {
-    display: flex;
-    font-size: 20px;
-    width: 24%;
-    align-items: start;
-    justify-content: space-evenly;
-    color: #868686;
-    margin-right: 5.5em;
-}
-
-.contact .cartLink {
-    color: inherit;
+a {
     text-decoration: none;
 }
 
-.contact div {
-    cursor: pointer;
+.path a {
+    color: #868686 !important;
 }
 
-.middle {
-    padding: 0 2em;
-    border-left: 1px solid;
-    border-right: 1px solid;
+.header {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 0 1em;
 }
 
+.banner {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    font-size: 0.4rem;
+    text-align: start;
+    flex-shrink: 0;
+}
+
+.path {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 3;
+}
+
+.path a + a {
+    /* border-left: 1px solid #696969; */
+    margin-left: 1em;
+}
+
+@media (min-width: 400px) and (max-width: 600px) {
+
+    .header {
+        max-width: 425px;
+    }
+
+    .banner {
+        font-size: 8px;
+    }
+
+    .main {
+        font-size: 0.75rem;
+    }
+
+} 
+
+@media (min-width: 600px) {
+
+    .banner {
+        font-size: 0.55rem;
+    }
+
+    .main {
+        display: flex;
+        justify-content: space-between;
+        line-height: 1.6rem;
+        margin: 0 auto;
+        padding: 2em;
+        max-width: 1px;
+        width: 80%;
+    }
+
+    .main {
+        font-size: 0.85rem;
+    }
+
+} 

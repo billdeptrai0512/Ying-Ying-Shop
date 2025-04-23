@@ -1,19 +1,14 @@
-import './MainPage.css'
 import { Outlet } from "react-router-dom"
-import { useCart } from '../main.jsx'
 import Header from '../header/Header.jsx'
-import MobileHeader from '../header/MobileHeader.jsx'
-
+import styles from './Mainpage.module.css'
 
 export default function MainPage() {
 
-  const { isMobile } = useCart()
-
   return (
-    <>
-      {isMobile ? <MobileHeader /> : <Header />} 
+    <div className={styles.wrapper}>
+      <Header />
       <Outlet />
-    </>
+    </div>
   )
 }
 

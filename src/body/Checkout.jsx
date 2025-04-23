@@ -45,13 +45,12 @@ export default function CheckOut({outFit, setMissingSize, resetDefault, styles})
             setMissingSize(missingSizes)
 
         }
-    
     }
 
     return (
-        <div className={styles.checkout}> 
+        <> 
             <div className={styles.total}>
-                <h4 data-testid="total-text">Tổng tiền: </h4>    
+                <h3 data-testid="total-text">Tổng tiền: </h3>    
                 <animated.span>
                     {springProps.value.to((val) => ` ${formatCurrency(val)}`)}
                 </animated.span>
@@ -59,6 +58,6 @@ export default function CheckOut({outFit, setMissingSize, resetDefault, styles})
             <button onClick={addToCart}>
                 Thêm vào giỏ hàng
             </button>
-        </div>
+        </>
     )
 }

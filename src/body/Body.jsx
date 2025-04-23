@@ -97,6 +97,103 @@ const inventory = {
                 size: ["S", "M", "L", "XL"],
                 total: 20000
             },
+            {
+                id: Math.random(),
+                image: somi,
+                demoImage: somidemo,
+                amount: 10,
+                size: ["S", "M", "L", "XL"],
+                total: 20000
+            },
+            {
+                id: Math.random(),
+                image: somi,
+                demoImage: somidemo,
+                amount: 10,
+                size: ["S", "M", "L", "XL"],
+                total: 20000
+            },
+            {
+                id: Math.random(),
+                image: somi,
+                demoImage: somidemo,
+                amount: 10,
+                size: ["S", "M", "L", "XL"],
+                total: 20000
+            },
+            {
+                id: Math.random(),
+                image: somi,
+                demoImage: somidemo,
+                amount: 10,
+                size: ["S", "M", "L", "XL"],
+                total: 20000
+            },
+            {
+                id: Math.random(),
+                image: somi,
+                demoImage: somidemo,
+                amount: 10,
+                size: ["S", "M", "L", "XL"],
+                total: 20000
+            },
+            {
+                id: Math.random(),
+                image: somi,
+                demoImage: somidemo,
+                amount: 10,
+                size: ["S", "M", "L", "XL"],
+                total: 20000
+            },
+            {
+                id: Math.random(),
+                image: somi,
+                demoImage: somidemo,
+                amount: 10,
+                size: ["S", "M", "L", "XL"],
+                total: 20000
+            },
+            {
+                id: Math.random(),
+                image: somi,
+                demoImage: somidemo,
+                amount: 10,
+                size: ["S", "M", "L", "XL"],
+                total: 20000
+            },
+            {
+                id: Math.random(),
+                image: somi,
+                demoImage: somidemo,
+                amount: 10,
+                size: ["S", "M", "L", "XL"],
+                total: 20000
+            },
+            {
+                id: Math.random(),
+                image: somi,
+                demoImage: somidemo,
+                amount: 10,
+                size: ["S", "M", "L", "XL"],
+                total: 20000
+            },
+            {
+                id: Math.random(),
+                image: somi,
+                demoImage: somidemo,
+                amount: 10,
+                size: ["S", "M", "L", "XL"],
+                total: 20000
+            },
+            {
+                id: Math.random(),
+                image: somi,
+                demoImage: somidemo,
+                amount: 10,
+                size: ["S", "M", "L", "XL"],
+                total: 20000
+            },
+            
         ]
     },
 
@@ -272,9 +369,6 @@ const inventory = {
     }
 }
 
-// we need to make it responsive 
-// slide left and right somehow adjust the gap between 2 grid element. fix it
-
 export default function Body() {
 
     const [bottomSelected, setBottomSelected] = useState(null)
@@ -423,29 +517,27 @@ export default function Body() {
     }
 
     return (
-        <div className={styles.body}>
-            <Demo 
-                outFit={outFit} 
-                styles={styles}
-            />
-            <div className={styles.primary}>
+        <>
+            <section className={styles.main}>
+                <Demo outFit={outFit} styles={styles} />
+            </section>
+            <section className={styles.primary}>
                 <Item props={inventory.top} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
                 <Item props={inventory.bottom_short} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} setChoosen={setBottomSelected} isChoosen={bottomSelected} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
                 <Item props={inventory.bottom_long} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} setChoosen={setBottomSelected} isChoosen={bottomSelected} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
                 <Item props={inventory.sweater} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
-            </div>
-            <div className={styles.secondary}>
                 <Item props={inventory.gakuran} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} setChoosen={setJacketSelected} isChoosen={jacketSelected} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger} />
                 <Item props={inventory.blazer} UpdateSize={UpdateSize} UpdateOutFit={UpdateOutFit} setChoosen={setJacketSelected} isChoosen={jacketSelected} missingSize={missingSize} setMissingSize={setMissingSize} resetTrigger={resetTrigger}/>
                 <Extra props={inventory.extra} UpdateOutFit={UpdateOutFit} resetTrigger={resetTrigger}/> 
+            </section>
+            <section className={styles.checkout}>
                 <CheckOut 
                     setMissingSize={setMissingSize}
                     outFit={outFit}
                     resetDefault={resetDefault}
-                    styles={styles}
-            />
-            </div> 
-
-        </div>
+                    styles={styles}/>
+            </section> 
+        </>
     )
 }
+

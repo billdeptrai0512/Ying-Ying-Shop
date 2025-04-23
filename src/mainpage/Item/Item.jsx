@@ -2,16 +2,12 @@ import { useEffect, useState } from "react"
 import Information from "./element/Information"
 import Image from "./element/Image"
 import Size from "./element/Size"
-import DesktopStyles from "./Item.module.css"
-import MobileStyles from "./MobileItem.module.css"
-import { useCart } from "../../main"
-
+import styles from "./Item.module.css"
 
 export default function Item({props, UpdateSize, UpdateOutFit, setChoosen, isChoosen, missingSize , setMissingSize, resetTrigger}) {
 
     const [selectedItem, setSelectedItem] = useState(null)
     const [sizeSelected, setSizeSelected] = useState(null)
-    const { isMobile } = useCart()
 
     const pickItem = (index, inventory) => {
 
@@ -28,8 +24,6 @@ export default function Item({props, UpdateSize, UpdateOutFit, setChoosen, isCho
         setChoosen ? setChoosen(selected.section) : null
 
     }
-
-    const styles = isMobile ? MobileStyles : DesktopStyles
     
     useEffect(() => {
 
@@ -48,7 +42,7 @@ export default function Item({props, UpdateSize, UpdateOutFit, setChoosen, isCho
     const itemSection = props.inventory[0].section
 
     return (
-        <div className={styles.inventory} style={{ opacity: isChoosen === null || isChoosen === itemSection ? 1 : 0.5 }}>
+        <div className={styles.item} style={{ opacity: isChoosen === null || isChoosen === itemSection ? 1 : 0.5 }}>
             <Information 
                 name={props.name} 
                 selectedItem={selectedItem}

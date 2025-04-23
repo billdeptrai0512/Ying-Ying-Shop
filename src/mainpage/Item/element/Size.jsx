@@ -1,16 +1,14 @@
 import { useState, useEffect, useRef } from "react"
 import sizeCover from "../../../assets/khung_size.png"
-import DesktopStyles from "../Item.module.css"
-import MobileStyles from "../MobileItem.module.css"
-import { useCart } from "../../../main"
+import styles from "../Item.module.css"
+
 
 export default function Size({category, selectedItem, isChoosen, itemSection, UpdateSize, sizeSelected, setSizeSelected, missingSize, isMissingSize, setMissingSize}) {
 
     const [isHovered, setIsHovered] = useState(false)
     const [position, setPosition] = useState({x: 0, y:0})
     const hoverTimeoutRef = useRef(null);
-    const { isMobile } = useCart()
-    const styles = isMobile ? MobileStyles : DesktopStyles
+
     
     const pickSize = (index) => {
         
@@ -67,32 +65,30 @@ export default function Size({category, selectedItem, isChoosen, itemSection, Up
 
     if (!isOpen) return null
 
-    const buttonStyle = {
-        border: isMissingSize ? "1px solid red" : "1px solid gray",
-        animation: isMissingSize ? "shake 0.3s infinite" : "none",
+    const buttonStyle = (isMissingSize) => {
+        return {
+            border: isMissingSize ? "1px solid red" : "1px solid gray",
+            animation: isMissingSize ? "shake 0.3s infinite" : "none",
+        }
     };
 
     return (
         <div className={styles.size}>
-            <h3> Size </h3>
-            <div className={styles.wrapper}>
-                <div className={styles.options}>
-                    {selectedItem.size.map((size, index) => (
-                        <div key={index} >
+            <h4> Size </h4>
+            <div className={styles.options}>
+                {selectedItem.size.map((size, index) => (
+                    <div key={index} className={styles.option}
+                        style={buttonStyle(isMissingSize, sizeSelected === index)}
+                        onClick={() => pickSize(index)}
+                        onMouseEnter={(e) => handleMouseEnter(e)}
+                        onMouseLeave={() => handleMouseLeave()}>
                             {sizeSelected === index ? (<img src={sizeCover} alt="selectedSize"></img>) : null}
-                            <div   
-                                style={buttonStyle}
-                                onClick={() => pickSize(index)}
-                                onMouseEnter={(e) => handleMouseEnter(e)}
-                                onMouseLeave={() => handleMouseLeave()}
-                                >{size}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                {isMissingSize ? <div className={styles.warning}> * chon size ban oi</div> : null}
+                            <p>{size}</p>
+                    </div>
+                ))}
             </div>
-            {isHovered && (
+            {isMissingSize ? <div className={styles.warning}> * chon size ban oi</div> : null}
+            {/* {isHovered && (
                 <div
                     style={{
                         position: "fixed",
@@ -108,7 +104,7 @@ export default function Size({category, selectedItem, isChoosen, itemSection, Up
                     >
                     Vai 39 - Ngực 90 - Dài 62
                 </div>
-            )}
+            )} */}
         </div> 
     )
 }

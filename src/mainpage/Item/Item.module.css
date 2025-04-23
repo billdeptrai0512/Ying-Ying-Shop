@@ -1,4 +1,75 @@
-.inventory {
+section p {
+    font-size: 0.55rem;
+}
+
+section .information {
+    display: flex;
+    justify-content: space-between;
+}
+
+.image {
+    position: relative;
+}
+
+.row {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: auto;
+    grid-auto-columns: auto;
+    grid-template-columns: repeat(6, minmax(3rem, 7rem));
+    overflow-x: hidden;
+    gap: 0.5em;
+}
+
+.row > div {
+    background-color: #fff;
+}
+
+.row > div:nth-child(n+6) {
+    display: none;
+}
+
+h3 {
+    font-size: 0.85rem;
+}
+
+h4 {
+    font-size: 0.65rem;
+}
+
+.size {
+    display: flex;
+    flex-direction: column;
+}
+
+.options {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    gap: 0.5rem;
+}
+
+.option {
+    position: relative;
+    width: 10%;
+    object-fit: contain;
+    background-color: #fff;
+}
+
+.option img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* .imageRow > div > img{
+    position: absolute;
+} */
+
+/* .inventory {
     width: 100%;
 }
 
@@ -93,4 +164,4 @@
     display: flex;
     flex-direction: column;
     gap: 0.5em;
-}
+} */

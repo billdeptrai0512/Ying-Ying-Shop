@@ -1,17 +1,14 @@
-import DesktopStyles from "../Item.module.css"
-import MobileStyles from "../MobileItem.module.css"
-import { useCart } from "../../../main"
+import styles from "../Item.module.css"
 
 export default function Information({name, selectedItem, isChoosen, itemSection}) {
-
-    const { isMobile } = useCart()
-    const styles = isMobile ? MobileStyles : DesktopStyles
     
     return (
         <div className={styles.information}>
-            <h2> {name} </h2>
-            {selectedItem && isChoosen === itemSection ?  
-                <p className={styles.amount}>Số lượng: {selectedItem.amount}</p> : null
+            <h3> {name} </h3>
+            {selectedItem && isChoosen === itemSection ? 
+                <p> Số lượng: {selectedItem.amount} </p> 
+                : 
+                null 
             }
         </div>
     )
