@@ -87,3 +87,14 @@ a {
     }
 
 } 
+
+@media (min-width: 1200px) {
+
+    .header {
+        max-width: 80vw;
+        padding: 0;
+    }
+
+
+} 
+
