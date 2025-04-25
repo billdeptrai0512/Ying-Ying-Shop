@@ -28,6 +28,7 @@ a {
     justify-content: space-between;
     margin: 0 auto;
     padding: 0 1em;
+    width: 100%;
 }
 
 .banner {
@@ -51,7 +52,7 @@ a {
     margin-left: 1em;
 }
 
-@media (min-width: 400px) and (max-width: 600px) {
+@media (min-width: 400px) and (max-width: 900px) {
 
     .header {
         max-width: 425px;
@@ -67,24 +68,22 @@ a {
 
 } 
 
-@media (min-width: 600px) {
+@media (min-width: 900px) {
 
-    .banner {
-        font-size: 0.55rem;
+    .header {
+        max-width: 85vw;
     }
 
-    .main {
-        display: flex;
-        justify-content: space-between;
-        line-height: 1.6rem;
-        margin: 0 auto;
-        padding: 2em;
-        max-width: 1px;
-        width: 80%;
+    .banner {
+        font-size: 0.85rem;
     }
 
     .main {
         font-size: 0.85rem;
+    }
+
+    .path{
+        font-size: 1.5rem;
     }
 
 } 

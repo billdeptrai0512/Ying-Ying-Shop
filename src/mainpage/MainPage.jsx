@@ -5,10 +5,10 @@ import styles from './Mainpage.module.css'
 export default function MainPage() {
 
   return (
-    <div className={styles.wrapper}>
+    <>
       <Header />
       <Outlet />
-    </div>
+    </>
   )
 }
 

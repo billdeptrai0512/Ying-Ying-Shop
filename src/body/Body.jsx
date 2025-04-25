@@ -517,7 +517,7 @@ export default function Body() {
     }
 
     return (
-        <>
+        <div className={styles.body}>
             <section className={styles.main}>
                 <Demo outFit={outFit} styles={styles} />
             </section>
@@ -537,7 +537,7 @@ export default function Body() {
                     resetDefault={resetDefault}
                     styles={styles}/>
             </section> 
-        </>
+        </div>
     )
 }
 
