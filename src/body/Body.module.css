@@ -139,6 +139,10 @@ img {
         margin: 0 auto;
     }
 
+    .section {
+        max-width: 100vw;
+    }
+
     .main {
         width: 90%;
         grid-column: 1; /* Column 1 */
@@ -146,7 +150,7 @@ img {
     }
 
     .demo {
-        min-height: 650px;
+        min-height: 65vh;
     }
 
     .board div {
@@ -154,10 +158,9 @@ img {
     }
 
     .primary {
-        padding-left: 0;
-        padding-top: 2em;
-        min-width: 40vw;
-        min-height: 600px;
+        padding: 1.5em;
+        min-width: 100%;
+        min-height: 60vh;
         grid-column: 2;
         grid-row: 1;
     }
