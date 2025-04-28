@@ -1,17 +1,13 @@
 import { useState, useEffect} from "react"
 import Information from "./element/Information"
 import Image from "./element/Image"
+import styles from "./Item.module.css"
 
-import DesktopStyles from "./Item.module.css"
-import MobileStyles from "./MobileItem.module.css"
-import { useCart } from "../../main"
 
 export default function Extra({props, UpdateOutFit, resetTrigger}) {
 
     const [selectedItemA, setSelectedItemA] = useState(null)
     const [selectedItemB, setSelectedItemB] = useState(null)
-    const { isMobile } = useCart()
-    const styles = isMobile ? MobileStyles : DesktopStyles
 
     const pickItemA = (index, inventory) => {
 

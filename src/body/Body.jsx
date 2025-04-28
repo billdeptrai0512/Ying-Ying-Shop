@@ -40,8 +40,8 @@ import { useState } from "react"
 import styles from "./Body.module.css"
 import Demo from "./Demo.jsx"
 import CheckOut from "./Checkout.jsx"
-import Extra from "../mainpage/item/Extra.jsx"
-import Item from "../mainpage/item/Item.jsx"
+import Item from "../mainpage/Item/Item"
+import Extra from "../mainpage/Item/Extra"
 
 const inventory = {
     top : {
@@ -517,7 +517,7 @@ export default function Body() {
     }
 
     return (
-        <>
+        <div className={styles.body}>
             <section className={styles.main}>
                 <Demo outFit={outFit} styles={styles} />
             </section>
@@ -537,7 +537,7 @@ export default function Body() {
                     resetDefault={resetDefault}
                     styles={styles}/>
             </section> 
-        </>
+        </div>
     )
 }
 
