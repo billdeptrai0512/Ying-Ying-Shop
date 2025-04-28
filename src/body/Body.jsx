@@ -40,8 +40,8 @@ import { useState } from "react"
 import styles from "./Body.module.css"
 import Demo from "./Demo.jsx"
 import CheckOut from "./Checkout.jsx"
-import Item from "../mainpage/Item/Item"
-import Extra from "../mainpage/Item/Extra"
+import Item from "../mainpage/item/Item.jsx"
+import Extra from "../mainpage/item/Extra.jsx"
 
 const inventory = {
     top : {
