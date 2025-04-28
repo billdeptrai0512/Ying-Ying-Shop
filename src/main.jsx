@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Analytics } from '@vercel/analytics/react';
 import './index.css'
-import Body from './body/body.jsx';
+import Body from './body/Body.jsx';
 import MainPage from "./mainpage/MainPage.jsx"
 import ErrorPage from './Error-Page.jsx';
 import Cart from './cart/Cart.jsx';
