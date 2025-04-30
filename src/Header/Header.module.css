@@ -52,19 +52,20 @@ a {
     margin-left: 1em;
 }
 
-@media (min-width: 400px) and (max-width: 900px) {
+@media (min-width: 300px) and (max-width: 900px) {
 
     .header {
         max-width: 425px;
     }
 
     .banner {
-        font-size: 8px;
+        font-size: 0.45rem;
     }
 
-    .main {
-        font-size: 0.75rem;
+    .path {
+        font-size: 0.7rem;
     }
+
 
 } 
 
@@ -92,6 +93,16 @@ a {
 
     .header {
         max-width: 80vw;
+        padding: 0;
+    }
+
+
+} 
+
+@media (min-width: 1450px) {
+
+    .header {
+        max-width: 1350px;
         padding: 0;
     }
 

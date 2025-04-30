@@ -24,10 +24,7 @@ section .information {
 
 .row > div {
     background-color: #fff;
-}
-
-.row > div:nth-child(n+6) {
-    display: none;
+    min-width: 5vw;
 }
 
 .row > h3 {
@@ -52,7 +49,7 @@ section .information {
 
 .option {
     position: relative;
-    width: 10%;
+    width: 15%;
     object-fit: contain;
     background-color: #fff;
 }
@@ -66,14 +63,83 @@ section .information {
     pointer-events: none;
 }
 
-@media (min-width: 900px) {
+.extra {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+@media (min-width: 300px) and (max-width: 899px) {
+
+    .row > div:nth-child(n+6) {
+        display: none;
+    }
+
+    .information > h3 {
+        font-size: 0.85rem;
+    }
+
+    .size > h4 {
+        font-size: 0.65rem;
+    }
+
+} 
+
+@media (min-width: 900px) and (max-width: 1200px){
 
     section .information p {
         font-size: 0.75rem;
     }
 
-    .row > div {
-        min-width: 6vw;
+    .row > div:nth-child(n+6) {
+        display: none;
     }
+
+    .row > div {
+        overflow-y: hidden;
+        max-width: 5vw;
+        max-height: 5.1vw;
+    }
+
+} 
+
+@media (min-width: 1200px) {
+
+    .row > div:nth-child(n+7) {
+        display: none;
+    }
+
+    .row > div {
+        overflow-y: hidden;
+        max-width: 5vw;
+        max-height: 5.1vw;
+    }
+
+    section .information p {
+        font-size: 0.75rem;
+    }
+    
+    .option {
+        width: 8%;
+    }
+
+}
+
+@media (min-width: 2000px) {
+
+    .row > div {
+        overflow-y: hidden;
+        min-width: 100%;
+        height: auto;
+    }
+
+    .row > div > img {
+        width: 7rem;
+    }
+
+    .option {
+        height: 1.5rem;
+    }
+
 
 } 

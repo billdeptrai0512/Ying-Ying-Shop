@@ -1,6 +1,5 @@
 section {
     margin: 0 auto;
-    max-width: 1420px;
 }
 
 img {
@@ -66,7 +65,7 @@ img {
     border: none;
 }
 
-@media (min-width: 400px) and (max-width: 900px) {
+@media (min-width: 400px) and (max-width: 899px) {
 
     .main {
         max-width: 425px;
@@ -92,17 +91,23 @@ img {
     .body {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        max-width: 95vw;
-        height: 100%;
+        max-width: 85vw;
+        height: 80%;
         margin: 0 auto;
     }
 
     .main {
-        width: 90%;
+        align-content: center;
+        width: 42vw;
+        height: 70vh;
     }
 
     .demo {
-        min-height: 550px;
+        min-height: 40vh;
+    }
+    
+    .board {
+        margin: 1em;
     }
 
     .board div {
@@ -110,33 +115,35 @@ img {
     }
 
     .primary {
-        padding-left: 0;
-        padding-top: 1.5em;
-        max-height: 64vh;
+        align-content: center;
+        padding: 1em;
+        min-height: 70vh;
     }
     
     .primary h3 {
-        font-size: 1.25rem;
+        font-size: 1rem;
     }
 
     .total {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
     }
 
     .checkout button {
-        font-size: 1.5rem;
+        font-size: 1rem;
     }
 
 } 
 
-@media (min-width: 1201px) {
+@media (min-width: 1200px) {
 
     .body {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr auto;
-        max-width: 95vw;
-        margin: 0 auto;
+        max-width: 85vw;
+        height: 80%;
+        margin: 0 5em;
+        align-items: center;
     }
 
     .section {
@@ -145,12 +152,12 @@ img {
 
     .main {
         width: 90%;
-        grid-column: 1; /* Column 1 */
+        grid-column: 1; 
         grid-row: 1 / 3; 
     }
 
     .demo {
-        min-height: 65vh;
+        min-height: 50vh;
     }
 
     .board div {
@@ -160,7 +167,7 @@ img {
     .primary {
         padding: 1.5em;
         min-width: 100%;
-        min-height: 60vh;
+        min-height: 64vh;
         grid-column: 2;
         grid-row: 1;
     }
@@ -170,7 +177,7 @@ img {
     }
 
     .total {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
     }
 
     .checkout {
@@ -178,25 +185,24 @@ img {
         grid-column: 2; 
         grid-row: 2;
         width: 100%;
-        padding: 2em;
+        padding: 1em;
+    }
+
+    .checkout button {
+        font-size: 1.25rem;
     }
 
 } 
 
-/* @media (min-width: 1200px) {
+
+@media (min-width: 1445px) {
 
     .body {
-        grid-template-rows: 1fr auto;
-    }
-
-    .checkout {
-        padding-bottom: 1em;
-        display: flex;
-        max-width: 85vw;
-        flex-direction: column;
+        min-width: 1500px;
+        margin: 0 auto;
     }
 
 
+} 
 
-}  */
 

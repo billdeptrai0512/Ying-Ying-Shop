@@ -14,8 +14,8 @@ export default function Demo({cart, selectedOutFit}) {
         )) : null
 
     return (
-        <div className={styles.demo}>
-            <div className={styles.output}>
+        <div className={styles.board}>
+            <div className={styles.demo}>
                 {selectedCart}
             </div>
         </div>

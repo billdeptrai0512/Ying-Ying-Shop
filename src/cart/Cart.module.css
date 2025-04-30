@@ -1,6 +1,264 @@
-.body {
+
+img {
+    max-width: 100%;
+}
+
+.board {
+    text-align: center;
+    background-color: #F0E4E2;
+    margin: 2em;
+    font-size: 0.65rem;
+    border-top-right-radius: 50%;
+    border-top-left-radius: 50%;
+}
+
+.demo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1
+}
+
+.demo img {
+    position: absolute;
+    width: 80%;
+}
+
+.primary {
+    max-width: 400px;
+    max-height: 35vh;
+    overflow: hidden;
+    overflow-y: scroll;
+    padding: 0 1.25em;
+}
+
+.primary > div {
+    padding-bottom: 1em;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.set {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #696868;
+}
+
+.set button {
+    position: relative;
+    border: none;
+    color: #868686;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.outfit {
+    max-width: 30em;
+    background-color: #f6f4f0;
+    padding: 1em 0;
+}
+
+.scrollContainer {
+    display: flex;
+    gap: 0.5em;
+    overflow: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.scrollContainer::-webkit-scrollbar {
+    display: none; 
+}
+
+.item {
+    position: relative;
+}
+
+.scrollContainer img {
+    border: 1px solid #696868;
+    background-color: #FFFFFF;
+    max-width: 7vh;
+}
+
+.edit {
+    position: absolute;
+    background-color: #868686;
+    color: #FFFFFF;
+    border: none;
+    width: 1em;
+    transform: translateX(-1em);
+    cursor: pointer;
+}
+
+.checkout {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding-bottom: 1em;
+    display: flex;
+    max-width: 85vw;
+    flex-direction: column;
+}
+
+.total {
+    display: flex;
+    justify-content: space-between;
+}
+
+.checkout button {
+    background-color: #331D1C;
+    color: #fff;
+    padding: 1em;
+    border: none;
+}
+
+/* @media (max-width: 400px) {
+
+    .primary {
+        max-height: 50vh;
+    }
+
+}  */
+
+@media (min-width: 400px) and (max-width: 899px) {
+
+    .main {
+        max-width: 425px;
+    }
+
+    .demo {
+        font-size: 0.85rem;
+    }
+
+    .primary {
+        max-height: 33vh;
+        padding: 0 0.5em;
+    }
+
+    .checkout {
+        max-width: 400px;
+    }
+
+} 
+
+@media (min-width: 900px) and (max-width: 1200px) {
+
+    .body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        max-width: 85vw;
+        height: 80%;
+        margin: 0 auto;
+    }
+
+    .main {
+        align-content: center;
+        width: 42vw;
+        height: 70vh;
+    }
+
+    .demo {
+        min-height: 40vh;
+    }
+    
+    .board {
+        margin: 1em;
+    }
+
+    .board div {
+        font-size: 1rem;
+    }
+
+    .primary {
+        align-content: center;
+        padding: 1em;
+        min-height: 70vh;
+    }
+    
+    .primary h3 {
+        font-size: 1rem;
+    }
+
+    .total {
+        font-size: 1.25rem;
+    }
+
+    .checkout button {
+        font-size: 1rem;
+    }
+
+} 
+
+@media (min-width: 1200px) {
+
+    .body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr auto;
+        max-width: 85vw;
+        height: 80%;
+        margin: 0 5em;
+        align-items: center;
+    }
+
+    .section {
+        max-width: 100vw;
+    }
+
+    .main {
+        width: 90%;
+        grid-column: 1; 
+        grid-row: 1 / 3; 
+    }
+
+    .demo {
+        min-height: 50vh;
+    }
+
+    .board div {
+        font-size: 1rem;
+    }
+
+    .primary {
+        padding: 1.5em;
+        min-width: 100%;
+        min-height: 64vh;
+        grid-column: 2;
+        grid-row: 1;
+    }
+    
+    .primary h3 {
+        font-size: 1.25rem;
+    }
+
+    .total {
+        font-size: 1.25rem;
+    }
+
+    .checkout {
+        position: relative;
+        grid-column: 2; 
+        grid-row: 2;
+        width: 100%;
+        padding: 1em;
+    }
+
+    .checkout button {
+        font-size: 1.25rem;
+    }
+
+} 
+
+/* .body {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     height: auto;
     padding: 0 6em;
     gap: 5em
@@ -44,7 +302,6 @@
 .wrapper {
     display: flex;
     align-items: center;
-
 }
 
 .set {
@@ -78,7 +335,7 @@
 }
 
 .scrollContainer::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
+    display: none; 
 }
 
 .item {
@@ -128,4 +385,4 @@
     padding: 0.5em;
     color: #FFFFFF;
     cursor: pointer;
-}
+} */

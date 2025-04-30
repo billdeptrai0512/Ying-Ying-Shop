@@ -15,23 +15,22 @@ export default function Cart() {
 
     return (
         <div className={styles.body}>
-            <Demo 
-                cart={cart}
-                selectedOutFit={selectedOutFit}
-            />
-            <div className={styles.primary}>
+            <section className={styles.main}>
+                <Demo cart={cart} selectedOutFit={selectedOutFit} />
+            </section>
+            <section className={styles.primary}>
                 <Outfit 
                     cart={cart} 
                     pickOutFit={pickOutFit}
                     removeOutFit={removeOutFit}
                     editOutFit={editOutFit}/>
-            </div>
-            <div className={styles.secondary}>
+            </section>
+            <section className={styles.checkout}>
                 <Total 
                     cart={cart}
                     selectedOutFit={selectedOutFit} 
                 />
-            </div>
+            </section>
         </div>
     );
 }

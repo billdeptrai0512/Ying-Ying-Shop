@@ -35,18 +35,18 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
     };
 
     return (
-        <div className={styles.wrapper}>
-            {canScroll && (
-                <Play
-                    color="#626262"
-                    onClick={scrollLeft}
-                    style={{
-                        display: atStart ? 'none' : 'block',
-                        position: 'absolute',
-                        transform: 'translateX(-2em) translateY(0.5em) rotate(180deg)'
-                    }}
-                />
-            )}
+        // <div className={styles.wrapper}>
+        //     {canScroll && (
+        //         <Play
+        //             color="#626262"
+        //             onClick={scrollLeft}
+        //             style={{
+        //                 display: atStart ? 'none' : 'block',
+        //                 position: 'absolute',
+        //                 transform: 'translateX(-2em) translateY(0.5em) rotate(180deg)'
+        //             }}
+        //         />
+        //     )}
 
             <div className={styles.row}>
                 <div className={styles.set}>
@@ -71,17 +71,17 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
                 </div>
             </div>
 
-            {canScroll && (
-                <Play
-                    color="#626262"
-                    onClick={scrollRight}
-                    style={{
-                        display: atEnd ? 'none' : 'block',
-                        position: 'absolute',
-                        transform: 'translateX(30.5em) translateY(0.5em)'
-                    }}
-                />
-            )}
-        </div>
+        //     {/* {canScroll && (
+        //         <Play
+        //             color="#626262"
+        //             onClick={scrollRight}
+        //             style={{
+        //                 display: atEnd ? 'none' : 'block',
+        //                 position: 'absolute',
+        //                 transform: 'translateX(30.5em) translateY(0.5em)'
+        //             }}
+        //         />
+        //     )} */}
+        // </div>
     );
 }

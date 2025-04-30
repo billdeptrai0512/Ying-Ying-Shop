@@ -45,7 +45,7 @@ export default function Extra({props, UpdateOutFit, resetTrigger}) {
     }, [resetTrigger])
 
     return (
-        <div className={styles.inventory}>
+        <div className={styles.extra}>
             <Information 
                 name={props.name} 
                 selectedItem={selectedItemA}
