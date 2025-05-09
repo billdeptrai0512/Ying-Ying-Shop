@@ -1,6 +1,6 @@
 import { useState, useEffect} from "react"
-import Information from "./element/Information"
-import Image from "./element/Image"
+import Information from "./information"
+import Image from "./image"
 import styles from "./Item.module.css"
 
 

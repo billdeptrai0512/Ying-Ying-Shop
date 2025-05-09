@@ -1,12 +1,14 @@
 import styles from "./Header.module.css"
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
-import { useCart } from "../main"
-
+import Logout from "../form/logout"
+import { useCart } from "../public/cartContext"
+import { useAuth } from "../public/authContext"
 export default function Header() {
 
     const { cart } = useCart()
-
+    const { user } = useAuth()
+    
     const [numberOfCart, setNumberOfCart] = useState(0)
 
     useEffect(() => {
@@ -14,6 +16,7 @@ export default function Header() {
         setNumberOfCart(cart.length)
 
     }, [cart])
+
 
     return (
         <header className={styles.header}>
@@ -29,11 +32,17 @@ export default function Header() {
                         <span style={{ color: '#DC1E1E' }}> ( {numberOfCart} )</span>
                     } 
                 </Link>
-                {/* <Link  to={`/cart`}>TIKTOK {
-                        cart.length === 0 ? null :
-                        <span style={{ color: '#DC1E1E' }}> ( {numberOfCart} )</span>
-                    } 
-                </Link> */}
+                {user ? (
+                    <>
+                        <span style={{marginLeft: "1rem" , color: '#868686'}}>
+                            {user.username.toUpperCase()}
+                        </span>
+                        <Logout></Logout>
+                    </>
+                    
+                ) : (
+                    <Link to="/login" >LOGIN </Link>
+                )}  
             </div>
 
         </header>

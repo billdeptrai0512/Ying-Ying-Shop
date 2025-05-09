@@ -1,12 +1,13 @@
 import { Outlet } from "react-router-dom"
-import Header from '../header/Header.jsx'
+import Header from '../header/main.jsx'
+import Body from "../body/main.jsx"
 
 export default function MainPage() {
 
   return (
     <>
-      <Header />
-      <Outlet />
+      <Header/>
+      <Body/>
     </>
   )
 }

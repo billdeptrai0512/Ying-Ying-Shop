@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 // eslint-disable-next-line no-unused-vars
 import { useSpring, animated } from "@react-spring/web";
-import { useCart } from "../main";
+import { useCart } from "../public/cartContext";
 
 
 export default function CheckOut({outFit, setMissingSize, resetDefault, styles}) {

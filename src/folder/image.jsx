@@ -1,10 +1,16 @@
 import { useRef, useState } from "react"
-import imageCover from "../../../assets/khung_item.png"
-import styles from "../Item.module.css"
+import { Link } from "react-router-dom"
+import imageCover from "./../assets/khung_item.png"
+import styles from "./Item.module.css"
 import { Play } from "lucide-react"
+import { useAuth } from "../public/authContext"
+import DeleteFile from "../form/delete-file"
+import FileEdit from "../form/save-file"
 
 
 export default function Image({name, inventory, selectedItem, pickItem}) {
+
+    const { user } = useAuth()
 
     const scrollContainer = useRef(null)
     const [atStart, setAtStart] = useState(true);
@@ -45,14 +51,25 @@ export default function Image({name, inventory, selectedItem, pickItem}) {
             <div className={styles.row} ref={scrollContainer}>
                 
                 {inventory.map((item, index) => (
-                    <div key={index} onClick={() => pickItem(index, inventory)} style={{ position: "relative" }}> 
-                        {selectedItem === item ? <img src={imageCover} alt="selectedItem" style={{ position: "absolute" }}></img> : null}
-                        <img src={item.image} alt={name}></img>
-                    </div>
+
+                    <>
+                        <div key={index} onClick={() => pickItem(index, inventory)} style={{ position: "relative" }}> 
+                            {/* cover */}
+                            {/* {selectedItem === item ? <img src={imageCover} alt="selectedItem" style={{ position: "absolute" }}></img> : null} */}
+                            {/* image */}
+                            <img src={item.image} alt={name}></img>
+                            {/* <img src={item.demo_image} alt={name}></img> */}
+                            {/* delete/edit button for admin */}    
+                            
+                        </div>
+                        {user ? <Link to={`/file/${item.id}`}>Edit</Link> : null}
+                    </>
+                
                 ))}
 
             </div>
 
+            
             {/* <Play color="#331D1C" onClick={scrollRight} 
                     style={{ 
                             display: atEnd === true ? 'none' : 'block',

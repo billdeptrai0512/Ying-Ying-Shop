@@ -116,6 +116,7 @@ img {
 
     .primary {
         align-content: center;
+        width: 35vw;
         padding: 1em;
         min-height: 70vh;
     }

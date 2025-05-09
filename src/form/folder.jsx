@@ -1,0 +1,65 @@
+import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useFolder } from '../public/folderContext';
+import { Link } from 'react-router-dom';
+import styles from "./form.module.css"
+
+
+export default function FolderCreate() {
+
+    const { refreshFolders } = useFolder()
+    const navigate = useNavigate()
+
+    const [folderData, setFolderData] = useState({
+        name: '',
+        section: '',
+    })
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+
+            await axios.post('http://localhost:3000/folder/create', {
+                name: folderData.name,
+                section: folderData.section
+            });
+
+            refreshFolders()
+
+            navigate('/')
+
+        } catch (err) {
+
+            console.error('Upload failed', err);
+
+        }
+    };
+
+    const handleChange = (e) => {
+
+        const { name, value } = e.target;
+
+        setFolderData(prev => ({ ...prev, [name]: value }));
+
+    };
+
+    return (
+        <>
+            <form onSubmit={handleSubmit} className={styles.form}>
+                <input type="text" name="name" onChange={handleChange} />
+                <select name="section" onChange={handleChange}>
+                    <option value="top">top</option>
+                    <option value="bottom">bottom</option>
+                    <option value="sweater">sweater</option>
+                    <option value="jacket">jacket</option>
+                    <option value="extra">extra</option>
+                </select>
+                <button type="submit">Upload</button>
+                <Link to="/" >Cancel </Link>
+            </form>
+        </> 
+            
+    );
+}

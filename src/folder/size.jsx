@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react"
-import sizeCover from "../../../assets/khung_size.png"
-import styles from "../Item.module.css"
+import sizeCover from "./../assets/khung_size.png"
+import styles from "./Item.module.css"
 
 
 export default function Size({category, selectedItem, isChoosen, itemSection, UpdateSize, sizeSelected, setSizeSelected, missingSize, isMissingSize, setMissingSize}) {

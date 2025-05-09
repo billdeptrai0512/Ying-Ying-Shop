@@ -69,6 +69,8 @@ section .information {
     gap: 1em;
 }
 
+
+
 @media (min-width: 300px) and (max-width: 899px) {
 
     .row > div:nth-child(n+6) {
@@ -123,6 +125,11 @@ section .information {
         width: 8%;
     }
 
+    .uploadForm{
+        display: flex;
+        flex-direction: column;
+    }
+
 }
 
 @media (min-width: 2000px) {
@@ -140,6 +147,8 @@ section .information {
     .option {
         height: 1.5rem;
     }
+
+
 
 
 } 

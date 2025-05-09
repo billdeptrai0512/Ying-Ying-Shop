@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render } from '@testing-library/react';
 import userEvent from "@testing-library/user-event";
 
-import Item from './Item';
+import Item from './item';
 
 describe("Item component", () => {
 

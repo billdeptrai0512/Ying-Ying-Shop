@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
-import Information from "./element/Information"
-import Image from "./element/Image"
-import Size from "./element/Size"
+import Information from "./information"
+import Image from "./image"
+import Size from "./size"
 import styles from "./Item.module.css"
 
-export default function Item({props, UpdateSize, UpdateOutFit, setChoosen, isChoosen, missingSize , setMissingSize, resetTrigger}) {
+export default function Item({folderId, inventory, UpdateSize, UpdateOutFit, setChoosen, isChoosen, missingSize , setMissingSize, resetTrigger}) {
 
     const [selectedItem, setSelectedItem] = useState(null)
     const [sizeSelected, setSizeSelected] = useState(null)
@@ -13,25 +13,25 @@ export default function Item({props, UpdateSize, UpdateOutFit, setChoosen, isCho
 
         const selected = inventory[index]
 
-        const category = props.type
+        const category = inventory.type
 
-        const zIndex = props.zIndex
+        // const zIndex = props.zIndex
 
         setSelectedItem(selectedItem === selected ? null : selected);
         
-        UpdateOutFit(selected, category, zIndex)
+        UpdateOutFit(selected, category)
 
         setChoosen ? setChoosen(selected.section) : null
 
     }
     
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (isChoosen !== props.inventory[0].section) {
-            setSelectedItem(null)
-        }
+    //     if (isChoosen !== inventory.files[0].section) {
+    //         setSelectedItem(null)
+    //     }
 
-    }, [isChoosen, props.inventory])
+    // }, [isChoosen, inventory.files])
 
     useEffect(() => {
 
@@ -39,24 +39,24 @@ export default function Item({props, UpdateSize, UpdateOutFit, setChoosen, isCho
         
     }, [resetTrigger])
 
-    const itemSection = props.inventory[0].section
 
     return (
-        <div className={styles.item} style={{ opacity: isChoosen === null || isChoosen === itemSection ? 1 : 0.5 }}>
+        <div className={styles.item} style={{ opacity: isChoosen === null || isChoosen === inventory.section ? 1 : 0.5 }}>
             <Information 
-                name={props.name} 
+                folderId={folderId}
+                name={inventory.name} 
+                itemSection={inventory.section} 
                 selectedItem={selectedItem}
                 isChoosen={isChoosen} 
-                itemSection={itemSection} 
             />
             <Image 
-                name={props.name}
-                inventory={props.inventory}
+                name={inventory.name}
+                inventory={inventory.files}
                 pickItem={pickItem}
                 selectedItem={selectedItem}
             />
-            <Size 
-                category={props.type}
+            {/* <Size 
+                category={inventory.type}
                 selectedItem={selectedItem}
                 isChoosen={isChoosen} 
                 itemSection={itemSection}
@@ -64,9 +64,9 @@ export default function Item({props, UpdateSize, UpdateOutFit, setChoosen, isCho
                 UpdateSize={UpdateSize}
                 setSizeSelected={setSizeSelected}
                 missingSize={missingSize}
-                isMissingSize={missingSize ? missingSize.includes(props.type) : false}
-                setMissingSize={setMissingSize}
-            />
+                // isMissingSize={missingSize ? missingSize.includes(inventory.type) : false}
+                // setMissingSize={setMissingSize}
+            /> */}
         </div>     
     )
 }
