@@ -14,7 +14,7 @@ export default function Cart() {
     const pickOutFit = (index) => setSelectedOutFit(index)
 
     return (
-        <div className={styles.body}>
+        <>
             <section className={styles.main}>
                 <Demo cart={cart} selectedOutFit={selectedOutFit} />
             </section>
@@ -31,6 +31,6 @@ export default function Cart() {
                     selectedOutFit={selectedOutFit} 
                 />
             </section>
-        </div>
+        </>
     );
 }

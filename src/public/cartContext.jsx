@@ -12,7 +12,7 @@ export function CartProvider({ children }) {
  
   };
 
-  const editOutFit = (outfit, key) => {
+  const editOutFit = (outfit, item, key) => {
 
     setCart(prevCart => {
 
@@ -20,15 +20,31 @@ export function CartProvider({ children }) {
 
         if (OutFit.id === outfit.id) {
 
+          const itemPrice = key !== "extra" ? outfit[key].item.total : outfit[key][item.type].item.total
+
           const newItem = OutFit[key].size ? {item: null, size: null} : {item: null}
-          const newTotal = OutFit.total - outfit[key].item.total
+          const newTotal = OutFit.total - itemPrice
 
           if (newTotal === 0) return null
 
-          return {
-            ...OutFit,
-            [key] : newItem,
-            total: newTotal,
+          if (key !== "extra" ) {
+              return {
+                ...OutFit,
+                [key] : newItem,
+                total: newTotal,
+              }
+  
+          } else {
+
+              return {
+                ...OutFit,
+                  [key]: {
+                      ...OutFit[key],
+                      [item.type] : newItem,
+                      
+                  },
+                  total: newTotal,
+              }
           }
 
         }
@@ -36,7 +52,9 @@ export function CartProvider({ children }) {
         return OutFit;
 
       })
+
       .filter(outfit => outfit !== null);
+
     })
   }
 

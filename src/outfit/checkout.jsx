@@ -36,6 +36,8 @@ export default function CheckOut({outFit, setMissingSize, resetDefault, styles})
         //if outFit. all key = null then prevent them to send empty cart
         if (missingSizes.length === 0) {
 
+            console.log(outFit)
+
             saveOutFit(outFit)
 
             resetDefault()

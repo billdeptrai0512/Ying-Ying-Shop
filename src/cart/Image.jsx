@@ -34,6 +34,32 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
         }
     };
 
+    const getImages = (outfit) => {
+
+        const images = [];
+    
+        // Loop through top-level keys
+        for (const [key, value] of Object.entries(outfit)) {
+            if (key === "total") continue;
+    
+            // If demo_image exists directly
+            if (value?.item?.image) {
+                images.push({section: key, item: value.item});
+            }
+    
+            // If it's the 'extra' category, loop its sub-categories
+            if (key === "extra") {
+                for (const [, subValue] of Object.entries(value)) {
+                    if (subValue?.item?.image) {
+                        images.push({section: key, item: subValue.item});
+                    }
+                }
+            }
+        }
+    
+        return images;
+    };
+
     return (
         // <div className={styles.wrapper}>
         //     {canScroll && (
@@ -56,15 +82,18 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
 
                 <div className={styles.outfit} onClick={() => pickOutFit(index)}>
                     <div className={styles.scrollContainer} ref={scrollRef}>
-                        {entries.map(([key, value], imgIndex) => (
-                            <div key={`${outfit.id}-${key}`} className={styles.item}>
+                        {getImages(outfit).map((object, index) => (
+                            <div key={`${outfit.id}-${index}`} className={styles.item}>
                                 <img
-                                    key={`${key}-${imgIndex}`}
-                                    style={{ zIndex: value.item.zIndex || 0 }}
-                                    src={value.item.image}
-                                    alt={key}
+                                    src={object.item.image}
+                                    alt={`item-${index}`}
                                 />
-                                <button className={styles.edit} onClick={() => editOutFit(outfit, key)}>x</button>
+                                <button
+                                    className={styles.edit}
+                                    onClick={() => editOutFit(outfit, object.item, object.section || index)}
+                                >
+                                    x
+                                </button>
                             </div>
                         ))}
                     </div>

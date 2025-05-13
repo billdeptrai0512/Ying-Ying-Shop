@@ -37,7 +37,7 @@ export default function Header() {
                         <span style={{marginLeft: "1rem" , color: '#868686'}}>
                             {user.username.toUpperCase()}
                         </span>
-                        <Logout></Logout>
+                        <Logout/>
                     </>
                     
                 ) : (

@@ -3,5 +3,8 @@
     flex-direction: column;
     justify-content: center;
     width: fit-content;
-    gap: 1em;
+}
+
+.form input {
+    margin-bottom: 1em;
 }

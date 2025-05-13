@@ -1,0 +1,35 @@
+@media (min-width: 900px) and (max-width: 1200px) {
+
+    .body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        max-width: 85vw;
+        height: 80%;
+        margin: 0 auto;
+    }
+
+} 
+
+@media (min-width: 1200px) {
+
+    .body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr auto;
+        max-width: 85vw;
+        /* height: 80%; */
+        margin: 0 5em;
+        align-items: center;
+    }
+
+} 
+
+
+@media (min-width: 1445px) {
+
+    .body {
+        min-width: 1500px;
+        margin: 0 auto;
+    }
+
+} 

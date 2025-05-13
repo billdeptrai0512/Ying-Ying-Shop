@@ -1,14 +1,12 @@
 import { useRef, useState } from "react"
 import { Link } from "react-router-dom"
-import imageCover from "./../assets/khung_item.png"
+import imageCover from "./../assets/tickweb.png"
 import styles from "./Item.module.css"
-import { Play } from "lucide-react"
 import { useAuth } from "../public/authContext"
-import DeleteFile from "../form/delete-file"
-import FileEdit from "../form/save-file"
+import { Settings } from 'lucide-react';
+import { Play } from "lucide-react"
 
-
-export default function Image({name, inventory, selectedItem, pickItem}) {
+export default function Image({name, inventory, section, selectedItem, pickItem}) {
 
     const { user } = useAuth()
 
@@ -53,16 +51,16 @@ export default function Image({name, inventory, selectedItem, pickItem}) {
                 {inventory.map((item, index) => (
 
                     <>
-                        <div key={index} onClick={() => pickItem(index, inventory)} style={{ position: "relative" }}> 
+                        <div key={index} onClick={() => pickItem(item, section)} style={{ position: "relative" , border: selectedItem === item ? '2px solid #331D1C' : 'none'}}> 
                             {/* cover */}
-                            {/* {selectedItem === item ? <img src={imageCover} alt="selectedItem" style={{ position: "absolute" }}></img> : null} */}
+                            {selectedItem === item ? <img src={imageCover} alt="selectedItem" style={{ position: "absolute", bottom: "0", right: "0" }}></img> : null}
                             {/* image */}
-                            <img src={item.image} alt={name}></img>
+                            {user ? <Link to={`/file/${item.id}`}>
+                                <Settings size={18}/>
+                            </Link> : null}
+                            <img src={item.image} alt={name} ></img>
                             {/* <img src={item.demo_image} alt={name}></img> */}
-                            {/* delete/edit button for admin */}    
-                            
                         </div>
-                        {user ? <Link to={`/file/${item.id}`}>Edit</Link> : null}
                     </>
                 
                 ))}

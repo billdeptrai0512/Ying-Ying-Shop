@@ -15,9 +15,7 @@ export default function DeleteFile() {
 
         try {
 
-            const response = await axios.delete(`http://localhost:3000/file/delete/?fileId=${fileId}`);
-
-            console.log(response.data)
+            await axios.delete(`http://localhost:3000/file/delete/?fileId=${fileId}`);
 
             refreshFolders()
 

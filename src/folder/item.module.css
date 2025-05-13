@@ -35,6 +35,10 @@ section .information {
     font-size: 0.65rem;
 }
 
+.row > div > a {
+    position: absolute;
+}
+
 .size {
     display: flex;
     flex-direction: column;
@@ -56,10 +60,8 @@ section .information {
 
 .option img {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    bottom: 0;
+    right: 0;
     pointer-events: none;
 }
 
@@ -89,6 +91,10 @@ section .information {
 
 @media (min-width: 900px) and (max-width: 1200px){
 
+    .row {
+        grid-template-columns: repeat(5, minmax(1rem, 7rem));
+    }
+
     section .information p {
         font-size: 0.75rem;
     }
@@ -99,8 +105,6 @@ section .information {
 
     .row > div {
         overflow-y: hidden;
-        max-width: 5vw;
-        max-height: 5.1vw;
     }
 
 } 
@@ -113,8 +117,7 @@ section .information {
 
     .row > div {
         overflow-y: hidden;
-        max-width: 5vw;
-        max-height: 5.1vw;
+        max-width: 8vh;
     }
 
     section .information p {
@@ -141,7 +144,7 @@ section .information {
     }
 
     .row > div > img {
-        width: 7rem;
+        max-width: 8.6vh;
     }
 
     .option {

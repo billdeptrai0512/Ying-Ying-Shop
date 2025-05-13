@@ -59,7 +59,7 @@ img {
 }
 
 .outfit {
-    max-width: 30em;
+    width: 100%;
     background-color: #f6f4f0;
     padding: 1em 0;
 }
@@ -83,7 +83,7 @@ img {
 .scrollContainer img {
     border: 1px solid #696868;
     background-color: #FFFFFF;
-    max-width: 7vh;
+    max-width: 8.6vh;
 }
 
 .edit {
@@ -118,14 +118,6 @@ img {
     padding: 1em;
     border: none;
 }
-
-/* @media (max-width: 400px) {
-
-    .primary {
-        max-height: 50vh;
-    }
-
-}  */
 
 @media (min-width: 400px) and (max-width: 899px) {
 
@@ -255,134 +247,3 @@ img {
     }
 
 } 
-
-/* .body {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    height: auto;
-    padding: 0 6em;
-    gap: 5em
-}
-
-.demo {
-    background-color: #F0E4E2;
-    width: 35em;
-    border-top-right-radius: 18em;
-    border-top-left-radius: 18em
-}
-
-.output {
-    margin: 30px 30px 0 30px;
-    height: 35em;
-}
-
-.output img {
-    display: flex;
-    position: absolute;
-    height: auto;
-    width: 30em;
-}
-
-.example {
-    text-align: center;
-    padding: 1em;
-}
-
-.example a:visited {
-    color: blue !important
-}
-
-.primary, .secondary {
-    display: flex;
-    flex-direction: column;
-    gap: 2em;
-    flex-shrink: 0;
-}
-
-.wrapper {
-    display: flex;
-    align-items: center;
-}
-
-.set {
-    display: flex;
-    justify-content: space-between;
-    font-size: 20px;
-    border-bottom: 2px solid #696868;
-}
-
-.set button {
-    position: relative;
-    border: none;
-    color: #868686;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.outfit {
-    max-width: 30em;
-    background-color: #f6f4f0;
-    margin-top: 0.5em;
-    padding: 1em;
-}
-
-.scrollContainer {
-    display: flex;
-    gap: 0.5em;
-    overflow: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
-
-.scrollContainer::-webkit-scrollbar {
-    display: none; 
-}
-
-.item {
-    position: relative;
-}
-
-.scrollContainer img {
-    border: 1px solid #696868;
-    background-color: #FFFFFF;
-    width: 5em;
-}
-
-.edit {
-    position: absolute;
-    background-color: #868686;
-    color: #FFFFFF;
-    border: none;
-    width: 1em;
-    transform: translateX(-1em);
-    cursor: pointer;
-}
-
-.total {
-    background-color: #F0E4E2;
-    display: flex;
-    flex-direction: column;
-    padding: 1em 2em;
-    width: 100%;
-}
-
-.final {
-    display: flex;
-    margin: 2em 0;
-    justify-content: space-between;
-}
-
-.final .number {
-    font-size: 22px;
-    font-weight: bold;
-}
-
-.cta {
-    background-color: #331D1C;
-    border: none;
-    font-size: 18px;
-    font-weight: 500;
-    padding: 0.5em;
-    color: #FFFFFF;
-    cursor: pointer;
-} */

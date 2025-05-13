@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react"
-import sizeCover from "./../assets/khung_size.png"
+import sizeCover from "./../assets/tickweb.png"
 import styles from "./Item.module.css"
 
 
-export default function Size({category, selectedItem, isChoosen, itemSection, UpdateSize, sizeSelected, setSizeSelected, missingSize, isMissingSize, setMissingSize}) {
+export default function Size({section, selectedItem, isChoosen, itemSection, UpdateSize, sizeSelected, setSizeSelected, missingSize, isMissingSize, setMissingSize}) {
 
     const [isHovered, setIsHovered] = useState(false)
     const [position, setPosition] = useState({x: 0, y:0})
@@ -29,11 +29,11 @@ export default function Size({category, selectedItem, isChoosen, itemSection, Up
 
     useEffect(() => {
 
-        sizeSelected === null ? UpdateSize(category, null) : UpdateSize(category, selectedItem.size[sizeSelected])
+        sizeSelected === null ? UpdateSize(section, null) : UpdateSize(section, selectedItem.sizes[sizeSelected])
 
         if (isMissingSize) {
 
-            const missingSizes = missingSize.filter(item => item !== category)
+            const missingSizes = missingSize.filter(item => item !== section)
 
             setMissingSize(missingSizes)
         }
@@ -76,7 +76,7 @@ export default function Size({category, selectedItem, isChoosen, itemSection, Up
         <div className={styles.size}>
             <h4> Size </h4>
             <div className={styles.options}>
-                {selectedItem.size.map((size, index) => (
+                {selectedItem.sizes.map((size, index) => (
                     <div key={index} className={styles.option}
                         style={buttonStyle(isMissingSize, sizeSelected === index)}
                         onClick={() => pickSize(index)}
@@ -86,8 +86,9 @@ export default function Size({category, selectedItem, isChoosen, itemSection, Up
                             <p>{size}</p>
                     </div>
                 ))}
+                {isMissingSize ? <div className={styles.warning}> * chon size ban oi</div> : null}
             </div>
-            {isMissingSize ? <div className={styles.warning}> * chon size ban oi</div> : null}
+            
             {/* {isHovered && (
                 <div
                     style={{

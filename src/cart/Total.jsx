@@ -12,24 +12,37 @@ export default function Total({cart, selectedOutFit}) {
         return intValue.toString().replace(/\d{1,3}(?=(\d{3})+(?!\d))/g, "$&,") + "đ";
     };
 
-    const analyzeInventory = (data) => {
+    const analyzeInventory = (cart) => {
         let itemCount = 0;
         let totalSum = 0;
-      
-        data.forEach(entry => {
-          Object.values(entry).forEach(value => {
-            // Check if this field is an object with an `item` key
-            if (value && typeof value === 'object' && 'item' in value) {
-              if (value.item !== null) {
-                itemCount += 1;
+
+        // console.log(data)
+        const countItems = (section) => {
+          if (section && typeof section === 'object') {
+              if ('item' in section) {
+                  if (section.item !== null) {
+                      itemCount += 1;
+                  }
               }
-            }
-          });
-      
-          if (typeof entry.total === 'number') {
-            totalSum += entry.total;
+  
+              // Recursively check nested objects
+              Object.values(section).forEach(value => {
+                  if (typeof value === 'object') {
+                      countItems(value);
+                  }
+              });
           }
-        });
+        };
+      
+        cart.forEach(outfit => {
+          Object.values(outfit).forEach(section => {
+              countItems(section);
+          });
+  
+          if (typeof outfit.total === 'number') {
+              totalSum += outfit.total;
+          }
+      });
       
         return { itemCount, totalSum };
     };

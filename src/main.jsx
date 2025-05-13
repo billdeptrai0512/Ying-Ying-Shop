@@ -8,13 +8,14 @@ import MainPage from "./mainpage/main.jsx"
 import ErrorPage from './public/error-page.jsx';
 import Cart from './cart/main.jsx';
 import Login from './form/login.jsx';
-import { CartProvider } from './public/cartContext.jsx';
-import { AuthProvider } from './public/authContext.jsx'
 import Folder from './folder/main.jsx';
 import FileUpload from './form/upload-file.jsx';
 import Edit from './form/edit.jsx';
-import { FolderProvider } from './public/folderContext.jsx';
 import FolderCreate from './form/folder.jsx';
+import { FolderProvider } from './public/folderContext.jsx';
+import { CartProvider } from './public/cartContext.jsx';
+import { AuthProvider } from './public/authContext.jsx'
+import Outfit from './outfit/main.jsx';
 
 export default function App() {
 
@@ -26,7 +27,7 @@ export default function App() {
       children: [
         {
           path: "/",
-          element: <Folder />,
+          element: <Outfit />,
         },
         {
           path: "cart",

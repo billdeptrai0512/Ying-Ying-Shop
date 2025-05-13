@@ -18,8 +18,6 @@ export default function SaveFile() {
         z_index: '1',
     })
 
-    const [, setFile] = useState(null)
-
     const [image, setImage] = useState(null);
     const [demoImage, setDemoImage] = useState(null);
 
@@ -74,9 +72,8 @@ export default function SaveFile() {
         const fetchFile = async () => {
             try {
                 const response = await axios.get(`http://localhost:3000/file/${fileId}`);
-                const data = response.data;
-                setFile(data);
-    
+                const data = response.data[0];
+
                 setFormData({
                     amount: data.amount || '',
                     total: data.total || '',
@@ -96,33 +93,29 @@ export default function SaveFile() {
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
+            <label htmlFor="image">Image</label>
             <input type="file" name="image" onChange={(e) => setImage(e.target.files[0])} />
+            <label htmlFor="demo_image">Demo Image</label>
             <input type="file" name="demo_image" onChange={(e) => setDemoImage(e.target.files[0])} />
+            <label htmlFor="image">Số lượng</label>
             <input type="number" name="amount" value={formData.amount} onChange={handleChange} />
+            <label htmlFor="image">Giá tiền</label>
             <input type="number" name="total" value={formData.total} onChange={handleChange} />
-            <select name="type" value={formData.type} onChange={handleChange}>
-                <option value="top">Áo sơ mi</option>
-                <option value="long">Quần dài</option>
-                <option value="short">Váy</option>
-                <option value="gakuran">Gakuran</option>
-                <option value="blazer">Blazer</option>
-                <option value="tie">Tie</option>
-                <option value="bow">Bow</option>
-                <option value="bag">Bag</option>
+            <select name="type" value={`${formData.type}-${formData.z_index}`} onChange={handleChange}>
+                <option value="top-2">Áo sơ mi</option>
+                <option value="long-1">Quần dài</option>
+                <option value="short-3">Váy</option>
+                <option value="sweater-4">Sweater</option>
+                <option value="gakuran-5">Gakuran</option>
+                <option value="blazer-5">Blazer</option>
+                <option value="bow-6">Bow</option>
+                <option value="bag-6">Bag</option>
             </select>
             <select name="sizes[]" multiple size="4" onChange={handleChange}>
                 <option value="S">S</option>
                 <option value="M">M</option>
                 <option value="L">L</option>
                 <option value="XL">XL</option>
-            </select>
-            <select name="z_index" value={formData.z_index} onChange={handleChange}>
-                <option value="1">1 - Quần</option>
-                <option value="2">2 - Áo sơ mi</option>
-                <option value="3">3 - Váy</option>
-                <option value="4">4 - Áo len</option>
-                <option value="5">5 - Jacket</option>
-                <option value="6">6 - Phụ Kiện</option>
             </select>
             <button type="submit">Save</button>
         </form>
