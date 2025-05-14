@@ -1,10 +1,9 @@
-
-h1 {
+header > h1 {
     font-weight: 600;
     margin-top: 0;
 }
 
-h2 {
+header > h2 {
     font-weight: 600;
     color: #696969;
 }
@@ -23,28 +22,27 @@ a {
 
 .header {
     display: flex;
-    flex-direction: row;
-    text-align: center;
     justify-content: space-between;
     margin: 0 auto;
-    padding: 0 1em;
+    padding-bottom: 2em;
     width: 100%;
+    max-width: 425px;
+    font-size: 0.45rem;
 }
 
 .banner {
     display: flex;
     flex-direction: column;
     padding: 1em;
-    font-size: 0.4rem;
     text-align: start;
     flex-shrink: 0;
 }
 
 .path {
     display: flex;
-    justify-content: center;
     align-items: center;
-    flex-shrink: 3;
+    padding-right: 1em;
+    font-size: 0.6rem;
 }
 
 .path a + a {
@@ -52,42 +50,50 @@ a {
     margin-left: 1em;
 }
 
-@media (min-width: 300px) and (max-width: 900px) {
+@media (min-width: 600px) and (max-width: 1000px) {
 
     .header {
-        max-width: 425px;
+        max-width: 500px;
     }
 
     .banner {
-        font-size: 0.45rem;
+        font-size: 0.65rem;
     }
 
     .path {
-        font-size: 0.7rem;
+        font-size: 1rem;
     }
 
 
 } 
 
-@media (min-width: 900px) {
+ @media (min-width: 1000px) and (max-width: 1400px) {
 
     .header {
-        max-width: 85vw;
+        max-width: 960px;
     }
 
     .banner {
-        font-size: 0.85rem;
+        font-family: 'Inter';
+        font-size: 0.75rem;
+        
     }
 
-    .main {
-        font-size: 0.85rem;
+    .banner h1 {
+        letter-spacing: 3.12px;
+    }
+
+    .banner h2 {
+        letter-spacing: 1px;
     }
 
     .path{
-        font-size: 1.5rem;
+        font-size: 1.25rem;
     }
 
 } 
+
+/*
 
 @media (min-width: 1200px) {
 
@@ -107,5 +113,5 @@ a {
     }
 
 
-} 
+}  */
 

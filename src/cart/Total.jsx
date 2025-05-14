@@ -60,8 +60,8 @@ export default function Total({cart, selectedOutFit}) {
     return (
       <> 
         <div className={styles.total}>
-            <p>Tổng ({count})</p>
-            <div className={styles.number}>{formatCurrency(total)}</div>
+            <h3>Tổng ({count})</h3>
+            <p className={styles.number}>{formatCurrency(total)}</p>
         </div>
         <button className={styles.cta}>ĐẶT CỌC</button>
       </>

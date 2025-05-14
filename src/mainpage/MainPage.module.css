@@ -1,15 +1,32 @@
-@media (min-width: 900px) and (max-width: 1200px) {
+.body {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100vh;
+}
+
+@supports (-webkit-touch-callout: none) {
+    body {
+      /* The hack for Safari */
+      height: -webkit-fill-available;
+    }
+}
+
+@media (min-width: 1000px) and (max-width: 1400px) {
 
     .body {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        max-width: 85vw;
-        height: 80%;
-        margin: 0 auto;
+        grid-template-columns: 1fr 1fr ;
+        grid-template-rows: repeat(10, auto);
+        align-self: center;
+        justify-content: space-between;
+        max-width: 960px;
+        gap: 5em;
     }
 
 } 
 
+/*
 @media (min-width: 1200px) {
 
     .body {
@@ -17,7 +34,6 @@
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr auto;
         max-width: 85vw;
-        /* height: 80%; */
         margin: 0 5em;
         align-items: center;
     }
@@ -32,4 +48,4 @@
         margin: 0 auto;
     }
 
-} 
+}  */

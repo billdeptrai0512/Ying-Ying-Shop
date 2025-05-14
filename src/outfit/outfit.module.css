@@ -1,15 +1,12 @@
-section {
-    margin: 0 auto;
-}
-
-img {
-    max-width: 100%;
+.main {
+    padding: 0 0.5em;
 }
 
 .board {
     text-align: center;
     background-color: #F0E4E2;
-    margin: 2em;
+    margin: 0 auto;
+    max-width: 425px;
     font-size: 0.65rem;
     border-top-right-radius: 50%;
     border-top-left-radius: 50%;
@@ -21,8 +18,11 @@ img {
     align-items: center;
     position: relative;
     width: 100%;
-    min-width: 300px;
     aspect-ratio: 1 / 1
+}
+
+.example {
+    font-size: 1.25em;
 }
 
 .demo img {
@@ -31,11 +31,12 @@ img {
 }
 
 .primary {
-    max-width: 400px;
-    max-height: 45vh;
+    max-width: 425px;
+    padding: 1em;
+    flex: 1 1 auto;
     overflow: hidden;
     overflow-y: scroll;
-    padding-left: 1.5em;
+    margin: 0 auto;
 }
 
 .primary > div {
@@ -43,19 +44,21 @@ img {
 }
 
 .checkout {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding-bottom: 1em;
     display: flex;
-    max-width: 85vw;
+    align-self: center;
+    padding: 1em;
+    width: 100%;
+    max-width: 425px;
     flex-direction: column;
 }
 
 .total {
     display: flex;
     justify-content: space-between;
+}
+
+.total h3 {
+    font-size: 1em;
 }
 
 .checkout button {
@@ -65,67 +68,71 @@ img {
     border: none;
 }
 
-@media (min-width: 400px) and (max-width: 899px) {
+@media (min-width: 600px) and (max-width: 1000px) {
+
+    .board, .primary, .checkout {
+        max-width: 500px;
+    }
+
+    .example {
+        font-size: 1.5em;
+    }
+
+    .total h3 {
+        font-size: 1.25em;
+    }
+
+} 
+
+
+@media (min-width: 1000px) and (max-width: 1400px) {
 
     .main {
-        max-width: 425px;
+        grid-row: 2/8;
+        align-self: center;
+    }
+
+    .board {
+        max-width: unset;
+        border-top-right-radius: 45%;
+        border-top-left-radius: 45%;
     }
 
     .demo {
-        font-size: 0.85rem;
+        aspect-ratio: 3 / 4;
     }
 
     .primary {
-        max-height: 33vh;
-        padding-left: .5em;
+        grid-row: 2/7;
+        grid-column: 2;
+        max-width: unset;
     }
 
     .checkout {
-        max-width: 400px;
-    }
-
-} 
-
-@media (min-width: 900px) and (max-width: 1200px) {
-
-    .main {
-        align-content: center;
-        width: 42vw;
-        height: 70vh;
-    }
-
-    .demo {
-        min-height: 40vh;
-    }
-    
-    .board {
-        margin: 1em;
-    }
-
-    .board div {
-        font-size: 1rem;
-    }
-
-    .primary {
-        align-content: center;
-        width: 35vw;
-        padding: 1em;
-        min-height: 70vh;
-    }
-    
-    .primary h3 {
-        font-size: 1rem;
-    }
-
-    .total {
-        font-size: 1.25rem;
+        grid-row: 6/8;
+        grid-column: 2;
+        max-width: unset;
     }
 
     .checkout button {
-        font-size: 1rem;
+        font-size: 1.1em;
+    }
+
+    .example {
+        font-size: 1.6em;
+    }
+
+    .total h3 {
+        font-size: 1.25em;
+    }
+
+    .total span {
+        font-size: 1.25em;
     }
 
 } 
+
+/*
 
 @media (min-width: 1200px) {
 
@@ -175,6 +182,6 @@ img {
         font-size: 1.25rem;
     }
 
-} 
+}  */
 
 

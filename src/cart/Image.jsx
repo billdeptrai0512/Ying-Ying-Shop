@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import styles from './cart.module.css';
-import { Play } from 'lucide-react'; // adjust import if needed
+import { SquareMinus  } from 'lucide-react'; // adjust import if needed
 
 export default function Image({ outfit, index, pickOutFit, removeOutFit, editOutFit }) {
     const scrollRef = useRef(null);
@@ -76,7 +76,7 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
 
             <div className={styles.row}>
                 <div className={styles.set}>
-                    <h4>SET {index + 1}</h4>
+                    <h3>SET {index + 1}</h3>
                     <button className={styles.remove} onClick={() => removeOutFit(outfit)}>XÓA</button>
                 </div>
 
@@ -92,7 +92,7 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
                                     className={styles.edit}
                                     onClick={() => editOutFit(outfit, object.item, object.section || index)}
                                 >
-                                    x
+                                    <SquareMinus size={14}/>
                                 </button>
                             </div>
                         ))}

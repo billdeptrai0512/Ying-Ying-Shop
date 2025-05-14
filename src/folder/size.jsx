@@ -8,7 +8,6 @@ export default function Size({section, selectedItem, isChoosen, itemSection, Upd
     const [isHovered, setIsHovered] = useState(false)
     const [position, setPosition] = useState({x: 0, y:0})
     const hoverTimeoutRef = useRef(null);
-
     
     const pickSize = (index) => {
         
@@ -65,10 +64,10 @@ export default function Size({section, selectedItem, isChoosen, itemSection, Upd
 
     if (!isOpen) return null
 
-    const buttonStyle = (isMissingSize) => {
+    const buttonStyle = (isMissingSize, sizeSelected, index) => {
         return {
-            border: isMissingSize ? "1px solid red" : "1px solid gray",
-            animation: isMissingSize ? "shake 0.3s infinite" : "none",
+            border: isMissingSize ? "1px solid red" : 
+            sizeSelected === index ? "1px solid #331D1C" : "none",
         }
     };
 
@@ -78,11 +77,10 @@ export default function Size({section, selectedItem, isChoosen, itemSection, Upd
             <div className={styles.options}>
                 {selectedItem.sizes.map((size, index) => (
                     <div key={index} className={styles.option}
-                        style={buttonStyle(isMissingSize, sizeSelected === index)}
+                        style={buttonStyle(isMissingSize, sizeSelected, index)}
                         onClick={() => pickSize(index)}
                         onMouseEnter={(e) => handleMouseEnter(e)}
                         onMouseLeave={() => handleMouseLeave()}>
-                            {sizeSelected === index ? (<img src={sizeCover} alt="selectedSize"></img>) : null}
                             <p>{size}</p>
                     </div>
                 ))}

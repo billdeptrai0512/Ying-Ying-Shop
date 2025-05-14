@@ -126,7 +126,6 @@ export default function Outfit() {
         return setResetTrigger(prev => !prev); 
     }
 
-
     return (
         <>
             <section className={styles.main}>

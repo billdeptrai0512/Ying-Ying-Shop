@@ -65,12 +65,12 @@ export default function Login() {
                 />
                 <button type="submit">Log In</button>
             </form>
-            <div>
+            {/* <div>
                 <p>
                     Don't have an account yet?{' '}
                     <a href="/sign-up">Sign up</a>
                 </p>
-            </div>
+            </div> */}
         </>
             
     );
