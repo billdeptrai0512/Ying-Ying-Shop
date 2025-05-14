@@ -15,7 +15,7 @@ export default function DeleteFile() {
 
         try {
 
-            await axios.delete(`http://localhost:3000/file/delete/?fileId=${fileId}`);
+            await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/file/delete/?fileId=${fileId}`);
 
             refreshFolders()
 

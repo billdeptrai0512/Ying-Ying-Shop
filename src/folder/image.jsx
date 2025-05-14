@@ -46,7 +46,7 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
                             transform: "translateX(-150%) rotate(180deg)"
             }} /> */}
 
-            <div className={styles.row} ref={scrollContainer}>
+            <div key={inventory.id} className={styles.row} ref={scrollContainer}>
                 
                 {inventory.map((item, index) => (
 

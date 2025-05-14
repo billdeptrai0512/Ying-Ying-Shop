@@ -41,7 +41,7 @@ export default function FileUpload() {
 
         try {
 
-            await axios.post(`http://localhost:3000/file/upload/${folderId}`, data, {
+            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/file/upload/${folderId}`, data, {
                 headers: {
                     'Content-Type' : 'multipart/form-data'
                 }

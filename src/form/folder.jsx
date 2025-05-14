@@ -21,7 +21,7 @@ export default function FolderCreate() {
 
         try {
 
-            await axios.post('http://localhost:3000/folder/create', {
+            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/folder/create`, {
                 name: folderData.name,
                 section: folderData.section
             });

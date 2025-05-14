@@ -1,4 +1,3 @@
-
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -16,6 +15,8 @@ import { FolderProvider } from './public/folderContext.jsx';
 import { CartProvider } from './public/cartContext.jsx';
 import { AuthProvider } from './public/authContext.jsx'
 import Outfit from './outfit/main.jsx';
+
+
 
 export default function App() {
 

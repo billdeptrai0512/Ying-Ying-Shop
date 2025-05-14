@@ -71,7 +71,7 @@ export default function SaveFile() {
 
         const fetchFile = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/file/${fileId}`);
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/file/${fileId}`);
                 const data = response.data[0];
 
                 setFormData({
