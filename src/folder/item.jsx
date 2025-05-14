@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import Information from "./information"
 import Image from "./image"
 import Size from "./size"
-import styles from "./Item.module.css"
+import styles from "./folder.module.css"
 
 export default function Item({folderId, inventory, 
                                 UpdateSize, UpdateOutFit, 

@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import styles from './Cart.module.css';
+import styles from './cart.module.css';
 import { Play } from 'lucide-react'; // adjust import if needed
 
 export default function Image({ outfit, index, pickOutFit, removeOutFit, editOutFit }) {

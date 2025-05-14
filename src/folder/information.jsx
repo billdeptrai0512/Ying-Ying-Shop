@@ -1,6 +1,6 @@
 import { useAuth } from "../public/authContext";
 import { Link } from "react-router-dom";
-import styles from "./Item.module.css"
+import styles from "./folder.module.css"
 import { CirclePlus } from 'lucide-react';
 
 export default function Information({folderId, name, selectedItem}) {

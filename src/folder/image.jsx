@@ -1,7 +1,7 @@
 import { useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import imageCover from "./../assets/tickweb.png"
-import styles from "./Item.module.css"
+import styles from "./folder.module.css"
 import { useAuth } from "../public/authContext"
 import { Settings } from 'lucide-react';
 import { Play } from "lucide-react"

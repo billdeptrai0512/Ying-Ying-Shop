@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 import sizeCover from "./../assets/tickweb.png"
-import styles from "./Item.module.css"
+import styles from "./folder.module.css"
 
 
 export default function Size({section, selectedItem, isChoosen, itemSection, UpdateSize, sizeSelected, setSizeSelected, missingSize, isMissingSize, setMissingSize}) {

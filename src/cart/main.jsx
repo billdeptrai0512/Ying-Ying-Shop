@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useCart } from "../public/cartContext"
-import styles from "./Cart.module.css"
+import styles from "./cart.module.css"
 import Demo from "./demo";
 import Outfit from "./outfit";
 import Total from "./total";

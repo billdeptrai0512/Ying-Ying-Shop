@@ -1,7 +1,5 @@
 import styles from "./cart.module.css"
 
-
-
 export default function Demo({cart, selectedOutFit}) {
 
     const getDemoImages = (cart, selectedOutFit) => {
