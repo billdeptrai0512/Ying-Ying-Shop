@@ -21,31 +21,25 @@
         align-self: center;
         justify-content: space-between;
         max-width: 960px;
+        min-width: 960px;
         gap: 5em;
     }
 
 } 
 
-/*
-@media (min-width: 1200px) {
+
+@media (min-width: 1400px) {
 
     .body {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr auto;
-        max-width: 85vw;
-        margin: 0 5em;
-        align-items: center;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: repeat(10, auto);
+        align-self: center;
+        justify-content: space-between;
+        max-width: 1240px;
+        min-width: 1240px;
+        gap: 5em;
     }
 
 } 
 
-
-@media (min-width: 1445px) {
-
-    .body {
-        min-width: 1500px;
-        margin: 0 auto;
-    }
-
-}  */

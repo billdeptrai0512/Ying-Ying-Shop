@@ -93,25 +93,28 @@ a {
 
 } 
 
-/*
 
-@media (min-width: 1200px) {
+@media (min-width: 1400px) {
 
     .header {
-        max-width: 80vw;
+        max-width: 1240px;
         padding: 0;
+    }
+
+    .banner h1 {
+        font-size: 4em;
+        letter-spacing: 3.12px;
+    }
+
+    .banner h2 {
+        font-size: 2em;
+        letter-spacing: 1px;
+    }
+
+    .path {
+        font-size: 1.5rem;
     }
 
 
 } 
-
-@media (min-width: 1450px) {
-
-    .header {
-        max-width: 1350px;
-        padding: 0;
-    }
-
-
-}  */
 

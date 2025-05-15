@@ -68,11 +68,6 @@
 }
 
 .scrollContainer {
-    /* display: flex;
-    gap: 0.5em;
-    overflow: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none; */
     display: grid;
     grid-auto-flow: column;
     grid-template-rows: auto;
@@ -82,10 +77,6 @@
     gap: 0.25em;
     padding-top: 0.25em;
 }
-
-/* .scrollContainer::-webkit-scrollbar {
-    display: none; 
-} */
 
 .item {
     position: relative;
@@ -135,26 +126,54 @@
     border: none;
 }
 
-/* @media (min-width: 400px) and (max-width: 899px) {
-
+ @media (min-width: 1000px) and (max-width: 1400px) {
+    
     .main {
-        max-width: 425px;
+        grid-row: 2/8;
+        align-self: center;
+        padding-bottom: 1em;
+    }
+
+    .board {
+        max-width: unset;
+        border-top-right-radius: 45%;
+        border-top-left-radius: 45%;
     }
 
     .demo {
-        font-size: 0.85rem;
+        aspect-ratio: 3 / 4;
     }
 
     .primary {
-        max-height: 33vh;
-        padding: 0 0.5em;
+        grid-row: 2/7;
+        grid-column: 2;
+        max-width: unset;
     }
 
     .checkout {
-        max-width: 400px;
+        grid-row: 6/8;
+        grid-column: 2;
+        max-width: unset;
     }
 
+    .checkout button {
+        font-size: 1.1em;
+    }
+
+    .example {
+        font-size: 1.6em;
+    }
+
+    .total h3 {
+        font-size: 1.25em;
+    }
+
+    .total span {
+        font-size: 1.25em;
+    }
 } 
+
+/*
 
 @media (min-width: 900px) and (max-width: 1200px) {
 
