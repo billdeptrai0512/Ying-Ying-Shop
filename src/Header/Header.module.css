@@ -97,8 +97,8 @@ a {
 @media (min-width: 1400px) {
 
     .header {
-        max-width: 1240px;
-        padding: 0;
+        max-width: 1500px;
+        padding: 2em;
     }
 
     .banner h1 {

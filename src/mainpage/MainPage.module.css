@@ -33,12 +33,12 @@
     .body {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
-        grid-template-rows: repeat(10, auto);
+        grid-template-rows: auto;
         align-self: center;
         justify-content: space-between;
-        max-width: 1240px;
-        min-width: 1240px;
-        gap: 5em;
+        max-width: 1460px;
+        min-width: 1460px;
+        gap: 2em;
     }
 
 } 

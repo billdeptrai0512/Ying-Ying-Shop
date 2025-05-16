@@ -3,6 +3,8 @@ import styles from "./outfit.module.css"
 import Demo from "./demo.jsx"
 import CheckOut from "./checkout.jsx"
 import Folder from "../folder/main.jsx"
+import { useMediaQuery } from "react-responsive";
+import { useFolder } from "../public/folderContext"
 
 export default function Outfit() {
 
@@ -23,7 +25,7 @@ export default function Outfit() {
         total: 0
     })
 
-    const UpdateOutFit = (item, section) => {
+    const updateOutFit = (item, section) => {
 
         setOutFit((preOutFit) => {
 
@@ -82,7 +84,7 @@ export default function Outfit() {
         })
     }
 
-    const UpdateSize = (category, size) => {
+    const updateSize = (category, size) => {
 
         setOutFit((preOutFit) => {
 
@@ -126,6 +128,52 @@ export default function Outfit() {
         return setResetTrigger(prev => !prev); 
     }
 
+    const { folder } = useFolder()
+    const isDesktop = useMediaQuery({ query: '(min-width: 1400px)'})
+
+    if (isDesktop) {
+
+        const leftFolder = folder.filter((inventory) => {
+            return inventory.section === 'top' || inventory.section === 'bottom' || inventory.section === 'sweater'
+        })
+  
+        const rightFolder = folder.filter((inventory) => {
+          return inventory.section === 'jacket' || inventory.section === 'extra'
+        })
+
+        return (
+            <>
+                <section className={styles.main}>
+                    <Demo outFit={outFit} styles={styles} />
+                </section>
+                <section className={styles.primary}>
+                    <Folder  
+                        folder={leftFolder}
+                        updateOutFit={updateOutFit} updateSize={updateSize} 
+                        missingSize={missingSize} setMissingSize={setMissingSize} 
+                        bottomSection={bottomSection} jacketSection={jacketSection}
+                        resetTrigger={resetTrigger} />
+                </section>
+                <section className={styles.checkout}>
+                    <Folder  
+                        folder={rightFolder}
+                        updateOutFit={updateOutFit} updateSize={updateSize} 
+                        missingSize={missingSize} setMissingSize={setMissingSize} 
+                        bottomSection={bottomSection} jacketSection={jacketSection}
+                        resetTrigger={resetTrigger} />
+                    <CheckOut 
+                        setMissingSize={setMissingSize}
+                        outFit={outFit}
+                        resetDefault={resetDefault}
+                        styles={styles}/>
+                </section> 
+            </>
+        )
+    } 
+
+    //move folder here
+    //seperate it based on media query > 1400px
+    //we simply have another folder inside section checkout.
     return (
         <>
             <section className={styles.main}>
@@ -133,7 +181,8 @@ export default function Outfit() {
             </section>
             <section className={styles.primary}>
                 <Folder  
-                    UpdateOutFit={UpdateOutFit} UpdateSize={UpdateSize} 
+                    folder={folder}
+                    updateOutFit={updateOutFit} updateSize={updateSize} 
                     missingSize={missingSize} setMissingSize={setMissingSize} 
                     bottomSection={bottomSection} jacketSection={jacketSection}
                     resetTrigger={resetTrigger} />

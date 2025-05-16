@@ -5,7 +5,7 @@ import Size from "./size"
 import styles from "./folder.module.css"
 
 export default function Item({folderId, inventory, 
-                                UpdateSize, UpdateOutFit, 
+                                updateSize, updateOutFit, 
                                 bottomSection, jacketSection,
                                 missingSize , setMissingSize, resetTrigger}) {
 
@@ -16,7 +16,7 @@ export default function Item({folderId, inventory,
 
         setSelectedItem(selectedItem === item ? null : item);
         
-        UpdateOutFit(item, section)
+        updateOutFit(item, section)
     }
 
     // these effect basically set all selected item to null.
@@ -66,7 +66,7 @@ export default function Item({folderId, inventory,
                         section={inventory.section}
                         selectedItem={selectedItem}
                         sizeSelected={sizeSelected}
-                        UpdateSize={UpdateSize}
+                        updateSize={updateSize}
                         setSizeSelected={setSizeSelected}
                         missingSize={missingSize}
                         isMissingSize={missingSize ? missingSize.includes(inventory.section) : false}
@@ -98,7 +98,7 @@ export default function Item({folderId, inventory,
                         section={inventory.section}
                         selectedItem={selectedItem}
                         sizeSelected={sizeSelected}
-                        UpdateSize={UpdateSize}
+                        updateSize={updateSize}
                         setSizeSelected={setSizeSelected}
                         missingSize={missingSize}
                         isMissingSize={missingSize ? missingSize.includes(inventory.section) : false}
@@ -159,7 +159,7 @@ export default function Item({folderId, inventory,
                     section={inventory.section}
                     selectedItem={selectedItem}
                     sizeSelected={sizeSelected}
-                    UpdateSize={UpdateSize}
+                    updateSize={updateSize}
                     setSizeSelected={setSizeSelected}
                     missingSize={missingSize}
                     isMissingSize={missingSize ? missingSize.includes(inventory.section) : false}

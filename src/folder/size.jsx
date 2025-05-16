@@ -3,7 +3,9 @@ import sizeCover from "./../assets/tickweb.png"
 import styles from "./folder.module.css"
 
 
-export default function Size({section, selectedItem, isChoosen, itemSection, UpdateSize, sizeSelected, setSizeSelected, missingSize, isMissingSize, setMissingSize}) {
+export default function Size({section, selectedItem, isChoosen, 
+    itemSection, updateSize, sizeSelected, setSizeSelected, 
+    missingSize, isMissingSize, setMissingSize}) {
 
     const [isHovered, setIsHovered] = useState(false)
     const [position, setPosition] = useState({x: 0, y:0})
@@ -28,7 +30,7 @@ export default function Size({section, selectedItem, isChoosen, itemSection, Upd
 
     useEffect(() => {
 
-        sizeSelected === null ? UpdateSize(section, null) : UpdateSize(section, selectedItem.sizes[sizeSelected])
+        sizeSelected === null ? updateSize(section, null) : updateSize(section, selectedItem.sizes[sizeSelected])
 
         if (isMissingSize) {
 
