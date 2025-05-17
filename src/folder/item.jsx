@@ -23,16 +23,24 @@ export default function Item({folderId, inventory,
 
     useEffect(() => {
 
-        if (inventory.section === "bottom" && bottomSection !== inventory.files[0].type) {
-            setSelectedItem(null);
+        if (inventory.files[0]) {
+
+            if (inventory.section === "bottom" && bottomSection !== inventory.files[0].type) {
+                setSelectedItem(null);
+            }
+
         }
 
     }, [bottomSection])
 
     useEffect(() => {
 
-        if (inventory.section === "jacket" && jacketSection !== inventory.files[0].type) {
-            setSelectedItem(null);
+        if (inventory.files[0]) {
+
+            if (inventory.section === "jacket" && jacketSection !== inventory.files[0].type) {
+                setSelectedItem(null);
+            }
+
         }
 
     }, [jacketSection])
