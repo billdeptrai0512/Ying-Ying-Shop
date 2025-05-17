@@ -129,6 +129,10 @@ section p {
         font-size: 0.75rem;
     }
 
+    .row svg:nth-child(n+1) {
+        transform: translateX(2450%)
+    }
+
     .container {
         display: grid;
         grid-auto-flow: column;
@@ -158,6 +162,10 @@ section p {
 
     .information > p {
         font-size: 0.75rem;
+    }
+
+    .row svg:nth-child(n+1) {
+        transform: translateX(2450%)
     }
 
     .container {

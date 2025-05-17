@@ -115,6 +115,7 @@
         min-width: 100%;
         padding: 0 1.25em;
         margin-bottom: 1rem;
+        overflow-y: hidden;
     }
 
     .checkout {
@@ -141,7 +142,6 @@
 
 } 
 
-
 @media (min-width: 1400px) {
 
     .main {
@@ -166,6 +166,7 @@
         grid-column: 2 ;
         min-width: 100%;
         align-self: center;
+        overflow-y: hidden;
     }
 
     .primary > div {
