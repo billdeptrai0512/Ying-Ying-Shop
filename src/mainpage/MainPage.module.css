@@ -22,7 +22,7 @@
         justify-content: space-between;
         max-width: 960px;
         min-width: 960px;
-        gap: 5em;
+        gap: 3em;
     }
 
 } 
@@ -36,8 +36,8 @@
         grid-template-rows: auto;
         align-self: center;
         justify-content: space-between;
-        max-width: 1460px;
-        min-width: 1460px;
+        max-width: 1400px;
+        min-width: 1400px;
         gap: 2em;
     }
 

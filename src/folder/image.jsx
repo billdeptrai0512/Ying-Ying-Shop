@@ -23,40 +23,77 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
 
     const scrollLeft = () => {
         if (scrollContainer.current) {
-            scrollContainer.current.scrollBy({ left: -168, behavior: "smooth" });
+            scrollContainer.current.scrollBy({ left: -200, behavior: "smooth" });
             setTimeout(updateScrollLimits, 300)
         }
     };
 
     const scrollRight = () => {
+
+        const { scrollWidth, clientWidth } = scrollContainer.current;
+        
         
         if (scrollContainer.current) {
-            scrollContainer.current.scrollBy({ left: 168, behavior: "smooth" });
+            console.log({ scrollWidth, clientWidth });
+            scrollContainer.current.scrollBy({ left: 200, behavior: "smooth" });
             setTimeout(updateScrollLimits, 300)
         }
     };
 
+    const customWidth = { 
+        width: inventory.length < 5 
+        ? `calc(${inventory.length}* 4.25rem + ${inventory.length - 1}* 0.75rem)` 
+        : `calc(5 * 4.25rem + 4* 0.75rem);`,
+    }
+
     return (
-        <div key={inventory.id} className={styles.row} ref={scrollContainer}>
-                
-            {inventory.map((item, index) => (
+        <div key={inventory.id} className={styles.row} >
 
-                <>
-                    <div key={index} onClick={() => pickItem(item, section)} style={{ position: "relative" , border: selectedItem === item ? '2px solid #331D1C' : 'none'}}> 
-                        {/* cover */}
+            {inventory.length < 6 ? null : (
+                <Play color="#331D1C" onClick={scrollLeft} 
+                style={{ 
+                     display: atStart === true ? 'none' : 'block',
+                     position: "absolute", 
+                     alignSelf: "center",
+                     width: "1em",
+                     transform: "translateX(-130%) rotate(180deg)"
+                    }}
+                />
+            )}
 
-                        {selectedItem === item ? <img src={imageCover} alt="selectedItem" style={{ position: "absolute", bottom: "0", right: "0" }}></img> : null}
-                        {/* image */}
+            <div className={styles.container} ref={scrollContainer} style={customWidth}>
 
-                        {user ? <Link to={`/file/${item.id}`}>
-                            <Settings size={18}/>
-                        </Link> : null}
+                {inventory.map((item, index) => (
 
-                        <img src={item.image} alt={name} style={{display: 'block'}}></img>
-                    </div>
-                </>
-            
-            ))}
+                    <>
+                        <div key={index} onClick={() => pickItem(item, section)} style={{ position: "relative" , border: selectedItem === item ? '2px solid #331D1C' : 'none'}}> 
+                            {/* cover */}
+
+                            {selectedItem === item ? <img src={imageCover} alt="selectedItem" style={{ position: "absolute", bottom: "0", right: "0" }}></img> : null}
+                            {/* image */}
+
+                            {user ? <Link to={`/file/${item.id}`}>
+                                <Settings size={18} style={{position:"absolute"}}/>
+                            </Link> : null}
+
+                            <img src={item.image} alt={name} style={{display: 'block'}}></img>
+                        </div>
+                    </>
+
+                ))}
+
+            </div>
+
+            {inventory.length < 6 ? null : (
+                <Play color="#331D1C" onClick={scrollRight} 
+                style={{ 
+                    display: atEnd === true ? 'none' : 'block',
+                    position: "absolute",
+                    width: "1em",
+                    alignSelf: "center",
+                }} />
+            )}
+                         
         </div>
 
         // <div className={styles.image}>

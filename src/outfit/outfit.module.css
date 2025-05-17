@@ -31,8 +31,8 @@
 }
 
 .primary {
-    max-width: 425px;
-    padding: 1em;
+    /* max-width: 425px; */
+    padding: 1.25em;
     flex: 1 1 auto;
     overflow: hidden;
     overflow-y: scroll;
@@ -41,6 +41,10 @@
 
 .primary > div {
     padding-bottom: 1em;
+}
+
+.primary > div:nth-of-type(7) > div:nth-of-type(2) {
+    margin-bottom: 0.5em;
 }
 
 .checkout {
@@ -70,8 +74,11 @@
 
 @media (min-width: 600px) and (max-width: 1000px) {
 
-    .board, .primary, .checkout {
-        max-width: 500px;
+    .primary {
+        max-width: unset;
+        margin: unset;
+        align-self: center;
+        padding: 1.25em;
     }
 
     .example {
@@ -83,7 +90,6 @@
     }
 
 } 
-
 
 @media (min-width: 1000px) and (max-width: 1400px) {
 
@@ -106,7 +112,9 @@
     .primary {
         grid-row: 2/7;
         grid-column: 2;
-        max-width: unset;
+        min-width: 100%;
+        padding: 0 1.25em;
+        margin-bottom: 1rem;
     }
 
     .checkout {
@@ -153,8 +161,10 @@
     }
 
     .primary {
+        margin-left: 2em;
+        padding: 1.25em;
         grid-column: 2 ;
-        max-width: unset;
+        min-width: 100%;
         align-self: center;
     }
 
@@ -166,8 +176,7 @@
 
     .checkout {
         grid-column: 3;
-        max-width: unset;
-        position: relative;
+        min-width: 100%;
     }
 
     .checkout > div {

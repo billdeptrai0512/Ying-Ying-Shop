@@ -112,7 +112,6 @@ export default function Item({folderId, inventory,
         //filter section inside inventory.files for bag + bow
         const bowInventory = inventory.files.filter(item => item.type === "bow")
         const bagInventory = inventory.files.filter(item => item.type === "bag")
-
         return (
             <div className={styles.item}>
                     <Information 
@@ -127,6 +126,7 @@ export default function Item({folderId, inventory,
                         section={inventory.section}
                         pickItem={pickItem}
                         selectedItem={selectedItem}
+
                     />
                     <Image 
                         name={inventory.name}
