@@ -73,7 +73,7 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
                             {/* image */}
 
                             {user ? <Link to={`/file/${item.id}`}>
-                                <Settings size={18} style={{position:"absolute"}}/>
+                                <Settings size={18} style={{position:"absolute", transform:"unset"}}/>
                             </Link> : null}
 
                             <img src={item.image} alt={name} style={{display: 'block'}}></img>

@@ -72,7 +72,35 @@
     border: none;
 }
 
+@media (min-width: 330px) and (max-width: 600px) {
+
+    .board {
+        max-width: 350px;
+    }
+
+    .primary {
+        max-width: 350px;
+    }
+
+    .checkout {
+        max-width: 350px;
+    }
+
+    .example {
+        font-size: 1em;
+    }
+
+    .total h3 {
+        font-size: 1em;
+    }
+
+} 
+
 @media (min-width: 600px) and (max-width: 1000px) {
+
+    .board {
+        max-width: 400px;
+    }
 
     .primary {
         max-width: unset;
