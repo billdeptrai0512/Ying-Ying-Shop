@@ -25,12 +25,12 @@ export default function Cart() {
                     removeOutFit={removeOutFit}
                     editOutFit={editOutFit}/>
             </section>
-            <section className={styles.checkout}>
+            {/* <section className={styles.checkout}>
                 <Total 
                     cart={cart}
                     selectedOutFit={selectedOutFit} 
                 />
-            </section>
+            </section> */}
         </>
     );
 }

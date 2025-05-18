@@ -36,7 +36,7 @@
 }
 
 .primary > div {
-    padding-bottom: 1em;
+    padding-bottom: 1.5em;
 }
 
 .row {
@@ -51,13 +51,19 @@
     border-bottom: 2px solid #696868;
 }
 
+.set > h3 {
+    font-weight: 700;
+    color: #444444;
+}
+
 .set button {
     position: relative;
     border: none;
+    background-color: #F5F5F5;
     color: #868686;
     cursor: pointer;
     font-weight: 500;
-    font-size: 0.6em;
+    font-size: 0.65em;
 }
 
 /* ---- */
@@ -65,24 +71,25 @@
 .outfit {
     width: 100%;
     background-color: #f6f4f0;
+    display: flex;
+    align-items: center;
 }
 
-.scrollContainer {
+.container {
     display: grid;
     grid-auto-flow: column;
-    grid-template-rows: auto;
-    grid-auto-columns: auto;
+    grid-auto-columns: 4.75rem;
     overflow-x: hidden;
-    grid-template-columns: repeat(6, minmax(3rem, 7rem));
-    gap: 0.25em;
-    padding-top: 0.25em;
+    gap: 0.35rem;
+    padding-top: 0.55rem;
+    width: calc(5 * 4.75rem + 4 * 0.35rem);
 }
 
 .item {
     position: relative;
 }
 
-.scrollContainer img {
+.container img {
     border: 1px solid #696868;
     background-color: #FFFFFF;
 }
@@ -222,63 +229,104 @@
     }
 
 } 
+*/
 
-@media (min-width: 1200px) {
-
-    .body {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr auto;
-        max-width: 85vw;
-        height: 80%;
-        margin: 0 5em;
-        align-items: center;
-    }
-
-    .section {
-        max-width: 100vw;
-    }
+@media (min-width: 1400px) {
 
     .main {
-        width: 90%;
-        grid-column: 1; 
-        grid-row: 1 / 3; 
+        grid-column: 1;
+        align-self: center;
+        padding-bottom: 1em;
+    }
+
+    .board {
+        max-width: unset;
+        border-top-right-radius: 45%;
+        border-top-left-radius: 45%;
     }
 
     .demo {
-        min-height: 50vh;
-    }
-
-    .board div {
-        font-size: 1rem;
+        aspect-ratio: 3 / 4;
     }
 
     .primary {
-        padding: 1.5em;
+        margin-top: 2em;
+        padding: 1.25em;
+        grid-column: 2 ;
         min-width: 100%;
-        min-height: 64vh;
-        grid-column: 2;
-        grid-row: 1;
-    }
-    
-    .primary h3 {
-        font-size: 1.25rem;
+        overflow-y: hidden;
     }
 
-    .total {
-        font-size: 1.25rem;
+    .set > h3 {
+        font-size: 1.1em;
     }
 
     .checkout {
-        position: relative;
-        grid-column: 2; 
-        grid-row: 2;
+        margin-top: 2em;
+        grid-column: 3;
+        min-width: 100%;
+        height: 100%;
+    }
+
+    .checkout > form {
+        background-color: #F0E4E2;
+    }
+
+    .details {
+        display: flex;
+        flex-direction: column;
+        padding: 2em 1em;
+        gap: 2em;
+    }
+
+    .date {
+        display: flex;
+        gap: 2em;
+    }
+
+    .date > input {
+        width: 33%;
+        text-align: center; 
+        padding: 5px 0;
+    }
+
+    .name, .phone, .email, .address {
         width: 100%;
-        padding: 1em;
+        padding: 5px;
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+    }
+    
+    .submit {
+        padding: 0 1em 1em;
+    }
+
+    .checkout .total {
+        border-top: 1px solid #000000;
+        padding-top: 2em;
+        margin-bottom: 1em
     }
 
     .checkout button {
-        font-size: 1.25rem;
+        width: 100%;
+        text-align: center;
+        font-size: 0.8em;
+        background-color: #331D1C;
     }
 
-}  */
+    .example {
+        font-size: 1.6em;
+    }
+
+    .total h3 {
+        font-size: 1.25em;
+    }
+
+    .total span {
+        font-size: 1.25em;
+    }
+
+}  

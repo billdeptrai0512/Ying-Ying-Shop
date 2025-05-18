@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import styles from './cart.module.css';
-import { SquareMinus  } from 'lucide-react'; // adjust import if needed
+import { SquareMinus, Play  } from 'lucide-react'; // adjust import if needed
 
 export default function Image({ outfit, index, pickOutFit, removeOutFit, editOutFit }) {
     const scrollRef = useRef(null);
@@ -61,18 +61,8 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
     };
 
     return (
-        // <div className={styles.wrapper}>
-        //     {canScroll && (
-        //         <Play
-        //             color="#626262"
-        //             onClick={scrollLeft}
-        //             style={{
-        //                 display: atStart ? 'none' : 'block',
-        //                 position: 'absolute',
-        //                 transform: 'translateX(-2em) translateY(0.5em) rotate(180deg)'
-        //             }}
-        //         />
-        //     )}
+
+            
 
             <div className={styles.row}>
                 <div className={styles.set}>
@@ -81,36 +71,50 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
                 </div>
 
                 <div className={styles.outfit} onClick={() => pickOutFit(index)}>
-                    <div className={styles.scrollContainer} ref={scrollRef}>
+
+       
+                    <Play
+                        color="#626262"
+                        onClick={scrollLeft}
+                        style={{
+                            display: atStart ? 'none' : 'block',
+                            position: 'absolute',
+                            width: "1em",
+                            transform: 'translateX(-1.25em) rotate(180deg)'
+                        }}
+                    />
+
+                    <div className={styles.container} ref={scrollRef}>
                         {getImages(outfit).map((object, index) => (
                             <div key={`${outfit.id}-${index}`} className={styles.item}>
                                 <img
                                     src={object.item.image}
-                                    alt={`item-${index}`}
-                                />
+                                    alt={`item-${index}`}/>
                                 <button
                                     className={styles.edit}
-                                    onClick={() => editOutFit(outfit, object.item, object.section || index)}
-                                >
+                                    onClick={() => editOutFit(outfit, object.item, object.section || index)}>
                                     <SquareMinus size={14}/>
                                 </button>
                             </div>
                         ))}
                     </div>
+
+
+                    <Play
+                        color="#626262"
+                        onClick={scrollRight}
+                        style={{
+                            display: atEnd ? 'none' : 'block',
+                            position: 'absolute',
+                            width: "1em",
+                            transform: 'translateX(25.5em) '
+                        }}
+                    />
+
+
                 </div>
             </div>
 
-        //     {/* {canScroll && (
-        //         <Play
-        //             color="#626262"
-        //             onClick={scrollRight}
-        //             style={{
-        //                 display: atEnd ? 'none' : 'block',
-        //                 position: 'absolute',
-        //                 transform: 'translateX(30.5em) translateY(0.5em)'
-        //             }}
-        //         />
-        //     )} */}
-        // </div>
+            
     );
 }

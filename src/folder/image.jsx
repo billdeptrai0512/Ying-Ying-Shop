@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { useAuth } from "../public/authContext"
 import { Settings } from 'lucide-react';
@@ -32,13 +32,36 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
 
         const { scrollWidth, clientWidth } = scrollContainer.current;
         
-        
         if (scrollContainer.current) {
             console.log({ scrollWidth, clientWidth });
             scrollContainer.current.scrollBy({ left: 200, behavior: "smooth" });
             setTimeout(updateScrollLimits, 300)
         }
     };
+
+    useEffect(() => {
+
+        if (!scrollContainer.current) return
+
+        const scrollEl = scrollContainer.current
+        
+        const handleScroll = () => {
+
+            const { scrollLeft, scrollWidth, clientWidth } = scrollEl;
+
+            setAtStart(scrollLeft <= 0);
+            setAtEnd(scrollLeft + clientWidth >= scrollWidth - 1); // small buffer for float rounding
+        }
+
+        scrollEl.addEventListener('scroll', handleScroll);
+
+        handleScroll();
+
+        return () => {
+            scrollEl.removeEventListener('scroll', handleScroll);
+        };
+
+    }, [])
 
     const customWidth = { 
         width: inventory.length < 5 
