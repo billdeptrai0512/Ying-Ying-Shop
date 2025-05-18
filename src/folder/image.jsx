@@ -5,6 +5,7 @@ import { Settings } from 'lucide-react';
 import { Play } from "lucide-react"
 import imageCover from "./../assets/tickweb.png"
 import styles from "./folder.module.css"
+import React from "react";
 
 export default function Image({name, inventory, section, selectedItem, pickItem}) {
 
@@ -29,15 +30,32 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
     };
 
     const scrollRight = () => {
-
-        const { scrollWidth, clientWidth } = scrollContainer.current;
         
         if (scrollContainer.current) {
-            console.log({ scrollWidth, clientWidth });
             scrollContainer.current.scrollBy({ left: 200, behavior: "smooth" });
             setTimeout(updateScrollLimits, 300)
         }
     };
+
+    useEffect(() => {
+        const el = scrollContainer.current;
+        if (!el) return;
+    
+        const handleWheel = (e) => {
+            if (Math.abs(e.deltaX) === 0 && Math.abs(e.deltaY) > 0) {
+                // Convert vertical scroll into horizontal
+                e.preventDefault();
+                el.scrollBy({ left: e.deltaY });
+            }
+        };
+    
+        el.addEventListener('wheel', handleWheel, { passive: false });
+    
+        return () => {
+            el.removeEventListener('wheel', handleWheel);
+        };
+
+    }, []);
 
     useEffect(() => {
 
@@ -66,7 +84,7 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
     const customWidth = { 
         width: inventory.length < 5 
         ? `calc(${inventory.length}* 4.25rem + ${inventory.length - 1}* 0.75rem)` 
-        : `calc(5 * 4.25rem + 4* 0.75rem);`,
+        : `calc(5 * 4.25rem + 4* 0.75rem)`,
     }
 
     return (
@@ -88,8 +106,8 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
 
                 {inventory.map((item, index) => (
 
-                    <>
-                        <div key={index} onClick={() => pickItem(item, section)} style={{ position: "relative" , border: selectedItem === item ? '2px solid #331D1C' : 'none'}}> 
+                    <React.Fragment key={index}>
+                        <div onClick={() => pickItem(item, section)} style={{ position: "relative" , border: selectedItem === item ? '2px solid #331D1C' : 'none'}}> 
                             {/* cover */}
 
                             {selectedItem === item ? <img src={imageCover} alt="selectedItem" style={{ position: "absolute", bottom: "0", right: "0" }}></img> : null}
@@ -101,7 +119,7 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
 
                             <img src={item.image} alt={name} style={{display: 'block'}}></img>
                         </div>
-                    </>
+                    </React.Fragment>
 
                 ))}
 
@@ -110,7 +128,7 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
             {inventory.length < 6 ? null : (
                 <Play color="#331D1C" onClick={scrollRight} 
                 style={{ 
-                    display: atEnd === true ? 'none' : 'block',
+                    display: atEnd === false ? 'block' : 'none',
                     position: "absolute",
                     width: "1em",
                     alignSelf: "center",
