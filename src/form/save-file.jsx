@@ -13,9 +13,9 @@ export default function SaveFile() {
     const [formData, setFormData] = useState({
         amount: '',
         total: '',
-        type: 'top',
+        type: '',
+        z_index: '',
         sizes: [],
-        z_index: '1',
     })
 
     const [image, setImage] = useState(null);
@@ -25,8 +25,8 @@ export default function SaveFile() {
         e.preventDefault();
 
         const data = new FormData();
-        data.append('image', image);
-        data.append('demo_image', demoImage);
+        if (image) data.append('image', image);
+        if (demoImage) data.append('demo_image', demoImage);
         data.append('amount', formData.amount);
         data.append('total', formData.total);
         data.append('type', formData.type);
@@ -40,7 +40,7 @@ export default function SaveFile() {
 
         try {
 
-            await axios.patch(`http://localhost:3000/file/edit/${fileId}`, data, {
+            await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/file/edit/${fileId}`, data, {
                 headers: {
                     'Content-Type' : 'multipart/form-data'
                 }
@@ -58,28 +58,40 @@ export default function SaveFile() {
     };
 
     const handleChange = (e) => {
+
         const { name, value, selectedOptions } = e.target;
+
         if (name === 'sizes[]') {
             const values = Array.from(selectedOptions).map(opt => opt.value);
             setFormData(prev => ({ ...prev, sizes: values }));
+        } else if (name === 'type') {
+            const type = value.split('-')[0]
+            const z_index = value.split('-')[1]
+            setFormData(prev => ({ ...prev, [name]: type }));
+            setFormData(prev => ({ ...prev, ['z_index']: z_index }));
         } else {
             setFormData(prev => ({ ...prev, [name]: value }));
         }
+
     };
 
     useEffect(() => {
 
         const fetchFile = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/file/${fileId}`);
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/file/${fileId}`, {
+                    headers: {
+                      'ngrok-skip-browser-warning': 'true'
+                    }
+                });
                 const data = response.data[0];
 
                 setFormData({
                     amount: data.amount || '',
                     total: data.total || '',
-                    type: data.type || 'top',
+                    type: data.type || '',
                     sizes: data.sizes || [],
-                    z_index: data.z_index?.toString() || '1',
+                    z_index: data.z_index?.toString() || '',
                 });
 
     
@@ -101,7 +113,7 @@ export default function SaveFile() {
             <input type="number" name="amount" value={formData.amount} onChange={handleChange} />
             <label htmlFor="image">Giá tiền</label>
             <input type="number" name="total" value={formData.total} onChange={handleChange} />
-            <select name="type" value={`${formData.type}-${formData.z_index}`} onChange={handleChange}>
+            <select name="type" value={formData.type+"-"+formData.z_index} onChange={handleChange}>
                 <option value="top-2">Áo sơ mi</option>
                 <option value="long-1">Quần dài</option>
                 <option value="short-3">Váy</option>

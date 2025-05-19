@@ -15,8 +15,8 @@ export default function FileUpload() {
         amount: '',
         total: '',
         type: '',
-        sizes: [],
         z_index: '',
+        sizes: [],
     })
 
     const [image, setImage] = useState(null);
@@ -63,6 +63,11 @@ export default function FileUpload() {
         if (name === 'sizes[]') {
             const values = Array.from(selectedOptions).map(opt => opt.value);
             setFormData(prev => ({ ...prev, sizes: values }));
+        } else if (name === 'type') {
+            const type = value.split('-')[0]
+            const z_index = value.split('-')[1]
+            setFormData(prev => ({ ...prev, [name]: type }));
+            setFormData(prev => ({ ...prev, ['z_index']: z_index }));
         } else {
             setFormData(prev => ({ ...prev, [name]: value }));
         }
@@ -78,7 +83,7 @@ export default function FileUpload() {
             <input type="number" name="amount" value={formData.amount} onChange={handleChange} />
             <label htmlFor="image">Giá tiền</label>
             <input type="number" name="total" value={formData.total} onChange={handleChange} />
-            <select name="type" value={formData.type} onChange={handleChange}>
+            <select name="type" value={formData.type+"-"+formData.z_index} onChange={handleChange}>
                 <option value="top-2">Áo sơ mi</option>
                 <option value="long-1">Quần dài</option>
                 <option value="short-3">Váy</option>
