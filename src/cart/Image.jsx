@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import styles from './cart.module.css';
 import { SquareMinus, Play  } from 'lucide-react'; // adjust import if needed
 
@@ -60,9 +60,52 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
         return images;
     };
 
-    return (
+    //i don't think cart need this feature
+    // useEffect(() => {
+    //     const el = scrollRef.current;
+    //     if (!el) return;
+    
+    //     const handleWheel = (e) => {
+    //         if (Math.abs(e.deltaX) === 0 && Math.abs(e.deltaY) > 0) {
+    //             // Convert vertical scroll into horizontal
+    //             e.preventDefault();
+    //             el.scrollBy({ left: e.deltaY });
+    //         }
+    //     };
+    
+    //     el.addEventListener('wheel', handleWheel, { passive: false });
+    
+    //     return () => {
+    //         el.removeEventListener('wheel', handleWheel);
+    //     };
 
-            
+    // }, []);
+
+    useEffect(() => {
+
+        const scrollEl = scrollRef.current
+
+        if (!scrollEl) return
+
+        const handleScroll = () => {
+
+            const { scrollLeft, scrollWidth, clientWidth } = scrollEl;
+
+            setAtStart(scrollLeft <= 0);
+            setAtEnd(scrollLeft + clientWidth >= scrollWidth - 1); // small buffer for float rounding
+        }
+
+        scrollEl.addEventListener('scroll', handleScroll);
+
+        handleScroll();
+
+        return () => {
+            scrollEl.removeEventListener('scroll', handleScroll);
+        };
+
+    }, [])
+
+    return (
 
             <div className={styles.row}>
                 <div className={styles.set}>
@@ -103,11 +146,11 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
                     <Play
                         color="#626262"
                         onClick={scrollRight}
+                        className={styles.scrollRight}
                         style={{
                             display: atEnd ? 'none' : 'block',
                             position: 'absolute',
                             width: "1em",
-                            transform: 'translateX(25.5em) '
                         }}
                     />
 
