@@ -5,6 +5,7 @@ const FolderContext = createContext()
 
 export const FolderProvider = ({ children }) => {
     const [folder, setFolder] = useState([])
+    const [loading, setLoading] = useState(true)
 
     const fetchData = async () => {
         try {
@@ -16,12 +17,16 @@ export const FolderProvider = ({ children }) => {
           setFolder(response.data);
         } catch (err) {
           console.error("fetch folder: " + err);
+        } finally {
+          setLoading(false)
         }
     };
 
     useEffect(() => {
         fetchData();
     }, []);
+
+    if (loading) return <p>loading....</p>
 
     return (
         <FolderContext.Provider value={{ folder, refreshFolders: fetchData }}>

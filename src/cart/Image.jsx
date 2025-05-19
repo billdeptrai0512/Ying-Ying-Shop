@@ -84,7 +84,7 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
                         }}
                     />
 
-                    <div className={styles.container} ref={scrollRef}>
+                    <div className={styles.cart_container} ref={scrollRef}>
                         {getImages(outfit).map((object, index) => (
                             <div key={`${outfit.id}-${index}`} className={styles.item}>
                                 <img

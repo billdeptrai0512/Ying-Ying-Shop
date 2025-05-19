@@ -10,10 +10,13 @@ import React from "react";
 export default function Image({name, inventory, section, selectedItem, pickItem}) {
 
     const { user } = useAuth()
-
     const scrollContainer = useRef(null)
+
     const [atStart, setAtStart] = useState(true);
     const [atEnd, setAtEnd] = useState(false);
+    const [imagesLoaded, setImagesLoaded] = useState(0)
+
+    const allImagesLoaded = imagesLoaded === inventory.length;
 
     const updateScrollLimits = () => {
         if (!scrollContainer.current) return;
@@ -59,10 +62,10 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
 
     useEffect(() => {
 
-        if (!scrollContainer.current) return
-
         const scrollEl = scrollContainer.current
-        
+
+        if (!scrollEl) return
+
         const handleScroll = () => {
 
             const { scrollLeft, scrollWidth, clientWidth } = scrollEl;
@@ -81,11 +84,13 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
 
     }, [])
 
-    const customWidth = { 
-        width: inventory.length < 5 
-        ? `calc(${inventory.length}* 4.25rem + ${inventory.length - 1}* 0.75rem)` 
-        : `calc(5 * 4.25rem + 4* 0.75rem)`,
-    }
+    useEffect(() => {
+
+        if (allImagesLoaded) {
+            updateScrollLimits();
+        }
+        
+    }, [allImagesLoaded])
 
     return (
         <div key={inventory.id} className={styles.row} >
@@ -102,7 +107,7 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
                 />
             )}
 
-            <div className={styles.container} ref={scrollContainer} style={customWidth}>
+            <div className={styles.container} ref={scrollContainer} >
 
                 {inventory.map((item, index) => (
 
@@ -117,7 +122,7 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
                                 <Settings size={18} style={{position:"absolute", transform:"unset"}}/>
                             </Link> : null}
 
-                            <img src={item.image} alt={name} style={{display: 'block'}}></img>
+                            <img src={item.image} alt={name} onLoad={() => setImagesLoaded(prev => prev + 1)} style={{display: 'block'}}></img>
                         </div>
                     </React.Fragment>
 

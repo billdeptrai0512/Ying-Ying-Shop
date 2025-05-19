@@ -108,7 +108,7 @@ export default function Total({cart, selectedOutFit}) {
     }, [cart, selectedOutFit]);
 
     // so the total and the count here is the count of all item in cart and so do total
-
+    // TODO : implement express validator for this form
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.details}>

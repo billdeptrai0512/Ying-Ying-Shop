@@ -75,7 +75,7 @@
     align-items: center;
 }
 
-.container {
+.cart_container {
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: 4.75rem;
@@ -89,7 +89,7 @@
     position: relative;
 }
 
-.container img {
+.cart_container img {
     border: 1px solid #696868;
     background-color: #FFFFFF;
 }
