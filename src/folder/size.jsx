@@ -7,7 +7,7 @@ export default function Size({section, selectedItem, isChoosen,
     missingSize, isMissingSize, setMissingSize}) {
 
     const [isHovered, setIsHovered] = useState(false)
-    const [position, setPosition] = useState({x: 0, y:0})
+    const [, setPosition] = useState({x: 0, y:0})
     const hoverTimeoutRef = useRef(null);
     
     const pickSize = (index) => {

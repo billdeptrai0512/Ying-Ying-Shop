@@ -7,10 +7,10 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
     const [atStart, setAtStart] = useState(true);
     const [atEnd, setAtEnd] = useState(false);
 
-    const entries = Object.entries(outfit)
-        .filter(([key, val]) => key !== "total" && val?.item);
+    // const entries = Object.entries(outfit)
+    //     .filter(([key, val]) => key !== "total" && val?.item);
 
-    const canScroll = entries.length > 5;
+    // const canScroll = entries.length > 5;
 
     const updateScrollLimits = () => {
         const el = scrollRef.current;

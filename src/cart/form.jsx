@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./cart.module.css"
-import axios from "axios";
+import { useMediaQuery } from "react-responsive";
+// import axios from "axios";
 import Total from "./total";
 
 export default function FormPlaceOrder({cart, selectedOutFit}) {
@@ -32,23 +33,23 @@ export default function FormPlaceOrder({cart, selectedOutFit}) {
             data.append('sizes[]', size);
         });
 
-        try {
+        // try {
 
-            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/file/upload/${folderId}`, data, {
-                headers: {
-                    'Content-Type' : 'multipart/form-data'
-                }
-            });
+        //     await axios.post(`${import.meta.env.VITE_BACKEND_URL}/file/upload/${folderId}`, data, {
+        //         headers: {
+        //             'Content-Type' : 'multipart/form-data'
+        //         }
+        //     });
 
-            refreshFolders()
+        //     refreshFolders()
 
-            navigate('/')
+        //     navigate('/')
 
-        } catch (err) {
+        // } catch (err) {
 
-            console.error('Upload failed', err);
+        //     console.error('Upload failed', err);
 
-        }
+        // }
     };
 
     const handleChange = (e) => {
@@ -63,6 +64,7 @@ export default function FormPlaceOrder({cart, selectedOutFit}) {
 
     // so the total and the count here is the count of all item in cart and so do total
     // TODO : implement express validator for this form
+    const isDesktop = useMediaQuery({ query: '(min-width: 1400px)'})
     
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
@@ -83,7 +85,7 @@ export default function FormPlaceOrder({cart, selectedOutFit}) {
             </div>
             <div className={styles.submit}>
                 <Total cart={cart} selectedOutFit={selectedOutFit}></Total>
-                <button className={styles.back} onClick={() => navigate('/cart')}>TRỞ VỀ</button> 
+                <button className={styles.back} onClick={() => navigate(isDesktop ? '/' : '/cart')}>TRỞ VỀ</button> 
                 <button className={styles.cta} type="submit">ĐẶT CỌC</button>
             </div>
             {/* <Link to="/" >Cancel </Link> */}
