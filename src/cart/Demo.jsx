@@ -1,4 +1,5 @@
 import styles from "./cart.module.css"
+import watermark from "./../assets/wtm.png"
 
 export default function Demo({cart, selectedOutFit}) {
 
@@ -53,6 +54,12 @@ export default function Demo({cart, selectedOutFit}) {
         <div className={styles.board}>
             <div className={styles.demo}>
                 {selectedCart}
+                <img 
+                    key="watermark"
+                    style={{zIndex: 7}} 
+                    src={watermark} 
+                    alt={"watermark"} 
+                />
             </div>
         </div>
     )

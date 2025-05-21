@@ -15,7 +15,8 @@ import { FolderProvider } from './public/folderContext.jsx';
 import { CartProvider } from './public/cartContext.jsx';
 import { AuthProvider } from './public/authContext.jsx'
 import Outfit from './outfit/main.jsx';
-
+import ConfirmOrder from './cart/confirmOrder.jsx';
+import PlaceOrder from './cart/placeOrder.jsx';
 
 
 export default function App() {
@@ -27,12 +28,22 @@ export default function App() {
       errorElement: <ErrorPage />,
       children: [
         {
-          path: "/",
+          path: "",
           element: <Outfit />,
         },
         {
           path: "cart",
           element: <Cart />,
+          children: [
+            {
+              path: "",
+              element: <ConfirmOrder />,
+            },
+            {
+              path: "placeorder",
+              element: <PlaceOrder />,
+            } 
+          ]
         },
         {
           path: "login",

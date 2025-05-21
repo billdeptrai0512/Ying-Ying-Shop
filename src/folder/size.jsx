@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react"
-import sizeCover from "./../assets/tickweb.png"
 import styles from "./folder.module.css"
 
 
@@ -86,7 +85,7 @@ export default function Size({section, selectedItem, isChoosen,
                             <p>{size}</p>
                     </div>
                 ))}
-                {isMissingSize ? <div className={styles.warning}> * chon size ban oi</div> : null}
+                {isMissingSize ? <div className={styles.warning}> *Bắt buộc chọn</div> : null}
             </div>
             
             {/* {isHovered && (

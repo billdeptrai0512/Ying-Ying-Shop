@@ -170,10 +170,7 @@ export default function Outfit() {
             </>
         )
     } 
-
-    //move folder here
-    //seperate it based on media query > 1400px
-    //we simply have another folder inside section checkout.
+    // Mobile view
     return (
         <>
             <section className={styles.main}>

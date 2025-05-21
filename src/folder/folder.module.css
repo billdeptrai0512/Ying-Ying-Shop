@@ -63,6 +63,10 @@ section p {
     width: 1.2em;
 }
 
+.warning {
+    color: #FF0404;
+}
+
 @media (min-width: 330px) and (max-width: 600px) {
 
     .row svg:nth-child(n+1) {

@@ -127,6 +127,58 @@
     width: 100%;
     max-width: 425px;
     flex-direction: column;
+    background-color: #F0E4E2;
+}
+
+.checkout .back {
+    width: 30%;
+    text-align: center;
+    color: #331D1C;
+    font-weight: 600;
+    font-size: 0.8em;
+    background-color: #E3C4C1;
+}
+
+.checkout .cta {
+    width: 70%;
+    text-align: center;
+    font-size: 0.8em;
+    background-color: #331D1C;
+}
+
+.checkout .next {
+    width: 100%;
+    text-align: center;
+    font-size: 0.8em;
+    background-color: #331D1C;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    padding: 2em 1em;
+    gap: 2em;
+}
+
+.date {
+    display: flex;
+    gap: 2em;
+}
+
+.date > input {
+    width: 33%;
+    text-align: center; 
+    padding: 5px 0;
+}
+
+.name, .phone, .email, .address {
+    width: 100%;
+    padding: 5px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
 }
 
 .total {
@@ -151,7 +203,7 @@
 
 @media (min-width: 375px) and (max-width: 600px) {
 
-    .board {
+    .board , .checkout {
         max-width: 350px;
     }
 
@@ -168,7 +220,7 @@
 
 @media (min-width: 600px) and (max-width: 1000px) {
 
-    .board {
+    .board , .checkout {
         max-width: 400px;
     }
 
@@ -178,6 +230,7 @@
         align-self: center;
         padding: 1.25em;
     }
+    
 
     .scrollRight {
         transform: translateX(calc(5 * 470%));
@@ -200,7 +253,7 @@
     .main {
         grid-row: 2/8;
         align-self: center;
-        padding-bottom: 1em;
+        padding-bottom: 2.3em;
     }
 
     .board {
@@ -237,13 +290,58 @@
     }
 
     .checkout {
-        grid-row: 6/8;
+        grid-row: 7/8;
         grid-column: 2;
         max-width: unset;
+        margin-bottom: 2.2em;
     }
 
-    .checkout button {
-        font-size: 1.1em;
+    .checkout > form {
+        background-color: #F0E4E2;
+    }
+
+    .details {
+        display: flex;
+        flex-direction: column; 
+        padding: 1em 1em;
+        margin-bottom: 1em;
+        gap: 2em;
+    }
+
+    .date {
+        display: flex;
+        gap: 2em;
+    }
+
+    .date > input {
+        width: 33%;
+        text-align: center; 
+        padding: 5px 0;
+    }
+
+    .name, .phone, .email, .address {
+        width: 100%;
+        padding: 5px;
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+    }
+    
+    .submit {
+        padding: 0 1em 1em;
+    }
+
+    .checkout .total {
+        /* border-top: 1px solid #000000; */
+        padding-top: 1em;
+        margin-bottom: 1em
+    }
+
+    .checkout > form > .submit > .total {
+        border-top: 1px solid #000000;
+        padding-top: 2em;
     }
 
     .example {
@@ -301,10 +399,9 @@
     }
 
     .checkout {
-        margin-top: 2em;
+        margin-top: 1em;
         grid-column: 3;
         min-width: 100%;
-        height: 100%;
     }
 
     .checkout > form {
@@ -347,13 +444,6 @@
         border-top: 1px solid #000000;
         padding-top: 2em;
         margin-bottom: 1em
-    }
-
-    .checkout button {
-        width: 100%;
-        text-align: center;
-        font-size: 0.8em;
-        background-color: #331D1C;
     }
 
     .example {
