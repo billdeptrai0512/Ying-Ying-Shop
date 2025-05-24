@@ -71,7 +71,6 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
 
     }, []);
     
-
     //scroll effect
     useEffect(() => {
 
@@ -105,21 +104,24 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
         
     }, [allImagesLoaded])
 
-    useEffect(() => {
-        const handleKeyDown = (e) => {
-            if (e.key === "ArrowLeft") {
-                scrollLeft();
-            } else if (e.key === "ArrowRight") {
-                scrollRight();
-            }
-        };
 
-        window.addEventListener("keydown", handleKeyDown);
+    //TODO this one have bug that it can't detect which section is selected when using arrow keys
+    // Also it's not really needed since we have the scroll buttons
+    // useEffect(() => {
+    //     const handleKeyDown = (e) => {
+    //         if (e.key === "ArrowLeft") {
+    //             scrollLeft();
+    //         } else if (e.key === "ArrowRight") {
+    //             scrollRight();
+    //         }
+    //     };
 
-        return () => {
-            window.removeEventListener("keydown", handleKeyDown);
-        };
-    },)
+    //     window.addEventListener("keydown", handleKeyDown);
+
+    //     return () => {
+    //         window.removeEventListener("keydown", handleKeyDown);
+    //     };
+    // },)
 
     return (
         <div key={inventory.id} className={styles.row} >

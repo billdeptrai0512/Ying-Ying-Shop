@@ -128,9 +128,9 @@ export default function Outfit() {
         return setResetTrigger(prev => !prev); 
     }
 
-    const { folder } = useFolder()
+    const { folder, loading } = useFolder()
     const isDesktop = useMediaQuery({ query: '(min-width: 1400px)'})
-
+    
     if (isDesktop) {
 
         const leftFolder = folder.filter((inventory) => {
@@ -149,6 +149,7 @@ export default function Outfit() {
                 <section className={styles.primary}>
                     <Folder  
                         folder={leftFolder}
+                        loading={loading}
                         updateOutFit={updateOutFit} updateSize={updateSize} 
                         missingSize={missingSize} setMissingSize={setMissingSize} 
                         bottomSection={bottomSection} jacketSection={jacketSection}
@@ -157,6 +158,7 @@ export default function Outfit() {
                 <section className={styles.checkout}>
                     <Folder  
                         folder={rightFolder}
+                        loading={loading}
                         updateOutFit={updateOutFit} updateSize={updateSize} 
                         missingSize={missingSize} setMissingSize={setMissingSize} 
                         bottomSection={bottomSection} jacketSection={jacketSection}
@@ -179,6 +181,7 @@ export default function Outfit() {
             <section className={styles.primary}>
                 <Folder  
                     folder={folder}
+                    loading={loading}
                     updateOutFit={updateOutFit} updateSize={updateSize} 
                     missingSize={missingSize} setMissingSize={setMissingSize} 
                     bottomSection={bottomSection} jacketSection={jacketSection}

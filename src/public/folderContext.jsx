@@ -26,10 +26,8 @@ export const FolderProvider = ({ children }) => {
         fetchData();
     }, []);
 
-    if (loading) return <p>loading....</p>
-
     return (
-        <FolderContext.Provider value={{ folder, refreshFolders: fetchData }}>
+        <FolderContext.Provider value={{ folder, loading, refreshFolders: fetchData }}>
           {children}
         </FolderContext.Provider>
     );

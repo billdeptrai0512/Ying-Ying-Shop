@@ -9,6 +9,7 @@ export default function Size({section, selectedItem, isChoosen,
     const [isHovered, setIsHovered] = useState(false)
     const [, setPosition] = useState({x: 0, y:0})
     const hoverTimeoutRef = useRef(null);
+    const sizeRefs = useRef([])
     
     const pickSize = (index) => {
         
@@ -42,6 +43,22 @@ export default function Size({section, selectedItem, isChoosen,
     }, [sizeSelected])
 
     useEffect(() => setSizeSelected(null), [selectedItem, setSizeSelected]);
+
+    useEffect(() => {
+        if (isMissingSize && sizeRefs.current.length > 0) {
+            // Find the first missing size and scroll to it
+            console.log('hello')
+            const missingIndex = selectedItem.sizes.findIndex(
+                () => missingSize.includes(section) && sizeSelected === null
+            );
+            if (missingIndex !== -1 && sizeRefs.current[missingIndex]) {
+                sizeRefs.current[missingIndex].scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                });
+            }
+        }
+    }, [isMissingSize, missingSize, section, selectedItem, sizeSelected]);
 
     const handleMouseEnter = (e) => {
 
@@ -81,7 +98,8 @@ export default function Size({section, selectedItem, isChoosen,
                         style={buttonStyle(isMissingSize, sizeSelected, index)}
                         onClick={() => pickSize(index)}
                         onMouseEnter={(e) => handleMouseEnter(e)}
-                        onMouseLeave={() => handleMouseLeave()}>
+                        onMouseLeave={() => handleMouseLeave()}
+                        ref={(el) => (sizeRefs.current[index] = el)}>
                             <p>{size}</p>
                     </div>
                 ))}
