@@ -17,7 +17,8 @@ import { AuthProvider } from './public/authContext.jsx'
 import Outfit from './outfit/main.jsx';
 import ConfirmOrder from './cart/confirmOrder.jsx';
 import PlaceOrder from './cart/placeOrder.jsx';
-
+import CheckOut from './cart/checkout.jsx';
+import { WebSocketProvider } from './public/webSocket.jsx';
 
 export default function App() {
 
@@ -42,11 +43,15 @@ export default function App() {
             {
               path: "placeorder",
               element: <PlaceOrder />,
-            } 
+            },
+            {
+              path: "checkout/:orderId",
+              element: <CheckOut />,
+            }
           ]
         },
         {
-          path: "login",
+          path: "admin",
           element: <Login />,
         },
         {
@@ -69,8 +74,10 @@ export default function App() {
     <FolderProvider>
       <AuthProvider>
         <CartProvider>
-          <RouterProvider router={router} />
-          <Analytics />
+          <WebSocketProvider>
+            <RouterProvider router={router} />
+            <Analytics />
+          </WebSocketProvider>
         </CartProvider>
       </AuthProvider>
     </FolderProvider>

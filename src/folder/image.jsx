@@ -27,19 +27,30 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
 
     const scrollLeft = () => {
         if (scrollContainer.current) {
-            scrollContainer.current.scrollBy({ left: -200, behavior: "smooth" });
-            setTimeout(updateScrollLimits, 300)
+            scrollContainer.current.scrollBy({ left: -72, behavior: "smooth" });
+            setTimeout(updateScrollLimits, 300);
+
+            const currentIndex = inventory.indexOf(selectedItem);
+            if (currentIndex > 0) {
+                pickItem(inventory[currentIndex - 1], section);
+            }
         }
     };
 
     const scrollRight = () => {
         
         if (scrollContainer.current) {
-            scrollContainer.current.scrollBy({ left: 200, behavior: "smooth" });
-            setTimeout(updateScrollLimits, 300)
+            scrollContainer.current.scrollBy({ left: 72, behavior: "smooth" });
+            setTimeout(updateScrollLimits, 300);
+
+            const currentIndex = inventory.indexOf(selectedItem);
+            if (currentIndex < inventory.length - 1) {
+                pickItem(inventory[currentIndex + 1], section);
+            }
         }
     };
 
+    //wheel effect
     useEffect(() => {
         const el = scrollContainer.current;
         if (!el) return;
@@ -59,7 +70,9 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
         };
 
     }, []);
+    
 
+    //scroll effect
     useEffect(() => {
 
         const scrollEl = scrollContainer.current
@@ -91,6 +104,22 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
         }
         
     }, [allImagesLoaded])
+
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key === "ArrowLeft") {
+                scrollLeft();
+            } else if (e.key === "ArrowRight") {
+                scrollRight();
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    },)
 
     return (
         <div key={inventory.id} className={styles.row} >

@@ -1,3 +1,8 @@
+.error {
+    font-size: 0.8em;
+    color: red;
+}
+
 .main {
     padding: 0 0.5em;
 }

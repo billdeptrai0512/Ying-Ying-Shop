@@ -7,7 +7,7 @@ import { useAuth } from "../public/authContext"
 export default function Header() {
 
     const { cart } = useCart()
-    const { user } = useAuth()
+    // const { user } = useAuth()
     
     const [numberOfCart, setNumberOfCart] = useState(0)
 
@@ -22,7 +22,7 @@ export default function Header() {
         <header className={styles.header}>
             <div className={styles.banner}>
                 <h1> 
-                    <Link to={`/`} >YING YING COSPLAY SHOP ❤️  </Link>
+                    <Link to={`/`} >YING YING COSPLAY SHOP ❤️ </Link>
                 </h1> 
                 <h2>Tự phối seifuku theo style của bạn!</h2>
             </div>
@@ -32,7 +32,7 @@ export default function Header() {
                         <span style={{ color: '#DC1E1E' }}> ( {numberOfCart} )</span>
                     } 
                 </Link>
-                {user ? (
+                {/* {user ? (
                     <>
                         <span style={{marginLeft: "1rem" , color: '#868686'}}>
                             {user.username.toUpperCase()}
@@ -42,7 +42,7 @@ export default function Header() {
                     
                 ) : (
                     <Link to="/login" >LOGIN </Link>
-                )}  
+                )}   */}
             </div>
 
         </header>
