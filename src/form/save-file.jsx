@@ -120,7 +120,8 @@ export default function SaveFile() {
                 <option value="sweater-4">Sweater</option>
                 <option value="gakuran-5">Gakuran</option>
                 <option value="blazer-5">Blazer</option>
-                <option value="bow-3">Bow</option>
+                <option value="bow-5">Bow</option>
+                <option value="bow-3">Tie</option>
                 <option value="bag-6">Bag</option>
             </select>
             <select name="sizes[]" multiple size="4" onChange={handleChange}>
