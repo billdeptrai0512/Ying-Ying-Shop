@@ -206,6 +206,12 @@ input[type=number]::-webkit-outer-spin-button {
     border: none;
 }
 
+.copyable {
+    font-size: 0.8em;
+    font-weight: 750;
+    margin-bottom: 0.5em;
+}
+
 @media (min-width: 375px) and (max-width: 600px) {
 
     .board , .checkout {

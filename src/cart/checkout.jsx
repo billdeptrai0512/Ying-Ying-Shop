@@ -1,17 +1,28 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useCart } from "../public/cartContext"
 import styles from "./cart.module.css";
 import { useMediaQuery } from "react-responsive";
 import axios from "axios";
-import Total from "./total";
+import Outfit from "./outfit";
 import { useWebSocket } from "../public/webSocket";
+import { Copy } from 'lucide-react';
 
-export default function CheckOut({ cart, selectedOutFit }) {
-    const navigate = useNavigate();
+export default function CheckOut() {
+    const { cart, removeOutFit, editOutFit } = useCart()
     const { orderId } = useParams();
-    const [order, setOrder] = useState({});
-    const isDesktop = useMediaQuery({ query: "(min-width: 1400px)" });
     const { socket } = useWebSocket();
+    const [order, setOrder] = useState({});
+    const [total, setTotal] = useState(order.total || 0);
+    const [, setSelectedOutFit] = useState(0)
+
+    const pickOutFit = (index) => setSelectedOutFit(index)
+    
+    const formatCurrency = (value) => {
+        if (!value) value = 0
+        const intValue = Math.floor(value);
+        return intValue.toString().replace(/\d{1,3}(?=(\d{3})+(?!\d))/g, "$&,") + "đ";
+    };
 
     useEffect(() => {
         async function fetchData() {
@@ -47,6 +58,9 @@ export default function CheckOut({ cart, selectedOutFit }) {
                         paid_status: data.paid_status,
                     }));
                 }
+
+                //TODO we also wanna check the cart that user paid for, and then update the order database with new cart / total
+
             } catch (error) {
                 console.error("Error parsing WebSocket message:", error.message);
             }
@@ -59,42 +73,85 @@ export default function CheckOut({ cart, selectedOutFit }) {
         };
     }, [socket, orderId]);
 
-    return (
-        <section className={styles.primary}>
-            <h2>#{order.id ? order.id : "Loading..."}</h2>
-            { order.paid_status === true ? (
-                <h3 className={styles.success}>Đã thanh toán thành công</h3>
-            ) : (
-                <h3 className={styles.error}>Chưa thanh toán</h3>
-            )}
-            <div>
-                <p onClick={() => navigator.clipboard.writeText("MB Bank")} className={styles.copyable}>
-                    MB Bank
-                </p>
-                <p onClick={() => navigator.clipboard.writeText("Account name : player2player")} className={styles.copyable}>
-                    Account name : player2player
-                </p>
-                <p onClick={() => navigator.clipboard.writeText(`Total: ${order.total}`)} className={styles.copyable}>
-                    Total: {order.total}đ
-                </p>
-                <p onClick={() => navigator.clipboard.writeText(`Description: YY${order.id}`)} className={styles.copyable}>
-                    Description: YY{order.id}
-                </p>
-            </div>
-            <img
-                src={`https://qr.sepay.vn/img?acc=player2player&bank=MB&amount=2000&des=YY${order.id}`}
-                alt="QR Code"
-            />
+    useEffect(() => {
+        if (cart) {
 
-            <div className={styles.submit}>
-                <Total cart={cart} selectedOutFit={selectedOutFit}></Total>
-                <button className={styles.back} onClick={() => navigate(isDesktop ? "/" : "/cart")}>
-                    TRỞ VỀ
-                </button>
-                <button className={styles.cta} type="submit">
-                    CHECKOUT
-                </button>
+            let totalSum = 0
+
+            cart.forEach(outfit => {
+
+                if (typeof outfit.total === 'number') {
+                    totalSum += outfit.total;
+                }
+            });
+
+            setTotal(totalSum);
+        }
+
+    }, [cart]);
+
+    return (
+        <>
+            <section className={styles.primary} style={{ gridColumn: "1", alignSelf: "unset" }}>
+                <Outfit 
+                    cart={cart} 
+                    pickOutFit={pickOutFit}
+                    removeOutFit={removeOutFit}
+                    editOutFit={editOutFit}/>
+            </section>
+            <section className={styles.checkout} style={{ gridRow: "2/8", alignSelf: "unset" }}>
+            <div>
+                <div  style={{ textAlign: "center" }}> 
+                    <img
+                        src={`https://qr.sepay.vn/img?acc=20495991&bank=ACB&amount=${total}&des=YS${order.id}&template=compact`}
+                        style={{ width: "70%" }}
+                        alt="QR Code"
+                    />
+                </div>
+
+                <div style={{ textAlign: "center", margin: "1rem", backgroundColor: "#E3C4C1" }}>
+                    <h3 style={{ color: "#FFFFFF", padding: "0.5em", fontSize: "1.1em"}}>{`Đơn hàng: ${order.id}`}</h3>
+                </div>
+
+                <div style={{display: "flex", flexDirection: "row", gap: "1rem" , justifyContent: "space-around"}}>
+                    <div>
+                        <p className={styles.copyable}>
+                            Ngân hàng : ACB
+                        </p>
+                        <div style={{display: "flex", gap: "0.5rem"}}>
+                            <p className={styles.copyable}>
+                                STK: 20495991
+                            </p>
+                            <Copy size={"12px"}/>
+                        </div>
+                        
+                        <p className={styles.copyable}>
+                            NGUYEN HOANG DIEU ANH
+                        </p>
+                    </div>
+
+                    <div style={{display: "flex", flexDirection: "column"}}>
+                        
+                        <div style={{display: "flex", gap: "0.5rem"}}>
+                            <p className={styles.copyable}>
+                                Total: {formatCurrency(total)}
+                            </p>
+                            <Copy size={"12px"}/>
+                        </div>
+
+                        <div style={{display: "flex", gap: "0.5rem"}}>
+                            <p className={styles.copyable}>
+                                Nội dung: YY{order.id}
+                            </p>
+                            <Copy size={"12px"}/>
+                        </div>
+                        
+                    </div>
+
+                </div>
             </div>
-        </section>
+            </section>
+        </>
+
     );
 }

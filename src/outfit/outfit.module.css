@@ -55,7 +55,7 @@
 .checkout {
     display: flex;
     align-self: center;
-    padding: 1em;
+    padding: 0.8em;
     width: 100%;
     max-width: 425px;
     flex-direction: column;

@@ -1,22 +1,10 @@
 import styles from "./header.module.css"
-import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import Logout from "../form/logout"
-import { useCart } from "../public/cartContext"
 import { useAuth } from "../public/authContext"
 export default function Header() {
 
-    const { cart } = useCart()
-    // const { user } = useAuth()
-    
-    const [numberOfCart, setNumberOfCart] = useState(0)
-
-    useEffect(() => {
-
-        setNumberOfCart(cart.length)
-
-    }, [cart])
-
+    const { user } = useAuth()
 
     return (
         <header className={styles.header}>
@@ -27,24 +15,30 @@ export default function Header() {
                 <h2>Tự phối seifuku theo style của bạn!</h2>
             </div>
             <div className={styles.path}>
-                <Link  to={`/cart`}>CART {
-                        cart.length === 0 ? null :
-                        <span style={{ color: '#DC1E1E' }}> ( {numberOfCart} )</span>
-                    } 
-                </Link>
-                {/* {user ? (
+
+                <a href="https://www.facebook.com/yingyingcosshop" target="_blank" rel="noopener noreferrer" >
+                    FANPAGE 
+                </a>
+                <a href="https://www.tiktok.com/@ying_ying_cosplayshop" target="_blank" rel="noopener noreferrer" >
+                    TIKTOK 
+                </a>
+                {user ? (
                     <>
                         <span style={{marginLeft: "1rem" , color: '#868686'}}>
                             {user.username.toUpperCase()}
                         </span>
                         <Logout/>
                     </>
-                    
                 ) : (
-                    <Link to="/login" >LOGIN </Link>
-                )}   */}
+                    null
+                )}
+                
             </div>
 
         </header>
     )
 }
+
+// : (
+//     <Link to="/login" >LOGIN </Link>
+// )}  
