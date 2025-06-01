@@ -1,28 +1,25 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useCart } from "../public/cartContext"
-import styles from "./cart.module.css";
 import { useMediaQuery } from "react-responsive";
+import styles from "./cart.module.css";
 import axios from "axios";
-import Outfit from "./outfit";
 import { useWebSocket } from "../public/webSocket";
-import { Copy } from 'lucide-react';
+
+import Outfit from "./outfit";
+import Demo from "./demo";
+import Bill from "./bill";
 
 export default function CheckOut() {
     const { cart, removeOutFit, editOutFit } = useCart()
     const { orderId } = useParams();
     const { socket } = useWebSocket();
+
     const [order, setOrder] = useState({});
     const [total, setTotal] = useState(order.total || 0);
-    const [, setSelectedOutFit] = useState(0)
+    const [selectedOutFit, setSelectedOutFit] = useState(0)
 
     const pickOutFit = (index) => setSelectedOutFit(index)
-    
-    const formatCurrency = (value) => {
-        if (!value) value = 0
-        const intValue = Math.floor(value);
-        return intValue.toString().replace(/\d{1,3}(?=(\d{3})+(?!\d))/g, "$&,") + "đ";
-    };
 
     useEffect(() => {
         async function fetchData() {
@@ -43,6 +40,23 @@ export default function CheckOut() {
 
         fetchData();
     }, [orderId]);
+
+    useEffect(() => {
+        if (cart) {
+
+            let totalSum = 0
+
+            cart.forEach(outfit => {
+
+                if (typeof outfit.total === 'number') {
+                    totalSum += outfit.total;
+                }
+            });
+
+            setTotal(totalSum);
+        }
+
+    }, [cart]);
 
     useEffect(() => {
         if (!socket) return;
@@ -73,85 +87,42 @@ export default function CheckOut() {
         };
     }, [socket, orderId]);
 
-    useEffect(() => {
-        if (cart) {
+    const isDeskop = useMediaQuery({ query: '(min-width: 1400px)'})
 
-            let totalSum = 0
+    if (isDeskop) {
 
-            cart.forEach(outfit => {
+        return (
+            <>
+                <section className={styles.main}>
+                    <Demo cart={cart} selectedOutFit={selectedOutFit} />
+                </section>
+                <section className={styles.primary}>
+                    <Outfit 
+                        cart={cart} 
+                        pickOutFit={pickOutFit}
+                        removeOutFit={removeOutFit}
+                        editOutFit={editOutFit}/>
+                </section>
+                <section className={styles.checkout}>
+                    <Bill total={total} order={order} />
+                </section>
+            </>
+        );
 
-                if (typeof outfit.total === 'number') {
-                    totalSum += outfit.total;
-                }
-            });
-
-            setTotal(totalSum);
-        }
-
-    }, [cart]);
+    }
 
     return (
         <>
-            <section className={styles.primary} style={{ gridColumn: "1", alignSelf: "unset" }}>
+            <section className={styles.primary} style={{ gridColumn: "1"}}>
                 <Outfit 
                     cart={cart} 
                     pickOutFit={pickOutFit}
                     removeOutFit={removeOutFit}
                     editOutFit={editOutFit}/>
             </section>
-            <section className={styles.checkout} style={{ gridRow: "2/8", alignSelf: "unset" }}>
-            <div>
-                <div  style={{ textAlign: "center" }}> 
-                    <img
-                        src={`https://qr.sepay.vn/img?acc=20495991&bank=ACB&amount=${total}&des=YS${order.id}&template=compact`}
-                        style={{ width: "70%" }}
-                        alt="QR Code"
-                    />
-                </div>
-
-                <div style={{ textAlign: "center", margin: "1rem", backgroundColor: "#E3C4C1" }}>
-                    <h3 style={{ color: "#FFFFFF", padding: "0.5em", fontSize: "1.1em"}}>{`Đơn hàng: ${order.id}`}</h3>
-                </div>
-
-                <div style={{display: "flex", flexDirection: "row", gap: "1rem" , justifyContent: "space-around"}}>
-                    <div>
-                        <p className={styles.copyable}>
-                            Ngân hàng : ACB
-                        </p>
-                        <div style={{display: "flex", gap: "0.5rem"}}>
-                            <p className={styles.copyable}>
-                                STK: 20495991
-                            </p>
-                            <Copy size={"12px"}/>
-                        </div>
-                        
-                        <p className={styles.copyable}>
-                            NGUYEN HOANG DIEU ANH
-                        </p>
-                    </div>
-
-                    <div style={{display: "flex", flexDirection: "column"}}>
-                        
-                        <div style={{display: "flex", gap: "0.5rem"}}>
-                            <p className={styles.copyable}>
-                                Total: {formatCurrency(total)}
-                            </p>
-                            <Copy size={"12px"}/>
-                        </div>
-
-                        <div style={{display: "flex", gap: "0.5rem"}}>
-                            <p className={styles.copyable}>
-                                Nội dung: YY{order.id}
-                            </p>
-                            <Copy size={"12px"}/>
-                        </div>
-                        
-                    </div>
-
-                </div>
-            </div>
+            <section className={styles.checkout} style={{ gridRow: "2/8"}}>
+                <Bill total={total} order={order} />
             </section>
         </>
-
     );
 }

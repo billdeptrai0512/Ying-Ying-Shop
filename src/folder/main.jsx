@@ -2,7 +2,7 @@ import Item from "./item";
 import { useAuth } from "../public/authContext"
 import { Link } from "react-router-dom"
 
-export default function Folder({ folder, loading,
+export default function Folder({ folder,
                                 updateOutFit, updateSize,
                                 missingSize, setMissingSize, 
                                 bottomSection, jacketSection,
@@ -14,7 +14,7 @@ export default function Folder({ folder, loading,
       <>
         {user ? <Link to={`/folder`}>Add new folder</Link> : null}
         {folder.map((inventory, index) => (
-          <Item key={index} folderId={inventory.id} loading={loading} inventory={inventory} 
+          <Item key={index} folderId={inventory.id} inventory={inventory} 
           updateOutFit={updateOutFit} updateSize={updateSize} 
           missingSize={missingSize} setMissingSize={setMissingSize} 
           bottomSection={bottomSection} jacketSection={jacketSection}

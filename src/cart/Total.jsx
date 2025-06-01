@@ -35,13 +35,13 @@ export default function Total({cart, selectedOutFit}) {
         };
       
         cart.forEach(outfit => {
-          Object.values(outfit).forEach(section => {
-              countItems(section);
-          });
-  
-          if (typeof outfit.total === 'number') {
-              totalSum += outfit.total;
-          }
+            Object.values(outfit).forEach(section => {
+                countItems(section);
+            });
+    
+            if (typeof outfit.total === 'number') {
+                totalSum += outfit.total;
+            }
       });
       
         return { itemCount, totalSum };

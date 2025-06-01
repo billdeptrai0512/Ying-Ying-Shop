@@ -132,7 +132,6 @@ export default function FormPlaceOrder({cart, selectedOutFit}) {
         <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.details}>
                 <div>
-
                     <label htmlFor="date">Ngày thuê:</label>
                     <div className={styles.date}>
                         <input type="number" name="date" placeholder="Ngày" value={formData.date} onChange={handleChange} />
@@ -165,7 +164,7 @@ export default function FormPlaceOrder({cart, selectedOutFit}) {
             <div className={styles.submit}>
                 <Total cart={cart} selectedOutFit={selectedOutFit}></Total> 
                 <button className={styles.back} onClick={() => navigate(isDesktop ? '/' : '/cart')}>TRỞ VỀ</button> 
-                <button className={styles.cta} type="submit">ĐẶT THUÊ</button>
+                <button className={styles.cta} type="submit">THANH TOÁN</button>
             </div>
             {/* <Link to="/" >Cancel </Link> */}
         </form>

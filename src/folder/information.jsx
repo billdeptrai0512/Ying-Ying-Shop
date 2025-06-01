@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styles from "./folder.module.css"
 import { CirclePlus } from 'lucide-react';
 
-export default function Information({folderId, name, selectedItem}) {
+export default function Information({folderId, name, amount}) {
     
     const { user } = useAuth()
 
@@ -11,7 +11,7 @@ export default function Information({folderId, name, selectedItem}) {
         <div className={styles.information}>
             <h3> {name} </h3>
 
-            {selectedItem ? <p> Số lượng: {selectedItem.amount} </p> :  null }
+            {amount ? <p> Số lượng: {amount} </p> :  null }
 
             {user ? <Link to={`/file/upload/${folderId}`}>
                 <CirclePlus size={18}/>

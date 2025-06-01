@@ -3,10 +3,13 @@ import Information from "./information"
 import Image from "./image"
 import Size from "./size"
 import styles from "./folder.module.css"
+import Extra from "./extra"
+
 
 export default function Item({folderId, inventory, 
                                 updateSize, updateOutFit, 
                                 bottomSection, jacketSection,
+                                neckWearSection,
                                 missingSize , setMissingSize, resetTrigger}) {
 
     const [selectedItem, setSelectedItem] = useState(null)
@@ -60,8 +63,7 @@ export default function Item({folderId, inventory,
                     <Information 
                         folderId={folderId}
                         name={inventory.name} 
-                        itemSection={inventory.section} 
-                        selectedItem={selectedItem}
+                        amount={selectedItem ? selectedItem.amount : null}
                     />
                     <Image 
                         name={inventory.name}
@@ -92,8 +94,7 @@ export default function Item({folderId, inventory,
                     <Information 
                         folderId={folderId}
                         name={inventory.name} 
-                        itemSection={inventory.section} 
-                        selectedItem={selectedItem}
+                        amount={selectedItem ? selectedItem.amount : null}
                     />
                     <Image 
                         name={inventory.name}
@@ -119,31 +120,50 @@ export default function Item({folderId, inventory,
 
         //filter section inside inventory.files for bag + bow
         const bowInventory = inventory.files.filter(item => item.type === "bow")
+        const tieInventory = inventory.files.filter(item => item.type === "tie")
         const bagInventory = inventory.files.filter(item => item.type === "bag")
-        return (
-            <div className={styles.item}>
-                    <Information 
-                        folderId={folderId}
-                        name={inventory.name} 
-                        itemSection={inventory.section} 
-                        selectedItem={selectedItem}
-                    />
-                    <Image 
-                        name={inventory.name}
-                        inventory={bowInventory}
-                        section={inventory.section}
-                        pickItem={pickItem}
-                        selectedItem={selectedItem}
 
-                    />
-                    <Image 
-                        name={inventory.name}
-                        inventory={bagInventory}
-                        section={inventory.section}
-                        pickItem={pickItem}
-                        selectedItem={selectedItem}
-                    />
-            </div>  
+        return (
+
+            <Extra 
+                folderId={folderId}
+                inventory={inventory}
+                bowInventory={bowInventory}
+                tieInventory={tieInventory}
+                bagInventory={bagInventory}
+                selectedItem={selectedItem}
+                updateOutFit={updateOutFit}
+                resetTrigger={resetTrigger}
+            />
+            // <div className={styles.item}
+            //     style={{ opacity: neckWearSection === null || neckWearSection === "bag" || neckWearSection === inventory.files[0].type ? 1 : 0.5 }}>
+            //         <Information 
+            //             folderId={folderId}
+            //             name={inventory.name} 
+            //             amount={selectedItem ? selectedItem.amount : null}
+            //         />
+            //         <Image 
+            //             name={inventory.name}
+            //             inventory={bowInventory}
+            //             section={inventory.section}
+            //             pickItem={pickItem}
+            //             selectedItem={selectedItem}
+            //         />
+            //         <Image 
+            //             name={inventory.name}
+            //             inventory={tieInventory}
+            //             section={inventory.section}
+            //             pickItem={pickItem}
+            //             selectedItem={selectedItem}
+            //         />
+            //         <Image 
+            //             name={inventory.name}
+            //             inventory={bagInventory}
+            //             section={inventory.section}
+            //             pickItem={pickItem}
+            //             selectedItem={selectedItem}
+            //         />
+            // </div>  
         )
 
     } else {
@@ -153,8 +173,7 @@ export default function Item({folderId, inventory,
                 <Information 
                     folderId={folderId}
                     name={inventory.name} 
-                    itemSection={inventory.section} 
-                    selectedItem={selectedItem}
+                    amount={selectedItem ? selectedItem.amount : null}
                 />
                 <Image 
                     name={inventory.name}

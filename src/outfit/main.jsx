@@ -10,6 +10,7 @@ export default function Outfit() {
 
     const [bottomSection, setBottomSection] = useState(null)
     const [jacketSection, setJacketSection] = useState(null)
+    const [neckSection, setNeckSection] = useState(null)
     const [missingSize, setMissingSize] = useState(null)
     const [resetTrigger, setResetTrigger] = useState(false)
     const [outFit, setOutFit] = useState({
@@ -19,7 +20,7 @@ export default function Outfit() {
         sweater: { item: null, size: null },
         jacket: { item: null, size: null },
         extra: { 
-            bow: { item: null}, 
+            neck: { item: null}, 
             bag: { item: null},
         },
         total: 0
@@ -31,8 +32,40 @@ export default function Outfit() {
 
             if (section === "extra") {
 
-                const currentItem = preOutFit[section][item.type].item
+                if(item.type === "bow" || item.type === "tie") {
 
+                    const currentItem = preOutFit[section]["neck"].item
+
+                    setNeckSection(item.type);
+
+                    if (currentItem?.id === item.id) {
+    
+                        return {
+                            ...preOutFit,
+                            [section]: {
+                                ...preOutFit[section],
+                                ["neck"] : {item : null}
+                            }, 
+                            total: preOutFit.total - currentItem.total,
+                        };
+    
+                    }
+    
+                    return {
+                        ...preOutFit,
+                        [section]: {
+                            ...preOutFit[section],
+                            ["neck"] : {item : item} 
+                        }, 
+                        total: preOutFit.total - (currentItem?.total || 0) + item.total,
+                    };
+
+
+
+                } 
+
+                const currentItem = preOutFit[section][item.type].item
+            
                 if (currentItem?.id === item.id) {
     
                     return {
@@ -51,7 +84,7 @@ export default function Outfit() {
                     [section]: {
                         ...preOutFit[section],
                         [item.type] : {item : item} 
-                    }, // Append item
+                    }, 
                     total: preOutFit.total - (currentItem?.total || 0) + item.total,
                 };
             }
@@ -171,7 +204,9 @@ export default function Outfit() {
                 </section> 
             </>
         )
+
     } 
+
     // Mobile view
     return (
         <>
@@ -181,10 +216,10 @@ export default function Outfit() {
             <section className={styles.primary}>
                 <Folder  
                     folder={folder}
-                    loading={loading}
                     updateOutFit={updateOutFit} updateSize={updateSize} 
                     missingSize={missingSize} setMissingSize={setMissingSize} 
                     bottomSection={bottomSection} jacketSection={jacketSection}
+                    neckWearSection={neckSection}
                     resetTrigger={resetTrigger} />
             </section>
             <section className={styles.checkout}>

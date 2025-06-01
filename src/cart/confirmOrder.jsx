@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useCart } from "../public/cartContext"
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 import styles from "./cart.module.css"
 import Outfit from "./outfit";
 import Total from "./total";
 import Demo from "./demo";
+import FormPlaceOrder from "./form";
 
 export default function ConfirmOrder() {
 
@@ -15,6 +17,28 @@ export default function ConfirmOrder() {
     const pickOutFit = (index) => setSelectedOutFit(index)
 
     const navigate = useNavigate()
+
+    const isDeskop = useMediaQuery({ query: '(min-width: 1400px)'})
+
+    if (isDeskop) {
+        return (
+            <>
+                <section className={styles.main}>
+                   <Demo cart={cart} selectedOutFit={selectedOutFit} />
+                </section>
+                <section className={styles.primary}>
+                    <Outfit 
+                        cart={cart} 
+                        pickOutFit={pickOutFit}
+                        removeOutFit={removeOutFit}
+                        editOutFit={editOutFit}/>
+                </section>
+                <section className={styles.checkout}>
+                    <FormPlaceOrder cart={cart} selectedOutFit={selectedOutFit} />
+                </section>
+            </>
+        )
+    }
 
     return (
         <>

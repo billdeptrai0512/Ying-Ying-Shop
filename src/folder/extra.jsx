@@ -4,66 +4,76 @@ import Image from "./image"
 import styles from "./folder.module.css"
 
 
-export default function Extra({props, UpdateOutFit, resetTrigger}) {
+export default function Extra({folderId, inventory, selectedItem, bowInventory, bagInventory, tieInventory, updateOutFit, resetTrigger}) {
 
-    const [selectedItemA, setSelectedItemA] = useState(null)
-    const [selectedItemB, setSelectedItemB] = useState(null)
+    const [selectedBow, setSelectedBow] = useState(null)
+    const [selectedBag, setSelectedBag] = useState(null)
+    const [selectedTie, setSelectedTie] = useState(null)
 
-    const pickItemA = (index, inventory) => {
+    const pickItemBow = (item, section) => {
 
-        const selected = inventory[index]
+        if (selectedTie) setSelectedTie(null)
 
-        const category = "bow"
+        setSelectedBow(selectedBow === item ? null : item);
 
-        const zIndex = props.zIndex
-
-        setSelectedItemA(selectedItemA === selected ? null : selected);
-        
-        UpdateOutFit(selected, category, zIndex)
+        updateOutFit(item, section)
 
     }
 
-    const pickItemB = (index, inventory) => {
+    const pickItemTie = (item, section) => {
 
-        const selected = inventory[index]
+        if (selectedBow) setSelectedBow(null)
 
-        const category = "bag"
-
-        const zIndex = props.zIndex
-
-        setSelectedItemB(selectedItemB === selected ? null : selected);
+        setSelectedTie(selectedTie === item ? null : item);
         
-        UpdateOutFit(selected, category, zIndex)
+        updateOutFit(item, section)
+
+    }
+
+    const pickItemBag = (item, section) => {
+
+        setSelectedBag(selectedBag === item ? null : item);
+        
+        updateOutFit(item, section)
 
     }
 
     useEffect(() => {
 
-        setSelectedItemA(null)
-        setSelectedItemB(null)
+        setSelectedBow(null)
+        setSelectedBag(null)
+        setSelectedTie(null)
 
     }, [resetTrigger])
 
     return (
-        <div className={styles.extra}>
-            <Information 
-                name={props.name} 
-                selectedItem={selectedItemA}
-                isChoosen={null} 
-                itemSection={null} 
-            />
-            <Image 
-                name={props.name}
-                inventory={props.inventoryA}
-                selectedItem={selectedItemA}
-                pickItem={pickItemA}
-            />
-            <Image 
-                name={props.name}
-                inventory={props.inventoryB}
-                selectedItem={selectedItemB}
-                pickItem={pickItemB}
-            />
-        </div>
+        <div className={styles.item}>
+                <Information 
+                    folderId={folderId}
+                    name={inventory.name} 
+                    amount={selectedItem ? selectedItem.amount : null}
+                />
+                <Image 
+                    name={inventory.name}
+                    inventory={bowInventory}
+                    section={inventory.section}
+                    pickItem={pickItemBow}
+                    selectedItem={selectedBow}
+                />
+                <Image 
+                    name={inventory.name}
+                    inventory={tieInventory}
+                    section={inventory.section}
+                    pickItem={pickItemTie}
+                    selectedItem={selectedTie}
+                />
+                <Image 
+                    name={inventory.name}
+                    inventory={bagInventory}
+                    section={inventory.section}
+                    pickItem={pickItemBag}
+                    selectedItem={selectedBag}
+                />
+        </div>  
     )
 }
