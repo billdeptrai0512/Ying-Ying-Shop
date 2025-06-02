@@ -124,11 +124,18 @@ export default function SaveFile() {
                 <option value="tie-3">Tie</option>
                 <option value="bag-6">Bag</option>
             </select>
-            <select name="sizes[]" multiple size="4" onChange={handleChange}>
+            <select name="sizes[]" multiple size="4" onChange={handleChange} style={{ height: '13em' }}>
                 <option value="S">S</option>
                 <option value="M">M</option>
                 <option value="L">L</option>
                 <option value="XL">XL</option>
+                {/*  */}
+                <option value="145A">145A</option>
+                <option value="150A">150A</option>
+                <option value="160A">160A</option>
+                <option value="170A">170A</option>
+                <option value="170B">170B</option>
+                <option value="175A">175A</option>
             </select>
             <button type="submit">Save</button>
         </form>

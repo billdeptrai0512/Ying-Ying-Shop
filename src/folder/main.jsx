@@ -9,11 +9,17 @@ export default function Folder({ folder,
                                 resetTrigger }) {
 
     const { user } = useAuth()
+
+    const sortedFolder = folder.sort((a, b) => {
+      const order = ["top", "bottom", "sweater", "jacket", "extra"];
+      return order.indexOf(a.section) - order.indexOf(b.section);
+    });
+    
     
     return (
       <>
         {user ? <Link to={`/folder`}>Add new folder</Link> : null}
-        {folder.map((inventory, index) => (
+        {sortedFolder.map((inventory, index) => (
           <Item key={index} folderId={inventory.id} inventory={inventory} 
           updateOutFit={updateOutFit} updateSize={updateSize} 
           missingSize={missingSize} setMissingSize={setMissingSize} 

@@ -49,6 +49,34 @@ section p {
     background-color: #fff;
 }
 
+.sizeContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2.5rem; 
+    /* position: absolute;  */
+}
+
+.size > h4,
+.sizeContainer > div > div > h4 {
+    font-size: 0.75rem;
+}
+
+.sizeContainer > div > div > p {
+    font-size: 0.6rem;
+}
+
+.measurements {
+    flex: 0; /* Prevent measurements from stretching */
+    padding: 5px;
+    border-radius: 8px;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+    min-width: 150px; /* Ensure a minimum width for the measurements box */
+}
+
 .options {
     display: flex;
     flex-direction: row;
@@ -101,9 +129,13 @@ section p {
         width: calc(5 * 4.25rem + 4* 0.75rem);
     }
 
-
-    .size > h4 {
+    .size > h4,
+    .sizeContainer > div > div > h4 {
         font-size: 1rem;
+    }
+
+    .sizeContainer > div > div > p {
+        font-size: 0.9rem;
     }
 
     .option {
@@ -133,16 +165,18 @@ section p {
         width: calc(5 * 4.25rem + 4* 0.75rem);
     }
 
-    .size > h4 {
+    .size > h4,
+    .sizeContainer > div > div > h4 {
         font-size: 1rem;
     }
 
+    .sizeContainer > div > div > p {
+        font-size: 0.9rem;
+    }
     .option {
         width: 1.75em;
         font-size: 1.5rem;
     }
-
-
 } 
 
 @media (min-width: 1400px) {
@@ -169,12 +203,37 @@ section p {
         min-width: 4.25em;
     }
 
-    .size {
-        position: absolute;
+    .sizeContainer {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 2.5rem; /* Space between size options and measurements */
+        position: absolute; /* Ensure proper positioning for child elements */
     }
 
-    .size > h4 {
+    .size {
+        flex: 1;
+    }
+
+    .size > h4,
+    .sizeContainer > div > div > h4 {
         font-size: 1rem;
+    }
+
+    .sizeContainer > div > div > p {
+        font-size: 0.9rem;
+    }
+
+    .measurements {
+        flex: 0; /* Prevent measurements from stretching */
+        padding: 5px;
+        border-radius: 8px;
+        text-align: center;
+        border: 1px solid #555;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        min-width: 150px; /* Ensure a minimum width for the measurements box */
     }
 
     .option {

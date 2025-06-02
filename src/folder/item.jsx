@@ -9,7 +9,6 @@ import Extra from "./extra"
 export default function Item({folderId, inventory, 
                                 updateSize, updateOutFit, 
                                 bottomSection, jacketSection,
-                                neckWearSection,
                                 missingSize , setMissingSize, resetTrigger}) {
 
     const [selectedItem, setSelectedItem] = useState(null)
@@ -26,26 +25,24 @@ export default function Item({folderId, inventory,
 
     useEffect(() => {
 
-        if (inventory.files[0]) {
+        if (!inventory.files[0]) return
 
-            if (inventory.section === "bottom" && bottomSection !== inventory.files[0].type) {
-                setSelectedItem(null);
-            }
-
+        if (inventory.section === "bottom" && bottomSection !== inventory.files[0].type) {
+            setSelectedItem(null);
         }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [bottomSection])
 
     useEffect(() => {
 
-        if (inventory.files[0]) {
+        if (!inventory.files[0]) return
 
-            if (inventory.section === "jacket" && jacketSection !== inventory.files[0].type) {
-                setSelectedItem(null);
-            }
-
+        if (inventory.section === "jacket" && jacketSection !== inventory.files[0].type) {
+            setSelectedItem(null);
         }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [jacketSection])
 
     useEffect(() => {
@@ -73,6 +70,7 @@ export default function Item({folderId, inventory,
                         selectedItem={selectedItem}
                     />
                     <Size 
+                        inventory={inventory}
                         section={inventory.section}
                         selectedItem={selectedItem}
                         sizeSelected={sizeSelected}
@@ -104,6 +102,7 @@ export default function Item({folderId, inventory,
                         selectedItem={selectedItem}
                     />
                     <Size 
+                        inventory={inventory}
                         section={inventory.section}
                         selectedItem={selectedItem}
                         sizeSelected={sizeSelected}
@@ -135,35 +134,6 @@ export default function Item({folderId, inventory,
                 updateOutFit={updateOutFit}
                 resetTrigger={resetTrigger}
             />
-            // <div className={styles.item}
-            //     style={{ opacity: neckWearSection === null || neckWearSection === "bag" || neckWearSection === inventory.files[0].type ? 1 : 0.5 }}>
-            //         <Information 
-            //             folderId={folderId}
-            //             name={inventory.name} 
-            //             amount={selectedItem ? selectedItem.amount : null}
-            //         />
-            //         <Image 
-            //             name={inventory.name}
-            //             inventory={bowInventory}
-            //             section={inventory.section}
-            //             pickItem={pickItem}
-            //             selectedItem={selectedItem}
-            //         />
-            //         <Image 
-            //             name={inventory.name}
-            //             inventory={tieInventory}
-            //             section={inventory.section}
-            //             pickItem={pickItem}
-            //             selectedItem={selectedItem}
-            //         />
-            //         <Image 
-            //             name={inventory.name}
-            //             inventory={bagInventory}
-            //             section={inventory.section}
-            //             pickItem={pickItem}
-            //             selectedItem={selectedItem}
-            //         />
-            // </div>  
         )
 
     } else {
@@ -183,6 +153,7 @@ export default function Item({folderId, inventory,
                     selectedItem={selectedItem}
                 />
                 <Size 
+                    inventory={inventory}
                     section={inventory.section}
                     selectedItem={selectedItem}
                     sizeSelected={sizeSelected}
