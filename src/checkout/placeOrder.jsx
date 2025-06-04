@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useCart } from "../public/cartContext"
 import { useMediaQuery } from "react-responsive";
-import styles from "./cart.module.css"
+import styles from "./checkout.module.css"
 import FormPlaceOrder from "./form";
-import Demo from "./demo";
-import Outfit from "./outfit";
+import Demo from "../cart/demo";
+import Outfit from "../cart/outfit";
 
 export default function PlaceOrder() {
 
@@ -36,11 +36,11 @@ export default function PlaceOrder() {
     return (
         <>
             <section className={styles.primary} style={{gridColumn: "1"}}>
-                    <Outfit 
-                        cart={cart} 
-                        pickOutFit={pickOutFit}
-                        removeOutFit={removeOutFit}
-                        editOutFit={editOutFit}/>
+                <Outfit 
+                    cart={cart} 
+                    pickOutFit={pickOutFit}
+                    removeOutFit={removeOutFit}
+                    editOutFit={editOutFit}/>
             </section>
             <section className={styles.checkout} style={{gridRow: "2/8"}}>
                 <FormPlaceOrder cart={cart} selectedOutFit={selectedOutFit} />

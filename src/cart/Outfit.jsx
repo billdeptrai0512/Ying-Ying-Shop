@@ -6,9 +6,6 @@ export default function Outfit({cart, pickOutFit, removeOutFit, editOutFit}) {
         return <div>No outfits in cart.</div>;
     }
 
-    console.log(cart)
-    //TODO can't extract extra key_value
-
     return (
         <>
             {cart

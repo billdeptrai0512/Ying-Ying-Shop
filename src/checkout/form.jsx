@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./cart.module.css"
+import styles from "./checkout.module.css"
 import { useMediaQuery } from "react-responsive";
 import axios from "axios";
 import Total from "./total";
@@ -43,12 +43,12 @@ export default function FormPlaceOrder({cart, selectedOutFit}) {
                 .forEach(([section, value]) => {
                     //if section = extra
                     if (section === 'extra') {
-                        const bow = value.bow
+                        const neck = value.neck
                         const bag = value.bag
 
-                        if (bow.item) {
+                        if (neck.item) {
 
-                            const item = bow.item
+                            const item = neck.item
 
                             const data = {
                                 id: item.id,
@@ -110,13 +110,9 @@ export default function FormPlaceOrder({cart, selectedOutFit}) {
     };
 
     const handleChange = (e) => {
-        const { name, value, selectedOptions } = e.target;
-        if (name === 'sizes[]') {
-            const values = Array.from(selectedOptions).map(opt => opt.value);
-            setFormData(prev => ({ ...prev, sizes: values }));
-        } else {
-            setFormData(prev => ({ ...prev, [name]: value }));
-        }
+        const { name, value } = e.target;
+
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
     const getErrorForField = (fieldName) => {

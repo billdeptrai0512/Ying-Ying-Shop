@@ -15,9 +15,9 @@ import { FolderProvider } from './public/folderContext.jsx';
 import { CartProvider } from './public/cartContext.jsx';
 import { AuthProvider } from './public/authContext.jsx'
 import Outfit from './outfit/main.jsx';
-import ConfirmOrder from './cart/confirmOrder.jsx';
-import PlaceOrder from './cart/placeOrder.jsx';
-import CheckOut from './cart/checkout.jsx';
+import ConfirmOrder from './checkout/confirmOrder.jsx';
+import PlaceOrder from './checkout/placeOrder.jsx';
+import CheckOut from './checkout/main.jsx';
 import { WebSocketProvider } from './public/webSocket.jsx';
 
 export default function App() {

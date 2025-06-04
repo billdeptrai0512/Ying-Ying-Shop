@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useCart } from "../public/cartContext"
 import { useMediaQuery } from "react-responsive";
-import styles from "./cart.module.css";
+import styles from "./checkout.module.css";
 import axios from "axios";
 import { useWebSocket } from "../public/webSocket";
 
-import Outfit from "./outfit";
-import Demo from "./demo";
+import Outfit from "../cart/outfit";
+import Demo from "../cart/demo";
 import Bill from "./bill";
 
 export default function CheckOut() {

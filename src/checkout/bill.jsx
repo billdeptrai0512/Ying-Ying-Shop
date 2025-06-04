@@ -1,5 +1,5 @@
 import domtoimage from "dom-to-image";
-import styles from "./cart.module.css";
+import styles from "./checkout.module.css";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Copy, Heart, Camera, Facebook} from 'lucide-react';
 
