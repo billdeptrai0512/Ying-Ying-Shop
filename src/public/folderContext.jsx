@@ -9,11 +9,7 @@ export const FolderProvider = ({ children }) => {
 
     const fetchData = async () => {
         try {
-          const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/folder`, {
-            headers: {
-              'ngrok-skip-browser-warning': 'true'
-            }
-          });
+          const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/folder`);
           setFolder(response.data);
         } catch (err) {
           console.error("fetch folder: " + err);
