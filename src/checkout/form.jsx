@@ -1,9 +1,64 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./checkout.module.css"
 import { useMediaQuery } from "react-responsive";
+import styles from "./checkout.module.css"
 import axios from "axios";
 import Total from "./total";
+
+function getAllItem(cart) {
+
+    const allItem = []
+
+    cart.forEach(outfit => {
+        Object.entries(outfit)
+            .filter(([key]) => key !== "total")
+            .forEach(([section, value]) => {
+                //if section = extra
+                if (section === 'extra') {
+                    const neck = value.neck
+                    const bag = value.bag
+
+                    if (neck.item) {
+
+                        const item = neck.item
+
+                        const data = {
+                            id: item.id,
+                        }
+
+                        allItem.push(data)
+                    }
+
+                    if (bag.item) {
+
+                        const item = bag.item
+                        
+                        const data = {
+                            id: item.id,
+                        }
+
+                        allItem.push(data)
+                    }
+
+                }
+
+                if (value.item) {
+                    
+                    const item = value.item
+
+                    const data = {
+                        id: item.id,
+                        size: value.size,
+                    }
+
+                    allItem.push(data)
+
+                }
+            });
+    });
+
+    return allItem;
+}
 
 export default function FormPlaceOrder({cart, selectedOutFit}) {
 
@@ -34,58 +89,7 @@ export default function FormPlaceOrder({cart, selectedOutFit}) {
         data.append('phone', formData.phone);
         data.append('address', formData.address);
         data.append('total', cart.reduce((acc, item) => acc + item.total, 0)); // total price of all items in cart
-
-        const allItem = []
-
-        cart.forEach(outfit => {
-            Object.entries(outfit)
-                .filter(([key]) => key !== "total")
-                .forEach(([section, value]) => {
-                    //if section = extra
-                    if (section === 'extra') {
-                        const neck = value.neck
-                        const bag = value.bag
-
-                        if (neck.item) {
-
-                            const item = neck.item
-
-                            const data = {
-                                id: item.id,
-                            }
-
-                            allItem.push(data)
-                        }
-
-                        if (bag.item) {
-
-                            const item = bag.item
-                            
-                            const data = {
-                                id: item.id,
-                            }
-
-                            allItem.push(data)
-                        }
-
-                    }
-
-                    if  (value.item) {
-                        
-                        const item = value.item
-
-                        const data = {
-                            id: item.id,
-                            size: value.size,
-                        }
-
-                        allItem.push(data)
-
-                    }
-                });
-        });
-
-        data.append('cart', JSON.stringify(allItem)); // Serialize the array to JSON
+        data.append('cart', JSON.stringify(getAllItem(cart))); // Serialize the array to JSON
 
         try {
 

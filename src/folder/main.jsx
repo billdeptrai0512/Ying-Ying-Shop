@@ -10,6 +10,8 @@ export default function Folder({ folder,
 
     const { user } = useAuth()
 
+    console.log(folder)
+
     const sortedFolder = folder.sort((a, b) => {
       const order = ["top", "bottom", "sweater", "jacket", "extra"];
       return order.indexOf(a.section) - order.indexOf(b.section);

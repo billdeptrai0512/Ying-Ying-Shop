@@ -1,150 +1,204 @@
-import domtoimage from "dom-to-image";
 import styles from "./checkout.module.css";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import { Copy, Heart, Camera, Facebook} from 'lucide-react';
+import { useState, useEffect } from "react";
+import { Heart } from 'lucide-react';
+import { useCart } from "../public/cartContext"
+import { useWebSocket } from "../public/webSocket";
+import axios from "axios";
+import ScreenShotButton from "./screenshot";
+import CopyButton from "./copyButton";
 
-const formatCurrency = (value) => {
-    if (!value) value = 0
-    const intValue = Math.floor(value);
-    return intValue.toString().replace(/\d{1,3}(?=(\d{3})+(?!\d))/g, "$&,") + "đ";
-};
+export default function Bill({order}) {
 
-export default function Bill({total, order}) {
+    const { cart } = useCart()
+    const { socket } = useWebSocket();
 
-    const handleCopy = (text) => {
-        console.log(`Copied: ${text}`);
-        alert("Copied to clipboard!");
+    const [total, setTotal] = useState(null)
+    const [count, setCount] = useState(null)
+    const [displayTotal, setDisplayTotal] = useState(null)
+
+    const [paidStatus, setPaidStatus] = useState(order.paid_status);
+
+    const formatCurrency = (value) => {
+        if (!value) value = 0
+        const intValue = Math.floor(value);
+        return intValue.toString().replace(/\d{1,3}(?=(\d{3})+(?!\d))/g, "$&,") + "đ";
     };
 
-    const takeScreenshot = () => {
-        const element = document.querySelector("#screenshot-area");
+    const analyzeInventory = (cart) => {
+        let itemCount = 0;
+        let totalSum = 0;
+
+        const countItems = (section) => {
+            if (section && typeof section === 'object') {
+                if ('item' in section) {
+                    if (section.item !== null) {
+                        itemCount += 1;
+                    }
+                }
     
-        domtoimage.toPng(element)
-            .then((dataUrl) => {
-                const link = document.createElement("a");
-                link.download = "screenshot.png"; // File name for the screenshot
-                link.href = dataUrl;
-                link.click(); // Trigger download
-            })
-            .catch((error) => {
-                console.error("Failed to capture screenshot:", error);
+                Object.values(section).forEach(value => {
+                    if (typeof value === 'object') {
+                        countItems(value);
+                    }
+                });
+            }
+        };
+        
+        cart.forEach(outfit => {
+            Object.values(outfit).forEach(section => {
+                countItems(section);
             });
+    
+            if (typeof outfit.total === 'number') {
+                totalSum += outfit.total;
+            }
+        });
+
+        const displayTotal = formatCurrency(totalSum);
+        
+        return { itemCount, totalSum, displayTotal };
     };
 
+    const getAllItem = (cart) => {
+        return cart.flatMap(outfit => {
+            const items = [];
+            if (outfit.extra) {
+                if (outfit.extra.neck?.item) items.push(outfit.extra.neck.item);
+                if (outfit.extra.bag?.item) items.push(outfit.extra.bag.item);
+            }
+            if (outfit.size) items.push(outfit.size.item);
+            return items;
+        });
+    };
 
-    if (order.paid_status === true) {
-        return (
-            <div id="screenshot-area">
-                <div style={{ display: "flex", flexDirection:"column", justifyContent: "center", alignItems:"center", backgroundColor: "#453130", minHeight: "20em", gap:"0.5em", margin: "3em" }}> 
-                    <Heart size={60} color="#E3C4C1" style={{ marginBottom: "2em"}}/>
-                    <h2 style={{fontSize: "1.2em", color: "#FFFFFF"}}>THANH TOÁN THÀNH CÔNG</h2>
-                    <h3 style={{fontSize: "1em", color: "#FFE1E1", fontWeight: "700"}}> TỔNG TIỀN: 250.000đ</h3>
-                    <p style={{fontSize: "0.8em", color: "#FFE1E1",  fontWeight: "700"}}>#90</p>
-                </div>
+    useEffect(() => {
+        if (cart) {
+            const { itemCount, totalSum, displayTotal } = analyzeInventory(cart);
+            setCount(itemCount);
+            setTotal(totalSum);
+            setDisplayTotal(displayTotal)
+        }
 
-                <div style={{display: "flex", flexDirection: "row", gap: "1rem", textAlign: "center", justifyContent: "center"}}>
-                    <div style={{width: "75%"}}>
-                        <p className={styles.copyable}>
-                            Bạn vui lòng chụp màn hình rồi gửi về Fanpage
-                            để shop chuẩn bị đơn cho mình nha ❤️
-                        </p>
-                        {/* <div style={{display: "flex", gap: "0.5rem", justifyContent: "center", marginTop: "1em"}}>
-                            <Facebook size={25} />
-                            <p className={styles.copyable}>
-                                www.fb.com/yingyingcosshop
-                            </p>
-                            <Copy size={"12px"}/>
-                        </div> */}
-                    </div>
-                </div>
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[cart]);
+
+    useEffect(() => {
+        if (!socket) return;
+
+        const handleMessage = (event) => {
+            try {
+                const data = JSON.parse(event.data);
+                console.log("Message from backend:", data);
+
+                if (data.id === order.id) {
+
+                    setPaidStatus(data.paid_status);
+
+                    const updateInformation = {
+                        total: cart.reduce((acc, item) => acc + item.total, 0),
+                        cart: getAllItem(cart),
+                    };
+
+                    console.log("Updated cart information:", updateInformation);
+
+                    // Use axios.patch to update the backend
+                    axios.patch(`${import.meta.env.VITE_BACKEND_URL}/checkout/${order.id}`, updateInformation, {
+                        headers: {
+                            "ngrok-skip-browser-warning": "true",
+                        },
+                    })
+
+                }
+            } catch (error) {
+                console.error("Error parsing WebSocket message:", error.message);
+            }
+        };
+
+        socket.addEventListener("message", handleMessage);
+
+        return () => {
+            socket.removeEventListener("message", handleMessage);
+        };
+
+    }, [socket, order.id, cart]);
+
+    const payment = {
+        bank: "ACB",
+        account: "20495991",
+    }
+
+    const paymentB = {
+        bank: "MB",
+        account: "0902822192",
+    }
     
-                <div style={{ textAlign: "center", margin: "1rem" }}>
-                    <div style={{backgroundColor: "#331D1C", width: "fit-content", margin: "0 auto", padding: "0.5em", display: "flex", flexDirection: "column", alignItems: "center", borderRadius: "50%", marginBottom:"0.5em", cursor: "pointer"}}
-                        onClick={takeScreenshot}
-                    >
-                        <Camera size={20} color="#FFFFFF"  />
+    return (
+        <div>
+            <div id="screenshot-area" style={{ textAlign: "center" }}>
+                {paidStatus ? (
+                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor: "#453130", minHeight: "20em", gap: "0.5em", margin: "1em" }}>
+                        <Heart size={60} color="#E3C4C1" style={{ marginBottom: "2em" }} />
+                        <h2 style={{ fontSize: "1em", color: "#FFFFFF" }}>THANH TOÁN THÀNH CÔNG</h2>
                     </div>
-                    <p className={styles.copyable}>
-                        Lưu ảnh
-                    </p>
-                </div>
-    
-
-            </div>
-        );
-    } else {
-        return (
-            <div id="screenshot-area">
-                <div style={{ textAlign: "center" }}> 
+                ) : (
                     <img
                         id="qr-code"
-                        src={`https://qr.sepay.vn/img?acc=20495991&bank=ACB&amount=${total}&des=YS${order.id}&template=compact`}
-                        style={{ width: "70%" }}
+                        src={`https://qr.sepay.vn/img?acc=${paymentB.account}&bank=${paymentB.bank}&amount=${total}&des=YS${order.id}&template=compact`}
+                        style={{ width: "90%" }}
                         alt="QR Code"
                         crossOrigin="anonymous"
                     />
-                </div>
-    
-                <div style={{ textAlign: "center", margin: "1rem", backgroundColor: "#E3C4C1" }}>
-                    <h3 style={{ color: "#FFFFFF", padding: "0.5em", fontSize: "1.1em"}}>{`Đơn hàng: ${order.id}`}</h3>
-                </div>
-    
-                <div style={{display: "flex", flexDirection: "row", gap: "1rem" , justifyContent: "space-around"}}>
-                    <div>
-                        <p className={styles.copyable}>
-                            Ngân hàng : ACB
-                        </p>
-                        <div style={{display: "flex", gap: "0.5rem"}}>
-                            <p className={styles.copyable}>
-                                STK: 20495991
-                            </p>
-                            <CopyToClipboard text="20495991" style={{ cursor: "pointer" }} onCopy={() => handleCopy("20495991")}>
-                                <Copy size={"12px"}  />
-                            </CopyToClipboard>
-                        </div>
-                        
-                        <p className={styles.copyable}>
-                            NGUYEN HOANG DIEU ANH
-                        </p>
-                    </div>
-    
-                    <div style={{display: "flex", flexDirection: "column"}}>
-                        
-                        <div style={{display: "flex", gap: "0.5rem"}}>
-                            <p className={styles.copyable}>
-                                Tổng tiền: {formatCurrency(total)} 
-                            </p>
-                            <CopyToClipboard text={formatCurrency(total)} style={{ cursor: "pointer" }} onCopy={() => handleCopy(formatCurrency(total))}>
-                                <Copy size={"12px"}  />
-                            </CopyToClipboard>
-                        </div>
-    
-                        <div style={{display: "flex", gap: "0.5rem"}}>
-                            <p className={styles.copyable}>
-                                Nội dung: YY{order.id}
-                            </p>
-                            <CopyToClipboard text={`YY${order.id}`}  style={{ cursor: "pointer" }} onCopy={() => handleCopy(`YY${order.id}`)}>
-                                <Copy size={"12px"} />
-                            </CopyToClipboard>
-                        </div>
-                        
-                    </div>
-    
-                </div>
-
-                <div style={{ textAlign: "center", margin: "1rem" }}>
-                    <div style={{backgroundColor: "#331D1C", width: "fit-content", margin: "0 auto", padding: "0.5em", display: "flex", flexDirection: "column", alignItems: "center", borderRadius: "50%", marginBottom:"0.5em", cursor: "pointer"}}
-                        onClick={takeScreenshot}
-                    >
-                        <Camera size={20} color="#FFFFFF"  />
-                    </div>
-                    <p className={styles.copyable}>
-                        Lưu ảnh
-                    </p>
-                </div>
+                )}
             </div>
-        );
-    }
 
+            <div style={{ textAlign: "center", margin: "1rem", backgroundColor: "#E3C4C1" }}>
+                <h3 style={{ color: "#FFFFFF", padding: "0.5em", fontSize: "1.1em"}}>{`Đơn hàng: ${order.id}`}</h3>
+            </div>
+
+            <div style={{display: "flex", flexDirection: "column", gap: "1rem", justifyContent: "center", marginTop: "2em", padding: "0 1em"}}>
+                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+                    <p className={styles.copyable}>
+                        Ngân hàng : ACB
+                    </p>
+                    <div style={{display: "flex", gap: "0.5rem"}}>
+                        <p className={styles.copyable}>
+                            STK: 20495991
+                        </p>
+                        <CopyButton value={"20495991"} />
+                    </div>
+                </div>
+                <div style={{display: "flex", justifyContent: "space-between"}}>
+                    <p className={styles.copyable}>
+                        NGUYEN HOANG DIEU ANH
+                    </p>
+                    <p className={styles.copyable}>
+                        {`${count} sản phẩm`}
+                    </p>
+
+                </div>
+                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                    
+                    <div style={{display: "flex", gap: "0.5rem"}}>
+                        <p className={styles.copyable}>
+                            Tổng tiền: {displayTotal} 
+                        </p>
+                        <CopyButton value={displayTotal} />
+                    </div>
+
+                    <div style={{display: "flex", gap: "0.5rem"}}>
+                        <p className={styles.copyable}>
+                            Nội dung: YS{order.id}
+                        </p>
+                        <CopyButton value={`YS${order.id}`} />
+                    </div>
+                    
+                </div>
+
+            </div>
+
+            <ScreenShotButton />
+            
+        </div>
+    );
 
 }

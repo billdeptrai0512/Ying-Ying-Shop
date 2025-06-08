@@ -79,11 +79,7 @@ export default function SaveFile() {
 
         const fetchFile = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/file/${fileId}`, {
-                    headers: {
-                      'ngrok-skip-browser-warning': 'true'
-                    }
-                });
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/file/${fileId}`);
                 const data = response.data[0];
 
                 setFormData({

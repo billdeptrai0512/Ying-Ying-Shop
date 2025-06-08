@@ -20,7 +20,7 @@ export function CartProvider({ children }) {
 
         if (OutFit.id === outfit.id) {
 
-          const itemPrice = key !== "extra" ? outfit[key].item.total : outfit[key][item.type].item.total
+          const itemPrice = key !== "extra" ? outfit[key].item.total : item.type === "bag" ? outfit[key][item.type].item.total : outfit[key].neck.item.total;
 
           const newItem = OutFit[key].size ? {item: null, size: null} : {item: null}
           const newTotal = OutFit.total - itemPrice
@@ -36,14 +36,27 @@ export function CartProvider({ children }) {
   
           } else {
 
+            if (item.type !== "bag") {
               return {
                 ...OutFit,
-                  [key]: {
-                      ...OutFit[key],
-                      [item.type] : newItem,
-                      
-                  },
-                  total: newTotal,
+                [key]: {
+                    ...OutFit[key],
+                    neck : newItem,
+                },
+                total: newTotal,
+
+              }
+              } else {
+
+                return {
+                  ...OutFit,
+                    [key]: {
+                        ...OutFit[key],
+                        [item.type] : newItem,
+                        
+                    },
+                    total: newTotal,
+                }
               }
           }
 

@@ -150,7 +150,10 @@ export default function Outfit() {
             bottom: { item: null, size: null },
             sweater: { item: null, size: null },
             jacket: { item: null, size: null },
-            extra: { bow: {item: null}, bag: {item: null}},
+            extra: { 
+                neck: { item: null}, 
+                bag: { item: null},
+            },
             total: 0
         });
     
