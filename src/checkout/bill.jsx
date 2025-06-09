@@ -121,15 +121,15 @@ export default function Bill({order}) {
 
     }, [socket, order.id, cart]);
 
-    const payment = {
-        bank: "ACB",
-        account: "20495991",
-    }
-
-    // const paymentB = {
-    //     bank: "MB",
-    //     account: "0902822192",
+    // const payment = {
+    //     bank: "ACB",
+    //     account: "20495991",
     // }
+
+    const payment = {
+        bank: "MB",
+        account: "0902822192",
+    }
     
     return (
         <div>
@@ -155,43 +155,86 @@ export default function Bill({order}) {
             </div>
 
             <div style={{display: "flex", flexDirection: "column", gap: "1rem", justifyContent: "center", marginTop: "2em", padding: "0 1em"}}>
-                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
-                    <p className={styles.copyable}>
-                        Ngân hàng : ACB
-                    </p>
-                    <div style={{display: "flex", gap: "0.5rem"}}>
-                        <p className={styles.copyable}>
-                            STK: 20495991
-                        </p>
-                        <CopyButton value={"20495991"} />
-                    </div>
-                </div>
-                <div style={{display: "flex", justifyContent: "space-between"}}>
-                    <p className={styles.copyable}>
-                        NGUYEN HOANG DIEU ANH
-                    </p>
-                    <p className={styles.copyable}>
-                        {`${count} sản phẩm`}
-                    </p>
 
-                </div>
-                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
-                    
-                    <div style={{display: "flex", gap: "0.5rem"}}>
-                        <p className={styles.copyable}>
-                            Tổng tiền: {displayTotal} 
-                        </p>
-                        <CopyButton value={displayTotal} />
-                    </div>
+                {paidStatus ? (
+                    <> 
+                        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+                            <p className={styles.copyable}>
+                                Ngân hàng : ACB
+                            </p>
+                            <div style={{display: "flex", gap: "0.5rem"}}>
+                                <p className={styles.copyable}>
+                                    STK: 20495991
+                                </p>
+                                <CopyButton value={"20495991"} />
+                            </div>
+                        </div>
+                        <div style={{display: "flex", justifyContent: "space-between"}}>
+                            <p className={styles.copyable}>
+                                NGUYEN HOANG DIEU ANH
+                            </p>
+                            <p className={styles.copyable}>
+                                {`${count} sản phẩm`}
+                            </p>
+                        </div>
+                        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                            
+                            <div style={{display: "flex", gap: "0.5rem"}}>
+                                <p className={styles.copyable}>
+                                    Tổng tiền: {displayTotal} 
+                                </p>
+                                <CopyButton value={displayTotal} />
+                            </div>
 
-                    <div style={{display: "flex", gap: "0.5rem"}}>
-                        <p className={styles.copyable}>
-                            Nội dung: YS{order.id}
-                        </p>
-                        <CopyButton value={`YS${order.id}`} />
-                    </div>
-                    
-                </div>
+                            <div style={{display: "flex", gap: "0.5rem"}}>
+                                <p className={styles.copyable}>
+                                    Nội dung: YS{order.id}
+                                </p>
+                                <CopyButton value={`YS${order.id}`} />
+                            </div>
+                            
+                        </div>
+                    </>
+                ) : (
+                    <> 
+                        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+                            <p className={styles.copyable}>
+                                Ngân hàng : ACB
+                            </p>
+                            <div style={{display: "flex", gap: "0.5rem"}}>
+                                <p className={styles.copyable}>
+                                    STK: 20495991
+                                </p>
+                                <CopyButton value={"20495991"} />
+                            </div>
+                        </div>
+                        <div style={{display: "flex", justifyContent: "space-between"}}>
+                            <p className={styles.copyable}>
+                                NGUYEN HOANG DIEU ANH
+                            </p>
+                            <p className={styles.copyable}>
+                                {`${count} sản phẩm`}
+                            </p>
+                        </div>
+                        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                            
+                            <div style={{display: "flex", gap: "0.5rem"}}>
+                                <p className={styles.copyable}>
+                                    Tổng tiền: {displayTotal} 
+                                </p>
+                                <CopyButton value={displayTotal} />
+                            </div>
+
+                            <div style={{display: "flex", gap: "0.5rem"}}>
+                                <p className={styles.copyable}>
+                                    Nội dung: YS{order.id}
+                                </p>
+                                <CopyButton value={`YS${order.id}`} />
+                            </div>
+                            
+                        </div>
+                    </>
+                )}
 
             </div>
 

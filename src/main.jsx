@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import './index.css'
 import MainPage from "./mainpage/main.jsx"
 import ErrorPage from './public/error-page.jsx';
@@ -72,18 +73,21 @@ export default function App() {
   ]);
 
   return (
-    <FolderProvider>
-      <AuthProvider>
-        <CartProvider>
-          <WebSocketProvider>
+
+    <AuthProvider>
+      <WebSocketProvider>
+        <FolderProvider>
+          <CartProvider>
             <OutfitProvider>
               <RouterProvider router={router} />
               <Analytics />
+              <SpeedInsights />
             </OutfitProvider>
-          </WebSocketProvider>
-        </CartProvider>
-      </AuthProvider>
-    </FolderProvider>
+          </CartProvider>
+        </FolderProvider>
+      </WebSocketProvider>
+    </AuthProvider>
+
   );
 }
 

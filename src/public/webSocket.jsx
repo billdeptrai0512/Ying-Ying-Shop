@@ -7,34 +7,41 @@ export function WebSocketProvider({ children }) {
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
-        const ws = new WebSocket(`${import.meta.env.VITE_WEBSOCKET_URL}`);
+        let ws;
 
-        ws.onopen = () => {
-            console.log("WebSocket connection established");
-            setSocket(ws);
+        const connectWebSocket = () => {
+            ws = new WebSocket(`${import.meta.env.VITE_WEBSOCKET_URL}`);
+
+            ws.onopen = () => {
+                console.log("WebSocket connection established");
+                setSocket(ws);
+            };
+
+            ws.onmessage = (event) => {
+                console.log("Message from server:", event.data);
+                try {
+                    const parsedData = JSON.parse(event.data);
+                    setMessages((prevMessages) => [...prevMessages, parsedData]);
+                } catch (err) {
+                    console.error("Error parsing WebSocket message:", err);
+                }
+            };
+
+            ws.onclose = () => {
+                console.log("WebSocket connection closed. Attempting to reconnect...");
+                setSocket(null);
+                setTimeout(connectWebSocket, 5000); // Retry connection after 5 seconds
+            };
+
+            ws.onerror = (error) => {
+                console.error("WebSocket error:", error);
+            };
         };
 
-        ws.onmessage = (event) => {
-            console.log("Message from server:", event.data);
-            try {
-                const parsedData = JSON.parse(event.data);
-                setMessages((prevMessages) => [...prevMessages, parsedData]);
-            } catch (err) {
-                console.error("Error parsing WebSocket message:", err);
-            }
-        };
-
-        ws.onclose = () => {
-            console.log("WebSocket connection closed");
-            setSocket(null);
-        };
-
-        ws.onerror = (error) => {
-            console.error("WebSocket error:", error);
-        };
+        connectWebSocket();
 
         return () => {
-            if (ws.readyState === 1) { // <-- This is important
+            if (ws && ws.readyState === WebSocket.OPEN) {
                 ws.close();
             }
         };
