@@ -121,15 +121,8 @@ export default function Bill({order}) {
 
     }, [socket, order.id, cart]);
 
-    // const payment = {
-    //     bank: "ACB",
-    //     account: "20495991",
-    // }
-
-    const payment = {
-        bank: "MB",
-        account: "0902822192",
-    }
+    const bank = import.meta.env.VITE_BANK
+    const account = import.meta.env.VITE_BANK_ACCOUNT
     
     return (
         <div>
@@ -142,7 +135,7 @@ export default function Bill({order}) {
                 ) : (
                     <img
                         id="qr-code"
-                        src={`https://qr.sepay.vn/img?acc=${payment.account}&bank=${payment.bank}&amount=${total}&des=YS${order.id}&template=compact`}
+                        src={`https://qr.sepay.vn/img?acc=${account}&bank=${bank}&amount=${total}&des=YS${order.id}&template=compact`}
                         style={{ width: "90%" }}
                         alt="QR Code"
                         crossOrigin="anonymous"
