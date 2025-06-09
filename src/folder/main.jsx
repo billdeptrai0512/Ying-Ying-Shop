@@ -6,11 +6,10 @@ export default function Folder({ folder,
                                 updateOutFit, updateSize,
                                 missingSize, setMissingSize, 
                                 bottomSection, jacketSection,
+                                setBottomSection, setJacketSection,
                                 resetTrigger }) {
 
     const { user } = useAuth()
-
-    console.log(folder)
 
     const sortedFolder = folder.sort((a, b) => {
       const order = ["top", "bottom", "sweater", "jacket", "extra"];
@@ -26,6 +25,7 @@ export default function Folder({ folder,
           updateOutFit={updateOutFit} updateSize={updateSize} 
           missingSize={missingSize} setMissingSize={setMissingSize} 
           bottomSection={bottomSection} jacketSection={jacketSection}
+          setBottomSection={setBottomSection} setJacketSection={setJacketSection}
           resetTrigger={resetTrigger} 
           />
         ))}

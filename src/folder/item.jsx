@@ -1,158 +1,87 @@
-import { useEffect, useState } from "react"
-import Information from "./information"
-import Image from "./image"
-import Size from "./size"
-import styles from "./folder.module.css"
-import Extra from "./extra"
+import { useEffect, useState, useRef } from "react";
+import { useOutfit } from "../public/OutfitContext";
+import Information from "./information";
+import Image from "./image";
+import Size from "./size";
+import styles from "./folder.module.css";
+import Extra from "./extra";
 
+export default function Item({ folderId, inventory, updateSize, updateOutFit, 
+        bottomSection, jacketSection, setBottomSection,
+        setJacketSection, missingSize, setMissingSize, resetTrigger }) {
 
-export default function Item({folderId, inventory, 
-                                updateSize, updateOutFit, 
-                                bottomSection, jacketSection,
-                                missingSize , setMissingSize, resetTrigger}) {
-
-    const [selectedItem, setSelectedItem] = useState(null)
-    const [sizeSelected, setSizeSelected] = useState(null)
+    const { getSelectedItemBySection } = useOutfit();
+    const [sizeSelected, setSizeSelected] = useState(null);
+    const itemRef = useRef(null);
+    const selectedItem = getSelectedItemBySection(inventory.section);
 
     const pickItem = (item, section) => {
-
-        setSelectedItem(selectedItem === item ? null : item);
-        
-        updateOutFit(item, section)
-    }
-
-    // these effect basically set all selected item to null.
+        updateOutFit(item, section);
+    };
 
     useEffect(() => {
+        if (selectedItem && inventory.section === "bottom") {
+          setBottomSection(selectedItem.type);
+        }
+    
+        if (selectedItem && inventory.section === "jacket") {
+          setJacketSection(selectedItem.type);
+        }
+    }, [selectedItem, inventory.section, setBottomSection, setJacketSection]);
 
-        if (!inventory.files[0]) return
+    useEffect(() => {
+        if (!inventory.files[0]) return;
 
         if (inventory.section === "bottom" && bottomSection !== inventory.files[0].type) {
-            setSelectedItem(null);
+            setSizeSelected(null);
         }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [bottomSection])
+    }, [bottomSection]);
 
     useEffect(() => {
-
-        if (!inventory.files[0]) return
+        if (!inventory.files[0]) return;
 
         if (inventory.section === "jacket" && jacketSection !== inventory.files[0].type) {
-            setSelectedItem(null);
+            setSizeSelected(null);
         }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [jacketSection])
+    }, [jacketSection]);
 
     useEffect(() => {
+        setSizeSelected(null);
+    }, [resetTrigger]);
 
-        setSelectedItem(null)
+      // Scroll to the item if its size is missing
+    useEffect(() => {
+
+        if (!missingSize || !itemRef.current) return;
+
+        if (missingSize.includes(inventory.section) && itemRef.current) {
+            itemRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
         
-    }, [resetTrigger])
+    }, [missingSize, inventory.section]);
+
 
     if (inventory.section === "bottom") {
-
         return (
-            <div className={styles.item} 
-            style={{ opacity: bottomSection === null || bottomSection === inventory.files[0].type ? 1 : 0.5 }}
-                    >
-                    <Information 
-                        folderId={folderId}
-                        name={inventory.name} 
-                        amount={selectedItem ? selectedItem.amount : null}
-                    />
-                    <Image 
-                        name={inventory.name}
-                        inventory={inventory.files}
-                        section={inventory.section}
-                        pickItem={pickItem}
-                        selectedItem={selectedItem}
-                    />
-                    <Size 
-                        inventory={inventory}
-                        section={inventory.section}
-                        selectedItem={selectedItem}
-                        sizeSelected={sizeSelected}
-                        updateSize={updateSize}
-                        setSizeSelected={setSizeSelected}
-                        missingSize={missingSize}
-                        isMissingSize={missingSize ? missingSize.includes(inventory.section) : false}
-                        setMissingSize={setMissingSize}
-                    />
-            </div>   
-        )
-
-    } else if (inventory.section === "jacket") {
-
-        return (
-            <div className={styles.item} 
-            style={{ opacity: jacketSection === null || jacketSection === inventory.files[0].type ? 1 : 0.5 }}
-                    >
-                    <Information 
-                        folderId={folderId}
-                        name={inventory.name} 
-                        amount={selectedItem ? selectedItem.amount : null}
-                    />
-                    <Image 
-                        name={inventory.name}
-                        inventory={inventory.files}
-                        section={inventory.section}
-                        pickItem={pickItem}
-                        selectedItem={selectedItem}
-                    />
-                    <Size 
-                        inventory={inventory}
-                        section={inventory.section}
-                        selectedItem={selectedItem}
-                        sizeSelected={sizeSelected}
-                        updateSize={updateSize}
-                        setSizeSelected={setSizeSelected}
-                        missingSize={missingSize}
-                        isMissingSize={missingSize ? missingSize.includes(inventory.section) : false}
-                        setMissingSize={setMissingSize}
-                    />
-            </div>  
-        )
-
-    } else if (inventory.section === "extra") {
-
-        //filter section inside inventory.files for bag + bow
-        const bowInventory = inventory.files.filter(item => item.type === "bow")
-        const tieInventory = inventory.files.filter(item => item.type === "tie")
-        const bagInventory = inventory.files.filter(item => item.type === "bag")
-
-        return (
-
-            <Extra 
-                folderId={folderId}
-                inventory={inventory}
-                bowInventory={bowInventory}
-                tieInventory={tieInventory}
-                bagInventory={bagInventory}
-                selectedItem={selectedItem}
-                updateOutFit={updateOutFit}
-                resetTrigger={resetTrigger}
-            />
-        )
-
-    } else {
-
-        return (
-            <div className={styles.item}>
+            <div
+                ref={itemRef}
+                className={styles.item}
+                style={{ opacity: bottomSection === null || bottomSection === inventory.files[0].type ? 1 : 0.5 }}
+            >
                 <Information 
-                    folderId={folderId}
+                    folderId={folderId} 
                     name={inventory.name} 
-                    amount={selectedItem ? selectedItem.amount : null}
-                />
-                <Image 
+                    amount={selectedItem ? selectedItem.amount : null} />
+                <Image
                     name={inventory.name}
                     inventory={inventory.files}
                     section={inventory.section}
                     pickItem={pickItem}
                     selectedItem={selectedItem}
                 />
-                <Size 
+                <Size
                     inventory={inventory}
                     section={inventory.section}
                     selectedItem={selectedItem}
@@ -163,8 +92,78 @@ export default function Item({folderId, inventory,
                     isMissingSize={missingSize ? missingSize.includes(inventory.section) : false}
                     setMissingSize={setMissingSize}
                 />
-            </div>    
-        )
-    }
+            </div>
+        );
+    } else if (inventory.section === "jacket") {
+        return (
+            <div
+                ref={itemRef}
+                className={styles.item}
+                style={{ opacity: jacketSection === null || jacketSection === inventory.files[0].type ? 1 : 0.5 }}
+            >
+                <Information folderId={folderId} name={inventory.name} amount={selectedItem ? selectedItem.amount : null} />
+                <Image
+                    name={inventory.name}
+                    inventory={inventory.files}
+                    section={inventory.section}
+                    pickItem={pickItem}
+                    selectedItem={selectedItem}
+                />
+                <Size
+                    inventory={inventory}
+                    section={inventory.section}
+                    selectedItem={selectedItem}
+                    sizeSelected={sizeSelected}
+                    updateSize={updateSize}
+                    setSizeSelected={setSizeSelected}
+                    missingSize={missingSize}
+                    isMissingSize={missingSize ? missingSize.includes(inventory.section) : false}
+                    setMissingSize={setMissingSize}
+                />
+            </div>
+        );
+    } else if (inventory.section === "extra") {
+        const bowInventory = inventory.files.filter((item) => item.type === "bow");
+        const tieInventory = inventory.files.filter((item) => item.type === "tie");
+        const bagInventory = inventory.files.filter((item) => item.type === "bag");
 
+        return (
+            <Extra
+                folderId={folderId}
+                inventory={inventory}
+                bowInventory={bowInventory}
+                tieInventory={tieInventory}
+                bagInventory={bagInventory}
+                selectedItem={selectedItem}
+                updateOutFit={updateOutFit}
+                resetTrigger={resetTrigger}
+            />
+        );
+    } else {
+        return (
+            <div 
+                ref={itemRef}
+                className={styles.item}>
+                <Information folderId={folderId} name={inventory.name} amount={selectedItem ? selectedItem.amount : null} />
+                <Image
+                    name={inventory.name}
+                    inventory={inventory.files}
+                    section={inventory.section}
+                    pickItem={pickItem}
+                    selectedItem={selectedItem}
+                />
+                <Size
+                    inventory={inventory}
+                    section={inventory.section}
+                    selectedItem={selectedItem}
+                    sizeSelected={sizeSelected}
+                    updateSize={updateSize}
+                    setSizeSelected={setSizeSelected}
+                    missingSize={missingSize}
+                    isMissingSize={missingSize ? missingSize.includes(inventory.section) : false}
+                    setMissingSize={setMissingSize}
+                />
+            </div>
+        );
+    }
 }

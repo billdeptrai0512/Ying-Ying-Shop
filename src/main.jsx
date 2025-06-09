@@ -11,14 +11,15 @@ import Folder from './folder/main.jsx';
 import FileUpload from './form/upload-file.jsx';
 import Edit from './form/edit.jsx';
 import FolderCreate from './form/folder.jsx';
-import { FolderProvider } from './public/folderContext.jsx';
-import { CartProvider } from './public/cartContext.jsx';
-import { AuthProvider } from './public/authContext.jsx'
 import Outfit from './outfit/main.jsx';
 import ConfirmOrder from './checkout/confirmOrder.jsx';
 import PlaceOrder from './checkout/placeOrder.jsx';
 import CheckOut from './checkout/main.jsx';
+import { FolderProvider } from './public/folderContext.jsx';
+import { CartProvider } from './public/cartContext.jsx';
+import { AuthProvider } from './public/authContext.jsx'
 import { WebSocketProvider } from './public/webSocket.jsx';
+import { OutfitProvider } from './public/outfitContext.jsx';
 
 export default function App() {
 
@@ -75,8 +76,10 @@ export default function App() {
       <AuthProvider>
         <CartProvider>
           <WebSocketProvider>
-            <RouterProvider router={router} />
-            <Analytics />
+            <OutfitProvider>
+              <RouterProvider router={router} />
+              <Analytics />
+            </OutfitProvider>
           </WebSocketProvider>
         </CartProvider>
       </AuthProvider>

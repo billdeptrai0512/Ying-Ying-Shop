@@ -6,37 +6,63 @@ import styles from "./folder.module.css"
 
 export default function Extra({folderId, inventory, selectedItem, bowInventory, bagInventory, tieInventory, updateOutFit, resetTrigger}) {
 
+    console.log(selectedItem)
     const [selectedBow, setSelectedBow] = useState(null)
     const [selectedBag, setSelectedBag] = useState(null)
     const [selectedTie, setSelectedTie] = useState(null)
 
+    useEffect(() => {
+
+        if (!selectedItem) return
+
+        if (selectedItem.bag) setSelectedBag(selectedItem.bag)
+      
+        if (selectedItem.neck) {
+
+            if (selectedItem.neck?.type === "bow") {
+
+             setSelectedBow(selectedItem.neck);
+
+            } else if (selectedItem.neck?.type === "tie") {
+
+             setSelectedTie(selectedItem.neck);            
+            
+            }
+        }
+
+    }, [selectedItem])
+
     const pickItemBow = (item, section) => {
+        if (selectedTie) setSelectedTie(null);
+    
+        const newSelection = selectedBow === item ? null : item;
 
-        if (selectedTie) setSelectedTie(null)
-
-        setSelectedBow(selectedBow === item ? null : item);
-
-        updateOutFit(item, section)
-
-    }
-
+        setSelectedBow(newSelection);
+    
+        if (newSelection !== selectedBow) updateOutFit(item, section);
+      };
+    
     const pickItemTie = (item, section) => {
+        if (selectedBow) setSelectedBow(null);
+    
+        const newSelection = selectedTie === item ? null : item;
 
-        if (selectedBow) setSelectedBow(null)
+        setSelectedTie(newSelection);
+    
+        if (newSelection !== selectedTie) updateOutFit(item, section);
 
-        setSelectedTie(selectedTie === item ? null : item);
-        
-        updateOutFit(item, section)
-
-    }
-
+      };
+    
     const pickItemBag = (item, section) => {
+        if (selectedBag) setSelectedBag(null);
 
-        setSelectedBag(selectedBag === item ? null : item);
+        const newSelection = selectedBag === item ? null : item;
+
+        setSelectedBag(newSelection);
+    
+        if (newSelection !== selectedBag) updateOutFit(item, section);
         
-        updateOutFit(item, section)
-
-    }
+      };
 
     useEffect(() => {
 

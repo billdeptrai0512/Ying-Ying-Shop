@@ -16,31 +16,23 @@ export default function Size({inventory, section, selectedItem, isChoosen,
                         missingSize, isMissingSize, setMissingSize}) {
 
     const pickSize = (index) => {
-        
-        setSizeSelected((prev) => {
-
-            if (prev === index) {
-
-                return null
-
-            } else {
-
-                return index
-                
-            }
-            
-        })
+        setSizeSelected((prev) => (prev === index ? null : index));
     };
 
     useEffect(() => {
+        
+        if(selectedItem && selectedItem.type === inventory.files[0].type) {
 
-        sizeSelected === null ? updateSize(section, null) : updateSize(section, selectedItem.sizes[sizeSelected])
+            sizeSelected === null 
+                ? updateSize(section, null) 
+                : updateSize(section, selectedItem.sizes[sizeSelected])
 
-        if (isMissingSize) {
+            if (isMissingSize) {
 
-            const missingSizes = missingSize.filter(item => item !== section)
+                const missingSizes = missingSize.filter(item => item !== section)
 
-            setMissingSize(missingSizes)
+                setMissingSize(missingSizes)
+            }
         }
             
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,7 +40,10 @@ export default function Size({inventory, section, selectedItem, isChoosen,
 
     useEffect(() => setSizeSelected(null), [selectedItem, setSizeSelected]);
 
-    const isOpen = selectedItem && isChoosen === itemSection
+    const isOpen =
+        selectedItem &&
+        isChoosen === itemSection &&
+        selectedItem.type === inventory.files[0].type;
 
     if (!isOpen) return null
 
@@ -58,8 +53,6 @@ export default function Size({inventory, section, selectedItem, isChoosen,
             sizeSelected === index ? "1px solid #331D1C" : "none",
         }
     };
-
-    console.log(inventory.measurements[selectedItem.sizes[sizeSelected]])
 
     return (
         <div className={styles.sizeContainer}>
