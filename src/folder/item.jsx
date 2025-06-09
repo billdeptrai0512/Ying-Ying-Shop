@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useOutfit } from "../public/OutfitContext";
+import { useOutfit } from "../public/outfitContext";
 import Information from "./information";
 import Image from "./image";
 import Size from "./size";
