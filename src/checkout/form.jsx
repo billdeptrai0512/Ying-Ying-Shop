@@ -85,9 +85,9 @@ export default function FormPlaceOrder({cart, selectedOutFit}) {
         data.append('date', formData.date);
         data.append('month', formData.month);
         data.append('year', formData.year);
-        data.append('name', formData.name);
+        data.append('name', formData.name.toUpperCase());
+        data.append('address', formData.address.toUpperCase());
         data.append('phone', formData.phone);
-        data.append('address', formData.address);
         data.append('total', cart.reduce((acc, item) => acc + item.total, 0)); // total price of all items in cart
         data.append('cart', JSON.stringify(getAllItem(cart))); // Serialize the array to JSON
 

@@ -101,7 +101,7 @@ export default function Bill({order}) {
                     console.log("Updated cart information:", updateInformation);
 
                     // Use axios.patch to update the backend
-                    axios.patch(`${import.meta.env.VITE_BACKEND_URL}/checkout/${order.id}`, updateInformation, {
+                    axios.patch(`${import.meta.env.VITE_BACKEND_URL}/place-order/edit/${order.id}`, updateInformation, {
                         headers: {
                             "ngrok-skip-browser-warning": "true",
                         },
@@ -130,7 +130,8 @@ export default function Bill({order}) {
                 {paidStatus ? (
                     <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor: "#453130", minHeight: "20em", gap: "0.5em", margin: "1em" }}>
                         <Heart size={60} color="#E3C4C1" style={{ marginBottom: "2em" }} />
-                        <h2 style={{ fontSize: "1em", color: "#FFFFFF" }}>THANH TOÁN THÀNH CÔNG</h2>
+                        <h2 style={{ fontSize: "1em", color: "#FFFFFF" }}>THANH TOÁN THÀNH CÔNG </h2>
+                        <h3 style={{ fontSize: "1em", color: "#FFE1E1" }}>TỔNG TIỀN : {displayTotal} </h3>
                     </div>
                 ) : (
                     <img
@@ -149,46 +150,81 @@ export default function Bill({order}) {
 
             <div style={{display: "flex", flexDirection: "column", gap: "1rem", justifyContent: "center", marginTop: "2em", padding: "0 1em"}}>
 
+                {/* have paid */}
                 {paidStatus ? (
                     <> 
                         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
-                            <p className={styles.copyable}>
-                                Ngân hàng : ACB
-                            </p>
+                            
                             <div style={{display: "flex", gap: "0.5rem"}}>
                                 <p className={styles.copyable}>
-                                    STK: 20495991
+                                        Họ và tên: 
                                 </p>
-                                <CopyButton value={"20495991"} />
+                            </div>
+                            <div style={{display: "flex", gap: "0.5rem"}}>
+                                <p className={styles.copyable}>
+                                    {order.name}
+                                </p>
+                                <CopyButton value={displayTotal} />
                             </div>
                         </div>
-                        <div style={{display: "flex", justifyContent: "space-between"}}>
-                            <p className={styles.copyable}>
-                                NGUYEN HOANG DIEU ANH
-                            </p>
-                            <p className={styles.copyable}>
-                                {`${count} sản phẩm`}
-                            </p>
-                        </div>
+
                         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                             
                             <div style={{display: "flex", gap: "0.5rem"}}>
                                 <p className={styles.copyable}>
-                                    Tổng tiền: {displayTotal} 
+                                    Số điện thoại:  
                                 </p>
-                                <CopyButton value={displayTotal} />
                             </div>
 
                             <div style={{display: "flex", gap: "0.5rem"}}>
                                 <p className={styles.copyable}>
-                                    Nội dung: YS{order.id}
+                                 (+84) {order.phone} 
                                 </p>
-                                <CopyButton value={`YS${order.id}`} />
+                                <CopyButton value={displayTotal} />
+                            </div>
+                            
+                        </div>
+
+                        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                            
+                            <div style={{display: "flex", gap: "0.5rem"}}>
+                                <p className={styles.copyable}>
+                                    {`Đặt ${count} sản phẩm`}
+                                </p>
+                            </div>
+
+                            <div style={{display: "flex", gap: "0.5rem"}}>
+                                <p className={styles.copyable}>                         
+                                    {new Date(order.date).toLocaleDateString('vi-VN', {
+                                        day: '2-digit',
+                                        month: '2-digit',
+                                        year: 'numeric',
+                                    })}
+                                </p>
+                                <CopyButton value={displayTotal} />
+                            </div>
+                            
+                        </div>
+
+                        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                            
+                            <div style={{display: "flex", gap: "0.5rem"}}>
+                                <p className={styles.copyable}>
+                                    Địa chỉ nhận hàng:
+                                </p>
+                            </div>
+
+                            <div style={{display: "flex", gap: "0.5rem"}}>
+                                <p className={styles.copyable}>
+                                    {`${order.address}`}
+                                </p>
+                                <CopyButton value={displayTotal} />
                             </div>
                             
                         </div>
                     </>
                 ) : (
+                // unpaid status
                     <> 
                         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
                             <p className={styles.copyable}>
@@ -200,14 +236,6 @@ export default function Bill({order}) {
                                 </p>
                                 <CopyButton value={"20495991"} />
                             </div>
-                        </div>
-                        <div style={{display: "flex", justifyContent: "space-between"}}>
-                            <p className={styles.copyable}>
-                                NGUYEN HOANG DIEU ANH
-                            </p>
-                            <p className={styles.copyable}>
-                                {`${count} sản phẩm`}
-                            </p>
                         </div>
                         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                             
@@ -226,6 +254,15 @@ export default function Bill({order}) {
                             </div>
                             
                         </div>
+                        <div style={{display: "flex", justifyContent: "space-between"}}>
+                            <p className={styles.copyable}>
+                                NGUYEN HOANG DIEU ANH
+                            </p>
+                            <p className={styles.copyable}>
+                                {`Cho thuê: ${count} sản phẩm`}
+                            </p>
+                        </div>
+
                     </>
                 )}
 
