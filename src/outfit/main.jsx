@@ -166,6 +166,8 @@ export default function Outfit() {
                         setMissingSize={setMissingSize}
                         bottomSection={bottomSection}
                         jacketSection={jacketSection}
+                        setBottomSection={setBottomSection}
+                        setJacketSection={setJacketSection}
                         resetTrigger={resetTrigger}
                     />
                 </section>
@@ -179,6 +181,8 @@ export default function Outfit() {
                         setMissingSize={setMissingSize}
                         bottomSection={bottomSection}
                         jacketSection={jacketSection}
+                        setBottomSection={setBottomSection}
+                        setJacketSection={setJacketSection}
                         resetTrigger={resetTrigger}
                     />
                     <CheckOut
@@ -206,8 +210,8 @@ export default function Outfit() {
                     setMissingSize={setMissingSize}
                     bottomSection={bottomSection}
                     setBottomSection={setBottomSection}
-                    jacketSection={jacketSection}
                     setJacketSection={setJacketSection}
+                    jacketSection={jacketSection}
                     neckWearSection={neckSection}
                     resetTrigger={resetTrigger}
                 />
