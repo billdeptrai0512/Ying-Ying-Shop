@@ -6,7 +6,6 @@ import styles from "./folder.module.css"
 
 export default function Extra({folderId, inventory, selectedItem, bowInventory, bagInventory, tieInventory, updateOutFit, resetTrigger}) {
 
-    console.log(selectedItem)
     const [selectedBow, setSelectedBow] = useState(null)
     const [selectedBag, setSelectedBag] = useState(null)
     const [selectedTie, setSelectedTie] = useState(null)
@@ -31,6 +30,14 @@ export default function Extra({folderId, inventory, selectedItem, bowInventory, 
         }
 
     }, [selectedItem])
+
+      useEffect(() => {
+
+        setSelectedBow(null)
+        setSelectedBag(null)
+        setSelectedTie(null)
+
+    }, [resetTrigger])
 
     const pickItemBow = (item, section) => {
         if (selectedTie) setSelectedTie(null);
@@ -62,15 +69,7 @@ export default function Extra({folderId, inventory, selectedItem, bowInventory, 
     
         if (newSelection !== selectedBag) updateOutFit(item, section);
         
-      };
-
-    useEffect(() => {
-
-        setSelectedBow(null)
-        setSelectedBag(null)
-        setSelectedTie(null)
-
-    }, [resetTrigger])
+    };
 
     return (
         <div className={styles.item}>

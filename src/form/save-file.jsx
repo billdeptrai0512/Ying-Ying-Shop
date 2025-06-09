@@ -79,7 +79,11 @@ export default function SaveFile() {
 
         const fetchFile = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/file/${fileId}`);
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/file/${fileId}`, {
+                    headers: {
+                        "ngrok-skip-browser-warning": "true",
+                    }
+                });
                 const data = response.data[0];
 
                 setFormData({
@@ -90,7 +94,6 @@ export default function SaveFile() {
                     z_index: data.z_index?.toString() || '',
                 });
 
-    
             } catch (err) {
                 console.error("fetch folder: " + err);
             }

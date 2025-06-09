@@ -15,7 +15,6 @@ export default function Bill({order}) {
     const [total, setTotal] = useState(null)
     const [count, setCount] = useState(null)
     const [displayTotal, setDisplayTotal] = useState(null)
-
     const [paidStatus, setPaidStatus] = useState(order.paid_status);
 
     const formatCurrency = (value) => {
@@ -122,10 +121,10 @@ export default function Bill({order}) {
 
     }, [socket, order.id, cart]);
 
-    const payment = {
-        bank: "ACB",
-        account: "20495991",
-    }
+    // const payment = {
+    //     bank: "ACB",
+    //     account: "20495991",
+    // }
 
     const paymentB = {
         bank: "MB",
