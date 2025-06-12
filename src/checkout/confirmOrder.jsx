@@ -6,7 +6,7 @@ import styles from "./checkout.module.css"
 import Outfit from "../cart/outfit";
 import Total from "../cart/total";
 import Demo from "../cart/demo";
-import FormPlaceOrder from "./form";
+import FormPlaceOrder from "./formPlaceOrder";
 
 export default function ConfirmOrder() {
 

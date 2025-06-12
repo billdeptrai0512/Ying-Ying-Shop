@@ -1,6 +1,6 @@
 import Image from "./image";
 
-export default function Outfit({cart, pickOutFit, removeOutFit, editOutFit}) {
+export default function Outfit({cart, pickOutFit, removeOutFit, editOutFit, paidStatus}) {
 
     if (!cart || cart.length === 0) {
         return <div>No outfits in cart.</div>;
@@ -18,6 +18,7 @@ export default function Outfit({cart, pickOutFit, removeOutFit, editOutFit}) {
                         pickOutFit={pickOutFit}
                         removeOutFit={removeOutFit}
                         editOutFit={editOutFit}
+                        paidStatus={paidStatus}
                     />
                 ))}
         </>

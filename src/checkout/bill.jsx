@@ -6,8 +6,12 @@ import { useWebSocket } from "../public/webSocket";
 import axios from "axios";
 import ScreenShotButton from "./screenshot";
 import CopyButton from "./copyButton";
-
-export default function Bill({order}) {
+import EditButton from "./editButton";
+import SaveButton from "./saveButton";
+import FormPlaceOrder from "./formPlaceOrder";
+import FormEditOrder from "./formEditorder"
+import DenyButton from "./denyButton";
+export default function Bill({order, paidStatus, setPaidStatus, setUpdateOrder}) {
 
     const { cart } = useCart()
     const { socket } = useWebSocket();
@@ -15,7 +19,8 @@ export default function Bill({order}) {
     const [total, setTotal] = useState(null)
     const [count, setCount] = useState(null)
     const [displayTotal, setDisplayTotal] = useState(null)
-    const [paidStatus, setPaidStatus] = useState(order.paid_status);
+
+    const [editMode, setEditMode] = useState(true)
 
     const formatCurrency = (value) => {
         if (!value) value = 0
@@ -119,20 +124,23 @@ export default function Bill({order}) {
             socket.removeEventListener("message", handleMessage);
         };
 
-    }, [socket, order.id, cart]);
+    }, [socket, order.id, cart, setPaidStatus]);
 
     const bank = import.meta.env.VITE_BANK
     const account = import.meta.env.VITE_BANK_ACCOUNT
     
     return (
-        <div>
-            <div id="screenshot-area" style={{ textAlign: "center" }}>
+        <div id="screenshot-area">
+            <div style={{ textAlign: "center" }}>
                 {paidStatus ? (
-                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor: "#453130", minHeight: "20em", gap: "0.5em", margin: "1em" }}>
+                    
+                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor: "#453130", padding: "4em 0", gap: "0.5em", margin: "1em" }}>
                         <Heart size={60} color="#E3C4C1" style={{ marginBottom: "2em" }} />
                         <h2 style={{ fontSize: "1em", color: "#FFFFFF" }}>THANH TOÁN THÀNH CÔNG </h2>
                         <h3 style={{ fontSize: "1em", color: "#FFE1E1" }}>TỔNG TIỀN : {displayTotal} </h3>
+                        <h3 style={{ color: "#FFE1E1", fontSize: "1.1em"}}>{`# ${order.id}`}</h3>
                     </div>
+
                 ) : (
                     <img
                         id="qr-code"
@@ -143,86 +151,88 @@ export default function Bill({order}) {
                     />
                 )}
             </div>
-
-            <div style={{ textAlign: "center", margin: "1rem", backgroundColor: "#E3C4C1" }}>
-                <h3 style={{ color: "#FFFFFF", padding: "0.5em", fontSize: "1.1em"}}>{`Đơn hàng: ${order.id}`}</h3>
-            </div>
-
-            <div style={{display: "flex", flexDirection: "column", gap: "1rem", justifyContent: "center", marginTop: "2em", padding: "0 1em"}}>
+            <div style={{display: "flex", flexDirection: "column", gap: "1rem", justifyContent: "center", marginTop:  editMode ? "0em" : "2em", padding: "0 1em"}}>
 
                 {/* have paid */}
                 {paidStatus ? (
-                    <> 
-                        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
-                            
-                            <div style={{display: "flex", gap: "0.5rem"}}>
-                                <p className={styles.copyable}>
-                                        Họ và tên: 
-                                </p>
-                            </div>
-                            <div style={{display: "flex", gap: "0.5rem"}}>
-                                <p className={styles.copyable}>
-                                    {order.name}
-                                </p>
-                                <CopyButton value={displayTotal} />
-                            </div>
-                        </div>
+                    <>
+                        {editMode ? <FormEditOrder order={order} formId={"formEditOrder"} setEditMode={setEditMode} setUpdateOrder={setUpdateOrder}/>
+                                :
+                            <> 
+                                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+                                    
+                                    <div style={{display: "flex", gap: "0.5rem"}}>
+                                        <p className={styles.copyable}>
+                                                Họ và tên: 
+                                        </p>
+                                    </div>
 
-                        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
-                            
-                            <div style={{display: "flex", gap: "0.5rem"}}>
-                                <p className={styles.copyable}>
-                                    Số điện thoại:  
-                                </p>
-                            </div>
+                                    <div style={{display: "flex", gap: "0.5rem"}}>
+                                        <p className={styles.copyable}>
+                                            {order.name} 
+                                        </p>
+                                    </div>
+                                    
+                                </div>
 
-                            <div style={{display: "flex", gap: "0.5rem"}}>
-                                <p className={styles.copyable}>
-                                 (+84) {order.phone} 
-                                </p>
-                                <CopyButton value={displayTotal} />
-                            </div>
-                            
-                        </div>
+                                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                                    
+                                    <div style={{display: "flex", gap: "0.5rem"}}>
+                                        <p className={styles.copyable}>
+                                            Số điện thoại:  
+                                        </p>
+                                    </div>
 
-                        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
-                            
-                            <div style={{display: "flex", gap: "0.5rem"}}>
-                                <p className={styles.copyable}>
-                                    {`Đặt ${count} sản phẩm`}
-                                </p>
-                            </div>
+                                    <div style={{display: "flex", gap: "0.5rem"}}>
+                                        <p className={styles.copyable}>
+                                        (+84) {order.phone} 
+                                        </p>
+                                        {/* <EditButton value={displayTotal}/> */}
+                                    </div>
+                                    
+                                </div>
 
-                            <div style={{display: "flex", gap: "0.5rem"}}>
-                                <p className={styles.copyable}>                         
-                                    {new Date(order.date).toLocaleDateString('vi-VN', {
-                                        day: '2-digit',
-                                        month: '2-digit',
-                                        year: 'numeric',
-                                    })}
-                                </p>
-                                <CopyButton value={displayTotal} />
-                            </div>
-                            
-                        </div>
+                                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                                    
+                                    <div style={{display: "flex", gap: "0.5rem"}}>
+                                        <p className={styles.copyable}>
+                                            {`Đặt ${count} sản phẩm`}
+                                        </p>
+                                    </div>
 
-                        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
-                            
-                            <div style={{display: "flex", gap: "0.5rem"}}>
-                                <p className={styles.copyable}>
-                                    Địa chỉ nhận hàng:
-                                </p>
-                            </div>
+                                    <div style={{display: "flex", gap: "0.5rem"}}>
+                                        <p className={styles.copyable}>                         
+                                            {new Date(order.date).toLocaleDateString('vi-VN', {
+                                                day: '2-digit',
+                                                month: '2-digit',
+                                                year: 'numeric',
+                                            })}
+                                        </p>
+                                        {/* <EditButton value={displayTotal}/> */}
+                                    </div>
+                                    
+                                </div>
 
-                            <div style={{display: "flex", gap: "0.5rem"}}>
-                                <p className={styles.copyable}>
-                                    {`${order.address}`}
-                                </p>
-                                <CopyButton value={displayTotal} />
-                            </div>
-                            
-                        </div>
-                    </>
+                                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                                    
+                                    <div style={{display: "flex", gap: "0.5rem"}}>
+                                        <p className={styles.copyable}>
+                                            Địa chỉ nhận hàng:
+                                        </p>
+                                    </div>
+
+                                    <div style={{display: "flex", gap: "0.5rem"}}>
+                                        <p className={styles.copyable}>
+                                            {`${order.address}`}
+                                        </p>
+                                        {/* <EditButton value={displayTotal}/> */}
+                                    </div>
+                                    
+                                </div>
+                            </>
+                        }
+                    </> 
+    
                 ) : (
                 // unpaid status
                     <> 
@@ -268,7 +278,28 @@ export default function Bill({order}) {
 
             </div>
 
-            <ScreenShotButton />
+            <div style={{display: "flex", justifyContent: "center", marginTop: editMode ? "0em" : "1em", gap: "1rem"}}>
+                    {paidStatus ? (
+                        <>
+                            {editMode ? 
+                                <>
+                                    <SaveButton />
+                                    <DenyButton setEditMode={setEditMode}/>
+                                </>
+                                :
+                                <>
+                                    <ScreenShotButton />
+                                    <EditButton setEditMode={setEditMode}/>
+                                </>
+                            }
+                        </> 
+                    ) : (
+                            <ScreenShotButton />
+                    )}
+            </div>
+
+            
+
             
         </div>
     );

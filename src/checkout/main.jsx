@@ -14,7 +14,9 @@ export default function CheckOut() {
     const { orderId } = useParams();
 
     const [order, setOrder] = useState({});
+    const [updateOrder, setUpdateOrder] = useState(false)
     const [selectedOutFit, setSelectedOutFit] = useState(0)
+    const [paidStatus, setPaidStatus] = useState(null);
 
     const pickOutFit = (index) => setSelectedOutFit(index)
 
@@ -28,6 +30,8 @@ export default function CheckOut() {
                 });
                 console.log("Order details:", response.data);
                 setOrder(response.data);
+                setPaidStatus(response.data.paid_status);
+                // setPaidStatus(true);
 
             } catch (err) {
                 console.error("Error fetching order details:", err);
@@ -35,10 +39,10 @@ export default function CheckOut() {
         }
 
         fetchData();
-    }, [orderId]);
-
+    }, [orderId, updateOrder]);
 
     const isDeskop = useMediaQuery({ query: '(min-width: 1400px)'})
+    const isMobile = useMediaQuery({ query: '(max-width: 1000px)'})
 
     if (isDeskop) {
 
@@ -52,29 +56,42 @@ export default function CheckOut() {
                         cart={cart} 
                         pickOutFit={pickOutFit}
                         removeOutFit={removeOutFit}
-                        editOutFit={editOutFit}/>
+                        editOutFit={editOutFit} 
+                        paidStatus={paidStatus}/>
                 </section>
                 <section className={styles.checkout}>
-                    <Bill  order={order} />
+                    <Bill order={order} paidStatus={paidStatus} setPaidStatus={setPaidStatus} setUpdateOrder={setUpdateOrder}/>
                 </section>
             </>
         );
 
     }
 
+    if (isMobile) {
+        return (
+            
+            <section className={styles.checkout} style={{ gridRow: "1/8"}}>
+                <Bill order={order} paidStatus={paidStatus} setPaidStatus={setPaidStatus} setUpdateOrder={setUpdateOrder}/>
+            </section>    
+            
+        );
+    }
+
     return (
         <>
-            <section className={styles.checkout} style={{ gridRow: "2/8"}}>
-                <Bill order={order} />
+            <section className={styles.checkout} style={{ gridRow: "1/8"}}>
+                <Bill order={order} paidStatus={paidStatus} setPaidStatus={setPaidStatus} setUpdateOrder={setUpdateOrder}/>
             </section>
             <section className={styles.primary} style={{ gridColumn: "1"}}>
                 <Outfit 
                     cart={cart} 
                     pickOutFit={pickOutFit}
                     removeOutFit={removeOutFit}
-                    editOutFit={editOutFit}/>
+                    paidStatus={paidStatus}
+                    editOutFit={editOutFit} />
             </section>
 
         </>
     );
+
 }

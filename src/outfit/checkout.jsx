@@ -72,9 +72,9 @@ export default function CheckOut({outFit, setMissingSize, resetDefault, styles})
     }
 
     return (
-        <div className={styles.submit}> 
+        <div className={styles.submit} style={{margin: "0 1em"}}> 
             <div className={styles.total}>
-                <h3 data-testid="total-text">Tổng tiền: </h3>    
+                <span data-testid="total-text">Tổng tiền: </span>    
                 <animated.span>
                     {springProps.value.to((val) => ` ${formatCurrency(val)}`)}
                 </animated.span>
@@ -82,8 +82,9 @@ export default function CheckOut({outFit, setMissingSize, resetDefault, styles})
             <div style={{display: "flex"}}>
                 <button style={{display: "flex", alignItems: "center", justifyContent:"center", width: `${numberOfCart > 0 ? "70%" : "100%"}`, cursor: "pointer"}}
                     onClick={addToCart}
-                >
-                    Thêm vào giỏ hàng
+                >   
+                    <h3 style={{fontSize: "1.25em", fontWeight: 500}}>Thêm vào giỏ hàng</h3>
+                    
                 </button>
 
                 {numberOfCart > 0 && <button className={styles.back} style={{ backgroundColor: "#E3C4C1", display: "flex" , alignItems: "center", justifyContent:"center", width: "30%", cursor: "pointer" }}

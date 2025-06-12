@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import styles from './cart.module.css';
 import { SquareMinus, Play  } from 'lucide-react'; // adjust import if needed
 
-export default function Image({ outfit, index, pickOutFit, removeOutFit, editOutFit }) {
+export default function Image({ outfit, index, pickOutFit, removeOutFit, editOutFit, paidStatus}) {
     const scrollRef = useRef(null);
     const [atStart, setAtStart] = useState(true);
     const [atEnd, setAtEnd] = useState(false);
@@ -100,12 +100,17 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
 
     }, [])
 
+    console.log(paidStatus)
+
     return (
 
             <div className={styles.row}>
                 <div className={styles.set}>
                     <h3>SET {index + 1}</h3>
-                    <button className={styles.remove} onClick={() => removeOutFit(outfit)}>XÓA</button>
+                    { !paidStatus ? (
+                        <button className={styles.remove} onClick={() => removeOutFit(outfit)}>XÓA</button>
+                    ) : null }
+                    
                 </div>
 
                 <div className={styles.outfit} onClick={() => pickOutFit(index)}>
@@ -128,11 +133,14 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
                                 <img
                                     src={object.item.image}
                                     alt={`item-${index}`}/>
-                                <button
-                                    className={styles.edit}
-                                    onClick={() => editOutFit(outfit, object.item, object.section || index)}>
-                                    <SquareMinus size={14}/>
-                                </button>
+                                { !paidStatus ? (
+                                    <button
+                                        className={styles.edit}
+                                        onClick={() => editOutFit(outfit, object.item, object.section || index)}>
+                                        <SquareMinus size={14}/> 
+                                    </button>
+                                ) : null }
+                                
                             </div>
                         ))}
                     </div>

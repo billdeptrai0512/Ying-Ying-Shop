@@ -31,6 +31,15 @@
     width: 80%;
 }
 
+
+.form {
+    background-color: #F0E4E2;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/*  */
+
 .primary {
     padding: 1em;
     flex: 1 1 auto;
@@ -307,7 +316,7 @@ input[type=number]::-webkit-outer-spin-button {
         margin-bottom: 2.2em;
     }
 
-    .checkout > form {
+    .main > .form {
         background-color: #F0E4E2;
     }
 
@@ -415,7 +424,8 @@ input[type=number]::-webkit-outer-spin-button {
         min-width: 100%;
     }
 
-    .checkout > form {
+    .main > .form {
+        width: 80%;
         background-color: #F0E4E2;
     }
 

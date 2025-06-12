@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMediaQuery } from "react-responsive";
 import styles from "./checkout.module.css"
 import axios from "axios";
 import Total from "./total";
@@ -60,23 +59,22 @@ function getAllItem(cart) {
     return allItem;
 }
 
-export default function FormPlaceOrder({cart, selectedOutFit}) {
+export default function FormPlaceOrder({cart, formId}) {
 
     const navigate = useNavigate()
 
+    const [errors, setErrors] = useState([]); // State to store validation errors
     const [formData, setFormData] = useState({
         date: '',
         month: '',
         year: '',
         name: '',
         phone: '', //encrypt phone - email - address
-        email: '',
         address: '',
     })
 
-    const [errors, setErrors] = useState([]); // State to store validation errors
-
     const handleSubmit = async (e) => {
+        
         e.preventDefault();
         setErrors([]); // Clear previous errors
 
@@ -123,13 +121,9 @@ export default function FormPlaceOrder({cart, selectedOutFit}) {
         const error = errors.find((err) => err.path === fieldName);
         return error ? error.msg : null;
     };
-
-    // so the total and the count here is the count of all item in cart and so do total
-
-    const isDesktop = useMediaQuery({ query: '(min-width: 1400px)'})
     
     return (
-        <form onSubmit={handleSubmit} className={styles.form}>
+        <form id={formId} className={styles.form} onSubmit={handleSubmit}  >
             <div className={styles.details}>
                 <div>
                     <label htmlFor="date">Ngày thuê:</label>
@@ -158,15 +152,7 @@ export default function FormPlaceOrder({cart, selectedOutFit}) {
                     {getErrorForField("address") && (<p className={styles.error}>{getErrorForField("address")}</p>)}    
                     <textarea className={styles.address} name="address" placeholder="Địa chỉ:" value={formData.address} onChange={handleChange} rows={6} />
                 </div>
-
-                
             </div>
-            <div className={styles.submit}>
-                <Total cart={cart} selectedOutFit={selectedOutFit}></Total> 
-                <button className={styles.back} onClick={() => navigate(isDesktop ? '/' : '/cart')}>TRỞ VỀ</button> 
-                <button className={styles.cta} type="submit">THANH TOÁN</button>
-            </div>
-            {/* <Link to="/" >Cancel </Link> */}
         </form>
     )
 }

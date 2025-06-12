@@ -1,4 +1,5 @@
 import domtoimage from "dom-to-image";
+import styles from "./checkout.module.css";
 import { Camera } from 'lucide-react';
 
 export default function ScreenShotButton() {
@@ -20,14 +21,14 @@ export default function ScreenShotButton() {
 
     return (
         <div style={{ textAlign: "center", margin: "1rem" }}>
-            <div style={{backgroundColor: "#331D1C", width: "fit-content", margin: "0 auto", padding: "0.5em", display: "flex", flexDirection: "column", alignItems: "center", borderRadius: "50%", marginBottom:"0.5em", cursor: "pointer"}}
+            <button style={{backgroundColor: "#331D1C", width: "fit-content", margin: "0 auto", padding: "0.5em", display: "flex", flexDirection: "column", alignItems: "center", borderRadius: "50%", marginBottom:"0.5em", cursor: "pointer"}}
                 onClick={takeScreenshot}
             >
                 <Camera size={20} color="#FFFFFF"  />
-            </div>
-            {/* <p className={styles.copyable}>
+            </button>
+            <p className={styles.copyable}>
                 Lưu ảnh
-            </p> */}
+            </p>
         </div>
     )
     
