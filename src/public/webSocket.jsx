@@ -1,57 +1,69 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useRef } from "react";
 
 const WebSocketContext = createContext();
 
 export function WebSocketProvider({ children }) {
     const [socket, setSocket] = useState(null);
     const [messages, setMessages] = useState([]);
+    const reconnectRef = useRef(null); // prevent duplicate reconnects
 
     useEffect(() => {
         let ws;
 
         const connectWebSocket = () => {
-            ws = new WebSocket(`${import.meta.env.VITE_WEBSOCKET_URL}`);
+            if (ws) ws.close(); // Cleanup old one just in case
+
+            ws = new WebSocket(import.meta.env.VITE_WEBSOCKET_URL);
 
             ws.onopen = () => {
-                console.log("WebSocket connection established");
+                console.log("WebSocket connected");
                 setSocket(ws);
             };
 
             ws.onmessage = (event) => {
-                console.log("Message from server:", event.data);
                 try {
-                    const parsedData = JSON.parse(event.data);
-                    setMessages((prevMessages) => [...prevMessages, parsedData]);
-                } catch (err) {
-                    console.error("Error parsing WebSocket message:", err);
+                    const parsed = JSON.parse(event.data);
+                    setMessages((prev) => [...prev, parsed]);
+                } catch (e) {
+                    console.error("WebSocket JSON error:", e);
                 }
             };
 
             ws.onclose = () => {
-                console.log("WebSocket connection closed. Attempting to reconnect...");
+                console.warn("WebSocket closed. Reconnecting...");
                 setSocket(null);
-                setTimeout(connectWebSocket, 5000); // Retry connection after 5 seconds
+
+                // Prevent multiple reconnects
+                if (!reconnectRef.current) {
+                    reconnectRef.current = setTimeout(() => {
+                        reconnectRef.current = null;
+                        connectWebSocket();
+                    }, 5000);
+                }
             };
 
-            ws.onerror = (error) => {
-                console.error("WebSocket error:", error);
+            ws.onerror = (err) => {
+                console.error("WebSocket error:", err);
+                ws.close(); // force reconnect path
             };
         };
 
         connectWebSocket();
 
         return () => {
-            if (ws && ws.readyState === WebSocket.OPEN) {
-                ws.close();
+            if (ws) ws.close();
+            if (reconnectRef.current) {
+                clearTimeout(reconnectRef.current);
+                reconnectRef.current = null;
             }
         };
     }, []);
 
-    const sendMessage = (message) => {
-        if (socket && socket.readyState === WebSocket.OPEN) {
-            socket.send(JSON.stringify(message));
+    const sendMessage = (msg) => {
+        if (socket?.readyState === WebSocket.OPEN) {
+            socket.send(JSON.stringify(msg));
         } else {
-            console.warn("WebSocket is not open. Cannot send message:", message);
+            console.warn("WebSocket not open:", msg);
         }
     };
 
@@ -61,6 +73,7 @@ export function WebSocketProvider({ children }) {
         </WebSocketContext.Provider>
     );
 }
+
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const useWebSocket = () => useContext(WebSocketContext);
