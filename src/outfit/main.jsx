@@ -209,9 +209,9 @@ export default function Outfit() {
                     missingSize={missingSize}
                     setMissingSize={setMissingSize}
                     bottomSection={bottomSection}
-                    setBottomSection={setBottomSection}
-                    setJacketSection={setJacketSection}
                     jacketSection={jacketSection}
+                    setBottomSection={setBottomSection}
+                    setJacketSection={setJacketSection}  
                     neckWearSection={neckSection}
                     resetTrigger={resetTrigger}
                 />

@@ -158,6 +158,12 @@
     background-color: #331D1C;
 }
 
+.form {
+    background-color: #F0E4E2;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
 .details {
     display: flex;
     flex-direction: column;
@@ -212,9 +218,34 @@ input[type=number]::-webkit-outer-spin-button {
     margin-bottom: 0.5em;
 }
 
+@media (max-width: 375px) {
+
+    .main {
+        padding: unset;
+    }
+/* 
+    .board , .checkout, .form {
+        max-width: 350px;
+    }
+
+    .scrollRight {
+        transform: translateX(calc(5 * 395%));
+    }
+    
+    .cart_container {
+        gap: 0.5rem;
+        width: calc(5 * 3.5rem + 4 * 0.5rem);
+    } */
+
+} 
+
 @media (min-width: 375px) and (max-width: 600px) {
 
-    .board , .checkout {
+    .main {
+        padding: unset;
+    }
+
+    .board , .checkout, .form {
         max-width: 350px;
     }
 
@@ -264,11 +295,9 @@ input[type=number]::-webkit-outer-spin-button {
     .main {
         grid-row: 2/8;
         align-self: center;
-        padding-bottom: 2.3em;
     }
 
     .board {
-        max-width: unset;
         border-top-right-radius: 45%;
         border-top-left-radius: 45%;
     }
@@ -281,7 +310,7 @@ input[type=number]::-webkit-outer-spin-button {
         grid-row: 2/7;
         grid-column: 2;
         min-width: 100%;
-        margin-bottom: 1rem;
+        margin-bottom: 1.8rem;
         overflow-y: auto;        
         scrollbar-width: thin; /* Firefox: thin scrollbar */
     }
@@ -301,14 +330,9 @@ input[type=number]::-webkit-outer-spin-button {
     }
 
     .checkout {
-        grid-row: 7/8;
+        grid-row: 7;
         grid-column: 2;
         max-width: unset;
-        margin-bottom: 2.2em;
-    }
-
-    .checkout > form {
-        background-color: #F0E4E2;
     }
 
     .details {
@@ -338,16 +362,6 @@ input[type=number]::-webkit-outer-spin-button {
     input[type=number]::-webkit-inner-spin-button,
     input[type=number]::-webkit-outer-spin-button {
         -webkit-appearance: none;
-    }
-    
-    .submit {
-        padding: 0 1em 1em;
-    }
-
-    .checkout .total {
-        /* border-top: 1px solid #000000; */
-        padding-top: 1em;
-        margin-bottom: 1em
     }
 
     .checkout > form > .submit > .total {

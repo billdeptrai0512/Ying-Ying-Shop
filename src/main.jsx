@@ -12,8 +12,8 @@ import FileUpload from './form/upload-file.jsx';
 import Edit from './form/edit.jsx';
 import FolderCreate from './form/folder.jsx';
 import Outfit from './outfit/main.jsx';
-import ConfirmOrder from './checkout/confirmOrder.jsx';
-import PlaceOrder from './checkout/placeOrder.jsx';
+import ConfirmOrder from './cart/confirmOrder.jsx';
+import PlaceOrder from './cart/placeOrder.jsx';
 import CheckOut from './checkout/main.jsx';
 import { FolderProvider } from './public/folderContext.jsx';
 import { CartProvider } from './public/cartContext.jsx';
@@ -45,15 +45,21 @@ export default function App() {
               path: "placeorder",
               element: <PlaceOrder />,
             },
-            {
-              path: "checkout/:orderId",
-              element: <CheckOut />,
-            }
           ]
+        },
+        {
+          path: "checkout/:orderId",
+          element: <CheckOut />,
         },
         {
           path: "admin",
           element: <Login />,
+          children: [
+            {
+              path: "order",
+              element: <ConfirmOrder />,
+            },
+          ]
         },
         {
           path: "folder",

@@ -3,20 +3,6 @@
     color: red;
 }
 
-.main {
-    padding: 0 0.5em;
-}
-
-.board {
-    text-align: center;
-    background-color: #F0E4E2;
-    margin: 0 auto;
-    max-width: 425px;
-    font-size: 0.65rem;
-    border-top-right-radius: 50%;
-    border-top-left-radius: 50%;
-}
-
 .demo {
     display: flex;
     justify-content: center;
@@ -31,108 +17,11 @@
     width: 80%;
 }
 
-
 .form {
     background-color: #F0E4E2;
     max-width: 400px;
     margin: 0 auto;
 }
-
-/*  */
-
-.primary {
-    padding: 1em;
-    flex: 1 1 auto;
-    margin: 0 auto;
-    overflow-y: scroll;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none;  /* IE 10+ */
-}
-
-.container::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Edge */
-}
-
-
-.primary > div {
-    padding-bottom: 1.5em;
-}
-
-.row {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-.set {
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 2px solid #696868;
-}
-
-.set > h3 {
-    font-weight: 700;
-    color: #444444;
-}
-
-.set button {
-    position: relative;
-    border: none;
-    background-color: #F5F5F5;
-    color: #868686;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 0.65em;
-}
-
-/* ---- */
-
-.outfit {
-    position: relative;
-    width: 100%;
-    background-color: #f6f4f0;
-    display: flex;
-    align-items: center;
-}
-
-.cart_container {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 3.5rem;
-    overflow-x: scroll;
-    gap: 0.35rem;
-    padding-top: 0.55rem;
-    width: calc(4 * 3.5rem + 3 * 0.35rem);
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none;  /* IE 10+ */
-}
-
-.cart_container::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Edge */
-}
-
-.scrollRight {
-    transform: translateX(calc(4 * 380%));
-}
-
-.item {
-    position: relative;
-}
-
-.cart_container img {
-    border: 1px solid #696868;
-    background-color: #FFFFFF;
-}
-
-.edit {
-    position: absolute;
-    background-color: #FFFFFF;
-    border: none;
-    cursor: pointer;
-    right: 0;
-}
-
-/* ----- */
 
 .checkout {
     display: flex;
@@ -142,29 +31,6 @@
     max-width: 425px;
     flex-direction: column;
     background-color: #F0E4E2;
-}
-
-.checkout .back {
-    width: 30%;
-    text-align: center;
-    color: #331D1C;
-    font-weight: 600;
-    font-size: 0.8em;
-    background-color: #E3C4C1;
-}
-
-.checkout .cta {
-    width: 70%;
-    text-align: center;
-    font-size: 0.8em;
-    background-color: #331D1C;
-}
-
-.checkout .next {
-    width: 100%;
-    text-align: center;
-    font-size: 0.8em;
-    background-color: #331D1C;
 }
 
 .details {
@@ -195,26 +61,6 @@ input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
 }
 
-.total {
-    display: flex;
-    justify-content: space-between;
-}
-
-.total h3 {
-    font-size: 1em;
-}
-
-.total p {
-    font-size: 1em;
-}
-
-.checkout button {
-    background-color: #331D1C;
-    color: #fff;
-    padding: 1em;
-    border: none;
-}
-
 .copyable {
     font-size: 0.8em;
     font-weight: 750;
@@ -224,16 +70,7 @@ input[type=number]::-webkit-outer-spin-button {
 @media (min-width: 375px) and (max-width: 600px) {
 
     .board , .checkout {
-        max-width: 350px;
-    }
-
-    .scrollRight {
-        transform: translateX(calc(5 * 395%));
-    }
-    
-    .cart_container {
-        gap: 0.5rem;
-        width: calc(5 * 3.5rem + 4 * 0.5rem);
+        max-width: 375px;
     }
 
 } 
@@ -241,7 +78,7 @@ input[type=number]::-webkit-outer-spin-button {
 @media (min-width: 600px) and (max-width: 1000px) {
 
     .board , .checkout {
-        max-width: 400px;
+        max-width: 375px;
     }
 
     .primary {
@@ -290,6 +127,7 @@ input[type=number]::-webkit-outer-spin-button {
         grid-row: 2/7;
         grid-column: 2;
         min-width: 100%;
+        padding: 1em;
         margin-bottom: 1rem;
         overflow-y: auto;        
         scrollbar-width: thin; /* Firefox: thin scrollbar */
@@ -312,7 +150,6 @@ input[type=number]::-webkit-outer-spin-button {
     .checkout {
         grid-row: 7/8;
         grid-column: 2;
-        max-width: unset;
         margin-bottom: 2.2em;
     }
 
@@ -396,7 +233,7 @@ input[type=number]::-webkit-outer-spin-button {
     }
 
     .primary {
-        margin: 7em 0 ;
+        margin: 3.75em 0 ;
         padding: 1.25em;
         grid-column: 2 ;
         min-width: 100%;
@@ -422,6 +259,10 @@ input[type=number]::-webkit-outer-spin-button {
         margin-top: 1em;
         grid-column: 3;
         min-width: 100%;
+    }
+
+    .qr {
+        width: 70%;
     }
 
     .main > .form {

@@ -16,21 +16,24 @@ export default function Header() {
             </div>
             <div className={styles.path}>
 
-                <a href="https://www.facebook.com/yingyingcosshop" target="_blank" rel="noopener noreferrer" >
-                    FANPAGE 
-                </a>
-                <a href="https://www.tiktok.com/@ying_ying_cosplayshop" target="_blank" rel="noopener noreferrer" >
-                    TIKTOK 
-                </a>
+
                 {user ? (
-                    <>
-                        <span style={{marginLeft: "1rem" , color: '#868686'}}>
-                            {user.username.toUpperCase()}
-                        </span>
+                    <div style={{display:"flex", gap:"1em"}}>
+                        <Link to={`/order`} >ORDER </Link>
+
                         <Logout/>
-                    </>
+                    </div>
+                    
+                    
                 ) : (
-                    null
+                    <>
+                        <a href="https://www.facebook.com/yingyingcosshop" target="_blank" rel="noopener noreferrer" >
+                            FANPAGE 
+                        </a>
+                        <a href="https://www.tiktok.com/@ying_ying_cosplayshop" target="_blank" rel="noopener noreferrer" >
+                            TIKTOK 
+                        </a>
+                    </>
                 )}
                 
             </div>

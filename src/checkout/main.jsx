@@ -8,8 +8,10 @@ import axios from "axios";
 import Outfit from "../cart/outfit";
 import Demo from "../cart/demo";
 import Bill from "./bill";
+import Total from "./total";
 
 export default function CheckOut() {
+
     const { cart, removeOutFit, editOutFit } = useCart()
     const { orderId } = useParams();
 
@@ -31,7 +33,6 @@ export default function CheckOut() {
                 console.log("Order details:", response.data);
                 setOrder(response.data);
                 setPaidStatus(response.data.paid_status);
-                // setPaidStatus(true);
 
             } catch (err) {
                 console.error("Error fetching order details:", err);
@@ -79,10 +80,7 @@ export default function CheckOut() {
 
     return (
         <>
-            <section className={styles.checkout} style={{ gridRow: "1/8"}}>
-                <Bill order={order} paidStatus={paidStatus} setPaidStatus={setPaidStatus} setUpdateOrder={setUpdateOrder}/>
-            </section>
-            <section className={styles.primary} style={{ gridColumn: "1"}}>
+            <section className={styles.primary} style={{gridColumn: "1", position: "absolute", minWidth: "unset"}}>
                 <Outfit 
                     cart={cart} 
                     pickOutFit={pickOutFit}
@@ -90,7 +88,9 @@ export default function CheckOut() {
                     paidStatus={paidStatus}
                     editOutFit={editOutFit} />
             </section>
-
+            <section className={styles.checkout} style={{ gridRow: "1/8"}}>
+                <Bill order={order} paidStatus={paidStatus} setPaidStatus={setPaidStatus} setUpdateOrder={setUpdateOrder}/>
+            </section>
         </>
     );
 

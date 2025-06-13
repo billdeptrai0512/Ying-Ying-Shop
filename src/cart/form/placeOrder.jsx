@@ -1,22 +1,81 @@
 import { useState } from "react";
-import styles from "./checkout.module.css"
+import { useNavigate } from "react-router-dom";
+import styles from "../cart.module.css"
 import axios from "axios";
-import Total from "./total";
 
-export default function FormEditOrder({ order, formId, setEditMode, setUpdateOrder }) {
+function getAllItem(cart) {
+
+    const allItem = []
+
+    cart.forEach(outfit => {
+        Object.entries(outfit)
+            .filter(([key]) => key !== "total")
+            .forEach(([section, value]) => {
+                //if section = extra
+                if (section === 'extra') {
+                    const neck = value.neck
+                    const bag = value.bag
+
+                    if (neck.item) {
+
+                        const item = neck.item
+
+                        const data = {
+                            id: item.id,
+                        }
+
+                        allItem.push(data)
+                    }
+
+                    if (bag.item) {
+
+                        const item = bag.item
+                        
+                        const data = {
+                            id: item.id,
+                        }
+
+                        allItem.push(data)
+                    }
+
+                }
+
+                if (value.item) {
+                    
+                    const item = value.item
+
+                    const data = {
+                        id: item.id,
+                        size: value.size,
+                    }
+
+                    allItem.push(data)
+
+                }
+            });
+    });
+
+    return allItem;
+}
+
+export default function FormPlaceOrder({cart, formId}) {
+
+    const navigate = useNavigate()
 
     const [errors, setErrors] = useState([]); // State to store validation errors
     const [formData, setFormData] = useState({
-        date: new Date(order.date).toLocaleDateString('vi-VN', {day: '2-digit'}) || '',
-        month: new Date(order.date).toLocaleDateString('vi-VN', {month: '2-digit'}) || '',
-        year: new Date(order.date).toLocaleDateString('vi-VN', {year: 'numeric'}) || '',
-        name: order.name || '',
-        phone: order.phone || '', // encrypt phone - email - address
-        address: order.address || '',
-    });
+        date: '',
+        month: '',
+        year: '',
+        name: '',
+        phone: '', //encrypt phone - email - address
+        address: '',
+    })
 
     const handleSubmit = async (e) => {
 
+        console.log('hello')
+        
         e.preventDefault();
         setErrors([]); // Clear previous errors
 
@@ -28,20 +87,21 @@ export default function FormEditOrder({ order, formId, setEditMode, setUpdateOrd
         data.append('name', formData.name.toUpperCase());
         data.append('address', formData.address.toUpperCase());
         data.append('phone', formData.phone);
+        data.append('total', cart.reduce((acc, item) => acc + item.total, 0)); // total price of all items in cart
+        data.append('cart', JSON.stringify(getAllItem(cart))); // Serialize the array to JSON
 
         try {
-            const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/place-order/edit/${order.id}`, data, {
+
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/place-order/create`, data, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
 
-            console.log(response.data);
+            console.log(response.data)
 
-            setEditMode(false)
+            navigate(`/checkout/${response.data.id}`)
 
-            setUpdateOrder((prev => !prev))
-            
         } catch (err) {
             if (err.response && err.response.status === 400) {
                 setErrors(err.response.data.errors); // Set validation errors from the backend
@@ -55,18 +115,19 @@ export default function FormEditOrder({ order, formId, setEditMode, setUpdateOrd
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        setFormData((prev) => ({ ...prev, [name]: value }));
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
     const getErrorForField = (fieldName) => {
         const error = errors.find((err) => err.path === fieldName);
         return error ? error.msg : null;
     };
-
+    
     return (
-        <form id={formId} className={styles.form} onSubmit={handleSubmit}>
-            <div className={styles.details} style={{ padding: "0 1em" }}>
+        <form id={formId} className={styles.form} onSubmit={handleSubmit}  >
+            <div className={styles.details}>
                 <div>
+                    <label htmlFor="date">Ngày thuê:</label>
                     <div className={styles.date}>
                         <input type="number" name="date" placeholder="Ngày" value={formData.date} onChange={handleChange} />
                         <input type="number" name="month" placeholder="Tháng" value={formData.month} onChange={handleChange} />
@@ -79,7 +140,7 @@ export default function FormEditOrder({ order, formId, setEditMode, setUpdateOrd
                     )}
                 </div>
                 <div>
-                    {getErrorForField("name") && (<p className={styles.error}>{getErrorForField("name")}</p>)}
+                    {getErrorForField("name") && (<p className={styles.error}>{getErrorForField("name")}</p>)}       
                     <input className={styles.name} type="text" name="name" placeholder="Tên:" value={formData.name} onChange={handleChange} />
                 </div>
 
@@ -87,12 +148,12 @@ export default function FormEditOrder({ order, formId, setEditMode, setUpdateOrd
                     {getErrorForField("phone") && (<p className={styles.error}>{getErrorForField("phone")}</p>)}
                     <input className={styles.phone} type="number" name="phone" placeholder="Số điện thoại:" value={formData.phone} onChange={handleChange} />
                 </div>
-
+                
                 <div>
-                    {getErrorForField("address") && (<p className={styles.error}>{getErrorForField("address")}</p>)}
+                    {getErrorForField("address") && (<p className={styles.error}>{getErrorForField("address")}</p>)}    
                     <textarea className={styles.address} name="address" placeholder="Địa chỉ:" value={formData.address} onChange={handleChange} rows={6} />
                 </div>
             </div>
         </form>
-    );
+    )
 }

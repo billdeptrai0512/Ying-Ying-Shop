@@ -56,10 +56,28 @@
 .checkout {
     display: flex;
     align-self: center;
-    padding: 0.8em;
+    padding: 1em;
     width: 100%;
-    max-width: 425px;
+    max-width: 400px;
     flex-direction: column;
+    background-color: #F0E4E2;
+}
+
+.checkout .back {
+    width: 30%;
+    text-align: center;
+    color: #331D1C;
+    font-weight: 600;
+    font-size: 0.68em;
+    transform: translateY(3px);
+    background-color: #E3C4C1;
+}
+
+.checkout .cta {
+    width: 70%;
+    color: #fff;
+    font-size: 0.8em;
+    background-color: #331D1C;
 }
 
 .total {
@@ -72,8 +90,6 @@
 }
 
 .checkout button {
-    background-color: #331D1C;
-    color: #fff;
     padding: 1em;
     border: none;
 }
@@ -130,7 +146,6 @@
     .main {
         grid-row: 2/8;
         align-self: center;
-        padding-bottom: 1em;
     }
 
     .board {
@@ -148,11 +163,10 @@
         grid-column: 2;
         min-width: 100%;
         padding: 0 1.25em;
-        margin-bottom: 1rem;
+        margin-bottom: 2em;
         overflow-y: auto;
-        /* hide scroll-Y bar */
-        -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
-        scrollbar-width: thin; /* Firefox: thin scrollbar */
+        -webkit-overflow-scrolling: touch; 
+        scrollbar-width: thin;
     }
 
     .checkout {
@@ -169,12 +183,8 @@
         font-size: 1.6em;
     }
 
-    .total h3 {
-        font-size: 1.25em;
-    }
-
     .total span {
-        font-size: 1.25em;
+        font-size: 1em;
     }
 
 } 

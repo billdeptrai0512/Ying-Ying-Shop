@@ -1,5 +1,5 @@
 import domtoimage from "dom-to-image";
-import styles from "./checkout.module.css";
+import styles from "../checkout.module.css";
 import { Camera } from 'lucide-react';
 
 export default function ScreenShotButton() {

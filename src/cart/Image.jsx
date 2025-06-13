@@ -100,8 +100,6 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
 
     }, [])
 
-    console.log(paidStatus)
-
     return (
 
             <div className={styles.row}>
