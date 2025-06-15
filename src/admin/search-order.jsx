@@ -30,7 +30,7 @@ export default function SearchOrder({ status, setStatus, setRefresh, setListOrde
       }
     }, 500); // wait 500ms after user stops typing
   
-    return () => clearTimeout(delayDebounce); // cleanup on next keystroke
+    return () => clearTimeout(delayDebounce); 
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchId]);

@@ -73,7 +73,8 @@ export default function Item({ folderId, inventory, updateSize, updateOutFit,
                 <Information 
                     folderId={folderId} 
                     name={inventory.name} 
-                    amount={selectedItem ? selectedItem.amount : null} />
+                    section={inventory.section}
+                    amount={bottomSection === inventory.files[0].type ? selectedItem.amount : null} />
                 <Image
                     name={inventory.name}
                     inventory={inventory.files}
@@ -101,7 +102,11 @@ export default function Item({ folderId, inventory, updateSize, updateOutFit,
                 className={styles.item}
                 style={{ opacity: jacketSection === null || jacketSection === inventory.files[0].type ? 1 : 0.5 }}
             >
-                <Information folderId={folderId} name={inventory.name} amount={selectedItem ? selectedItem.amount : null} />
+                <Information 
+                    folderId={folderId} 
+                    name={inventory.name} 
+                    section={inventory.section}
+                    amount={jacketSection === inventory.files[0].type ? selectedItem.amount : null} />
                 <Image
                     name={inventory.name}
                     inventory={inventory.files}
@@ -144,7 +149,10 @@ export default function Item({ folderId, inventory, updateSize, updateOutFit,
             <div 
                 ref={itemRef}
                 className={styles.item}>
-                <Information folderId={folderId} name={inventory.name} amount={selectedItem ? selectedItem.amount : null} />
+                <Information 
+                    folderId={folderId} 
+                    name={inventory.name} 
+                    amount={selectedItem ? selectedItem.amount : null} />
                 <Image
                     name={inventory.name}
                     inventory={inventory.files}

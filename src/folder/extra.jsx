@@ -14,18 +14,23 @@ export default function Extra({folderId, inventory, selectedItem, bowInventory, 
 
         if (!selectedItem) return
 
-        if (selectedItem.bag) setSelectedBag(selectedItem.bag)
+        if (selectedItem.bag) {
+            setSelectedBag(selectedItem.bag)
+        } else {
+            setSelectedBag(null)
+        }
       
         if (selectedItem.neck) {
 
             if (selectedItem.neck?.type === "bow") {
 
-             setSelectedBow(selectedItem.neck);
+                setSelectedBow(selectedItem.neck);
+                setSelectedTie(null)
 
             } else if (selectedItem.neck?.type === "tie") {
 
-             setSelectedTie(selectedItem.neck);            
-            
+                setSelectedTie(selectedItem.neck);            
+                setSelectedBow(null)
             }
         }
 

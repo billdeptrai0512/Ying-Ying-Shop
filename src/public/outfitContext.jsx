@@ -52,7 +52,6 @@ export function OutfitProvider({ children }) {
         } else {
             return outFit[section].item;
         }
-        
     };
 
     return (

@@ -1,17 +1,15 @@
 import styles from "./outfit.module.css"
-
 import watermark from "./../assets/wtm.png"
-const facebookLink = "https://www.facebook.com/media/set/?set=a.122106501296570424&type=3"
+import axios from "axios";
+import { useState, useEffect } from "react";  
+import { useAuth } from "../public/authContext"
+import { Star, Dices } from 'lucide-react';
+
+export default function Demo({outFit, setOutFit}) {
 
 
-const buttonStyle = (value) => {
-
-    return {
-        zIndex: value.item.z_index || 0
-    }
-}
-
-export default function Demo({outFit}) {
+    const [filled, setFilled] = useState(false)
+    const { user } = useAuth()
 
     const getDemoImages = (outFit) => {
         const images = [];
@@ -47,6 +45,53 @@ export default function Demo({outFit}) {
         />
     ));
 
+    const addToFavorite = async (outFit) => {
+
+        try {
+            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/favorite/add`,
+                {   
+                    outfit: outFit,
+                    combination: JSON.stringify(getAllItem(outFit))
+                },
+                {
+                    headers: {
+                        "ngrok-skip-browser-warning": "true",
+                    },
+            });
+
+          } catch (err) {
+            console.error("add favorite failed: " + err);
+          } finally {
+            setFilled(true)
+          }
+    }
+
+    const getRandomFavoriteOutFit = async () => {
+
+        try {
+
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/favorite`,
+                {
+                    headers: {
+                        "ngrok-skip-browser-warning": "true",
+                    },
+            });
+
+            setOutFit(response.data.outfit)
+
+          } catch (err) {
+            console.error("get random favorite failed: " + err);
+          } 
+    }
+
+    useEffect(() => {
+
+        if (outFit) {
+            setFilled(false)
+        }
+
+    }, [outFit])
+
     return (
         <div className={styles.board}>
             <div className={styles.demo}>
@@ -58,9 +103,61 @@ export default function Demo({outFit}) {
                     alt={"watermark"} 
                 />
             </div>
-            <div className={styles.example}> 
-                Bấm vào <a href={facebookLink} target="_blank" rel="noopener noreferrer"> đây</a> tham khảo nếu bạn bí ý tưởng nha 😉
+
+            <div className={styles.example}>
+                {user && (
+                    <Star
+                        size={30}
+                        fill={filled ? "yellow" : "none"}
+                        onClick={() => addToFavorite(outFit)}
+                        style={{ cursor: "pointer" }}
+                    />
+                )}
+
+                <Dices
+                    size={30}
+                    onClick={getRandomFavoriteOutFit}
+                    style={{ cursor: "pointer" }}
+                />
             </div>
         </div>
     )
+}
+
+const buttonStyle = (value) => {
+
+    return {
+        zIndex: value.item.z_index || 0
+    }
+}
+
+function getAllItem(outFit) {
+    const allItem = [];
+
+    Object.entries(outFit)
+        .filter(([key]) => key !== "total" && key !== "id")
+        .forEach(([section, value]) => {
+            if (section === "extra") {
+                const { neck, bag } = value;
+
+                if (neck?.item) {
+                    allItem.push({ id: neck.item.id });
+                }
+
+                if (bag?.item) {
+                    allItem.push({ id: bag.item.id });
+                }
+
+                return;
+            }
+
+            if (value?.item) {
+                allItem.push({
+                    id: value.item.id,
+                    size: value.size,
+                });
+            }
+        });
+
+    return allItem;
 }

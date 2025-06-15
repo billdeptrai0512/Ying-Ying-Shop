@@ -143,10 +143,10 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
                 {inventory.map((item, index) => (
 
                     <React.Fragment key={index}>
-                        <div onClick={() => pickItem(item, section)} style={{ position: "relative" , border: selectedItem === item ? '2px solid #331D1C' : 'none'}}> 
+                        <div onClick={() => pickItem(item, section)} style={{ position: "relative" , border: selectedItem?.id === item.id ? '2px solid #331D1C' : 'none'}}> 
                             {/* cover */}
 
-                            {selectedItem === item ? <img src={imageCover} alt="selectedItem" style={{ position: "absolute", bottom: "0", right: "0" }}></img> : null}
+                            {selectedItem?.id === item.id ? <img src={imageCover} alt="selectedItem" style={{ position: "absolute", bottom: "0", right: "0" }}></img> : null}
                             {/* image */}
 
                             {user ? <Link to={`admin/file/${item.id}`}>

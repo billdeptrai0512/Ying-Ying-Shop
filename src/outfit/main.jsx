@@ -94,6 +94,7 @@ export default function Outfit() {
                 // total = tổng tiền trước đó - curentItem nếu có + item mới
             };
         });
+        
         setSelectedItem(item); // Save the selected item
     };
 
@@ -154,7 +155,7 @@ export default function Outfit() {
         return (
             <>
                 <section className={styles.main}>
-                    <Demo outFit={outFit} styles={styles} />
+                    <Demo outFit={outFit} setOutFit={setOutFit} styles={styles} />
                 </section>
                 <section className={styles.primary}>
                     <Folder
@@ -171,7 +172,7 @@ export default function Outfit() {
                         resetTrigger={resetTrigger}
                     />
                 </section>
-                <section className={styles.checkout}>
+                <section className={styles.checkout} style={{backgroundColor: "unset"}}>
                     <Folder
                         folder={rightFolder}
                         loading={loading}

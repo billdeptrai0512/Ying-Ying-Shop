@@ -93,10 +93,6 @@ export default function CheckOut({outFit, setMissingSize, resetDefault, styles})
                 <ShoppingCart size={22} color="#000000" style={{fontWeight: "800", marginRight: "0.5em",}} />
                 <span style={{ fontWeight: "650", color: '#DC1E1E', fontSize: "1.5em" }}> ( {numberOfCart} )</span>
             </button>}
-            
-
-
-            
     </div>
     )
 }
