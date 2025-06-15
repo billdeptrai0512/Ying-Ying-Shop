@@ -1,6 +1,6 @@
 import styles from "./header.module.css"
 import { Link } from "react-router-dom"
-import Logout from "../form/logout"
+import Logout from "../admin/logout"
 import { useAuth } from "../public/authContext"
 export default function Header() {
 
@@ -18,12 +18,10 @@ export default function Header() {
 
 
                 {user ? (
-                    <div style={{display:"flex", gap:"1em"}}>
-                        <Link to={`/order`} >ORDER </Link>
-
-                        <Logout/>
-                    </div>
-                    
+                    <>
+                        <Link to={`/admin/order`} >ORDER </Link>
+                        <Logout />
+                    </>
                     
                 ) : (
                     <>

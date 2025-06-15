@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useFolder } from '../public/folderContext';
-import styles from "./form.module.css"
+import styles from "./admin.module.css"
 
 export default function DeleteFile() {
 

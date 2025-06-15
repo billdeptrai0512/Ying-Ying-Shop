@@ -149,7 +149,7 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
                             {selectedItem === item ? <img src={imageCover} alt="selectedItem" style={{ position: "absolute", bottom: "0", right: "0" }}></img> : null}
                             {/* image */}
 
-                            {user ? <Link to={`/file/${item.id}`}>
+                            {user ? <Link to={`admin/file/${item.id}`}>
                                 <Settings size={18} style={{position:"absolute", transform:"unset"}}/>
                             </Link> : null}
 

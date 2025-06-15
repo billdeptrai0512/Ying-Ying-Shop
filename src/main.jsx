@@ -6,11 +6,13 @@ import './index.css'
 import MainPage from "./mainpage/main.jsx"
 import ErrorPage from './public/error-page.jsx';
 import Cart from './cart/main.jsx';
-import Login from './form/login.jsx';
+import Admin from './admin/main.jsx';
+import Login from './admin/login.jsx';
 import Folder from './folder/main.jsx';
-import FileUpload from './form/upload-file.jsx';
-import Edit from './form/edit.jsx';
-import FolderCreate from './form/folder.jsx';
+import FileUpload from './admin/upload-file.jsx';
+import EditFile from './admin/edit-file.jsx';
+import CreateFolder from './admin/createfolder.jsx';
+import Order from './admin/order.jsx';
 import Outfit from './outfit/main.jsx';
 import ConfirmOrder from './cart/confirmOrder.jsx';
 import PlaceOrder from './cart/placeOrder.jsx';
@@ -53,26 +55,30 @@ export default function App() {
         },
         {
           path: "admin",
-          element: <Login />,
+          element: <Admin />,
           children: [
             {
+              path: "",
+              element: <Login />,
+            },
+            {
+              path: "folder",
+              element: <CreateFolder />,
+            },
+            {
               path: "order",
-              element: <ConfirmOrder />,
+              element: <Order />,
+            },
+            {
+              path: "file/upload/:folderId?",
+              element: <FileUpload/>,
+            },
+            {
+              path: "file/:fileId",
+              element: <EditFile/>,
             },
           ]
-        },
-        {
-          path: "folder",
-          element: <FolderCreate />,
-        },
-        {
-          path: "file/upload/:folderId?",
-          element: <FileUpload/>,
-        },
-        {
-          path: "file/:fileId",
-          element: <Edit/>,
-        },
+        }
       ],
     },
   ]);

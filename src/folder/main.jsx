@@ -19,7 +19,7 @@ export default function Folder({ folder,
     
     return (
       <>
-        {user ? <Link to={`/folder`}>Add new folder</Link> : null}
+        {user ? <Link to={`/admin/folder`}>Add new folder</Link> : null}
         {sortedFolder.map((inventory, index) => (
           <Item key={index} folderId={inventory.id} inventory={inventory} 
           updateOutFit={updateOutFit} updateSize={updateSize} 

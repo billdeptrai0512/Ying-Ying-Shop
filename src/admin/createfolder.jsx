@@ -3,10 +3,10 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useFolder } from '../public/folderContext';
 import { Link } from 'react-router-dom';
-import styles from "./form.module.css"
+import styles from "./admin.module.css"
 
 
-export default function FolderCreate() {
+export default function CreateFolder() {
 
     const { refreshFolders } = useFolder()
     const navigate = useNavigate()
@@ -46,9 +46,9 @@ export default function FolderCreate() {
     };
 
     return (
-        <>
+        <div className={styles.container}>
             <form onSubmit={handleSubmit} className={styles.form}>
-                <input type="text" name="name" onChange={handleChange} />
+                <input type="text" name="name" placeholder="Áo sơ mi"onChange={handleChange} />
                 <select name="section" onChange={handleChange}>
                     <option value="top">top</option>
                     <option value="bottom">bottom</option>
@@ -56,10 +56,13 @@ export default function FolderCreate() {
                     <option value="jacket">jacket</option>
                     <option value="extra">extra</option>
                 </select>
-                <button type="submit">Upload</button>
-                <Link to="/" >Cancel </Link>
+                <div className={styles.action}>
+                    <button type="submit">Upload</button>
+                    <button> <Link to="/" >Cancel </Link> </button>
+                    
+                </div>
             </form>
-        </> 
+        </div> 
             
     );
 }

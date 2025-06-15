@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../public/authContext';
-import styles from "./form.module.css"
+import styles from "./admin.module.css"
 
 
 export default function Login() {
@@ -44,9 +44,8 @@ export default function Login() {
     };
 
     return (
-        <>
+        <div className={styles.container}>
             <form onSubmit={handleSubmit} className={styles.form}>
-                <label htmlFor="username">Username</label>
                 <input
                     id="username"
                     name="username"
@@ -55,23 +54,17 @@ export default function Login() {
                     value={formData.username}
                     onChange={handleChange}
                 />
-                <label htmlFor="password">Password</label>
                 <input
                     id="password"
                     name="password"
                     type="password"
+                    placeholder="password"
                     value={formData.password}
                     onChange={handleChange}
                 />
                 <button type="submit">Log In</button>
             </form>
-            {/* <div>
-                <p>
-                    Don't have an account yet?{' '}
-                    <a href="/sign-up">Sign up</a>
-                </p>
-            </div> */}
-        </>
+        </div>
             
     );
 }

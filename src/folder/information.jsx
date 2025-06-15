@@ -13,7 +13,7 @@ export default function Information({folderId, name, amount}) {
 
             {amount ? <p> Số lượng: {amount} </p> :  null }
 
-            {user ? <Link to={`/file/upload/${folderId}`}>
+            {user ? <Link to={`admin/file/upload/${folderId}`}>
                 <CirclePlus size={18}/>
             </Link> : null}
 
