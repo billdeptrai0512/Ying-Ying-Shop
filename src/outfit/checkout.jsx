@@ -11,8 +11,9 @@ export default function CheckOut({outFit, setMissingSize, resetDefault, styles})
 
     const navigate = useNavigate();
 
+
     const { cart, saveOutFit } = useCart()
-    const [prevTotal, setPrevTotal] = useState(outFit.total);
+    const [prevTotal, setPrevTotal] = useState(outFit?.total);
     const [numberOfCart, setNumberOfCart] = useState(0)
     
     useEffect(() => {
@@ -23,13 +24,13 @@ export default function CheckOut({outFit, setMissingSize, resetDefault, styles})
 
     useEffect(() => {
 
-        setPrevTotal(outFit.total);
+        setPrevTotal(outFit?.total);
 
-    }, [outFit.total]);
+    }, [outFit?.total]);
 
     const springProps = useSpring({
         from: { value: prevTotal },
-        to: { value: outFit.total },
+        to: { value: outFit?.total },
         config: { duration: 360 },
     });
 

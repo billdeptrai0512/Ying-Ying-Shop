@@ -13,6 +13,8 @@ export default function Demo({outFit, setOutFit}) {
 
     const getDemoImages = (outFit) => {
         const images = [];
+
+        if (!outFit) return
     
         // Loop through top-level keys
         for (const [key, value] of Object.entries(outFit)) {
@@ -36,14 +38,16 @@ export default function Demo({outFit, setOutFit}) {
         return images;
     };
     
-    const selectedOutFit = getDemoImages(outFit).map(({ key, image, styleData }, index) => (
-        <img 
-            key={`${key}-${index}`} 
-            style={buttonStyle(styleData)} 
-            src={image} 
-            alt={key} 
-        />
-    ));
+    const selectedOutFit = outFit
+        ? getDemoImages(outFit).map(({ key, image, styleData }, index) => (
+          <img 
+              key={`${key}-${index}`} 
+              style={buttonStyle(styleData)} 
+              src={image} 
+              alt={key} 
+          />
+        ))
+        : null;
 
     const addToFavorite = async (outFit) => {
 
@@ -95,7 +99,7 @@ export default function Demo({outFit, setOutFit}) {
     return (
         <div className={styles.board}>
             <div className={styles.demo}>
-                {selectedOutFit.length > 0 ? selectedOutFit : null}
+                {selectedOutFit?.length > 0 ? selectedOutFit : null}
                 <img 
                     key="watermark"
                     style={{zIndex: 7}} 

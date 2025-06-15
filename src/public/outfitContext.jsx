@@ -5,21 +5,37 @@ const OutfitContext = createContext();
 export function OutfitProvider({ children }) {
     const [outFit, setOutFit] = useState(() => {
         // Load initial state from sessionStorage
-        const savedOutfit = sessionStorage.getItem("outFit");
-        return savedOutfit
-            ? JSON.parse(savedOutfit)
-            : {
-                  id: Math.random(),
-                  top: { item: null, size: null },
-                  bottom: { item: null, size: null },
-                  sweater: { item: null, size: null },
-                  jacket: { item: null, size: null },
-                  extra: {
-                      neck: { item: null },
-                      bag: { item: null },
-                  },
-                  total: 0,
-              };
+        try {
+            const savedOutfit = sessionStorage.getItem("outFit");
+            return savedOutfit
+                ? JSON.parse(savedOutfit)
+                : {
+                      id: Math.random(),
+                      top: { item: null, size: null },
+                      bottom: { item: null, size: null },
+                      sweater: { item: null, size: null },
+                      jacket: { item: null, size: null },
+                      extra: {
+                          neck: { item: null },
+                          bag: { item: null },
+                      },
+                      total: 0,
+                  };
+        } catch (e) {
+            console.warn("Failed to parse saved outfit:", e);
+            return {
+                id: Math.random(),
+                top: { item: null, size: null },
+                bottom: { item: null, size: null },
+                sweater: { item: null, size: null },
+                jacket: { item: null, size: null },
+                extra: {
+                    neck: { item: null },
+                    bag: { item: null },
+                },
+                total: 0,
+            };
+        }
     });
 
     const [selectedItem, setSelectedItem] = useState(() => {
