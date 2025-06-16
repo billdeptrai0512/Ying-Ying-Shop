@@ -81,6 +81,7 @@ export default function Demo({outFit, setOutFit}) {
                     },
             });
 
+            if(!response.data.oufit) return
             setOutFit(response.data.outfit)
 
           } catch (err) {

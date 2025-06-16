@@ -19,6 +19,7 @@ export default function Header() {
 
                 {user ? (
                     <>
+                        <Link to={`/admin/inventory`} >INVENTORY </Link>
                         <Link to={`/admin/order`} >ORDER </Link>
                         <Logout />
                     </>

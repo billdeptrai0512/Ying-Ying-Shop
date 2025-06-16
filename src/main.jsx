@@ -13,6 +13,7 @@ import FileUpload from './admin/upload-file.jsx';
 import EditFile from './admin/edit-file.jsx';
 import CreateFolder from './admin/createfolder.jsx';
 import Order from './admin/order.jsx';
+import Inventory from './admin/inventory.jsx';
 import Outfit from './outfit/main.jsx';
 import ConfirmOrder from './cart/confirmOrder.jsx';
 import PlaceOrder from './cart/placeOrder.jsx';
@@ -62,12 +63,16 @@ export default function App() {
               element: <Login />,
             },
             {
-              path: "folder",
-              element: <CreateFolder />,
-            },
-            {
               path: "order",
               element: <Order />,
+            },
+            {
+              path: "inventory",
+              element: <Inventory />,
+            },
+            {
+              path: "folder",
+              element: <CreateFolder />,
             },
             {
               path: "file/upload/:folderId?",

@@ -18,7 +18,7 @@ export default function Outfit() {
     const updateOutFit = (item, section) => {
         setOutFit((preOutFit) => {
             if (section === "extra") {
-                console.log(item)
+
                 if (item.type === "bow" || item.type === "tie") {
                     const currentItem = preOutFit[section]["neck"].item;
 
@@ -45,6 +45,8 @@ export default function Outfit() {
                     };
                 }
 
+                
+
                 const currentItem = preOutFit[section][item.type].item;
 
                 if (currentItem?.id === item.id) {
@@ -68,7 +70,9 @@ export default function Outfit() {
                 };
             }
 
-            const currentItem = preOutFit[section].item;
+            console.log(preOutFit)
+
+            const currentItem = preOutFit[section]?.item;
 
             // double click same item
             if (currentItem?.id === item.id) {
@@ -94,7 +98,7 @@ export default function Outfit() {
                 // total = tổng tiền trước đó - curentItem nếu có + item mới
             };
         });
-        
+
         setSelectedItem(item); // Save the selected item
     };
 
