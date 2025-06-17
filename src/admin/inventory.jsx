@@ -7,20 +7,29 @@ import SearchOrder from "./search-order";
 
 export default function Inventory() {
 
-    const [status, setStatus] = useState("unpaid")
-    const [listOrder, setListOrder] = useState([])
+    const [id, setId] = useState(2)
+    const [itemId, setItemId] = useState(0)
+    const [folder, setFolder] = useState(null)
+    const [inventory, setInventory] = useState([])
+    const [measurements, setMeasurements] = useState([])
     const [selectedOrder, setSelectedOrder] = useState(null) // mention be order.id
     const [refresh, setRefresh] = useState(false)
 
     const fetchData = async () => {
         try {
-          const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/order/${status}`, {
+          const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/folder/${id}`, {
             headers: {
               "ngrok-skip-browser-warning": "true",
             }
           });
-          setListOrder(response.data);
-          setSelectedOrder(listOrder[0])
+
+          
+          const folderData = response.data;
+          setFolder(folderData);
+          setInventory(folderData.files);
+          setMeasurements(folderData.measurements);
+        //   setSelectedOrder(folderData.files?.[0]);
+      
         } catch (err) {
           console.error("fetch folder: " + err);
         } 
@@ -28,112 +37,189 @@ export default function Inventory() {
 
     const selectOrder = (index) => {
 
-        return setSelectedOrder(listOrder[index])
+        return setSelectedOrder(inventory[index])
 
     }
+    
 
     useEffect(() => {
-
-        if (status === "searching") return
 
         fetchData();
-        
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [refresh, status]);
+    }, [id]);
 
     useEffect(() => {
-        if (listOrder.length > 0) {
-          setSelectedOrder(listOrder[0]);
+        if (inventory.length > 0) {
+          setSelectedOrder(inventory[0]);
         }
-      }, [listOrder]);
+      }, [inventory]);
 
 
     return (
         <>
             <div className={styles.sectionBoard}>
-                <SearchOrder status={status} setStatus={setStatus} setRefresh={setRefresh} setListOrder={setListOrder}/>
+                {/* <SearchOrder status={status} setStatus={setStatus} setRefresh={setRefresh} setListOrder={setListOrder}/> */}
                 <div className={styles.section} 
-                    onClick={() => setStatus('unpaid')} 
-                    style={status === 'unpaid' ? { backgroundColor: '#E3C4C1' } : {}}
+                    onClick={() => setId(2)} 
+                    style={id === 2 ? { backgroundColor: '#E3C4C1' } : {}}
                     >
-                    Đơn chưa thanh toán
+                    Áo sơ mi
                 </div>
                 <div className={styles.section} 
-                    onClick={() => setStatus('paid')} 
-                    style={status === 'paid' ? { backgroundColor: '#E3C4C1' } : {}}
+                    onClick={() => setId(4)} 
+                    style={id === 4  ? { backgroundColor: '#E3C4C1' } : {}}
                     >
-                    Đơn đã thanh toán
+                    Quần dài 
                 </div>
+                <div className={styles.section} 
+                    onClick={() => setId(3)} 
+                    style={id === 3  ? { backgroundColor: '#E3C4C1' } : {}}
+                    >
+                    Chân Váy
+                </div>
+                <div className={styles.section} 
+                    onClick={() => setId(5)} 
+                    style={id === 5 ? { backgroundColor: '#E3C4C1' } : {}}
+                    >
+                    Sweater 
+                </div>
+                <div className={styles.section} 
+                    onClick={() => setId(7)} 
+                    style={id === 7 ? { backgroundColor: '#E3C4C1' } : {}}
+                    >
+                    Blazer 
+                </div>
+                <div className={styles.section} 
+                    onClick={() => setId(6)} 
+                    style={id === 6 ? { backgroundColor: '#E3C4C1' } : {}}
+                    >
+                    Gakuran
+                </div>
+                <div className={styles.section} 
+                    onClick={() => setId(8)} 
+                    style={id === 8 ? { backgroundColor: '#E3C4C1' } : {}}
+                    >
+                    Cà vạt
+                </div>
+
+
             </div>
             <div className={styles.orderListWrapper}>
-                {listOrder.length === 0 ? (
-                    <p className={styles.emptyText}> {status === 'unpaid' ? "No unpaid order" : "No paid order"}</p>
-                ) : (
-                    <ul className={styles.orderList}>
-                        {listOrder.map((order, index) => (
-                            <li key={order.id} className={styles.orderItem}
-                                style={selectedOrder?.id === order.id ? { border: '5px solid #E3C4C1' } : {}}
-                                onClick={() => selectOrder(index)}>
-                            <header className={styles.orderHeader}>#{order.id}</header>
-                            <div className={styles.orderInfoGrid}>
-                                <span className={styles.label}>Ngày thuê:</span>
-                                <span>
-                                    {new Date(order.date).toLocaleDateString("vi-VN", {
-                                        day: "2-digit",
-                                        month: "2-digit",
-                                        year: "numeric",
-                                    })}
-                                </span>
-
-                                <span className={styles.label}>Khách hàng:</span>
-                                <span>{order.name || "Không rõ"}</span>
-
-                                <span className={styles.label}>Số điện thoại:</span>
-                                <span>{order.phone || "Không rõ"}</span>
-
-                                <span className={styles.label}>Địa chỉ nhận hàng:</span>
-                                <span>{order.address || "Không rõ"}</span>
-
-                                <span className={styles.label}>Tổng tiền:</span>
-                                <span>{order.total ? `${order.total.toLocaleString()}₫` : "N/A"}</span>
-
-                            </div>
-                            <div className={styles.orderActions}>
-                                <DeleteOrder orderId={order.id} setRefresh={setRefresh} />
-                                {/* //status : đang soạn đơn - đã vận chuyển - đang trả về - hoàn thành
-                                //update status of order */}
-                                <UpdateStatusOrder orderId={order.id} setRefresh={setRefresh} currentStatus={order.order_status}/>
-                            </div>
-                            </li>
-                        ))}
-                    </ul>
-                )}
-            </div>
-            {/* what does the client want us to show here */}
-            <div className={styles.orderDetailWrapper}>
                 {!selectedOrder ? (
-                    <p className={styles.emptyText}>No order selected</p>
+                    <p className={styles.emptyText}>No item</p>
                 ) : (
                     <ul className={styles.cartList}>
-                        {selectedOrder.cart.map(item => (
-                            <li key={item.id} className={styles.cartItem}>
+                        {inventory.map(item => (
+                            <li key={item.id} className={styles.cartItem}
+                                onClick={() => {
+                                    setItemId(item.id)
+                                    console.log("Selected item ID:", item.id);
+                                }}
+                                style={itemId === item.id ? { border: '5px solid #E3C4C1' } : {}}>
                                 <img
-                                    src={item.file.image}
+                                    src={item.image}
                                     alt={`Item ${item.id}`}
                                     className={styles.itemImage}
                                 />
                                 <div>
-                                    <p className={styles.itemSize}>Size: {item.size}</p>
-                                    <p className={styles.itemId}>ID: {item.fileId}</p>
+                                    <p className={styles.itemSize}>ID: {item.id}</p>
+                                    <p className={styles.itemId}>Sizes: {item.sizes}</p>
+                                    <p className={styles.itemId}>Số lượng: {item.amount}</p>
                                 </div>
                             </li>
                         ))}
                     </ul>
                 )}
             </div>
+
+            <div className={styles.orderDetailWrapper}>
+                <form className={styles.sizeForm}>
+                    {Object.entries(measurements).map(([sizeKey, sizeValues], index) => (
+                        <div key={index} className={styles.sizeRow}>
+                        <label className={styles.sizeLabel}>{sizeKey}</label>
+                        <div style={{ display: "flex", gap: "1em" }}>
+                    {Object.entries(sizeValues).map(([fieldKey, fieldValue]) => {
+                    const translated = keyTranslator[fieldKey] || fieldKey;
+
+          return (
+            <div
+              key={fieldKey}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1em",
+                textAlign: "center",
+              }}
+            >
+              <p>{translated}</p>
+              <input
+                type="text"
+                value={fieldValue}
+                className={styles.input}
+                onChange={(e) =>
+                  setMeasurements((prev) => ({
+                    ...prev,
+                    [sizeKey]: {
+                      ...prev[sizeKey],
+                      [fieldKey]: e.target.value,
+                    },
+                  }))
+                }
+              />
+            </div>
+          );
+                            })}
+                        </div>
+                        </div>
+                    ))}
+
+                    <button type="button" className={styles.saveButton} 
+                        onClick={async () => {
+                            try {
+                                const cleaned = Object.fromEntries(
+                                    Object.entries(measurements).map(([size, { height, weight }]) => [
+                                      size,
+                                      {
+                                        height: height,
+                                        weight: weight,
+                                      },
+                                    ])
+                                );
+
+                                console.log(measurements);
+
+                                await axios.put(`${import.meta.env.VITE_BACKEND_URL}/folder/${id}/measurements`, {
+                                    measurements: cleaned
+                                }, {
+                                    headers: {
+                                    "Content-Type": "application/json",
+                                    "ngrok-skip-browser-warning": "true"
+                                    }
+                                });
+                                alert("Cập nhật bảng size thành công!");
+                                } catch (err) {
+                                console.error(err);
+                                alert("Có lỗi xảy ra khi cập nhật.");
+                                }
+                        }}>
+                        Lưu thay đổi
+                    </button>
+                </form>
+            </div>
             
         </>
 
     )
   }
+
+  const keyTranslator = {
+    height: "Chiều Cao",
+    waist: "Eo",
+    long: "Dài",
+    weight: "Cân Nặng",
+    shoulder: "Vai",
+    chest: "Ngực",
+    length: "Dài Áo",
+};
   

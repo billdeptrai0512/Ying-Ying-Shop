@@ -74,7 +74,7 @@ export default function Item({ folderId, inventory, updateSize, updateOutFit,
                     folderId={folderId} 
                     name={inventory.name} 
                     section={inventory.section}
-                    amount={bottomSection === inventory.files[0].type ? selectedItem.amount : null} />
+                    amount={bottomSection === inventory.files[0].type ? selectedItem?.amount : null} />
                 <Image
                     name={inventory.name}
                     inventory={inventory.files}
@@ -106,7 +106,7 @@ export default function Item({ folderId, inventory, updateSize, updateOutFit,
                     folderId={folderId} 
                     name={inventory.name} 
                     section={inventory.section}
-                    amount={jacketSection === inventory.files[0].type ? selectedItem.amount : null} />
+                    amount={jacketSection === inventory.files[0].type ? selectedItem?.amount : null} />
                 <Image
                     name={inventory.name}
                     inventory={inventory.files}
@@ -152,7 +152,7 @@ export default function Item({ folderId, inventory, updateSize, updateOutFit,
                 <Information 
                     folderId={folderId} 
                     name={inventory.name} 
-                    amount={selectedItem ? selectedItem.amount : null} />
+                    amount={selectedItem ? selectedItem?.amount : null} />
                 <Image
                     name={inventory.name}
                     inventory={inventory.files}

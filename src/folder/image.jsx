@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { useAuth } from "../public/authContext"
 import { Settings } from 'lucide-react';
@@ -9,9 +9,11 @@ import React from "react";
 
 export default function Image({name, inventory, section, selectedItem, pickItem}) {
 
-    const { user } = useAuth()
+    
     const scrollContainer = useRef(null)
+    const itemRefs = useRef({});
 
+    const { user } = useAuth()
     const [atStart, setAtStart] = useState(true);
     const [atEnd, setAtEnd] = useState(false);
     const [imagesLoaded, setImagesLoaded] = useState(0)
@@ -25,30 +27,34 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
         setAtEnd(scrollLeft + clientWidth >= scrollWidth);
     };
 
-    const scrollLeft = () => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const scrollLeft = useCallback(() => {
+
+        const SCROLL_OFFSET = -72;
         if (scrollContainer.current) {
-            scrollContainer.current.scrollBy({ left: -72, behavior: "smooth" });
-            setTimeout(updateScrollLimits, 300);
+            scrollContainer.current.scrollBy({ left: SCROLL_OFFSET, behavior: "smooth" });
+            requestAnimationFrame(updateScrollLimits);
 
             const currentIndex = inventory.indexOf(selectedItem);
             if (currentIndex > 0) {
                 pickItem(inventory[currentIndex - 1], section);
             }
         }
-    };
-
-    const scrollRight = () => {
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const scrollRight = useCallback(() => {
         
         if (scrollContainer.current) {
-            scrollContainer.current.scrollBy({ left: 72, behavior: "smooth" });
-            setTimeout(updateScrollLimits, 300);
+            const SCROLL_OFFSET = 72;
+            scrollContainer.current.scrollBy({ left: SCROLL_OFFSET, behavior: "smooth" });
+            requestAnimationFrame(updateScrollLimits);
 
             const currentIndex = inventory.indexOf(selectedItem);
             if (currentIndex < inventory.length - 1) {
                 pickItem(inventory[currentIndex + 1], section);
             }
         }
-    };
+    });
 
     //wheel effect
     useEffect(() => {
@@ -104,27 +110,28 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
         
     }, [allImagesLoaded])
 
+    useEffect(() => {
+        if (!selectedItem || imagesLoaded < inventory.length) return;
+    
+        const el = itemRefs.current[selectedItem.id];
+        if (el) {
+            el.scrollIntoView({
+                behavior: "smooth",
+                inline: "center",
+                block: "nearest"
+            });
+            console.log('Scroll into view:', selectedItem.id);
+        }
+    }, [selectedItem, imagesLoaded, inventory.length]);
 
-    //TODO this one have bug that it can't detect which section is selected when using arrow keys
-    // Also it's not really needed since we have the scroll buttons
-    // useEffect(() => {
-    //     const handleKeyDown = (e) => {
-    //         if (e.key === "ArrowLeft") {
-    //             scrollLeft();
-    //         } else if (e.key === "ArrowRight") {
-    //             scrollRight();
-    //         }
-    //     };
 
-    //     window.addEventListener("keydown", handleKeyDown);
 
-    //     return () => {
-    //         window.removeEventListener("keydown", handleKeyDown);
-    //     };
-    // },)
+    if (!inventory || inventory.length === 0) return null;
 
     return (
-        <div key={inventory.id} className={styles.row} >
+
+        <div className={styles.row} >
+            {!allImagesLoaded && <div className={styles.loading}>Loading...</div>}
 
             {inventory.length < 6 ? null : (
                 <Play color="#331D1C" onClick={scrollLeft} 
@@ -140,10 +147,15 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
 
             <div className={styles.container} ref={scrollContainer} >
 
-                {inventory.map((item, index) => (
+                {inventory.map((item) => (
 
-                    <React.Fragment key={index}>
-                        <div onClick={() => pickItem(item, section)} style={{ position: "relative" , border: selectedItem?.id === item.id ? '2px solid #331D1C' : 'none'}}> 
+                    <React.Fragment key={item.id}>
+                        <div onClick={() => pickItem(item, section)
+                        } 
+                            ref={(el) => itemRefs.current[item.id] = el}
+
+                            style={{ position: "relative" , 
+                                border: selectedItem?.id === item.id ? '2px solid #331D1C' : 'none'}}> 
                             {/* cover */}
 
                             {selectedItem?.id === item.id ? <img src={imageCover} alt="selectedItem" style={{ position: "absolute", bottom: "0", right: "0" }}></img> : null}
