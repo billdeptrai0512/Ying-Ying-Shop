@@ -81,7 +81,8 @@ export default function Demo({outFit, setOutFit}) {
                     },
             });
 
-            if(!response.data.oufit) return
+            console.log(response.data) // how to handle if the api return [] but empty
+
             setOutFit(response.data.outfit)
 
           } catch (err) {
@@ -100,6 +101,7 @@ export default function Demo({outFit, setOutFit}) {
     return (
         <div className={styles.board}>
             <div className={styles.demo}>
+
                 {selectedOutFit?.length > 0 ? selectedOutFit : null}
                 <img 
                     key="watermark"
@@ -118,12 +120,12 @@ export default function Demo({outFit, setOutFit}) {
                         style={{ cursor: "pointer" }}
                     />
                 )}
-
                 <Dices
                     size={30}
                     onClick={getRandomFavoriteOutFit}
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: "pointer", }}
                 />
+
             </div>
         </div>
     )

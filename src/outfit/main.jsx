@@ -159,7 +159,7 @@ export default function Outfit() {
         return (
             <>
                 <section className={styles.main}>
-                    <Demo outFit={outFit} setOutFit={setOutFit} styles={styles} />
+                    <Demo outFit={outFit} setOutFit={setOutFit} />
                 </section>
                 <section className={styles.primary}>
                     <Folder
@@ -194,7 +194,6 @@ export default function Outfit() {
                         setMissingSize={setMissingSize}
                         outFit={outFit}
                         resetDefault={resetDefault}
-                        styles={styles}
                     />
                 </section>
             </>
@@ -204,7 +203,7 @@ export default function Outfit() {
     return (
         <>
             <section className={styles.main}>
-                <Demo outFit={outFit} styles={styles} />
+                <Demo outFit={outFit} setOutFit={setOutFit}/>
             </section>
             <section className={styles.primary}>
                 <Folder
@@ -226,7 +225,6 @@ export default function Outfit() {
                     setMissingSize={setMissingSize}
                     outFit={outFit}
                     resetDefault={resetDefault}
-                    styles={styles}
                 />
             </section>
         </>

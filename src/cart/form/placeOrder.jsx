@@ -73,8 +73,6 @@ export default function FormPlaceOrder({cart, formId}) {
     })
 
     const handleSubmit = async (e) => {
-
-        console.log('hello')
         
         e.preventDefault();
         setErrors([]); // Clear previous errors

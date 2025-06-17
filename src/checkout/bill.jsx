@@ -75,6 +75,8 @@ export default function Bill({order, paidStatus, setPaidStatus, setUpdateOrder})
     };
 
     useEffect(() => {
+        console.log(cart)
+        console.log(order.cart)
         if (cart) {
             const { itemCount, totalSum, displayTotal } = analyzeInventory(cart);
             setCount(itemCount);
@@ -163,7 +165,7 @@ export default function Bill({order, paidStatus, setPaidStatus, setUpdateOrder})
                             
                             <div style={{display: "flex", gap: "0.5rem"}}>
                                 <p className={styles.copyable}>
-                                    Tổng tiền: {displayTotal} 
+                                    Tổng tiền: {order.total} 
                                 </p>
                                 <CopyButton value={displayTotal} />
                             </div>

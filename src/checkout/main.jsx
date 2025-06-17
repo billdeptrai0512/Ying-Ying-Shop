@@ -30,7 +30,7 @@ export default function CheckOut() {
                         "ngrok-skip-browser-warning": "true",
                     }
                 });
-                console.log("Order details:", response.data);
+                console.log(response.data.cart);
                 setOrder(response.data);
                 setPaidStatus(response.data.paid_status);
 

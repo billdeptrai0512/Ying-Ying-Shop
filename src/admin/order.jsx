@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 import styles from "./admin.module.css"
 import axios from "axios";
 import DeleteOrder from "./delete-order";
@@ -74,7 +75,9 @@ export default function Order() {
                             <li key={order.id} className={styles.orderItem}
                                 style={selectedOrder?.id === order.id ? { border: '5px solid #E3C4C1' } : {}}
                                 onClick={() => selectOrder(index)}>
-                            <header className={styles.orderHeader}>#{order.id}</header>
+                            <header className={styles.orderHeader}>
+                                <Link to={`/checkout/${order.id}`} >#{order.id}</Link>
+                            </header>
                             <div className={styles.orderInfoGrid}>
                                 <span className={styles.label}>Ngày thuê:</span>
                                 <span>
