@@ -6,9 +6,9 @@ export function OutfitProvider({ children }) {
     const [outFit, setOutFit] = useState(() => {
         // Load initial state from sessionStorage
         try {
-            const savedOutfit = sessionStorage.getItem("outFit");
+            const savedOutfit = sessionStorage.getItem("outFit");// 
             return savedOutfit
-                ? JSON.parse(savedOutfit)
+                ? JSON.parse(savedOutfit) // this one could return not undefined but empty
                 : {
                       id: Math.random(),
                       top: { item: null, size: null },

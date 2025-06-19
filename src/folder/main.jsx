@@ -1,6 +1,4 @@
 import Item from "./item";
-import { useAuth } from "../public/authContext"
-import { Link } from "react-router-dom"
 
 export default function Folder({ folder,
                                 updateOutFit, updateSize,
@@ -8,8 +6,6 @@ export default function Folder({ folder,
                                 bottomSection, jacketSection,
                                 setBottomSection, setJacketSection,
                                 resetTrigger }) {
-
-    const { user } = useAuth()
 
     const sortedFolder = folder.sort((a, b) => {
       const order = ["top", "bottom", "sweater", "jacket", "extra"];
@@ -19,7 +15,6 @@ export default function Folder({ folder,
     
     return (
       <>
-        {user ? <Link to={`/admin/folder`}>Add new folder</Link> : null}
         {sortedFolder.map((inventory, index) => (
           <Item key={index} folderId={inventory.id} inventory={inventory} 
           updateOutFit={updateOutFit} updateSize={updateSize} 

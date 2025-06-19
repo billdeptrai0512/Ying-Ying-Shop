@@ -1,5 +1,5 @@
 import axios from 'axios';
-import styles from "./admin.module.css"
+import styles from "./order.module.css"
 
 export default function DeleteOrder({orderId, setRefresh}) {
 

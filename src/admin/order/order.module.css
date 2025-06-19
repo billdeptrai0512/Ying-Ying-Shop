@@ -27,7 +27,8 @@
 .orderListWrapper,
 .orderDetailWrapper {
     height: auto;
-    overflow-y: hidden;
+    overflow-y: scroll;
+    scrollbar-width: none;
 }
 
 .sectionBoard {
@@ -36,7 +37,6 @@
     gap: 1em;
     grid-column: 1;
     margin: 1em;
-    width: fit-content;
 }
 
 .orderListWrapper {
@@ -51,7 +51,6 @@
     margin: 1em;
     display: inline-block;
     width: auto;
-    width: max-content;
 }
 
 /* ========== Form Styles ========== */
@@ -238,5 +237,24 @@ button {
 
 .saveButton:hover {
     background-color: #d5b1ad;
+}
+
+/* static */
+.static {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding: 1em;
+    border-top: 1px solid #444;
+}
+
+.statusLabel {
+    font-weight: 600;
+    color: #666;
+}
+
+.statusValue {
+    font-weight: bold;
+    color: #444;
 }
 

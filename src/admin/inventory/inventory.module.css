@@ -1,8 +1,4 @@
 /* ========== Layout & Containers ========== */
-.body {
-    grid-template-columns: auto auto auto
-}
-
 
 .container {
     display: flex;
@@ -27,7 +23,8 @@
 .orderListWrapper,
 .orderDetailWrapper {
     height: auto;
-    overflow-y: hidden;
+    overflow-y: scroll;
+    scrollbar-width: none;
 }
 
 .sectionBoard {
@@ -36,7 +33,6 @@
     gap: 1em;
     grid-column: 1;
     margin: 1em;
-    width: fit-content;
 }
 
 .orderListWrapper {
@@ -236,7 +232,40 @@ button {
     transition: background-color 0.3s ease;
 }
 
-.saveButton:hover {
-    background-color: #d5b1ad;
+.deleteButton {
+    background-color: #444;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 10px;
+    padding: 1em;
+    margin-top: 1rem;
+    align-self: center;
+    border: none;
+    transition: background-color 0.3s ease;
 }
 
+.deleteButton:hover {
+    background-color: #333;
+}
+
+.checkboxGroup {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    gap: 0.75em;
+    margin-bottom: 1em;
+}
+
+.checkboxItem {
+    background: #fff;
+    padding: 0.5em 1em;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    cursor: pointer;
+    user-select: none;
+}
+.checkboxItem input[type="checkbox"] {
+    accent-color: #000;
+}

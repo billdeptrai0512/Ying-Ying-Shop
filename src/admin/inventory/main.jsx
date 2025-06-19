@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react"
-import styles from "./admin.module.css"
+import { Outlet } from "react-router-dom";
+import styles from "./inventory.module.css"
 import axios from "axios";
-import DeleteOrder from "./delete-order";
-import UpdateStatusOrder from "./update-order";
-import SearchOrder from "./search-order";
+import UpdateMeasurements from "./form/update-measurement";
+import EditItem from "./form/edit-item";
+import CreateItem from "./form/create-item";
+
 
 export default function Inventory() {
 
     const [id, setId] = useState(2)
-    const [itemId, setItemId] = useState(0)
-    const [folder, setFolder] = useState(null)
     const [inventory, setInventory] = useState([])
     const [measurements, setMeasurements] = useState([])
-    const [selectedOrder, setSelectedOrder] = useState(null) // mention be order.id
-    const [refresh, setRefresh] = useState(false)
+    const [creatingItem, setCreatingItem] = useState(false)
+    const [selectedItem, setSelectedItem] = useState(null)
+    const [reset, setReset] = useState(true)
 
     const fetchData = async () => {
         try {
@@ -25,7 +26,6 @@ export default function Inventory() {
 
           
           const folderData = response.data;
-          setFolder(folderData);
           setInventory(folderData.files);
           setMeasurements(folderData.measurements);
         //   setSelectedOrder(folderData.files?.[0]);
@@ -35,26 +35,40 @@ export default function Inventory() {
         } 
     };
 
-    const selectOrder = (index) => {
-
-        return setSelectedOrder(inventory[index])
-
-    }
+    const selectItem = (itemId) => {
+        const item = inventory.find(item => item.id === itemId);
+        if (!item) return;
     
+        if (selectedItem?.id === item.id) {
+          setSelectedItem(null);
+        } else {
+          setSelectedItem(item);
+        }
+
+    };
 
     useEffect(() => {
 
         fetchData();
 
+        setSelectedItem(null)
+
+        setCreatingItem(false)
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
     useEffect(() => {
-        if (inventory.length > 0) {
-          setSelectedOrder(inventory[0]);
-        }
-      }, [inventory]);
 
+        fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [setMeasurements]);
+
+    useEffect(() => {
+
+        fetchData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [reset])
 
     return (
         <>
@@ -106,17 +120,17 @@ export default function Inventory() {
 
             </div>
             <div className={styles.orderListWrapper}>
-                {!selectedOrder ? (
+                {!inventory ? (
                     <p className={styles.emptyText}>No item</p>
                 ) : (
                     <ul className={styles.cartList}>
                         {inventory.map(item => (
                             <li key={item.id} className={styles.cartItem}
                                 onClick={() => {
-                                    setItemId(item.id)
+                                    selectItem(item.id)
                                     console.log("Selected item ID:", item.id);
                                 }}
-                                style={itemId === item.id ? { border: '5px solid #E3C4C1' } : {}}>
+                                style={selectedItem?.id === item.id ? { border: '5px solid #E3C4C1' } : {}}>
                                 <img
                                     src={item.image}
                                     alt={`Item ${item.id}`}
@@ -124,88 +138,31 @@ export default function Inventory() {
                                 />
                                 <div>
                                     <p className={styles.itemSize}>ID: {item.id}</p>
-                                    <p className={styles.itemId}>Sizes: {item.sizes}</p>
                                     <p className={styles.itemId}>Số lượng: {item.amount}</p>
+                                    <p className={styles.itemId}>Sizes: {
+                                                        Array.isArray(item.sizes)
+                                                        ? item.sizes.join(', ')
+                                                        : item.sizes?.match(/(S|M|L|XL|XXL|XS)/g)?.join(', ') || item.sizes
+                                                    }</p>
                                 </div>
                             </li>
                         ))}
                     </ul>
                 )}
             </div>
-
             <div className={styles.orderDetailWrapper}>
-                <form className={styles.sizeForm}>
-                    {Object.entries(measurements).map(([sizeKey, sizeValues], index) => (
-                        <div key={index} className={styles.sizeRow}>
-                        <label className={styles.sizeLabel}>{sizeKey}</label>
-                        <div style={{ display: "flex", gap: "1em" }}>
-                    {Object.entries(sizeValues).map(([fieldKey, fieldValue]) => {
-                    const translated = keyTranslator[fieldKey] || fieldKey;
-
-          return (
-            <div
-              key={fieldKey}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "1em",
-                textAlign: "center",
-              }}
-            >
-              <p>{translated}</p>
-              <input
-                type="text"
-                value={fieldValue}
-                className={styles.input}
-                onChange={(e) =>
-                  setMeasurements((prev) => ({
-                    ...prev,
-                    [sizeKey]: {
-                      ...prev[sizeKey],
-                      [fieldKey]: e.target.value,
-                    },
-                  }))
-                }
-              />
-            </div>
-          );
-                            })}
-                        </div>
-                        </div>
-                    ))}
-
-                    <button type="button" className={styles.saveButton} 
-                        onClick={async () => {
-                            try {
-                                const cleaned = Object.fromEntries(
-                                    Object.entries(measurements).map(([size, { height, weight }]) => [
-                                      size,
-                                      {
-                                        height: height,
-                                        weight: weight,
-                                      },
-                                    ])
-                                );
-
-                                console.log(measurements);
-
-                                await axios.put(`${import.meta.env.VITE_BACKEND_URL}/folder/${id}/measurements`, {
-                                    measurements: cleaned
-                                }, {
-                                    headers: {
-                                    "Content-Type": "application/json",
-                                    "ngrok-skip-browser-warning": "true"
-                                    }
-                                });
-                                alert("Cập nhật bảng size thành công!");
-                                } catch (err) {
-                                console.error(err);
-                                alert("Có lỗi xảy ra khi cập nhật.");
-                                }
-                        }}>
-                        Lưu thay đổi
-                    </button>
-                </form>
+                {selectedItem ? (
+                        <EditItem selectedItem={selectedItem} setReset={setReset} />
+                    ) : creatingItem ? (
+                        <CreateItem folderId={id} setReset={setReset}/>
+                    ) : (
+                        <UpdateMeasurements
+                        folderId={id}
+                        measurements={measurements}
+                        setMeasurements={setMeasurements}
+                        setCreatingItem={setCreatingItem}
+                        />
+                    )}
             </div>
             
         </>
@@ -213,13 +170,4 @@ export default function Inventory() {
     )
   }
 
-  const keyTranslator = {
-    height: "Chiều Cao",
-    waist: "Eo",
-    long: "Dài",
-    weight: "Cân Nặng",
-    shoulder: "Vai",
-    chest: "Ngực",
-    length: "Dài Áo",
-};
   

@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
-import { useAuth } from "../public/authContext"
 import { Settings } from 'lucide-react';
 import { Play } from "lucide-react"
 import imageCover from "./../assets/tickweb.png"
@@ -12,8 +11,6 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
     
     const scrollContainer = useRef(null)
     const itemRefs = useRef({});
-
-    const { user } = useAuth()
     const [atStart, setAtStart] = useState(true);
     const [atEnd, setAtEnd] = useState(false);
     const [imagesLoaded, setImagesLoaded] = useState(0)
@@ -160,10 +157,6 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
 
                             {selectedItem?.id === item.id ? <img src={imageCover} alt="selectedItem" style={{ position: "absolute", bottom: "0", right: "0" }}></img> : null}
                             {/* image */}
-
-                            {user ? <Link to={`admin/file/${item.id}`}>
-                                <Settings size={18} style={{position:"absolute", transform:"unset"}}/>
-                            </Link> : null}
 
                             <img src={item.image} alt={name} onLoad={() => setImagesLoaded(prev => prev + 1)} style={{display: 'block'}}></img>
                         </div>

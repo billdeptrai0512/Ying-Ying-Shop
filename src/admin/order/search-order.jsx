@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import styles from "./admin.module.css"
+import styles from "./order.module.css"
 
 
 export default function SearchOrder({ status, setStatus, setRefresh, setListOrder }) {

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useFolder } from '../public/folderContext';
+import { useFolder } from '../../../public/folderContext';
 import { Link } from 'react-router-dom';
-import styles from "./admin.module.css"
+import styles from "../inventory.module.css"
 
 
 export default function CreateFolder() {

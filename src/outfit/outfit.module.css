@@ -25,6 +25,15 @@
     font-size: 1em;
 }
 
+.example > svg {
+    transition: transform 0.2s ease; /* smooth transition */
+  }
+  
+.example > svg:hover,
+.example > svg:active {
+    transform: scale(0.9); /* 90% size */
+}
+
 .demo img {
     position: absolute;
     width: 80%;

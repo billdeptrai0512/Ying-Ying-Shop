@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import styles from "./admin.module.css"
+import styles from "./order.module.css"
 import axios from "axios";
 import DeleteOrder from "./delete-order";
 import UpdateStatusOrder from "./update-order";
 import SearchOrder from "./search-order";
+import Static from "./static";
 
 export default function Order() {
 
@@ -20,7 +21,10 @@ export default function Order() {
               "ngrok-skip-browser-warning": "true",
             }
           });
-          setListOrder(response.data);
+
+          const sorted = response.data.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+          setListOrder(sorted);
           setSelectedOrder(listOrder[0])
         } catch (err) {
           console.error("fetch folder: " + err);
@@ -57,14 +61,15 @@ export default function Order() {
                     onClick={() => setStatus('unpaid')} 
                     style={status === 'unpaid' ? { backgroundColor: '#E3C4C1' } : {}}
                     >
-                    Đơn chưa thanh toán
+                    Chưa thanh toán {status === 'unpaid' ? `-> ${listOrder.length} đơn` : null}
                 </div>
                 <div className={styles.section} 
                     onClick={() => setStatus('paid')} 
                     style={status === 'paid' ? { backgroundColor: '#E3C4C1' } : {}}
                     >
-                    Đơn đã thanh toán
+                    Đã thanh toán {status === 'paid' ? `-> ${listOrder.length} đơn` : null}
                 </div>
+                <Static listOrder={listOrder}/>
             </div>
             <div className={styles.orderListWrapper}>
                 {listOrder.length === 0 ? (
