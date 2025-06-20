@@ -23,50 +23,56 @@ export default function UpdateMeasurements({folderId, measurements, setMeasureme
     }
 
     if (!measurements || Object.keys(measurements).length === 0) {
-        return <p style={{ padding: "1em" }}>No size measurements</p>;
+        return  <button type="button" className={styles.deleteButton}
+                    onClick={() => setCreatingItem(true)} >
+                    Tạo item mới
+                </button>;
     }
-    //handle if measurements return empty object {} return <p> no size measurements </p>
+
+    const sizeOrder = ["XS", "S", "M", "L", "XL", "XXL"];
 
     return (
 
         <form className={styles.sizeForm}>
-            {Object.entries(measurements).map(([sizeKey, sizeValues], index) => (
-                <div key={index} className={styles.sizeRow}>
-                    <label className={styles.sizeLabel}>{sizeKey}</label>
-                    <div style={{ display: "flex", gap: "1em" }}>
-                        {Object.entries(sizeValues).map(([fieldKey, fieldValue]) => {
-                            const translated = keyTranslator[fieldKey] || fieldKey;
+            {Object.entries(measurements)
+                .sort(([a], [b]) => sizeOrder.indexOf(a) - sizeOrder.indexOf(b))
+                .map(([sizeKey, sizeValues], index) => (
+                    <div key={index} className={styles.sizeRow}>
+                        <label className={styles.sizeLabel}>{sizeKey}</label>
+                        <div style={{ display: "flex", gap: "1em" }}>
+                            {Object.entries(sizeValues).map(([fieldKey, fieldValue]) => {
+                                const translated = keyTranslator[fieldKey] || fieldKey;
 
-                            return (
-                                <div
-                                key={fieldKey}
-                                style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    gap: "1em",
-                                    textAlign: "center",
-                                }}
-                                >
-                                <p>{translated}</p>
-                                <input
-                                    type="text"
-                                    value={fieldValue}
-                                    className={styles.input}
-                                    onChange={(e) =>
-                                        setMeasurements((prev) => ({
-                                            ...prev,
-                                            [sizeKey]: {
-                                                ...prev[sizeKey],
-                                                [fieldKey]: e.target.value,
-                                            },
-                                        }))
-                                    }
-                                />
-                                </div>
-                            );
-                        })}
+                                return (
+                                    <div
+                                        key={fieldKey}
+                                        style={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            gap: "1em",
+                                            textAlign: "center",
+                                        }}
+                                    >
+                                        <p>{translated}</p>
+                                        <input
+                                            type="text"
+                                            value={fieldValue}
+                                            className={styles.input}
+                                            onChange={(e) =>
+                                                setMeasurements((prev) => ({
+                                                    ...prev,
+                                                    [sizeKey]: {
+                                                        ...prev[sizeKey],
+                                                        [fieldKey]: e.target.value,
+                                                    },
+                                                }))
+                                            }
+                                        />
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
-                </div>
             ))}
 
             <div className={styles.action}>

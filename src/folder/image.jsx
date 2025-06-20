@@ -1,6 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from "react"
-import { Link } from "react-router-dom"
-import { Settings } from 'lucide-react';
 import { Play } from "lucide-react"
 import imageCover from "./../assets/tickweb.png"
 import styles from "./folder.module.css"
@@ -109,7 +107,7 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
 
     useEffect(() => {
         if (!selectedItem || imagesLoaded < inventory.length) return;
-    
+
         const el = itemRefs.current[selectedItem.id];
         if (el) {
             el.scrollIntoView({
@@ -117,21 +115,18 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
                 inline: "center",
                 block: "nearest"
             });
-            console.log('Scroll into view:', selectedItem.id);
+
         }
     }, [selectedItem, imagesLoaded, inventory.length]);
-
-
 
     if (!inventory || inventory.length === 0) return null;
 
     return (
 
         <div className={styles.row} >
-            {!allImagesLoaded && <div className={styles.loading}>Loading...</div>}
-
+            
             {inventory.length < 6 ? null : (
-                <Play color="#331D1C" onClick={scrollLeft} 
+                <Play color="#331D1C" fill="#331D1C" onClick={scrollLeft} 
                 style={{ 
                      display: atStart === true ? 'none' : 'block',
                      position: "absolute", 
@@ -167,7 +162,7 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
             </div>
 
             {inventory.length < 6 ? null : (
-                <Play color="#331D1C" onClick={scrollRight} 
+                <Play color="#331D1C" fill="#331D1C" onClick={scrollRight} 
                 style={{ 
                     display: atEnd === false ? 'block' : 'none',
                     position: "absolute",

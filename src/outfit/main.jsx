@@ -70,8 +70,6 @@ export default function Outfit() {
                 };
             }
 
-            console.log(preOutFit)
-
             const currentItem = preOutFit[section]?.item;
 
             // double click same item

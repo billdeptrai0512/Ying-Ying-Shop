@@ -138,12 +138,12 @@ export default function CreateItem({folderId, setReset}) {
 
             )}
 
+            <label htmlFor="image">Giá tiền</label>
+            <input type="number" name="total" value={formData.total} onChange={handleChange} />
+
             <label htmlFor="image">Số lượng</label>
             <input type="number" name="amount" value={formData.amount} onChange={handleChange} />
 
-
-            <label htmlFor="image">Giá tiền</label>
-            <input type="number" name="total" value={formData.total} onChange={handleChange} />
 
             {formData.type !== '' &&
                 !['bow', 'tie', 'bag'].includes(formData.type) && (

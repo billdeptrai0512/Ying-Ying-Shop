@@ -81,11 +81,10 @@ export default function EditItem({selectedItem, setReset}) {
                 />
                 <input type="file" name="demo_image" onChange={(e) => setDemoImage(e.target.files[0])} />
             </div>
-            <label htmlFor="image">Số lượng</label>
-            <input type="number" name="amount" value={formData.amount} onChange={handleChange} />
             <label htmlFor="image">Giá tiền</label>
             <input type="number" name="total" value={formData.total} onChange={handleChange} />
-
+            <label htmlFor="image">Số lượng</label>
+            <input type="number" name="amount" value={formData.amount} onChange={handleChange} />
             <div className={styles.checkboxGroup}>
                 {(selectedItem.type === 'gakuran'
                     ? ['145A', '150A', '160A', '165A', '170A', '170B', '175A', '180A']
