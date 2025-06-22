@@ -3,7 +3,7 @@ import axios from "axios";
 import styles from "./order.module.css"
 
 
-export default function SearchOrder({ status, setStatus, setRefresh, setListOrder }) {
+export default function SearchOrder({ status, setStatus, setFilterOrder }) {
 
   const [searchId, setSearchId] = useState('')
 
@@ -15,8 +15,7 @@ export default function SearchOrder({ status, setStatus, setRefresh, setListOrde
             "ngrok-skip-browser-warning": "true",
           }
         });
-        setListOrder(response.data)
-        setRefresh(prev => !prev); // trigger refresh
+        setFilterOrder(response.data)
 
       } catch (err) {
         console.error("Error updating status:", err);

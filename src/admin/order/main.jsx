@@ -6,118 +6,133 @@ import DeleteOrder from "./delete-order";
 import UpdateStatusOrder from "./update-order";
 import SearchOrder from "./search-order";
 import Static from "./static";
+import ListOrder from "./listOrder";
 
 export default function Order() {
 
-    const [status, setStatus] = useState("unpaid")
     const [listOrder, setListOrder] = useState([])
+    const [filterOrder, setFilterOrder] = useState([])
+    const [status, setStatus] = useState("unpaid")
+    const [filter, setFilter] = useState("")
     const [selectedOrder, setSelectedOrder] = useState(null) // mention be order.id
     const [refresh, setRefresh] = useState(false)
 
     const fetchData = async () => {
         try {
-          const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/order/${status}`, {
-            headers: {
-              "ngrok-skip-browser-warning": "true",
-            }
-          });
+          const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/order`);
 
           const sorted = response.data.sort((a, b) => new Date(a.date) - new Date(b.date));
 
           setListOrder(sorted);
+
           setSelectedOrder(listOrder[0])
+
         } catch (err) {
+
           console.error("fetch folder: " + err);
+
         } 
     };
 
-    const selectOrder = (index) => {
+    useEffect(() => {
+        
+        fetchData()
 
-        return setSelectedOrder(listOrder[index])
-
-    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [refresh]);
 
     useEffect(() => {
 
         if (status === "searching") return
-
-        fetchData();
         
+        const filterOrder = listOrder.filter(order => {
+
+            if (status === "unpaid") {
+
+                return order.paid_status === false;
+
+            } else if (status === "paid") {
+
+                return order.paid_status === true && order.order_status !== "finished";
+
+            }
+
+        })
+
+        setFilterOrder(filterOrder)
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [refresh, status]);
+    }, [status]);
 
     useEffect(() => {
+
+        if (filter === "") return
+        
+        const filterOrder = listOrder.filter(order => {
+
+            if (filter === "not-ready") {
+
+                return order.order_status === "not-ready";
+
+            } else if (filter === "ready") {
+
+                return order.order_status === "ready";
+
+            } else if (filter === "delivered") {
+
+                return order.order_status === "delivered";
+
+            } else if (filter === "buyer-received") {
+
+                return order.order_status === "buyer-received";
+
+            } else if (filter === "buyer-return") {
+
+                return order.order_status === "buyer-return";
+
+            } else if (filter === "finished") {
+
+                return order.order_status === "finished";
+
+            }
+
+        })
+
+        setFilterOrder(filterOrder)
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [filter]);
+
+    useEffect(() => {
+
         if (listOrder.length > 0) {
           setSelectedOrder(listOrder[0]);
         }
-      }, [listOrder]);
+
+    }, [listOrder]);
 
 
     return (
         <>
             <div className={styles.sectionBoard}>
-                <SearchOrder status={status} setStatus={setStatus} setRefresh={setRefresh} setListOrder={setListOrder}/>
+                <SearchOrder status={status} setStatus={setStatus} setRefresh={setRefresh} setFilterOrder={setFilterOrder}/>
                 <div className={styles.section} 
                     onClick={() => setStatus('unpaid')} 
                     style={status === 'unpaid' ? { backgroundColor: '#E3C4C1' } : {}}
                     >
-                    Chưa thanh toán {status === 'unpaid' ? `-> ${listOrder.length} đơn` : null}
+                    Chưa thanh toán 
                 </div>
                 <div className={styles.section} 
                     onClick={() => setStatus('paid')} 
                     style={status === 'paid' ? { backgroundColor: '#E3C4C1' } : {}}
                     >
-                    Đã thanh toán {status === 'paid' ? `-> ${listOrder.length} đơn` : null}
+                    Đã thanh toán
                 </div>
-                <Static listOrder={listOrder}/>
+                <Static listOrder={listOrder} setFilter={setFilter}/>
             </div>
-            <div className={styles.orderListWrapper}>
-                {listOrder.length === 0 ? (
-                    <p className={styles.emptyText}> {status === 'unpaid' ? "No unpaid order" : "No paid order"}</p>
-                ) : (
-                    <ul className={styles.orderList}>
-                        {listOrder.map((order, index) => (
-                            <li key={order.id} className={styles.orderItem}
-                                style={selectedOrder?.id === order.id ? { border: '5px solid #E3C4C1' } : {}}
-                                onClick={() => selectOrder(index)}>
-                            <header className={styles.orderHeader}>
-                                <Link to={`/checkout/${order.id}`} >#{order.id}</Link>
-                            </header>
-                            <div className={styles.orderInfoGrid}>
-                                <span className={styles.label}>Ngày thuê:</span>
-                                <span>
-                                    {new Date(order.date).toLocaleDateString("vi-VN", {
-                                        day: "2-digit",
-                                        month: "2-digit",
-                                        year: "numeric",
-                                    })}
-                                </span>
 
-                                <span className={styles.label}>Khách hàng:</span>
-                                <span>{order.name || "Không rõ"}</span>
+            <ListOrder listOrder={filterOrder} selectedOrder={selectedOrder} setSelectedOrder={setSelectedOrder} setRefresh={setRefresh} />
 
-                                <span className={styles.label}>Số điện thoại:</span>
-                                <span>{order.phone || "Không rõ"}</span>
-
-                                <span className={styles.label}>Địa chỉ nhận hàng:</span>
-                                <span>{order.address || "Không rõ"}</span>
-
-                                <span className={styles.label}>Tổng tiền:</span>
-                                <span>{order.total ? `${order.total.toLocaleString()}₫` : "N/A"}</span>
-
-                            </div>
-                            <div className={styles.orderActions}>
-                                <DeleteOrder orderId={order.id} setRefresh={setRefresh} />
-                                {/* //status : đang soạn đơn - đã vận chuyển - đang trả về - hoàn thành
-                                //update status of order */}
-                                <UpdateStatusOrder orderId={order.id} setRefresh={setRefresh} currentStatus={order.order_status}/>
-                            </div>
-                            </li>
-                        ))}
-                    </ul>
-                )}
-            </div>
-            {/* what does the client want us to show here */}
             <div className={styles.orderDetailWrapper}>
                 {!selectedOrder ? (
                     <p className={styles.emptyText}>No order selected</p>

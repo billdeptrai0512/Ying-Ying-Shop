@@ -251,6 +251,7 @@ button {
 .statusLabel {
     font-weight: 600;
     color: #666;
+    cursor: pointer;
 }
 
 .statusValue {
