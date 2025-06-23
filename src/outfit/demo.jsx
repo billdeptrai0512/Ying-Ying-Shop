@@ -106,6 +106,19 @@ export default function Demo({outFit, setOutFit}) {
 
             setOutFit(response.data.outfit)
 
+            // g2g analyst tracking
+
+            let count = parseInt(sessionStorage.getItem('randomOutFit') || '0', 10);
+            count++;
+            sessionStorage.setItem('randomOutFit', count);
+
+            window.gtag('event', 'roll a dices', {
+                event_category: 'Button',
+                event_label: 'Random Outfit',
+                click_count: count,
+            });
+
+
           } catch (err) {
             console.error("get random favorite failed: " + err);
           } 

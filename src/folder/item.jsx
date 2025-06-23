@@ -6,6 +6,7 @@ import Size from "./size";
 import styles from "./folder.module.css";
 import Extra from "./extra";
 
+
 export default function Item({ folderId, inventory, updateSize, updateOutFit, 
         bottomSection, jacketSection, setBottomSection,
         setJacketSection, missingSize, setMissingSize, resetTrigger }) {
@@ -17,6 +18,19 @@ export default function Item({ folderId, inventory, updateSize, updateOutFit,
 
     const pickItem = (item, section) => {
         updateOutFit(item, section);
+
+        // it could represent a button click for pick or unpick item
+        let count = parseInt(sessionStorage.getItem('pickItem') || '0', 10);
+        count++;
+        sessionStorage.setItem('pickItem', count);
+
+        window.gtag('event', 'click', {
+            event_category: 'Button',
+            event_label: 'pick an item',
+            click_count: count,
+        });
+
+
     };
 
     useEffect(() => {

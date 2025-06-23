@@ -16,6 +16,7 @@ export default function Outfit() {
     const [resetTrigger, setResetTrigger] = useState(false);
 
     const updateOutFit = (item, section) => {
+        
         setOutFit((preOutFit) => {
             if (section === "extra") {
 

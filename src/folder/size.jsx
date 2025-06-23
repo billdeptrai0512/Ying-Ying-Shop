@@ -17,6 +17,17 @@ export default function Size({inventory, section, selectedItem, isChoosen,
 
     const pickSize = (index) => {
         setSizeSelected((prev) => (prev === index ? null : index));
+
+        let count = parseInt(sessionStorage.getItem('pickSize') || '0', 10);
+        count++;
+        sessionStorage.setItem('pickSize', count);
+
+        window.gtag('event', 'click', {
+            event_category: 'Button',
+            event_label: 'select sizes',
+            click_count: count,
+        });
+
     };
 
     useEffect(() => {

@@ -6,8 +6,6 @@ import { useCart } from "../public/cartContext";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCart } from 'lucide-react';
 
-
-
 export default function CheckOut({outFit, setMissingSize, resetDefault}) {
 
     const navigate = useNavigate();
@@ -65,6 +63,17 @@ export default function CheckOut({outFit, setMissingSize, resetDefault}) {
         if (missingSizes.length === 0) {
 
             saveOutFit(outFit)
+
+            let count = parseInt(sessionStorage.getItem('addToCart') || '0', 10);
+
+            count++;
+            sessionStorage.setItem('addToCart', count);
+
+            window.gtag('event', 'click', {
+                event_category: 'Button',
+                event_label: 'add to cart',
+                click_count: count,
+            });
 
             resetDefault()
 

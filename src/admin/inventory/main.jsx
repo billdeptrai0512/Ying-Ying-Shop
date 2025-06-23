@@ -124,32 +124,40 @@ export default function Inventory() {
                 {!inventory ? (
                     <p className={styles.emptyText}>No item</p>
                 ) : (
-                    <ul className={styles.cartList}>
-                        {inventory.map(item => (
-                            <li key={item.id} className={styles.cartItem}
-                                onClick={() => {
-                                    selectItem(item.id)
-                                    console.log("Selected item ID:", item.id);
-                                }}
-                                style={selectedItem?.id === item.id ? { border: '5px solid #E3C4C1' } : {}}>
-                                <img
-                                    src={item.image}
-                                    alt={`Item ${item.id}`}
-                                    className={styles.itemImage}
-                                />
-                                <div>
-                                    <p className={styles.itemSize}>ID: {item.id}</p>
-                                    <p className={styles.itemId}>Số lượng: {item.amount}</p>
-                                    <p className={styles.itemId}>Sizes: {
-                                                        Array.isArray(item.sizes)
-                                                        ? item.sizes.join(', ')
-                                                        : item.sizes?.match(/(S|M|L|XL|XXL|XS)/g)?.join(', ') || item.sizes
-                                                    }</p>
-                                </div>
-                            </li>
-                        ))}
+                    <>
+                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingBottom: "1em" }}>
+                            <button type="button" className={styles.saveButton}
+                                onClick={() => setCreatingItem(true)} >
+                                    Thêm Item
+                            </button>
+                        </div>
+                        <ul className={styles.cartList}>
+                            {inventory.map(item => (
+                                <li key={item.id} className={styles.cartItem}
+                                    onClick={() => {
+                                        selectItem(item.id)
+                                        console.log("Selected item ID:", item.id);
+                                    }}
+                                    style={selectedItem?.id === item.id ? { border: '5px solid #E3C4C1' } : {}}>
+                                    <img
+                                        src={item.image}
+                                        alt={`Item ${item.id}`}
+                                        className={styles.itemImage}
+                                    />
+                                    <div>
+                                        <p className={styles.itemSize}>ID: {item.id}</p>
+                                        <p className={styles.itemId}>Số lượng: {item.amount}</p>
+                                        <p className={styles.itemId}>Sizes: {
+                                                            Array.isArray(item.sizes)
+                                                            ? item.sizes.join(', ')
+                                                            : item.sizes?.match(/(S|M|L|XL|XXL|XS)/g)?.join(', ') || item.sizes
+                                                        }</p>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </>
 
-                    </ul>
                 )}
             </div>
             <div className={styles.orderDetailWrapper}>
@@ -158,13 +166,7 @@ export default function Inventory() {
                     ) : creatingItem ? (
                         <CreateItem folderId={id} setReset={setReset} setCreatingItem={setCreatingItem}/>
                     ) : (
-                        <>  
-                            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingBottom: "1em" }}>
-                                <button type="button" className={styles.saveButton}
-                                    onClick={() => setCreatingItem(true)} >
-                                     Thêm Item
-                                </button>
-                            </div>
+                        <> 
 
                             <UpdateMeasurements
                                 folderId={id}
