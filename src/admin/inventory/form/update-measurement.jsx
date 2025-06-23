@@ -77,16 +77,11 @@ export default function UpdateMeasurements({folderId, measurements, setMeasureme
 
             <div className={styles.action}>
 
-                <button type="button" className={styles.saveButton} 
+                <button type="button" className={styles.deleteButton} 
                     onClick={() => saveMeasurement()}>
-                    Lưu thay đổi
+                    Lưu thông tin
                 </button>
-                
-                <button type="button" className={styles.deleteButton}
-                    onClick={() => setCreatingItem(true)} >
-                    Tạo item mới
-                </button>
-
+            
             </div>  
 
 

@@ -115,7 +115,7 @@ export default function Order() {
     return (
         <>
             <div className={styles.sectionBoard}>
-                <SearchOrder status={status} setStatus={setStatus} setRefresh={setRefresh} setFilterOrder={setFilterOrder}/>
+                
                 <div className={styles.section} 
                     onClick={() => setStatus('unpaid')} 
                     style={status === 'unpaid' ? { backgroundColor: '#E3C4C1' } : {}}
@@ -131,7 +131,10 @@ export default function Order() {
                 <Static listOrder={listOrder} setFilter={setFilter}/>
             </div>
 
-            <ListOrder listOrder={filterOrder} selectedOrder={selectedOrder} setSelectedOrder={setSelectedOrder} setRefresh={setRefresh} />
+            <div className={styles.orderListWrapper}>
+                <SearchOrder status={status} setStatus={setStatus} setRefresh={setRefresh} setFilterOrder={setFilterOrder}/>
+                <ListOrder listOrder={filterOrder} selectedOrder={selectedOrder} setSelectedOrder={setSelectedOrder} setRefresh={setRefresh} />
+            </div>
 
             <div className={styles.orderDetailWrapper}>
                 {!selectedOrder ? (

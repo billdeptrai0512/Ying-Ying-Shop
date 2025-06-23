@@ -82,7 +82,25 @@ export default function EditItem({selectedItem, setReset}) {
                 <input type="file" name="demo_image" onChange={(e) => setDemoImage(e.target.files[0])} />
             </div>
             <label htmlFor="image">Giá tiền</label>
-            <input type="number" name="total" value={formData.total} onChange={handleChange} />
+            <input
+                type="text"
+                name="total"
+                value={formData.total}
+                onChange={(e) => {
+                    const rawValue = e.target.value.replace(/[^\d]/g, ''); // Remove non-numeric characters
+                    setFormData((prev) => ({ ...prev, total: rawValue })); // Update formData with numeric value
+                }}
+                onBlur={(e) => {
+                    // Format the value when the input loses focus
+                    const formattedValue = formData.total ? `${Number(formData.total).toLocaleString()}đ` : '';
+                    e.target.value = formattedValue;
+                }}
+                onFocus={(e) => {
+                    // Remove formatting when the input gains focus
+                    e.target.value = formData.total;
+                }}
+            />
+
             <label htmlFor="image">Số lượng</label>
             <input type="number" name="amount" value={formData.amount} onChange={handleChange} />
             <div className={styles.checkboxGroup}>

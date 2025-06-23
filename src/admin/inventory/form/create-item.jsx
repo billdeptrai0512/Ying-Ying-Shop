@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from "../inventory.module.css"
-export default function CreateItem({folderId, setReset}) {
+export default function CreateItem({folderId, setReset, setCreatingItem}) {
 
     const [formData, setFormData] = useState({
         amount: '',
@@ -12,14 +12,23 @@ export default function CreateItem({folderId, setReset}) {
     })
 
     const [image, setImage] = useState(null);
-    const [demoImage, setDemoImage] = useState(null);
+    const [demoImage, setDemoImage] = useState([]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const data = new FormData();
         if (image) data.append('image', image);
-        if (demoImage) data.append('demo_image', demoImage);
+        //image actually don't need z_index
+        if (demoImage && demoImage.length > 0) {
+            demoImage.forEach((img) => {
+                data.append(`demo_image`, img);
+            });
+        }
+        // image become object with each own z_index
+        // only the demo_image need z_index
+
+        
         data.append('amount', formData.amount);
         data.append('total', formData.total);
         data.append('type', formData.type);
@@ -28,8 +37,6 @@ export default function CreateItem({folderId, setReset}) {
         formData.sizes.forEach(size => {
             data.append('sizes[]', size);
         });
-
-        console.log(image, demoImage)
 
         try {
 
@@ -115,14 +122,24 @@ export default function CreateItem({folderId, setReset}) {
 
                 <div style={{display: "flex", flexDirection: "column", gap: "2em"}}>
                     <label htmlFor="demo_image">Demo Image</label>
-                    {demoImage && (
+                    {demoImage && demoImage.length > 0 && demoImage.map((img, index) => (
                         <img
-                        src={URL.createObjectURL(demoImage)}
-                        alt="Preview"
+                        key={index}
+                        src={URL.createObjectURL(img)}
+                        alt={`Preview ${index + 1}`}
                         style={{ width: '200px', objectFit: 'cover', border: '1px solid #ccc' }}
                         />
-                    )}
-                    <input type="file" name="demo_image" onChange={(e) => setDemoImage(e.target.files[0])} />
+                    ))}
+
+                    <input type="file" name="demo_image" multiple onChange={(e) => {
+                        console.log(e.target.files[0])
+                        setDemoImage(prev => [...prev, e.target.files[0]])
+                    }} />
+
+                    <input type="file" name="demo_image" multiple onChange={(e) => {
+                        console.log(e.target.files[0])
+                        setDemoImage(prev => [...prev, e.target.files[0]])
+                    }} />
                 </div>
             </div>
 
@@ -139,7 +156,24 @@ export default function CreateItem({folderId, setReset}) {
             )}
 
             <label htmlFor="image">Giá tiền</label>
-            <input type="number" name="total" value={formData.total} onChange={handleChange} />
+            <input
+                type="text"
+                name="total"
+                value={formData.total}
+                onChange={(e) => {
+                    const rawValue = e.target.value.replace(/[^\d]/g, ''); // Remove non-numeric characters
+                    setFormData((prev) => ({ ...prev, total: rawValue })); // Update formData with numeric value
+                }}
+                onBlur={(e) => {
+                    // Format the value when the input loses focus
+                    const formattedValue = formData.total ? `${Number(formData.total).toLocaleString()}đ` : '';
+                    e.target.value = formattedValue;
+                }}
+                onFocus={(e) => {
+                    // Remove formatting when the input gains focus
+                    e.target.value = formData.total;
+                }}
+            />
 
             <label htmlFor="image">Số lượng</label>
             <input type="number" name="amount" value={formData.amount} onChange={handleChange} />
@@ -175,8 +209,12 @@ export default function CreateItem({folderId, setReset}) {
 
             <div className={styles.action} >
                 <button type="submit" className={styles.saveButton} >
-                    Tạo item
+                    Hoàn tất
                 </button>
+                <button type="button" onClick={() => setCreatingItem(false)} className={styles.deleteButton} >
+                    Quay lại
+                </button>
+
             </div>
         </form>
     );

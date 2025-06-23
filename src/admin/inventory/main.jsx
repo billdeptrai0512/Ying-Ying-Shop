@@ -5,6 +5,7 @@ import axios from "axios";
 import UpdateMeasurements from "./form/update-measurement";
 import EditItem from "./form/edit-item";
 import CreateItem from "./form/create-item";
+import DeleteItem from "./form/delete-item";
 
 
 export default function Inventory() {
@@ -147,6 +148,7 @@ export default function Inventory() {
                                 </div>
                             </li>
                         ))}
+
                     </ul>
                 )}
             </div>
@@ -154,14 +156,24 @@ export default function Inventory() {
                 {selectedItem ? (
                         <EditItem selectedItem={selectedItem} setReset={setReset} />
                     ) : creatingItem ? (
-                        <CreateItem folderId={id} setReset={setReset}/>
+                        <CreateItem folderId={id} setReset={setReset} setCreatingItem={setCreatingItem}/>
                     ) : (
-                        <UpdateMeasurements
-                        folderId={id}
-                        measurements={measurements}
-                        setMeasurements={setMeasurements}
-                        setCreatingItem={setCreatingItem}
-                        />
+                        <>  
+                            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingBottom: "1em" }}>
+                                <button type="button" className={styles.saveButton}
+                                    onClick={() => setCreatingItem(true)} >
+                                     Thêm Item
+                                </button>
+                            </div>
+
+                            <UpdateMeasurements
+                                folderId={id}
+                                measurements={measurements}
+                                setMeasurements={setMeasurements}
+                                setCreatingItem={setCreatingItem}
+                                />
+                        </>
+
                     )}
             </div>
             

@@ -14,7 +14,7 @@ export default function ListOrder({listOrder, selectedOrder, setSelectedOrder, s
     }
 
     return (
-            <div className={styles.orderListWrapper}>
+            <>
                 {listOrder.length === 0 ? (
                     <p className={styles.emptyText}> no order</p>
                 ) : (
@@ -57,7 +57,8 @@ export default function ListOrder({listOrder, selectedOrder, setSelectedOrder, s
                         ))}
                     </ul>
                 )}
-            </div>
+            </>
+
 
     )
   }
