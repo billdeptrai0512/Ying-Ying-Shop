@@ -38,10 +38,11 @@ export default function Demo({outFit, setOutFit}) {
                         if (index === 1) {
                             // modify for cổ áo thủy thủ 
                             // cân nhắc cho phép admin set z_index for each demo image // hoặc mặc định
-                            images.push({ key: `${key}-${index}`, image: img, styleData: { z_index: 5 } });
+                            images.push({ key: `${key}-${index}`, image: img, styleData: { z_index: 6 } });
+                        } else {
+                            images.push({ key: `${key}-${index}`, image: img, styleData: { z_index } });
                         }
 
-                        images.push({ key: `${key}-${index}`, image: img, styleData: { z_index } });
                     });
                 }
             }
