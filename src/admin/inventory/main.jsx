@@ -125,12 +125,6 @@ export default function Inventory() {
                     <p className={styles.emptyText}>No item</p>
                 ) : (
                     <>
-                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingBottom: "1em" }}>
-                            <button type="button" className={styles.saveButton}
-                                onClick={() => setCreatingItem(true)} >
-                                    Thêm Item
-                            </button>
-                        </div>
                         <ul className={styles.cartList}>
                             {inventory.map(item => (
                                 <li key={item.id} className={styles.cartItem}
@@ -156,6 +150,12 @@ export default function Inventory() {
                                 </li>
                             ))}
                         </ul>
+                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingBottom: "1em" }}>
+                            <button type="button" className={styles.saveButton}
+                                onClick={() => setCreatingItem(true)} >
+                                    Thêm Item
+                            </button>
+                        </div>
                     </>
 
                 )}

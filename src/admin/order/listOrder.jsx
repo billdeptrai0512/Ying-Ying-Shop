@@ -5,21 +5,21 @@ import DeleteOrder from "./delete-order";
 import UpdateStatusOrder from "./update-order";
 
 
-export default function ListOrder({listOrder, selectedOrder, setSelectedOrder, setRefresh}) {
+export default function ListOrder({filterOrder, selectedOrder, setSelectedOrder, setRefresh}) {
 
     const selectOrder = (index) => {
 
-        return setSelectedOrder(listOrder[index])
+        return setSelectedOrder(filterOrder[index])
 
     }
 
     return (
             <>
-                {listOrder.length === 0 ? (
+                {filterOrder.length === 0 ? (
                     <p className={styles.emptyText}> no order</p>
                 ) : (
                     <ul className={styles.orderList}>
-                        {listOrder.map((order, index) => (
+                        {filterOrder.map((order, index) => (
                             <li key={order.id} className={styles.orderItem}
                                 style={selectedOrder?.id === order.id ? { border: '5px solid #E3C4C1' } : {}}
                                 onClick={() => selectOrder(index)}>
@@ -49,9 +49,13 @@ export default function ListOrder({listOrder, selectedOrder, setSelectedOrder, s
                                 <span>{order.total ? `${order.total.toLocaleString()}₫` : "N/A"}</span>
 
                             </div>
-                            <div className={styles.orderActions}>
+                            <div className={styles.orderActions} style={order.paid_status === false ? { justifyContent: "end" } : {justifyContent: "space-between"} }>
                                 <DeleteOrder orderId={order.id} setRefresh={setRefresh} />
-                                <UpdateStatusOrder orderId={order.id} setRefresh={setRefresh} currentStatus={order.order_status}/>
+                                {order.paid_status === false ? (
+                                    null
+                                ) : (
+                                    <UpdateStatusOrder orderId={order.id} setRefresh={setRefresh} currentStatus={order.order_status}/>
+                                )}
                             </div>
                             </li>
                         ))}

@@ -165,7 +165,7 @@ export default function Bill({order, paidStatus, setPaidStatus, setUpdateOrder})
                             
                             <div style={{display: "flex", gap: "0.5rem"}}>
                                 <p className={styles.copyable}>
-                                    Tổng tiền: {order.total} 
+                                    Tổng tiền: {order.total.toLocaleString()}đ 
                                 </p>
                                 <CopyButton value={displayTotal} />
                             </div>
