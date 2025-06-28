@@ -3,7 +3,6 @@ import axios from 'axios';
 import styles from "../inventory.module.css"
 import DeleteItem from './delete-item';
 
-import { Link } from 'react-router-dom';
 
 export default function EditItem({selectedItem, setReset}) {
 
@@ -11,6 +10,8 @@ export default function EditItem({selectedItem, setReset}) {
     const [formData, setFormData] = useState({
         amount: '',
         total: '',
+        type: '',
+        z_index: '',
         sizes: [],
     })
 
@@ -64,6 +65,8 @@ export default function EditItem({selectedItem, setReset}) {
             setFormData({
                 amount: selectedItem.amount || '',
                 total: selectedItem.total || '',
+                type: selectedItem.type || '',
+                z_index: selectedItem.z_index || '',
                 sizes: selectedItem.sizes || [],
             });
         }
@@ -103,29 +106,48 @@ export default function EditItem({selectedItem, setReset}) {
 
             <label htmlFor="image">Số lượng</label>
             <input type="number" name="amount" value={formData.amount} onChange={handleChange} />
+
+            {['bow', 'tie', 'bag'].includes(selectedItem.type)  && (
+                <>
+                    <label htmlFor="image">Loại</label>
+                    <select name="type" value={formData.type+"-"+formData.z_index} onChange={handleChange}>
+                        <option value="bow-5">Bow</option>
+                        <option value="tie-3">Tie</option>
+                        <option value="bag-6">Bag</option>
+                    </select>
+                </>
+
+            )}
+
             <div className={styles.checkboxGroup}>
-                {(selectedItem.type === 'gakuran'
-                    ? ['145A', '150A', '160A', '165A', '170A', '170B', '175A', '180A']
-                    : ['S', 'M', 'L', 'XL']
-                ).map((size) => (
-                    <label key={size} className={styles.checkboxItem}>
-                        <input
-                            type="checkbox"
-                            value={size}
-                            checked={formData.sizes.includes(size)}
-                            onChange={(e) => {
+                {
+                    !['bow', 'tie', 'bag'].includes(selectedItem.type) && (
+                        <div className={styles.checkboxGroup}>
+                        {(selectedItem.type === 'gakuran'
+                            ? ['145A', '150A', '160A', '165A', '170A', '170B', '175A', '180A']
+                            : ['S', 'M', 'L', 'XL']
+                        ).map((size) => (
+                            <label key={size} className={styles.checkboxItem}>
+                            <input
+                                type="checkbox"
+                                value={size}
+                                checked={formData.sizes.includes(size)}
+                                onChange={(e) => {
                                 const checked = e.target.checked;
                                 setFormData((prev) => ({
                                     ...prev,
                                     sizes: checked
-                                        ? [...prev.sizes, size]
-                                        : prev.sizes.filter((s) => s !== size)
+                                    ? [...prev.sizes, size]
+                                    : prev.sizes.filter((s) => s !== size)
                                 }));
-                            }}
-                        />
-                        {size}
-                    </label>
-                ))}
+                                }}
+                            />
+                            {size}
+                            </label>
+                        ))}
+                        </div>
+                    )
+                }   
             </div>
 
             <div className={styles.action}>

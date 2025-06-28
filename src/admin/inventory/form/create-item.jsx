@@ -6,8 +6,8 @@ export default function CreateItem({folderId, setReset, setCreatingItem}) {
     const [formData, setFormData] = useState({
         amount: '',
         total: '',
-        type: 'top',
-        z_index: '2',
+        type: '',
+        z_index: '',
         sizes: [],
     })
 
@@ -28,7 +28,6 @@ export default function CreateItem({folderId, setReset, setCreatingItem}) {
         // image become object with each own z_index
         // only the demo_image need z_index
 
-        
         data.append('amount', formData.amount);
         data.append('total', formData.total);
         data.append('type', formData.type);
@@ -99,9 +98,7 @@ export default function CreateItem({folderId, setReset, setCreatingItem}) {
         } else if (folderId === 7) {
             setFormData(prev => ({ ...prev, ["type"]: 'blazer' }));
             setFormData(prev => ({ ...prev, ['z_index']: '5' }));
-        } else if (folderId === 8) {
-            return
-        }
+        } 
 
     }, [folderId])
 

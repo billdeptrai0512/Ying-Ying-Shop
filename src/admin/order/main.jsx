@@ -74,7 +74,7 @@ export default function Order() {
 
             } else if (status === "paid") {
 
-                return order.paid_status === true && order.order_status !== "finished";
+                return order.paid_status === true;
 
             }
 

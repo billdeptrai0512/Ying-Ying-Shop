@@ -115,7 +115,7 @@ export default function Inventory() {
                     onClick={() => setId(8)} 
                     style={id === 8 ? { backgroundColor: '#E3C4C1' } : {}}
                     >
-                    Cà vạt
+                    Phụ kiện
                 </div>
 
 
