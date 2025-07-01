@@ -139,7 +139,9 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
 
             <div className={styles.container} ref={scrollContainer} >
 
-                {inventory.map((item) => (
+                
+
+                {inventory.sort((a,b) => a.displayID - b.displayID).map((item) => (
 
                     <React.Fragment key={item.id}>
                         <div onClick={() => pickItem(item, section)

@@ -52,7 +52,7 @@ export default function Extra({folderId, inventory, selectedItem, bowInventory, 
         setSelectedBow(newSelection);
     
         if (newSelection !== selectedBow) updateOutFit(item, section);
-      };
+    };
     
     const pickItemTie = (item, section) => {
         if (selectedBow) setSelectedBow(null);
@@ -63,7 +63,7 @@ export default function Extra({folderId, inventory, selectedItem, bowInventory, 
     
         if (newSelection !== selectedTie) updateOutFit(item, section);
 
-      };
+    };
     
     const pickItemBag = (item, section) => {
         if (selectedBag) setSelectedBag(null);

@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from "../inventory.module.css"
-export default function CreateItem({folderId, setReset, setCreatingItem}) {
+export default function CreateItem({folderId, setReset}) {
 
-    const [formData, setFormData] = useState({
+    const [image, setImage] = useState(null);
+    const [demoImage, setDemoImage] = useState([]);
+
+    const [itemInformation, setItemInformation] = useState({
         amount: '',
         total: '',
         type: '',
         z_index: '',
         sizes: [],
     })
-
-    const [image, setImage] = useState(null);
-    const [demoImage, setDemoImage] = useState([]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -28,12 +28,12 @@ export default function CreateItem({folderId, setReset, setCreatingItem}) {
         // image become object with each own z_index
         // only the demo_image need z_index
 
-        data.append('amount', formData.amount);
-        data.append('total', formData.total);
-        data.append('type', formData.type);
-        data.append('z_index', formData.z_index);
+        data.append('amount', itemInformation.amount);
+        data.append('total', itemInformation.total);
+        data.append('type', itemInformation.type);
+        data.append('z_index', itemInformation.z_index);
 
-        formData.sizes.forEach(size => {
+        itemInformation.sizes.forEach(size => {
             data.append('sizes[]', size);
         });
 
@@ -64,49 +64,42 @@ export default function CreateItem({folderId, setReset, setCreatingItem}) {
 
         if (name === 'sizes[]') {
             const values = Array.from(selectedOptions).map(opt => opt.value);
-            setFormData(prev => ({ ...prev, sizes: values }));
+            setItemInformation(prev => ({ ...prev, sizes: values }));
         } else if (name === 'type') {
             const type = value.split('-')[0]
             const z_index = value.split('-')[1]
-            setFormData(prev => ({ ...prev, [name]: type }));
-            setFormData(prev => ({ ...prev, ['z_index']: z_index }));
+            setItemInformation(prev => ({ ...prev, [name]: type }));
+            setItemInformation(prev => ({ ...prev, ['z_index']: z_index }));
 
-            console.log(formData.z_index)
         } else {
-            setFormData(prev => ({ ...prev, [name]: value }));
+            setItemInformation(prev => ({ ...prev, [name]: value }));
         }
 
     };
 
     useEffect(() => {
 
-        if (folderId === 2) {
-            setFormData(prev => ({ ...prev, ["type"]: 'top' }));
-            setFormData(prev => ({ ...prev, ['z_index']: '2' }));
-        } else if (folderId === 3) {
-            setFormData(prev => ({ ...prev, ["type"]: 'short' }));
-            setFormData(prev => ({ ...prev, ['z_index']: '3' }));
-        } else if (folderId === 4) {
-            setFormData(prev => ({ ...prev, ["type"]: 'long' }));
-            setFormData(prev => ({ ...prev, ['z_index']: '1' }));
-        } else if (folderId === 5) {
-            setFormData(prev => ({ ...prev, ["type"]: 'sweater' }));
-            setFormData(prev => ({ ...prev, ['z_index']: '4' }));
-        } else if (folderId === 6) {
-            setFormData(prev => ({ ...prev, ["type"]: 'gakuran' }));
-            setFormData(prev => ({ ...prev, ['z_index']: '5' }));
-        } else if (folderId === 7) {
-            setFormData(prev => ({ ...prev, ["type"]: 'blazer' }));
-            setFormData(prev => ({ ...prev, ['z_index']: '5' }));
-        } 
+        const itemTypeMapping = {
+            2: { type: 'top', z_index: '2' },
+            3: { type: 'short', z_index: '3' },
+            4: { type: 'long', z_index: '1' },
+            5: { type: 'sweater', z_index: '4' },
+            6: { type: 'gakuran', z_index: '5' },
+            7: { type: 'blazer', z_index: '5' },
+        };
 
-    }, [folderId])
+        if (itemTypeMapping[folderId]) {
+            setItemInformation((prev) => ({
+                ...prev,
+                ...itemTypeMapping[folderId],
+            }));
+        }
+    }, [folderId]);
 
     return (
         <form onSubmit={handleSubmit} className={styles.sizeForm}>
             <div style={{display: "flex", justifyContent: "space-around"}}>
                 <div style={{display: "flex", flexDirection: "column", gap: "2em"}}>
-                    <label htmlFor="image">Image</label>
                     {image && (
                         <img
                         src={URL.createObjectURL(image)}
@@ -114,11 +107,11 @@ export default function CreateItem({folderId, setReset, setCreatingItem}) {
                         style={{ width: '200px', objectFit: 'cover', border: '1px solid #ccc' }}
                         />
                     )}
+                    <label htmlFor="image">Inventory Image</label>
                     <input type="file" name="image" onChange={(e) =>  setImage(e.target.files[0])}/>
                 </div>
 
                 <div style={{display: "flex", flexDirection: "column", gap: "2em"}}>
-                    <label htmlFor="demo_image">Demo Image</label>
                     {demoImage && demoImage.length > 0 && demoImage.map((img, index) => (
                         <img
                         key={index}
@@ -127,7 +120,7 @@ export default function CreateItem({folderId, setReset, setCreatingItem}) {
                         style={{ width: '200px', objectFit: 'cover', border: '1px solid #ccc' }}
                         />
                     ))}
-
+                    <label htmlFor="demo_image">Demo Image</label>
                     <input type="file" name="demo_image" multiple onChange={(e) => {
                         console.log(e.target.files[0])
                         setDemoImage(prev => [...prev, e.target.files[0]])
@@ -143,7 +136,7 @@ export default function CreateItem({folderId, setReset, setCreatingItem}) {
             {folderId === 8 && (
                 <>
                     <label htmlFor="image">Loại</label>
-                    <select name="type" value={formData.type+"-"+formData.z_index} onChange={handleChange}>
+                    <select name="type" value={itemInformation.type+"-"+itemInformation.z_index} onChange={handleChange}>
                         <option value="bow-5">Bow</option>
                         <option value="tie-3">Tie</option>
                         <option value="bag-6">Bag</option>
@@ -156,30 +149,30 @@ export default function CreateItem({folderId, setReset, setCreatingItem}) {
             <input
                 type="text"
                 name="total"
-                value={formData.total}
+                value={itemInformation.total}
                 onChange={(e) => {
                     const rawValue = e.target.value.replace(/[^\d]/g, ''); // Remove non-numeric characters
-                    setFormData((prev) => ({ ...prev, total: rawValue })); // Update formData with numeric value
+                    setItemInformation((prev) => ({ ...prev, total: rawValue })); // Update formData with numeric value
                 }}
                 onBlur={(e) => {
                     // Format the value when the input loses focus
-                    const formattedValue = formData.total ? `${Number(formData.total).toLocaleString()}đ` : '';
+                    const formattedValue = itemInformation.total ? `${Number(itemInformation.total).toLocaleString()}đ` : '';
                     e.target.value = formattedValue;
                 }}
                 onFocus={(e) => {
                     // Remove formatting when the input gains focus
-                    e.target.value = formData.total;
+                    e.target.value = itemInformation.total;
                 }}
             />
 
             <label htmlFor="image">Số lượng</label>
-            <input type="number" name="amount" value={formData.amount} onChange={handleChange} />
+            <input type="number" name="amount" value={itemInformation.amount} onChange={handleChange} />
 
 
-            {formData.type !== '' &&
-                !['bow', 'tie', 'bag'].includes(formData.type) && (
+            {itemInformation.type !== '' &&
+                !['bow', 'tie', 'bag'].includes(itemInformation.type) && (
                     <div className={styles.checkboxGroup}>
-                        {(formData.type === 'gakuran'
+                        {(itemInformation.type === 'gakuran'
                             ? ['145A', '150A', '160A', '165A', '170A', '170B', '175A', '180A']
                             : ['S', 'M', 'L', 'XL']
                         ).map((size) => (
@@ -187,10 +180,10 @@ export default function CreateItem({folderId, setReset, setCreatingItem}) {
                                 <input
                                     type="checkbox"
                                     value={size}
-                                    checked={formData.sizes.includes(size)}
+                                    checked={itemInformation.sizes.includes(size)}
                                     onChange={(e) => {
                                         const checked = e.target.checked;
-                                        setFormData((prev) => ({
+                                        setItemInformation((prev) => ({
                                             ...prev,
                                             sizes: checked
                                                 ? [...prev.sizes, size]
@@ -208,10 +201,6 @@ export default function CreateItem({folderId, setReset, setCreatingItem}) {
                 <button type="submit" className={styles.saveButton} >
                     Hoàn tất
                 </button>
-                <button type="button" onClick={() => setCreatingItem(false)} className={styles.deleteButton} >
-                    Quay lại
-                </button>
-
             </div>
         </form>
     );

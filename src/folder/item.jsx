@@ -158,6 +158,7 @@ export default function Item({ folderId, inventory, updateSize, updateOutFit,
                 resetTrigger={resetTrigger}
             />
         );
+        
     } else {
         return (
             <div 

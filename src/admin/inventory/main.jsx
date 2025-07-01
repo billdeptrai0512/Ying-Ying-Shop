@@ -6,182 +6,182 @@ import UpdateMeasurements from "./form/update-measurement";
 import EditItem from "./form/edit-item";
 import CreateItem from "./form/create-item";
 import DeleteItem from "./form/delete-item";
+import ListItem from "./listItem";
 
 
 export default function Inventory() {
 
     const [id, setId] = useState(2)
     const [inventory, setInventory] = useState([])
+    const [category, setCategory] = useState()
     const [measurements, setMeasurements] = useState([])
-    const [creatingItem, setCreatingItem] = useState(false)
+    const [listItem, setListItem] = useState()
+    const [extraType, setExtraType] = useState('bow')
+    const [isCreating, setIsCreating] = useState(false)
     const [selectedItem, setSelectedItem] = useState(null)
     const [reset, setReset] = useState(true)
 
-    const fetchData = async () => {
+    const getInventory = async () => {
         try {
-          const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/folder/${id}`, {
+
+          const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/folder`, {
             headers: {
               "ngrok-skip-browser-warning": "true",
             }
           });
 
-          
-          const folderData = response.data;
-          setInventory(folderData.files);
-          setMeasurements(folderData.measurements);
-        //   setSelectedOrder(folderData.files?.[0]);
-      
+          const inventory = response.data;
+
+          setInventory(inventory); 
+
         } catch (err) {
+
           console.error("fetch folder: " + err);
+
         } 
     };
 
     const selectItem = (itemId) => {
-        const item = inventory.find(item => item.id === itemId);
-        if (!item) return;
-    
-        if (selectedItem?.id === item.id) {
-          setSelectedItem(null);
-        } else {
-          setSelectedItem(item);
-        }
 
+        const item = listItem.find(item => item.id === itemId);
+
+        if (!item) return;
+
+        console.log(item.demo_image)
+        
+        const isNotTheSameItem = selectedItem?.id !== item.id;
+
+        setSelectedItem(isNotTheSameItem ? item : null);
+
+    };
+
+    const updateDisplayID = (updatedItems, folderId) => {
+        setInventory((prevInventory) =>
+            prevInventory.map((category) =>
+                category.id === folderId
+                    ? { ...category, files: updatedItems }
+                    : category
+            )
+        );
     };
 
     useEffect(() => {
 
-        fetchData();
+        getInventory()
 
-        setSelectedItem(null)
-
-        setCreatingItem(false)
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id]);
+    }, []);
 
     useEffect(() => {
 
-        fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [setMeasurements]);
+        const result = inventory.find(category => category.id === id);
+
+        setCategory(result)
+
+        if (category) {
+
+            setMeasurements(category.measurements);
+
+            setListItem(category.files);
+
+            setSelectedItem(null)
+            
+            setIsCreating(false)
+
+        }
+
+    }, [inventory, id, category]);
+
 
     useEffect(() => {
 
-        fetchData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        if (!category) return
+
+        if (category.id === 8) {
+
+            const filterListItem = category.files.filter(item => item.type === extraType);
+
+            setListItem(filterListItem);
+
+        } 
+
+    }, [category, extraType])
+
+    useEffect(() => {
+
+        getInventory()
+
     }, [reset])
+
+    if (!inventory || !listItem) return <p className={styles.emptyText}>Có thể bạn chưa biết: Chủ shop rất dễ thươnggggg</p>
 
     return (
         <>
             <div className={styles.sectionBoard}>
-                {/* <SearchOrder status={status} setStatus={setStatus} setRefresh={setRefresh} setListOrder={setListOrder}/> */}
-                <div className={styles.section} 
-                    onClick={() => setId(2)} 
-                    style={id === 2 ? { backgroundColor: '#E3C4C1' } : {}}
-                    >
-                    Áo sơ mi
-                </div>
-                <div className={styles.section} 
-                    onClick={() => setId(4)} 
-                    style={id === 4  ? { backgroundColor: '#E3C4C1' } : {}}
-                    >
-                    Quần dài 
-                </div>
-                <div className={styles.section} 
-                    onClick={() => setId(3)} 
-                    style={id === 3  ? { backgroundColor: '#E3C4C1' } : {}}
-                    >
-                    Chân Váy
-                </div>
-                <div className={styles.section} 
-                    onClick={() => setId(5)} 
-                    style={id === 5 ? { backgroundColor: '#E3C4C1' } : {}}
-                    >
-                    Sweater 
-                </div>
-                <div className={styles.section} 
-                    onClick={() => setId(7)} 
-                    style={id === 7 ? { backgroundColor: '#E3C4C1' } : {}}
-                    >
-                    Blazer 
-                </div>
-                <div className={styles.section} 
-                    onClick={() => setId(6)} 
-                    style={id === 6 ? { backgroundColor: '#E3C4C1' } : {}}
-                    >
-                    Gakuran
-                </div>
-                <div className={styles.section} 
-                    onClick={() => setId(8)} 
-                    style={id === 8 ? { backgroundColor: '#E3C4C1' } : {}}
-                    >
-                    Phụ kiện
-                </div>
-
-
-            </div>
-            <div className={styles.orderListWrapper}>
-                {!inventory ? (
-                    <p className={styles.emptyText}>No item</p>
-                ) : (
-                    <>
-                        <ul className={styles.cartList}>
-                            {inventory.map(item => (
-                                <li key={item.id} className={styles.cartItem}
-                                    onClick={() => {
-                                        selectItem(item.id)
-                                        console.log("Selected item ID:", item.id);
-                                    }}
-                                    style={selectedItem?.id === item.id ? { border: '5px solid #E3C4C1' } : {}}>
-                                    <img
-                                        src={item.image}
-                                        alt={`Item ${item.id}`}
-                                        className={styles.itemImage}
-                                    />
-                                    <div>
-                                        <p className={styles.itemSize}>ID: {item.id}</p>
-                                        <p className={styles.itemId}>Số lượng: {item.amount}</p>
-                                        <p className={styles.itemId}>Sizes: {
-                                                            Array.isArray(item.sizes)
-                                                            ? item.sizes.join(', ')
-                                                            : item.sizes?.match(/(S|M|L|XL|XXL|XS)/g)?.join(', ') || item.sizes
-                                                        }</p>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingBottom: "1em" }}>
-                            <button type="button" className={styles.saveButton}
-                                onClick={() => setCreatingItem(true)} >
-                                    Thêm Item
-                            </button>
+                {inventory.sort((a, b) => a.id - b.id)
+                    .map(category => (
+                        <div 
+                            key={category.id}
+                            className={styles.section}
+                            onClick={() => setId(category.id)}
+                            style={id === category.id ? { backgroundColor: '#E3C4C1' } : {}}
+                        >
+                            {category.name}
                         </div>
-                    </>
+                    ))}
+            </div>
 
+            <div className={styles.orderListWrapper}>
+                <ListItem 
+                    selectItem={selectItem}
+                    selectedItem={selectedItem}
+                    setExtraType={setExtraType}
+                    listItem={listItem}
+                    categoryId={id} 
+                    updateDisplayID={updateDisplayID}
+                />
+
+                <div className={styles.action}>
+
+                    {isCreating ? (
+                        <button type="button" className={styles.deleteButton}
+                            onClick={() => setIsCreating(false)} >
+                            Quay lại
+                        </button>
+                    ) : (
+                        <button type="button" className={styles.saveButton}
+                            onClick={() => setIsCreating(true)}>
+                            Thêm Item
+                        </button>
+                    )}
+
+                </div>
+            </div>
+
+            <div className={styles.orderDetailWrapper}>
+                {!selectedItem && !isCreating && (
+                    <UpdateMeasurements
+                        folderId={id}
+                        measurements={measurements}
+                        setMeasurements={setMeasurements}
+                    />
+                )}
+
+                {selectedItem && !isCreating && (
+                    <EditItem 
+                        selectedItem={selectedItem} 
+                        setReset={setReset} 
+                    />
+                )}
+
+                {isCreating && (
+                    <CreateItem 
+                        folderId={id} 
+                        setReset={setReset} 
+                    />
                 )}
             </div>
-            <div className={styles.orderDetailWrapper}>
-                {selectedItem ? (
-                        <EditItem selectedItem={selectedItem} setReset={setReset} />
-                    ) : creatingItem ? (
-                        <CreateItem folderId={id} setReset={setReset} setCreatingItem={setCreatingItem}/>
-                    ) : (
-                        <> 
-
-                            <UpdateMeasurements
-                                folderId={id}
-                                measurements={measurements}
-                                setMeasurements={setMeasurements}
-                                setCreatingItem={setCreatingItem}
-                                />
-                        </>
-
-                    )}
-            </div>
-            
         </>
-
-    )
+    );
   }
 
   

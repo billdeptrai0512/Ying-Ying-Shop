@@ -6,8 +6,9 @@ import DeleteItem from './delete-item';
 
 export default function EditItem({selectedItem, setReset}) {
 
-    const [demoImage, setDemoImage] = useState(null);
-    const [formData, setFormData] = useState({
+    const [image, setImage] = useState(null);
+    const [demoImage, setDemoImage] = useState([]);
+    const [itemInformation, setItemInformation] = useState({
         amount: '',
         total: '',
         type: '',
@@ -19,11 +20,21 @@ export default function EditItem({selectedItem, setReset}) {
         e.preventDefault();
 
         const data = new FormData();
-        data.append('demo_image', demoImage);
-        data.append('amount', formData.amount);
-        data.append('total', formData.total);
+        
+        if (demoImage && demoImage.length > 0) {
+            demoImage.forEach((img) => {
+                data.append(`demo_image`, img);
+            });
+        }
 
-        formData.sizes.forEach(size => {
+        data.append('image', image);
+        data.append('amount', itemInformation.amount);
+        data.append('total', itemInformation.total);
+        data.append('type', itemInformation.type);
+        data.append('z_index', itemInformation.z_index);
+        console.log(demoImage)
+
+        itemInformation.sizes.forEach(size => {
             data.append('sizes[]', size);
         });
 
@@ -51,9 +62,10 @@ export default function EditItem({selectedItem, setReset}) {
     };
 
     const handleChange = (e) => {
+
         const { name, value } = e.target;
-        
-        setFormData(prev => ({
+
+        setItemInformation(prev => ({
             ...prev,
             [name]: value
         }));
@@ -61,56 +73,94 @@ export default function EditItem({selectedItem, setReset}) {
 
     useEffect(() => {
 
-        if (selectedItem) {
-            setFormData({
-                amount: selectedItem.amount || '',
-                total: selectedItem.total || '',
-                type: selectedItem.type || '',
-                z_index: selectedItem.z_index || '',
-                sizes: selectedItem.sizes || [],
-            });
+        if (!selectedItem) return;
+
+        const item = {
+            amount: selectedItem.amount || '',
+            total: selectedItem.total || '',
+            type: selectedItem.type || '',
+            z_index: selectedItem.z_index || '',
+            sizes: selectedItem.sizes || [],
         }
+
+        setItemInformation(item);
 
     }, [selectedItem]);
 
     return (
         <form onSubmit={handleSubmit} className={styles.sizeForm}>
-            <label htmlFor="demo_image">Demo Image</label>
-            <div>
-                <img
-                    src={selectedItem.demo_image}
-                    alt={`Item ${selectedItem.id}`}
-                    className={styles.itemImage}
-                />
-                <input type="file" name="demo_image" onChange={(e) => setDemoImage(e.target.files[0])} />
+            <div style={{display: "flex", justifyContent: "space-around"}}>
+                <div style={{display: "flex", flexDirection: "column", gap: "2em"}}>
+                    {selectedItem.image && (
+                        <img
+                            src={selectedItem.image}
+                            alt="Preview"
+                            style={{ width: '200px', objectFit: 'cover', border: '1px solid #ccc' }}
+                        />
+                    )}
+
+                    <label htmlFor="inventory_image">Inventory Image</label>
+                    <input type="file" name="image" 
+                        onChange={(e) =>  {
+                            const file = e.target.files[0];
+                            if (file) {
+                                setImage(file);
+                            }}}
+                        />
+                </div>
+
+                <div style={{display: "flex", flexDirection: "column", gap: "2em"}}>
+                    {selectedItem.demo_image && selectedItem.demo_image.map((img, index) => (
+                        <img
+                        key={index}
+                        src={img}
+                        alt={`Preview ${index + 1}`}
+                        style={{ width: '200px', objectFit: 'cover', border: '1px solid #ccc' }}
+                        />
+                    ))}
+                    <label htmlFor="demo_image">Demo Image</label>
+                    <input type="file" name="demo_image" multiple onChange={(e) => {
+                        const files = Array.from(e.target.files);
+                        setDemoImage(prev => [...prev, ...files])
+                        }} 
+                    />
+
+                     <input type="file" name="demo_image" multiple onChange={(e) => {
+                        const files = Array.from(e.target.files);
+                        setDemoImage(prev => [...prev, ...files])
+                        }} 
+                    />
+                </div>
+
             </div>
-            <label htmlFor="image">Giá tiền</label>
+
+            <label htmlFor="total">Giá tiền</label>
             <input
                 type="text"
                 name="total"
-                value={formData.total}
+                value={itemInformation.total}
                 onChange={(e) => {
                     const rawValue = e.target.value.replace(/[^\d]/g, ''); // Remove non-numeric characters
-                    setFormData((prev) => ({ ...prev, total: rawValue })); // Update formData with numeric value
+                    setItemInformation((prev) => ({ ...prev, total: rawValue })); // Update formData with numeric value
                 }}
                 onBlur={(e) => {
                     // Format the value when the input loses focus
-                    const formattedValue = formData.total ? `${Number(formData.total).toLocaleString()}đ` : '';
+                    const formattedValue = itemInformation.total ? `${Number(itemInformation.total).toLocaleString()}đ` : '';
                     e.target.value = formattedValue;
                 }}
                 onFocus={(e) => {
                     // Remove formatting when the input gains focus
-                    e.target.value = formData.total;
+                    e.target.value = itemInformation.total;
                 }}
             />
 
             <label htmlFor="image">Số lượng</label>
-            <input type="number" name="amount" value={formData.amount} onChange={handleChange} />
+            <input type="number" name="amount" value={itemInformation.amount} onChange={handleChange} />
 
             {['bow', 'tie', 'bag'].includes(selectedItem.type)  && (
                 <>
                     <label htmlFor="image">Loại</label>
-                    <select name="type" value={formData.type+"-"+formData.z_index} onChange={handleChange}>
+                    <select name="type" value={itemInformation.type+"-"+itemInformation.z_index} onChange={handleChange}>
                         <option value="bow-5">Bow</option>
                         <option value="tie-3">Tie</option>
                         <option value="bag-6">Bag</option>
@@ -119,7 +169,6 @@ export default function EditItem({selectedItem, setReset}) {
 
             )}
 
-            <div className={styles.checkboxGroup}>
                 {
                     !['bow', 'tie', 'bag'].includes(selectedItem.type) && (
                         <div className={styles.checkboxGroup}>
@@ -131,10 +180,10 @@ export default function EditItem({selectedItem, setReset}) {
                             <input
                                 type="checkbox"
                                 value={size}
-                                checked={formData.sizes.includes(size)}
+                                checked={itemInformation.sizes.includes(size)}
                                 onChange={(e) => {
                                 const checked = e.target.checked;
-                                setFormData((prev) => ({
+                                setItemInformation((prev) => ({
                                     ...prev,
                                     sizes: checked
                                     ? [...prev.sizes, size]
@@ -148,7 +197,7 @@ export default function EditItem({selectedItem, setReset}) {
                         </div>
                     )
                 }   
-            </div>
+
 
             <div className={styles.action}>
                 <button type="submit" className={styles.saveButton} >

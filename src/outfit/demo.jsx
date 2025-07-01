@@ -76,7 +76,11 @@ export default function Demo({outFit, setOutFit}) {
         try {
             await axios.post(`${import.meta.env.VITE_BACKEND_URL}/favorite/add`,
                 {   
-                    outfit: outFit,
+                    // the outfit is just weird
+                    // it doesn't get updated base on new change
+                    // but does it hurt to not get update ? 
+                    // basicaly it is to get the demo_imgae url
+                    outfit: outFit, 
                     combination: JSON.stringify(getAllItem(outFit))
                 },
                 {
@@ -100,7 +104,8 @@ export default function Demo({outFit, setOutFit}) {
                 {
                     headers: {
                         "ngrok-skip-browser-warning": "true",
-                    },
+                },
+                //oh dame
             });
 
             console.log(response.data) // how to handle if the api return [] but empty
