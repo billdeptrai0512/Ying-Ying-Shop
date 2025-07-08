@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useFolder } from '../../../public/folderContext';
+import { useFolder } from '../../../public/inventoryContext';
 import { Link } from 'react-router-dom';
 import styles from "../inventory.module.css"
 
@@ -21,7 +21,7 @@ export default function CreateFolder() {
 
         try {
 
-            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/folder/create`, {
+            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/inventory/create`, {
                 name: folderData.name,
                 section: folderData.section
             });

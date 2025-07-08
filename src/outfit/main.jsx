@@ -1,10 +1,10 @@
-import { useState } from "react";
 import styles from "./outfit.module.css";
 import Demo from "./demo.jsx";
 import CheckOut from "./checkout.jsx";
 import Folder from "../folder/main.jsx";
+import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { useFolder } from "../public/folderContext";
+import { useInventory } from "../public/inventoryContext.jsx";
 import { useOutfit } from "../public/outfitContext";
 
 export default function Outfit() {
@@ -16,8 +16,6 @@ export default function Outfit() {
     const [resetTrigger, setResetTrigger] = useState(false);
 
     const updateOutFit = (item, section) => {
-
-        console.log(item)
         
         setOutFit((preOutFit) => {
             if (section === "extra") {
@@ -140,21 +138,22 @@ export default function Outfit() {
         return setResetTrigger((prev) => !prev);
     };
 
-    const { folder, loading } = useFolder();
+    const { inventory, loading } = useInventory();
+
     const isDesktop = useMediaQuery({ query: "(min-width: 1400px)" });
 
     if (isDesktop) {
 
-        const leftFolder = folder.filter((inventory) => {
+        const leftInventory = inventory.filter((category) => {
             return (
-                inventory.section === "top" ||
-                inventory.section === "bottom" ||
-                inventory.section === "sweater"
+                category.section === "top" ||
+                category.section === "bottom" ||
+                category.section === "sweater"
             );
         });
 
-        const rightFolder = folder.filter((inventory) => {
-            return inventory.section === "jacket" || inventory.section === "extra";
+        const rightInventory = inventory.filter((category) => {
+            return category.section === "jacket" || category.section === "extra";
         });
 
         return (
@@ -164,7 +163,7 @@ export default function Outfit() {
                 </section>
                 <section className={styles.primary}>
                     <Folder
-                        folder={leftFolder}
+                        inventory={leftInventory}
                         loading={loading}
                         updateOutFit={updateOutFit}
                         updateSize={updateSize}
@@ -179,7 +178,7 @@ export default function Outfit() {
                 </section>
                 <section className={styles.checkout} style={{backgroundColor: "unset"}}>
                     <Folder
-                        folder={rightFolder}
+                        inventory={rightInventory}
                         loading={loading}
                         updateOutFit={updateOutFit}
                         updateSize={updateSize}
@@ -208,7 +207,7 @@ export default function Outfit() {
             </section>
             <section className={styles.primary}>
                 <Folder
-                    folder={folder}
+                    inventory={inventory}
                     updateOutFit={updateOutFit}
                     updateSize={updateSize}
                     missingSize={missingSize}

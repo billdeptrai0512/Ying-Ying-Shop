@@ -39,7 +39,7 @@ export default function CreateItem({folderId, setReset}) {
 
         try {
 
-            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/file/create/${folderId}`, data, {
+            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/item/create/${folderId}`, data, {
                 headers: {
                     'Content-Type' : 'multipart/form-data'
                 }

@@ -139,8 +139,6 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
 
             <div className={styles.container} ref={scrollContainer} >
 
-                
-
                 {inventory.sort((a,b) => a.displayID - b.displayID).map((item) => (
 
                     <React.Fragment key={item.id}>

@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useCart } from "../public/cartContext"
 import { useMediaQuery } from "react-responsive";
 import styles from "./checkout.module.css";
-import axios from "axios";
 
 import Outfit from "../cart/outfit";
 import Demo from "../cart/demo";
@@ -15,32 +14,10 @@ export default function CheckOut() {
     const { cart, removeOutFit, editOutFit } = useCart()
     const { orderId } = useParams();
 
-    const [order, setOrder] = useState({});
-    const [updateOrder, setUpdateOrder] = useState(false)
     const [selectedOutFit, setSelectedOutFit] = useState(0)
-    const [paidStatus, setPaidStatus] = useState(null);
-
     const pickOutFit = (index) => setSelectedOutFit(index)
 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/checkout/${orderId}`, {
-                    headers: {
-                        "ngrok-skip-browser-warning": "true",
-                    }
-                });
-                console.log(response.data.cart);
-                setOrder(response.data);
-                setPaidStatus(response.data.paid_status);
-
-            } catch (err) {
-                console.error("Error fetching order details:", err);
-            }
-        }
-
-        fetchData();
-    }, [orderId, updateOrder]);
+    console.log(orderId)
 
     const isDeskop = useMediaQuery({ query: '(min-width: 1400px)'})
     const isMobile = useMediaQuery({ query: '(max-width: 1000px)'})
@@ -57,11 +34,10 @@ export default function CheckOut() {
                         cart={cart} 
                         pickOutFit={pickOutFit}
                         removeOutFit={removeOutFit}
-                        editOutFit={editOutFit} 
-                        paidStatus={paidStatus}/>
+                        editOutFit={editOutFit} />
                 </section>
                 <section className={styles.checkout}>
-                    <Bill order={order} paidStatus={paidStatus} setPaidStatus={setPaidStatus} setUpdateOrder={setUpdateOrder}/>
+                    <Bill orderId={orderId} />
                 </section>
             </>
         );
@@ -72,7 +48,7 @@ export default function CheckOut() {
         return (
             
             <section className={styles.checkout} style={{ gridRow: "1/8"}}>
-                <Bill order={order} paidStatus={paidStatus} setPaidStatus={setPaidStatus} setUpdateOrder={setUpdateOrder}/>
+                <Bill orderId={orderId} />
             </section>    
             
         );
@@ -85,11 +61,10 @@ export default function CheckOut() {
                     cart={cart} 
                     pickOutFit={pickOutFit}
                     removeOutFit={removeOutFit}
-                    paidStatus={paidStatus}
                     editOutFit={editOutFit} />
             </section>
             <section className={styles.checkout} style={{ gridRow: "1/8"}}>
-                <Bill order={order} paidStatus={paidStatus} setPaidStatus={setPaidStatus} setUpdateOrder={setUpdateOrder}/>
+                <Bill orderId={orderId} />
             </section>
         </>
     );

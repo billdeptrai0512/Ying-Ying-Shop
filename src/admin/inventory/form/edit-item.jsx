@@ -40,7 +40,7 @@ export default function EditItem({selectedItem, setReset}) {
 
         try {
 
-            await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/file/edit/${selectedItem.id}`, data, {
+            await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/item/edit/${selectedItem.id}`, data, {
                 headers: {
                     'Content-Type' : 'multipart/form-data',
                     "ngrok-skip-browser-warning": "true"

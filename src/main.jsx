@@ -2,23 +2,18 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Analytics } from '@vercel/analytics/react';
-import './index.css'
 import MainPage from "./mainpage/main.jsx"
 import ErrorPage from './public/error-page.jsx';
 import Cart from './cart/main.jsx';
 import Admin from './admin/main.jsx';
 import Login from './admin/login.jsx';
-import Folder from './folder/main.jsx';
-import FileUpload from './admin/inventory/form/edit-item.jsx';
-import EditFile from './admin/inventory/form/create-item.jsx';
-import CreateFolder from './admin/inventory/form/createfolder.jsx';
 import Order from './admin/order/main.jsx';
 import Inventory from './admin/inventory/main.jsx';
 import Outfit from './outfit/main.jsx';
 import ConfirmOrder from './cart/confirmOrder.jsx';
 import PlaceOrder from './cart/placeOrder.jsx';
 import CheckOut from './checkout/main.jsx';
-import { FolderProvider } from './public/folderContext.jsx';
+import { InventoryProvider } from './public/inventoryContext.jsx';
 import { CartProvider } from './public/cartContext.jsx';
 import { AuthProvider } from './public/authContext.jsx'
 import { WebSocketProvider } from './public/webSocket.jsx';
@@ -27,6 +22,8 @@ import UpdateMeasurements from './admin/inventory/form/update-measurement.jsx';
 import EditItem from './admin/inventory/form/edit-item.jsx';
 import CreateItem from './admin/inventory/form/create-item.jsx';
 import DeleteFile from './admin/inventory/form/delete-item.jsx';
+
+import './index.css'
 
 export default function App() {
 
@@ -52,11 +49,11 @@ export default function App() {
               path: "placeorder",
               element: <PlaceOrder />,
             },
+            {
+              path: "checkout/:orderId",
+              element: <CheckOut />,
+            },
           ]
-        },
-        {
-          path: "checkout/:orderId",
-          element: <CheckOut />,
         },
         {
           path: "admin",
@@ -102,14 +99,14 @@ export default function App() {
 
     <AuthProvider>
       <WebSocketProvider>
-        <FolderProvider>
+        <InventoryProvider>
           <CartProvider>
             <OutfitProvider>
               <RouterProvider router={router} />
               <Analytics />
             </OutfitProvider>
           </CartProvider>
-        </FolderProvider>
+        </InventoryProvider>
       </WebSocketProvider>
     </AuthProvider>
 

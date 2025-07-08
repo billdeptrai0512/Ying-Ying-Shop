@@ -3,61 +3,6 @@ import { useNavigate } from "react-router-dom";
 import styles from "../cart.module.css"
 import axios from "axios";
 
-function getAllItem(cart) {
-
-    const allItem = []
-
-    cart.forEach(outfit => {
-        Object.entries(outfit)
-            .filter(([key]) => key !== "total")
-            .forEach(([section, value]) => {
-                //if section = extra
-                if (section === 'extra') {
-                    const neck = value.neck
-                    const bag = value.bag
-
-                    if (neck.item) {
-
-                        const item = neck.item
-
-                        const data = {
-                            id: item.id,
-                        }
-
-                        allItem.push(data)
-                    }
-
-                    if (bag.item) {
-
-                        const item = bag.item
-                        
-                        const data = {
-                            id: item.id,
-                        }
-
-                        allItem.push(data)
-                    }
-
-                }
-
-                if (value.item) {
-                    
-                    const item = value.item
-
-                    const data = {
-                        id: item.id,
-                        size: value.size,
-                    }
-
-                    allItem.push(data)
-
-                }
-            });
-    });
-
-    return allItem;
-}
-
 export default function FormPlaceOrder({cart, formId}) {
 
     const navigate = useNavigate()
@@ -90,15 +35,13 @@ export default function FormPlaceOrder({cart, formId}) {
 
         try {
 
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/place-order/create`, data, {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/order/place-order/create`, data, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
 
-            console.log(response.data)
-
-            navigate(`/checkout/${response.data.id}`)
+            navigate(`/cart/checkout/${response.data.id}`)
 
         } catch (err) {
             if (err.response && err.response.status === 400) {
@@ -154,4 +97,59 @@ export default function FormPlaceOrder({cart, formId}) {
             </div>
         </form>
     )
+}
+
+function getAllItem(cart) {
+
+    const allItem = []
+
+    cart.forEach(outfit => {
+        Object.entries(outfit)
+            .filter(([key]) => key !== "total")
+            .forEach(([section, value]) => {
+                //if section = extra
+                if (section === 'extra') {
+                    const neck = value.neck
+                    const bag = value.bag
+
+                    if (neck.item) {
+
+                        const item = neck.item
+
+                        const data = {
+                            id: item.id,
+                        }
+
+                        allItem.push(data)
+                    }
+
+                    if (bag.item) {
+
+                        const item = bag.item
+                        
+                        const data = {
+                            id: item.id,
+                        }
+
+                        allItem.push(data)
+                    }
+
+                }
+
+                if (value.item) {
+                    
+                    const item = value.item
+
+                    const data = {
+                        id: item.id,
+                        size: value.size,
+                    }
+
+                    allItem.push(data)
+
+                }
+            });
+    });
+
+    return allItem;
 }

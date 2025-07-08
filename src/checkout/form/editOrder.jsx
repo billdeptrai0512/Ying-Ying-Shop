@@ -30,7 +30,7 @@ export default function FormEditOrder({ order, formId, setEditMode, setUpdateOrd
         data.append('phone', formData.phone);
 
         try {
-            const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/place-order/edit/${order.id}`, data, {
+            const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/order/place-order/edit/${order.id}`, data, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

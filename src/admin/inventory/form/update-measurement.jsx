@@ -2,7 +2,19 @@ import { CirclePlus } from 'lucide-react';
 import styles from "../inventory.module.css"
 import axios from "axios";
 
-export default function UpdateMeasurements({folderId, measurements, setMeasurements, setCreatingItem}) {
+const sizeOrder = ["XS", "S", "M", "L", "XL", "XXL"];
+
+const keyTranslator = {
+    height: "Chiều Cao",
+    waist: "Eo",
+    long: "Dài",
+    weight: "Cân Nặng",
+    shoulder: "Vai",
+    chest: "Ngực",
+    length: "Dài Áo",
+};
+
+export default function UpdateMeasurements({folderId, measurements, setMeasurements}) {
 
     const saveMeasurement = async () => {
         try {
@@ -23,13 +35,8 @@ export default function UpdateMeasurements({folderId, measurements, setMeasureme
     }
 
     if (!measurements || Object.keys(measurements).length === 0) {
-        return  <button type="button" className={styles.deleteButton}
-                    onClick={() => setCreatingItem(true)} >
-                    Tạo item mới
-                </button>;
+        return  <p>Không có thông tin số đo</p>
     }
-
-    const sizeOrder = ["XS", "S", "M", "L", "XL", "XXL"];
 
     return (
 
@@ -88,15 +95,7 @@ export default function UpdateMeasurements({folderId, measurements, setMeasureme
         </form>
 
     )
-  }
+}
 
-  const keyTranslator = {
-    height: "Chiều Cao",
-    waist: "Eo",
-    long: "Dài",
-    weight: "Cân Nặng",
-    shoulder: "Vai",
-    chest: "Ngực",
-    length: "Dài Áo",
-};
+
   

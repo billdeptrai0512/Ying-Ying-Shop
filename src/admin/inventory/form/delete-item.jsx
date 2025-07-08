@@ -9,7 +9,7 @@ export default function DeleteItem({fileId, setReset}) {
 
         try {
 
-            await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/file/delete/${fileId}`);
+            await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/item/delete/${fileId}`);
 
             setReset((prev) => !prev)
 

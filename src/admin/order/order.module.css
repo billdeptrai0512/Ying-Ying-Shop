@@ -55,21 +55,6 @@
 
 /* ========== Form Styles ========== */
 
-form {
-    display: flex;
-    flex-direction: column;
-    width: fit-content;
-    padding: 1em;
-    gap: 1em;
-}
-
-form > input,
-form > button,
-form > select {
-    border: none;
-    padding: 1em;
-    border-radius: 10px;
-}
 
 button {
     cursor: pointer;
@@ -248,6 +233,22 @@ select:hover {
     background-color: #d5b1ad;
 }
 
+.deleteButton {
+    background-color: #444;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 10px;
+    padding: 1em;
+    margin-top: 1rem;
+    align-self: center;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.deleteButton:hover {
+    background-color: #333;
+}
+
 /* static */
 .static {
     display: flex;
@@ -262,11 +263,22 @@ select:hover {
 .statusLabel {
     font-weight: 600;
     color: #666;
-    cursor: pointer;
 }
 
 .statusValue {
     font-weight: bold;
     color: #444;
+}
+
+.date {
+    display: flex;
+    justify-content: space-around;
+}
+
+.date > input {
+    width: 45%;
+    text-align: center; 
+    padding: 10px 0;
+    border-radius: 10px;
 }
 
