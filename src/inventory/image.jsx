@@ -21,7 +21,6 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
         setAtStart(scrollLeft <= 0);
         setAtEnd(scrollLeft + clientWidth >= scrollWidth);
     };
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const scrollLeft = useCallback(() => {
 
@@ -51,7 +50,7 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
         }
     });
 
-    //wheel effect
+    // apply wheel scroll on mouse
     useEffect(() => {
         const el = scrollContainer.current;
         if (!el) return;
@@ -125,17 +124,7 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
 
         <div className={styles.row} >
             
-            {inventory.length < 6 ? null : (
-                <Play color="#331D1C" fill="#331D1C" onClick={scrollLeft} 
-                style={{ 
-                     display: atStart === true ? 'none' : 'block',
-                     position: "absolute", 
-                     alignSelf: "center",
-                     width: "1em",
-                     transform: "translateX(-130%) rotate(180deg)"
-                    }}
-                />
-            )}
+            { renderScrollLeftButton(inventory, scrollLeft, atStart) }
 
             <div className={styles.container} ref={scrollContainer} >
 
@@ -161,17 +150,49 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
 
             </div>
 
-            {inventory.length < 6 ? null : (
-                <Play color="#331D1C" fill="#331D1C" onClick={scrollRight} 
-                style={{ 
-                    display: atEnd === false ? 'block' : 'none',
-                    position: "absolute",
-                    width: "1em",
-                    alignSelf: "center",
-                }} />
-            )}
+            { renderScrollRightButton(inventory, scrollRight, atEnd) }
                          
         </div>
+
+    )
+}
+
+const renderScrollLeftButton = (inventory, scrollLeft, atStart) => {
+
+    const haveEnoughItems = inventory.length > 6 
+
+    if (!haveEnoughItems) return null
+
+    return (
+        
+        <Play color="#331D1C" fill="#331D1C" onClick={scrollLeft} 
+        style={{ 
+                display: atStart === true ? 'none' : 'block',
+                position: "absolute", 
+                alignSelf: "center",
+                width: "1em",
+                transform: "translateX(-130%) rotate(180deg)"
+            }}
+        />
+
+    )
+}
+
+const renderScrollRightButton = (inventory, scrollRight, atEnd) => {
+
+    const haveEnoughItems = inventory.length > 6 
+
+    if (!haveEnoughItems) return null
+
+    return (
+        
+        <Play color="#331D1C" fill="#331D1C" onClick={scrollRight} 
+        style={{ 
+            display: atEnd === false ? 'block' : 'none',
+            position: "absolute",
+            width: "1em",
+            alignSelf: "center",
+        }} />
 
     )
 }

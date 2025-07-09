@@ -6,60 +6,64 @@ import Size from "./size";
 import styles from "./folder.module.css";
 import Extra from "./extra";
 
-
-export default function Item({ folderId, inventory, updateSize, updateOutFit, 
+//This should be consider as a Category
+export default function Category({ inventory, updateSize, updateOutFit, 
         bottomSection, jacketSection, setBottomSection,
         setJacketSection, missingSize, setMissingSize, resetTrigger }) {
-
-    const { getSelectedItemBySection } = useOutfit();
-    const [sizeSelected, setSizeSelected] = useState(null);
+    
     const itemRef = useRef(null);
+    const { getSelectedItemBySection } = useOutfit();
+
+    const [sizeSelected, setSizeSelected] = useState(null);
+
     const selectedItem = getSelectedItemBySection(inventory.section);
 
     const pickItem = (item, section) => {
+
         updateOutFit(item, section);
 
-        // it could represent a button click for pick or unpick item
-        let count = parseInt(sessionStorage.getItem('pickItem') || '0', 10);
-        count++;
-        sessionStorage.setItem('pickItem', count);
-
-        window.gtag('event', 'click', {
-            event_category: 'Button',
-            event_label: 'pick an item',
-            click_count: count,
-        });
-
-
+        googleTrackingPickItem() // it could represent a button click for pick or unpick item
     };
 
     useEffect(() => {
-        if (selectedItem && inventory.section === "bottom") {
-          setBottomSection(selectedItem.type);
-        }
-    
-        if (selectedItem && inventory.section === "jacket") {
-          setJacketSection(selectedItem.type);
-        }
-    }, [selectedItem, inventory.section, setBottomSection, setJacketSection]);
+
+        if (!selectedItem) return 
+
+        const section = inventory.section
+
+        if (section === "bottom") setBottomSection(selectedItem.type);
+ 
+        if (section === "jacket") setJacketSection(selectedItem.type);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedItem]);
 
     useEffect(() => {
-        if (!inventory.files[0]) return;
 
-        if (inventory.section === "bottom" && bottomSection !== inventory.files[0].type) {
-            setSizeSelected(null);
+        const defaultItem = inventory.files[0]
+
+        if (!defaultItem) return;
+
+        const section = inventory.section
+
+        if (section === "bottom") {
+
+            const sameSectionbutDifferentKind = bottomSection !== defaultItem.type
+
+            if (sameSectionbutDifferentKind) return setSizeSelected(null)
+
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [bottomSection]);
 
-    useEffect(() => {
-        if (!inventory.files[0]) return;
+        if (section === "jacket") {
 
-        if (inventory.section === "jacket" && jacketSection !== inventory.files[0].type) {
-            setSizeSelected(null);
+            const sameSectionbutDifferentKind = jacketSection !== defaultItem.type
+
+            if (sameSectionbutDifferentKind) return setSizeSelected(null)
+
         }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [jacketSection]);
+    }, [bottomSection, jacketSection]);
 
     useEffect(() => {
         setSizeSelected(null);
@@ -85,7 +89,6 @@ export default function Item({ folderId, inventory, updateSize, updateOutFit,
                 style={{ opacity: bottomSection === null || bottomSection === inventory.files[0].type ? 1 : 0.5 }}
             >
                 <Information 
-                    folderId={folderId} 
                     name={inventory.name} 
                     section={inventory.section}
                     amount={bottomSection === inventory.files[0].type ? selectedItem?.amount : null} />
@@ -109,7 +112,9 @@ export default function Item({ folderId, inventory, updateSize, updateOutFit,
                 />
             </div>
         );
-    } else if (inventory.section === "jacket") {
+    } 
+
+    if (inventory.section === "jacket") {
         return (
             <div
                 ref={itemRef}
@@ -117,7 +122,6 @@ export default function Item({ folderId, inventory, updateSize, updateOutFit,
                 style={{ opacity: jacketSection === null || jacketSection === inventory.files[0].type ? 1 : 0.5 }}
             >
                 <Information 
-                    folderId={folderId} 
                     name={inventory.name} 
                     section={inventory.section}
                     amount={jacketSection === inventory.files[0].type ? selectedItem?.amount : null} />
@@ -141,14 +145,16 @@ export default function Item({ folderId, inventory, updateSize, updateOutFit,
                 />
             </div>
         );
-    } else if (inventory.section === "extra") {
+    } 
+
+    if (inventory.section === "extra") {
+
         const bowInventory = inventory.files.filter((item) => item.type === "bow");
         const tieInventory = inventory.files.filter((item) => item.type === "tie");
         const bagInventory = inventory.files.filter((item) => item.type === "bag");
 
         return (
             <Extra
-                folderId={folderId}
                 inventory={inventory}
                 bowInventory={bowInventory}
                 tieInventory={tieInventory}
@@ -159,13 +165,13 @@ export default function Item({ folderId, inventory, updateSize, updateOutFit,
             />
         );
         
-    } else {
-        return (
-            <div 
-                ref={itemRef}
-                className={styles.item}>
+    } 
+     
+    return (
+        <div 
+            ref={itemRef}
+            className={styles.item}>
                 <Information 
-                    folderId={folderId} 
                     name={inventory.name} 
                     amount={selectedItem ? selectedItem?.amount : null} />
                 <Image
@@ -186,7 +192,21 @@ export default function Item({ folderId, inventory, updateSize, updateOutFit,
                     isMissingSize={missingSize ? missingSize.includes(inventory.section) : false}
                     setMissingSize={setMissingSize}
                 />
-            </div>
-        );
-    }
+        </div>
+    );
+    
+}
+
+
+const googleTrackingPickItem = () => {
+    
+    let count = parseInt(sessionStorage.getItem('pickItem') || '0', 10);
+    count++;
+    sessionStorage.setItem('pickItem', count);
+
+    return window.gtag('event', 'click', {
+        event_category: 'Button',
+        event_label: 'pick an item',
+        click_count: count,
+    });
 }

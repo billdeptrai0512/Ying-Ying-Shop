@@ -1,123 +1,34 @@
 import styles from "./outfit.module.css";
 import Demo from "./demo.jsx";
 import CheckOut from "./checkout.jsx";
-import Folder from "../folder/main.jsx";
+import Inventory from "../inventory/main.jsx";
+
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useInventory } from "../public/inventoryContext.jsx";
 import { useOutfit } from "../public/outfitContext";
 
+
+//what are we trying to achive in this component ?
+//we trying to define the layout for the whole page depend on mobile and desktop
+
 export default function Outfit() {
-    const { outFit, setOutFit, setSelectedItem } = useOutfit();
+    
+    const { setOutFit, setSelectedItem } = useOutfit();
+    const { inventory, loading } = useInventory();
+
     const [bottomSection, setBottomSection] = useState(null);
     const [jacketSection, setJacketSection] = useState(null);
-    const [neckSection, setNeckSection] = useState(null);
-    const [missingSize, setMissingSize] = useState(null);
+
+    // this state share with checkout button to notify user to enter
+    const [missingSize, setMissingSize] = useState(null); 
     const [resetTrigger, setResetTrigger] = useState(false);
+    // this state share with inventory to reset default of everything including 
 
-    const updateOutFit = (item, section) => {
-        
-        setOutFit((preOutFit) => {
-            if (section === "extra") {
+    const isDesktop = useMediaQuery({ query: "(min-width: 1400px)" });
 
-                if (item.type === "bow" || item.type === "tie") {
-                    const currentItem = preOutFit[section]["neck"].item;
 
-                    setNeckSection(item.type);
-
-                    if (currentItem?.id === item.id) {
-                        return {
-                            ...preOutFit,
-                            [section]: {
-                                ...preOutFit[section],
-                                ["neck"]: { item: null },
-                            },
-                            total: preOutFit.total - currentItem.total,
-                        };
-                    }
-
-                    return {
-                        ...preOutFit,
-                        [section]: {
-                            ...preOutFit[section],
-                            ["neck"]: { item: item },
-                        },
-                        total: preOutFit.total - (currentItem?.total || 0) + item.total,
-                    };
-                }
-
-                
-
-                const currentItem = preOutFit[section][item.type].item;
-
-                if (currentItem?.id === item.id) {
-                    return {
-                        ...preOutFit,
-                        [section]: {
-                            ...preOutFit[section],
-                            [item.type]: { item: null },
-                        },
-                        total: preOutFit.total - currentItem.total,
-                    };
-                }
-
-                return {
-                    ...preOutFit,
-                    [section]: {
-                        ...preOutFit[section],
-                        [item.type]: { item: item },
-                    },
-                    total: preOutFit.total - (currentItem?.total || 0) + item.total,
-                };
-            }
-
-            const currentItem = preOutFit[section]?.item;
-
-            // double click same item
-            if (currentItem?.id === item.id) {
-                if (section === "bottom") setBottomSection(null);
-                if (section === "jacket") setJacketSection(null);
-
-                return {
-                    ...preOutFit,
-                    [section]: { item: null, size: null },
-                    total: preOutFit.total - currentItem.total,
-                };
-            }
-
-            // select new item
-            // disable bottom and jacket other type
-            if (section === "bottom") setBottomSection(item.type);
-            if (section === "jacket") setJacketSection(item.type);
-
-            return {
-                ...preOutFit,
-                [section]: { item: item, size: null },
-                total: preOutFit.total - (currentItem?.total || 0) + item.total,
-                // total = tổng tiền trước đó - curentItem nếu có + item mới
-            };
-        });
-
-        setSelectedItem(item); // Save the selected item
-    };
-
-    const updateSize = (category, size) => {
-        setOutFit((preOutFit) => {
-            if (size === null) {
-                return {
-                    ...preOutFit,
-                    [category]: { item: preOutFit[category].item, size: null },
-                };
-            } else {
-                return {
-                    ...preOutFit,
-                    [category]: { item: preOutFit[category].item, size: size },
-                };
-            }
-        });
-    };
-
-    const resetDefault = () => {
+    const resetOutfit = () => {
         setOutFit({
             id: Math.random(),
             top: { item: null, size: null },
@@ -130,17 +41,17 @@ export default function Outfit() {
             },
             total: 0,
         });
+
         setSelectedItem(null); // Reset selected item
         setBottomSection(null);
         setJacketSection(null);
         setMissingSize(null);
 
-        return setResetTrigger((prev) => !prev);
+        setResetTrigger((prev) => !prev);
     };
 
-    const { inventory, loading } = useInventory();
-
-    const isDesktop = useMediaQuery({ query: "(min-width: 1400px)" });
+    //loading is need here to lazy loading the whole page 
+    if (loading) return <p>hello nigga</p>
 
     if (isDesktop) {
 
@@ -153,47 +64,39 @@ export default function Outfit() {
         });
 
         const rightInventory = inventory.filter((category) => {
-            return category.section === "jacket" || category.section === "extra";
+            return (
+                category.section === "jacket" || 
+                category.section === "extra"
+            );
         });
 
         return (
             <>
                 <section className={styles.main}>
-                    <Demo outFit={outFit} setOutFit={setOutFit} />
+                    <Demo />
                 </section>
                 <section className={styles.primary}>
-                    <Folder
+                    <Inventory
                         inventory={leftInventory}
-                        loading={loading}
-                        updateOutFit={updateOutFit}
-                        updateSize={updateSize}
                         missingSize={missingSize}
                         setMissingSize={setMissingSize}
                         bottomSection={bottomSection}
-                        jacketSection={jacketSection}
                         setBottomSection={setBottomSection}
-                        setJacketSection={setJacketSection}
                         resetTrigger={resetTrigger}
                     />
                 </section>
                 <section className={styles.checkout} style={{backgroundColor: "unset"}}>
-                    <Folder
+                    <Inventory
                         inventory={rightInventory}
-                        loading={loading}
-                        updateOutFit={updateOutFit}
-                        updateSize={updateSize}
                         missingSize={missingSize}
                         setMissingSize={setMissingSize}
-                        bottomSection={bottomSection}
                         jacketSection={jacketSection}
-                        setBottomSection={setBottomSection}
                         setJacketSection={setJacketSection}
                         resetTrigger={resetTrigger}
                     />
                     <CheckOut
                         setMissingSize={setMissingSize}
-                        outFit={outFit}
-                        resetDefault={resetDefault}
+                        resetOutfit={resetOutfit}
                     />
                 </section>
             </>
@@ -203,31 +106,29 @@ export default function Outfit() {
     return (
         <>
             <section className={styles.main}>
-                <Demo outFit={outFit} setOutFit={setOutFit}/>
+                <Demo />
             </section>
             <section className={styles.primary}>
-                <Folder
+                <Inventory
                     inventory={inventory}
-                    updateOutFit={updateOutFit}
-                    updateSize={updateSize}
                     missingSize={missingSize}
                     setMissingSize={setMissingSize}
                     bottomSection={bottomSection}
                     jacketSection={jacketSection}
                     setBottomSection={setBottomSection}
                     setJacketSection={setJacketSection}  
-                    neckWearSection={neckSection}
                     resetTrigger={resetTrigger}
                 />
             </section>
             <section className={styles.checkout}>
                 <CheckOut
                     setMissingSize={setMissingSize}
-                    outFit={outFit}
-                    resetDefault={resetDefault}
+                    resetOutfit={resetOutfit}
                 />
             </section>
         </>
     );
 }
+
+
 

@@ -13,15 +13,15 @@ import Outfit from './outfit/main.jsx';
 import ConfirmOrder from './cart/confirmOrder.jsx';
 import PlaceOrder from './cart/placeOrder.jsx';
 import CheckOut from './checkout/main.jsx';
+import UpdateMeasurements from './admin/inventory/form/update-measurement.jsx';
+import EditItem from './admin/inventory/form/edit-item.jsx';
+import CreateItem from './admin/inventory/form/create-item.jsx';
+import DeleteFile from './admin/inventory/form/delete-item.jsx';
 import { InventoryProvider } from './public/inventoryContext.jsx';
 import { CartProvider } from './public/cartContext.jsx';
 import { AuthProvider } from './public/authContext.jsx'
 import { WebSocketProvider } from './public/webSocket.jsx';
 import { OutfitProvider } from './public/outfitContext.jsx';
-import UpdateMeasurements from './admin/inventory/form/update-measurement.jsx';
-import EditItem from './admin/inventory/form/edit-item.jsx';
-import CreateItem from './admin/inventory/form/create-item.jsx';
-import DeleteFile from './admin/inventory/form/delete-item.jsx';
 
 import './index.css'
 

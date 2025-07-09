@@ -1,200 +1,169 @@
-import styles from "./outfit.module.css"
-import watermark from "./../assets/wtm.png"
+// Cleaned-up version of Demo component
+
+import styles from "./outfit.module.css";
+import watermark from "./../assets/wtm.png";
 import axios from "axios";
-import { useState, useEffect } from "react";  
-import { useAuth } from "../public/authContext"
-import { Star, Dices } from 'lucide-react';
+import Imgix from "react-imgix";
+import { useState, useEffect, useMemo } from "react";
+import { useAuth } from "../public/authContext";
+import { useOutfit } from "../public/outfitContext";
+import { Star, Dices } from "lucide-react";
 
-export default function Demo({outFit, setOutFit}) {
-
-
-    const [filled, setFilled] = useState(false)
-    const { user } = useAuth()
-
-    const getDemoImages = (outFit) => {
-        const images = [];
-
-        if (!outFit) return;
-
-        // Loop through top-level keys
-        for (const [key, value] of Object.entries(outFit)) {
-            if (key === "total") continue;
-
-            // If demo_image exists directly
-            if (value?.item?.demo_image) {
-                // Skip if demo_image is null
-                if (value.item.demo_image === "null") continue;
-
-                const demo_image = value.item.demo_image;
-                const z_index = value.item.z_index || 0; // Ensure z_index has a default value
-
-                if (!Array.isArray(demo_image)) {
-                    images.push({ key, image: demo_image, styleData: { z_index } });
-                }
-
-                // If demo_image is an array, loop through it
-                else {
-                    demo_image.forEach((img, index) => {
-                        if (index === 1) {
-                            // modify for cổ áo thủy thủ 
-                            // cân nhắc cho phép admin set z_index for each demo image // hoặc mặc định
-                            images.push({ key: `${key}-${index}`, image: img, styleData: { z_index: 6 } });
-                        } else {
-                            images.push({ key: `${key}-${index}`, image: img, styleData: { z_index } });
-                        }
-
-                    });
-                }
-            }
-
-            // If it's the 'extra' category, loop its sub-categories
-            if (key === "extra") {
-                for (const [subKey, subValue] of Object.entries(value)) {
-                    if (subValue?.item?.demo_image) {
-                        images.push({ key: subKey, image: subValue.item.demo_image, styleData: { z_index: subValue.item.z_index || 0 } });
-                    }
-                }
-            }
-        }
-
-        return images;
-    };
-
-    const selectedOutFit = outFit
-        ? getDemoImages(outFit).map(({ key, image, styleData }, index) => (
-          <img 
-              key={`${key}-${index}`} 
-              style={{ zIndex: styleData.z_index }} 
-              src={image} 
-              alt={key} 
-          />
-        ))
-        : null;
-
-    const addToFavorite = async (outFit) => {
-
-        try {
-            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/favorite/add`,
-                {   
-                    outfit: outFit, 
-                    combination: JSON.stringify(getAllItem(outFit))
-                },
-                {
-                    headers: {
-                        "ngrok-skip-browser-warning": "true",
-                    },
-            });
-
-          } catch (err) {
-            console.error("add favorite failed: " + err);
-          } finally {
-            setFilled(true)
-          }
-    }
-
-    const getRandomFavoriteOutFit = async () => {
-
-        try {
-
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/favorite`,
-                {
-                    headers: {
-                        "ngrok-skip-browser-warning": "true",
-                },
-                //oh dame
-            });
-
-            console.log(response.data) // how to handle if the api return [] but empty
-
-            setOutFit(response.data.outfit)
-
-            // g2g analyst tracking
-
-            let count = parseInt(sessionStorage.getItem('randomOutFit') || '0', 10);
-            count++;
-            sessionStorage.setItem('randomOutFit', count);
-
-            window.gtag('event', 'roll a dices', {
-                event_category: 'Button',
-                event_label: 'Random Outfit',
-                click_count: count,
-            });
-
-
-          } catch (err) {
-            console.error("get random favorite failed: " + err);
-          } 
-    }
+export default function Demo() {
+    const { user } = useAuth();
+    const { outFit, setOutFit } = useOutfit();
+    const [filled, setFilled] = useState(false);
 
     useEffect(() => {
+        if (outFit) setFilled(false);
+    }, [outFit]);
 
-        if (outFit) {
-            setFilled(false)
+    const selectedOutfitImages = useMemo(() => {
+        if (!outFit) return null;
+
+        return getDemoImages(outFit)
+            .sort((a, b) => a.zIndex - b.zIndex)
+            .map(({ key, image, zIndex }, index) => (
+                <div
+                    key={`${key}-${index}`}
+                    style={{
+                        position: "absolute",
+                        zIndex,
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                    }}
+                    >
+                    <Imgix
+                        src={image}
+                        sizes="340px"
+                        alt={key}
+                        imgixParams={{ auto: "format,compress" }}
+                        htmlAttributes={{ alt: "layer image" }}
+                    />
+                </div>
+        ));
+    }, [outFit]);
+
+    const handleAddToFavorite = async () => {
+
+        try {
+
+            const favorite = {
+                outfit: outFit,
+                combination: JSON.stringify(getAllItem(outFit)),
+            };
+
+            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/favorite/add`, favorite);
+
+            } catch (err) {
+                console.error("add favorite failed:", err);
+            } finally {
+                setFilled(true);
+            }      
+    };
+
+    const handleRandomFavoriteOutfit = async () => {
+        try {
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/favorite`);
+            setOutFit(response.data.outfit);
+        } catch (err) {
+            console.error("get random favorite failed:", err);
+        } finally {
+            googleTrackingRollADices();
         }
-
-    }, [outFit])
+    };
 
     return (
         <div className={styles.board}>
-            <div className={styles.demo}>
+                {user && (
+                        <Star
+                            size={30}
+                            fill={filled ? "yellow" : "none"}
+                            onClick={handleAddToFavorite}
+                            style={{ cursor: "pointer" }}
+                        />
+                )}
 
-                {selectedOutFit?.length > 0 ? selectedOutFit : null}
-                <img 
-                    key="watermark"
-                    style={{zIndex: 7}} 
-                    src={watermark} 
-                    alt={"watermark"} 
-                />
+            <div className={styles.demo}>
+                {selectedOutfitImages}
+                <img key="watermark" src={watermark} alt="watermark" style={{ zIndex: 7 }} />
             </div>
 
             <div className={styles.example}>
-                {user && (
-                    <Star
-                        size={30}
-                        fill={filled ? "yellow" : "none"}
-                        onClick={() => addToFavorite(outFit)}
-                        style={{ cursor: "pointer" }}
-                    />
-                )}
                 <Dices
-                    size={30}
-                    onClick={getRandomFavoriteOutFit}
-                    style={{ cursor: "pointer", alignSelf: "baseline", marginTop: "0em", zIndex: 10 }}
+                size={30}
+                onClick={handleRandomFavoriteOutfit}
+                style={{ cursor: "pointer", alignSelf: "baseline", marginTop: 0, zIndex: 10 }}
                 />
-
-
             </div>
         </div>
-    )
+    );
+}
+
+function getDemoImages(outFit) {
+  const images = [];
+  if (!outFit) return images;
+
+  for (const [key, value] of Object.entries(outFit)) {
+    if (key === "total") continue;
+
+    if (value?.item?.demo_image) {
+      const demoImage = value.item.demo_image;
+      const baseZIndex = value.item.z_index || 0;
+
+      if (Array.isArray(demoImage)) {
+        demoImage.forEach((img, idx) => {
+          const zIndex = idx === 1 ? 6 : baseZIndex;
+          images.push({ key: `${key}-${idx}`, image: img, zIndex });
+        });
+      } else {
+        images.push({ key, image: demoImage, zIndex: baseZIndex });
+      }
+    }
+
+    if (key === "extra") {
+      Object.entries(value).forEach(([subKey, subValue]) => {
+        if (subValue?.item?.demo_image) {
+          images.push({
+            key: subKey,
+            image: subValue.item.demo_image[0],
+            zIndex: subValue.item.z_index || 0,
+          });
+        }
+      });
+    }
+  }
+
+  return images;
 }
 
 function getAllItem(outFit) {
-    const allItem = [];
+  const allItem = [];
+  Object.entries(outFit)
+    .filter(([key]) => key !== "total" && key !== "id")
+    .forEach(([section, value]) => {
+      if (section === "extra") {
+        const { neck, bag } = value;
+        if (neck?.item) allItem.push({ id: neck.item.id });
+        if (bag?.item) allItem.push({ id: bag.item.id });
+        return;
+      }
+      if (value?.item) {
+        allItem.push({ id: value.item.id, size: value.size });
+      }
+    });
+  return allItem;
+}
 
-    Object.entries(outFit)
-        .filter(([key]) => key !== "total" && key !== "id")
-        .forEach(([section, value]) => {
-            if (section === "extra") {
-                const { neck, bag } = value;
+function googleTrackingRollADices() {
+  let count = parseInt(sessionStorage.getItem("randomOutFit") || "0", 10);
+  count++;
+  sessionStorage.setItem("randomOutFit", count);
 
-                if (neck?.item) {
-                    allItem.push({ id: neck.item.id });
-                }
-
-                if (bag?.item) {
-                    allItem.push({ id: bag.item.id });
-                }
-
-                return;
-            }
-
-            if (value?.item) {
-                allItem.push({
-                    id: value.item.id,
-                    size: value.size,
-                });
-            }
-        });
-
-    return allItem;
+  window.gtag("event", "roll a dices", {
+    event_category: "Button",
+    event_label: "Random Outfit",
+    click_count: count,
+  });
 }

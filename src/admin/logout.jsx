@@ -1,9 +1,8 @@
 
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../public/authContext';
-import styles from "./admin.module.css"
 import { LogOut } from 'lucide-react';
-
+import styles from "./admin.module.css"
 
 export default function Logout() {
 
