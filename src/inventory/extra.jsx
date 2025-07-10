@@ -4,7 +4,7 @@ import Image from "./image"
 import styles from "./folder.module.css"
 
 
-export default function Extra({folderId, inventory, selectedItem, bowInventory, bagInventory, tieInventory, updateOutFit, resetTrigger}) {
+export default function Extra({folderId, inventory, selectedItem, bowInventory, bagInventory, tieInventory, updateOutFit, resetTrigger, onImageLoad}) {
 
     const [selectedBow, setSelectedBow] = useState(null)
     const [selectedBag, setSelectedBag] = useState(null)
@@ -89,6 +89,7 @@ export default function Extra({folderId, inventory, selectedItem, bowInventory, 
                     section={inventory.section}
                     pickItem={pickItemBow}
                     selectedItem={selectedBow}
+                    onImageLoad={onImageLoad}
                 />
                 <Image 
                     name={inventory.name}
@@ -96,6 +97,7 @@ export default function Extra({folderId, inventory, selectedItem, bowInventory, 
                     section={inventory.section}
                     pickItem={pickItemTie}
                     selectedItem={selectedTie}
+                    onImageLoad={onImageLoad}
                 />
                 <Image 
                     name={inventory.name}
@@ -103,6 +105,7 @@ export default function Extra({folderId, inventory, selectedItem, bowInventory, 
                     section={inventory.section}
                     pickItem={pickItemBag}
                     selectedItem={selectedBag}
+                    onImageLoad={onImageLoad}
                 />
         </div>  
     )

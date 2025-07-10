@@ -4,14 +4,14 @@ import imageCover from "./../assets/tickweb.png"
 import styles from "./folder.module.css"
 import React from "react";
 
-export default function Image({name, inventory, section, selectedItem, pickItem}) {
+export default function Image({name, inventory, section, selectedItem, pickItem, onImageLoad}) {
 
     
     const scrollContainer = useRef(null)
     const itemRefs = useRef({});
     const [atStart, setAtStart] = useState(true);
     const [atEnd, setAtEnd] = useState(false);
-    const [imagesLoaded, setImagesLoaded] = useState(0)
+    const [imagesLoaded] = useState(0)
 
     const allImagesLoaded = imagesLoaded === inventory.length;
 
@@ -142,7 +142,7 @@ export default function Image({name, inventory, section, selectedItem, pickItem}
                             {selectedItem?.id === item.id ? <img src={imageCover} alt="selectedItem" style={{ position: "absolute", bottom: "0", right: "0" }}></img> : null}
                             {/* image */}
 
-                            <img src={item.image} alt={name} onLoad={() => setImagesLoaded(prev => prev + 1)} style={{display: 'block'}}></img>
+                            <img src={item.image} alt={name} onLoad={onImageLoad} style={{display: 'block'}}></img>
                         </div>
                     </React.Fragment>
 

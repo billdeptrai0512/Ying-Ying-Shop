@@ -6,7 +6,7 @@ export default function Inventory({ inventory,
                                 missingSize, setMissingSize, 
                                 bottomSection, jacketSection,
                                 setBottomSection, setJacketSection,
-                                resetTrigger }) {
+                                resetTrigger , onImageLoad}) {
 
   const { setOutFit, setSelectedItem } = useOutfit();
 
@@ -67,6 +67,7 @@ export default function Inventory({ inventory,
           setBottomSection={setBottomSection} 
           setJacketSection={setJacketSection}
           resetTrigger={resetTrigger} 
+          onImageLoad={onImageLoad}
         />
       ))}
     </>

@@ -5,7 +5,7 @@ const InventoryContext = createContext()
 
 export const InventoryProvider = ({ children }) => {
     const [inventory, setInventory] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [isRenderDone, setRenderDone] = useState(false)
 
     const fetchData = async () => {
         try {
@@ -17,17 +17,17 @@ export const InventoryProvider = ({ children }) => {
           setInventory(response.data);
         } catch (err) {
           console.error("fetch folder: " + err);
-        } finally {
-          setLoading(false)
-        }
+        } 
     };
 
     useEffect(() => {
         fetchData();
     }, []);
 
+    
+
     return (
-        <InventoryContext.Provider value={{ inventory, loading, refreshFolders: fetchData }}>
+        <InventoryContext.Provider value={{ inventory, isRenderDone, setRenderDone, refreshFolders: fetchData }}>
           {children}
         </InventoryContext.Provider>
     );

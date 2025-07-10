@@ -5,7 +5,7 @@
     height: 100vh;
 }
 
-@media (min-width: 1000px) and (max-width: 1400px) {
+@media (min-width: 1000px) and (max-width: 2100px) {
 
     .body {
         display: grid;
@@ -13,7 +13,7 @@
         grid-template-rows: repeat(10, auto);
         align-self: center;
         justify-content: space-between;
-        max-width: 960px;
+        max-width: 960px; 
         min-width: 960px;
         gap: 3em;
     }
@@ -32,7 +32,6 @@
         width: 100%;
         max-width: 1500px;
         gap: 2em;
-        /* height: 80vh; */
     }
 
 } 

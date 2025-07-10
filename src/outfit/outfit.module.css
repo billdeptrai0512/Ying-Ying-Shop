@@ -1,3 +1,51 @@
+.body {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100vh;
+}
+
+@media (min-width: 1000px) and (max-width: 1400px) {
+
+    .body {
+        display: grid;
+        grid-template-columns: 1fr 1fr ;
+        grid-template-rows: repeat(10, auto);
+        align-self: center;
+        justify-content: space-between;
+        max-width: 960px;
+        min-width: 960px;
+        gap: 3em;
+    }
+
+} 
+
+
+@media (min-width: 1400px) {
+
+    .body {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto;
+        align-self: center;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 1500px;
+        gap: 2em;
+    }
+
+} 
+
+@supports (-webkit-touch-callout: none) {
+    body {
+      /* The hack for Safari */
+      height: -webkit-fill-available;
+    }
+}
+
+
+
+
 .main {
     padding: 0 0.5em;
 }
@@ -152,7 +200,7 @@
 @media (min-width: 1000px) and (max-width: 1400px) {
 
     .main {
-        grid-row: 2/8;
+        grid-row: 2/10;
         align-self: center;
     }
 
@@ -167,7 +215,7 @@
     }
 
     .primary {
-        grid-row: 2/7;
+        grid-row: 2/9;
         grid-column: 2;
         min-width: 100%;
         padding: 0 1.25em;
@@ -178,7 +226,7 @@
     }
 
     .checkout {
-        grid-row: 6/8;
+        grid-row: 8/10;
         grid-column: 2;
         max-width: unset;
     }

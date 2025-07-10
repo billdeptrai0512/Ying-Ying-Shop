@@ -9,9 +9,11 @@ import Extra from "./extra";
 //This should be consider as a Category
 export default function Category({ inventory, updateSize, updateOutFit, 
         bottomSection, jacketSection, setBottomSection,
-        setJacketSection, missingSize, setMissingSize, resetTrigger }) {
+        setJacketSection, missingSize, setMissingSize, resetTrigger, onImageLoad }) {
     
+
     const itemRef = useRef(null);
+
     const { getSelectedItemBySection } = useOutfit();
 
     const [sizeSelected, setSizeSelected] = useState(null);
@@ -80,7 +82,6 @@ export default function Category({ inventory, updateSize, updateOutFit,
         
     }, [missingSize, inventory.section]);
 
-
     if (inventory.section === "bottom") {
         return (
             <div
@@ -98,6 +99,7 @@ export default function Category({ inventory, updateSize, updateOutFit,
                     section={inventory.section}
                     pickItem={pickItem}
                     selectedItem={selectedItem}
+                    onImageLoad={onImageLoad}
                 />
                 <Size
                     inventory={inventory}
@@ -131,6 +133,7 @@ export default function Category({ inventory, updateSize, updateOutFit,
                     section={inventory.section}
                     pickItem={pickItem}
                     selectedItem={selectedItem}
+                    onImageLoad={onImageLoad}
                 />
                 <Size
                     inventory={inventory}
@@ -162,6 +165,7 @@ export default function Category({ inventory, updateSize, updateOutFit,
                 selectedItem={selectedItem}
                 updateOutFit={updateOutFit}
                 resetTrigger={resetTrigger}
+                onImageLoad={onImageLoad}
             />
         );
         
@@ -180,6 +184,7 @@ export default function Category({ inventory, updateSize, updateOutFit,
                     section={inventory.section}
                     pickItem={pickItem}
                     selectedItem={selectedItem}
+                    onImageLoad={onImageLoad}
                 />
                 <Size
                     inventory={inventory}

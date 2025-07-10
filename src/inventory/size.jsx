@@ -54,7 +54,7 @@ export default function Size({
   
     if (sizeExists) {
       // Remove from missingSize immediately
-      setMissingSize((prev) => prev.filter(item => item !== section));
+      setMissingSize((prev) => prev?.filter(item => item !== section));
     }
   };
 
