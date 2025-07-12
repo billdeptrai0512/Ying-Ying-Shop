@@ -1,0 +1,41 @@
+import { useOutfit } from "../public/outfitContext";
+import imageCover from "./../assets/tickweb.png"
+import React from "react";
+
+export default function ListItem({inventory, section, itemRefs}) {
+
+    const { selectedItem, updateOutFit } = useOutfit()
+
+    const selected = selectedItem?.[section]?.item;
+    
+    const itemList = inventory.sort((a,b) => a.displayID - b.displayID)
+
+    const borderStyle = (item) => ({
+        position: "relative", 
+        border: selected?.id === item.id ? '2px solid #331D1C' : 'none'
+    });
+    
+    return itemList.map((item) => (
+                <React.Fragment key={item.id}>
+                    <div onClick={() => updateOutFit(item, section)} 
+                        ref={(el) => itemRefs.current[item.id] = el}
+                        style={borderStyle(item)}> 
+            
+                        {renderImageCover(selected, item)}
+            
+                        <img src={item.image} alt={item.name} style={{display: 'block'}}></img>
+                    </div>
+                </React.Fragment>
+    ))
+}
+
+const renderImageCover = (selected, item) => {
+    if (selected?.id !== item.id) return null
+
+    return (
+        <img src={imageCover} alt="selectedItem" 
+            style={{ position: "absolute", bottom: "0", right: "0" }}>
+        </img>
+    )
+
+}

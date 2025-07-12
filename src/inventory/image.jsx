@@ -4,10 +4,12 @@ import { useOutfit } from "../public/outfitContext";
 import imageCover from "./../assets/tickweb.png"
 import styles from "./folder.module.css"
 import React from "react";
+import Item from "./item";
+import ListItem from "./item";
 
-export default function Image({inventory, section, selectedItem, onImageLoad}) {
+export default function Image({inventory, section, onImageLoad}) {
 
-    const { updateOutFit } = useOutfit()
+    const { selectedItem } = useOutfit()
 
     const scrollContainer = useRef(null)
     const itemRefs = useRef({});
@@ -116,8 +118,8 @@ export default function Image({inventory, section, selectedItem, onImageLoad}) {
                 inline: "center",
                 block: "nearest"
             });
-
         }
+
     }, [selectedItem, imagesLoaded, inventory.length]);
 
     if (!inventory || inventory.length === 0) return null;
@@ -130,25 +132,7 @@ export default function Image({inventory, section, selectedItem, onImageLoad}) {
 
             <div className={styles.container} ref={scrollContainer} >
 
-                {inventory.sort((a,b) => a.displayID - b.displayID).map((item) => (
-
-                    <React.Fragment key={item.id}>
-                        <div onClick={() => updateOutFit(item, section)} 
-                        
-                            ref={(el) => itemRefs.current[item.id] = el}
-
-                            style={{ position: "relative" , 
-                                border: selectedItem?.id === item.id ? '2px solid #331D1C' : 'none'}}> 
-                            {/* cover */}
-
-                            {selectedItem?.id === item.id ? <img src={imageCover} alt="selectedItem" style={{ position: "absolute", bottom: "0", right: "0" }}></img> : null}
-                            {/* image */}
-
-                            <img src={item.image} alt={item.name} onLoad={onImageLoad} style={{display: 'block'}}></img>
-                        </div>
-                    </React.Fragment>
-
-                ))}
+                <ListItem inventory={inventory} section={section} itemRefs={itemRefs} />
 
             </div>
 

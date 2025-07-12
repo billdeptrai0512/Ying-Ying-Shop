@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { useOutfit } from "../public/outfitContext";
+import imageCover from "./../assets/tickweb.png"
 import styles from "./folder.module.css";
 
 // ==================== Component ====================
 export default function Size({inventory}) {
+
     const { selectedItem, updateSize } = useOutfit()
     const [selectedSize, setSelectedSize] = useState(null)
-
-
 
     const item = selectedItem[inventory.section].item
 
@@ -21,11 +21,11 @@ export default function Size({inventory}) {
 
     const pickSize = (section, size) => {
 
-      updateSize(section, size)
-
       if (size === selectedSize) return setSelectedSize(null)
 
-      setSelectedSize(size)
+      updateSize(section, size)
+
+      return setSelectedSize(size)
       
     } 
 
@@ -83,6 +83,8 @@ export default function Size({inventory}) {
                 onClick={() => pickSize(inventory.section, size)}
               >
                 <p>{size}</p>
+                {renderImageCover(selectedSize, size)}
+
               </div>
             ))}
 
@@ -184,4 +186,15 @@ const sameSection = (selectedItem, inventory) => {
   if (item.type !== firstIteminInventory.type) return false
 
   return true
+}
+
+const renderImageCover = (selected, size) => {
+    if (selected !== size) return null
+
+    return (
+        <img src={imageCover} alt="selectedItem" 
+            style={{ position: "absolute", bottom: "0", right: "0", width: "33%" }}>
+        </img>
+    )
+
 }

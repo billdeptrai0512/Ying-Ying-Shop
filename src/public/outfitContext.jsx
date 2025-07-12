@@ -84,6 +84,16 @@ export function OutfitProvider({ children }) {
         });
     };
 
+    const getSelectedItem = (section) => {
+
+        if (!selectedItem[section]) return
+
+        const item = selectedItem[section].item
+
+        return item
+
+    }
+
     const updateSize = (section, size) => {
         setOutFit(prev => ({
             ...prev,
@@ -118,6 +128,7 @@ export function OutfitProvider({ children }) {
         <OutfitContext.Provider value={{ outFit, 
             updateOutFit, resetOutfit, 
             selectedItem, updateSelectedItem,
+            getSelectedItem,
             updateSize, missingSize, 
             resetTrigger }}>
             {children}
