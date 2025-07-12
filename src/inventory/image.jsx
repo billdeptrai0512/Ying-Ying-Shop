@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { Play } from "lucide-react"
+import { useOutfit } from "../public/outfitContext";
 import imageCover from "./../assets/tickweb.png"
 import styles from "./folder.module.css"
 import React from "react";
 
-export default function Image({name, inventory, section, selectedItem, pickItem, onImageLoad}) {
+export default function Image({inventory, section, selectedItem, onImageLoad}) {
 
-    
+    const { updateOutFit } = useOutfit()
+
     const scrollContainer = useRef(null)
     const itemRefs = useRef({});
     const [atStart, setAtStart] = useState(true);
@@ -131,8 +133,8 @@ export default function Image({name, inventory, section, selectedItem, pickItem,
                 {inventory.sort((a,b) => a.displayID - b.displayID).map((item) => (
 
                     <React.Fragment key={item.id}>
-                        <div onClick={() => pickItem(item, section)
-                        } 
+                        <div onClick={() => updateOutFit(item, section)} 
+                        
                             ref={(el) => itemRefs.current[item.id] = el}
 
                             style={{ position: "relative" , 
@@ -142,7 +144,7 @@ export default function Image({name, inventory, section, selectedItem, pickItem,
                             {selectedItem?.id === item.id ? <img src={imageCover} alt="selectedItem" style={{ position: "absolute", bottom: "0", right: "0" }}></img> : null}
                             {/* image */}
 
-                            <img src={item.image} alt={name} onLoad={onImageLoad} style={{display: 'block'}}></img>
+                            <img src={item.image} alt={item.name} onLoad={onImageLoad} style={{display: 'block'}}></img>
                         </div>
                     </React.Fragment>
 

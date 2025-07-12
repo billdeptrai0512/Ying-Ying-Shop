@@ -1,10 +1,9 @@
 import { useState, useEffect} from "react"
-import Information from "./information"
 import Image from "./image"
 import styles from "./folder.module.css"
 
 
-export default function Extra({folderId, inventory, selectedItem, bowInventory, bagInventory, tieInventory, updateOutFit, resetTrigger, onImageLoad}) {
+export default function Extra({selectedItem, bowInventory, bagInventory, tieInventory, updateOutFit, resetTrigger, onImageLoad}) {
 
     const [selectedBow, setSelectedBow] = useState(null)
     const [selectedBag, setSelectedBag] = useState(null)
@@ -78,31 +77,23 @@ export default function Extra({folderId, inventory, selectedItem, bowInventory, 
 
     return (
         <div className={styles.item}>
-                <Information 
-                    folderId={folderId}
-                    name={inventory.name} 
-                    amount={selectedItem ? selectedItem.amount : null}
-                />
-                <Image 
-                    name={inventory.name}
+                <Image
                     inventory={bowInventory}
-                    section={inventory.section}
+                    section={bowInventory.section}
                     pickItem={pickItemBow}
                     selectedItem={selectedBow}
                     onImageLoad={onImageLoad}
                 />
                 <Image 
-                    name={inventory.name}
                     inventory={tieInventory}
-                    section={inventory.section}
+                    section={tieInventory.section}
                     pickItem={pickItemTie}
                     selectedItem={selectedTie}
                     onImageLoad={onImageLoad}
                 />
                 <Image 
-                    name={inventory.name}
                     inventory={bagInventory}
-                    section={inventory.section}
+                    section={bagInventory.section}
                     pickItem={pickItemBag}
                     selectedItem={selectedBag}
                     onImageLoad={onImageLoad}

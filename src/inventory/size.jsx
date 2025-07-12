@@ -1,89 +1,106 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useOutfit } from "../public/outfitContext";
 import styles from "./folder.module.css";
 
 // ==================== Component ====================
-export default function Size({
-  inventory,
-  section,
-  selectedItem,
-  isChoosen,
-  itemSection,
-  updateSize,
-  sizeSelected,
-  setSizeSelected,
-  missingSize,
-  isMissingSize,
-  setMissingSize
-}) {
-  const isOpen =
-    selectedItem &&
-    isChoosen === itemSection &&
-    selectedItem.type === inventory.files[0].type;
+export default function Size({inventory}) {
+    const { selectedItem, updateSize } = useOutfit()
+    const [selectedSize, setSelectedSize] = useState(null)
 
-  useEffect(() => {
-    if (!selectedItem || !inventory.files.length) return;
 
-    const sameCategory = selectedItem.type === inventory.files[0].type;
-    if (!sameCategory) return;
 
-    const selectedSize = sizeSelected !== null && selectedItem.sizes?.[sizeSelected];
-    updateSize(section, selectedSize || null);
+    const item = selectedItem[inventory.section].item
 
-    if (isMissingSize && !selectedSize) {
-      const updatedMissing = missingSize.filter(item => item !== section);
-      setMissingSize(updatedMissing);
+    useEffect(() => {
+
+      setSelectedSize(null)
+
+    }, [item])
+
+    if (!item) return 
+
+    const pickSize = (section, size) => {
+
+      updateSize(section, size)
+
+      if (size === selectedSize) return setSelectedSize(null)
+
+      setSelectedSize(size)
+      
+    } 
+
+    // useEffect(() => {
+    //   if (!selectedItem || !inventory.files.length) return;
+
+    //   const sameCategory = selectedItem.type === inventory.files[0].type;
+    //   if (!sameCategory) return;
+
+    //   const selectedSize = sizeSelected !== null && selectedItem.sizes?.[sizeSelected];
+    //   updateSize(section, selectedSize || null);
+
+    //   if (isMissingSize && !selectedSize) {
+    //     const updatedMissing = missingSize.filter(item => item !== section);
+    //     setMissingSize(updatedMissing);
+    //   }
+
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [sizeSelected]);
+
+    // useEffect(() => {
+    //   updateSize(null);
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [selectedItem]);
+
+    // const handlePickSize = (index, size) => {
+    //   console.log(size)
+    //   const isSameSize = sizeSelected === index;
+    //   const newIndex = isSameSize ? null : index;
+    //   //we need section and the size they choose
+    //   updateSize(newIndex);
+    //   trackSizeSelection();
+    
+    //   const sizeExists = selectedItem?.sizes?.[newIndex] != null;
+    
+    //   if (sizeExists) {
+    //     // Remove from missingSize immediately
+    //     setMissingSize((prev) => prev?.filter(item => item !== section));
+    //   }
+    // };
+  
+
+    // if (!isOpen) return null;
+    if (!sameSection(selectedItem, inventory)) return
+
+    const renderOptions = (item) => {
+
+        const sizes = item.sizes
+
+        return (
+          <div className={styles.options}>
+            {sizes.map((size, index) => (
+              <div key={index} className={styles.option}
+                style={selectedSize === size ? { border: "1px solid #331D1C" } : { border: "none" }}
+                onClick={() => pickSize(inventory.section, size)}
+              >
+                <p>{size}</p>
+              </div>
+            ))}
+
+            {/* {isMissingSize && <div className={styles.warning}>*Bắt buộc chọn</div>} */}
+          </div>
+        )
     }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sizeSelected]);
-
-  useEffect(() => {
-    setSizeSelected(null);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedItem]);
-
-  const handlePickSize = (index) => {
-    const isSameSize = sizeSelected === index;
-    const newIndex = isSameSize ? null : index;
-  
-    setSizeSelected(newIndex);
-    trackSizeSelection();
-  
-    const sizeExists = selectedItem?.sizes?.[newIndex] != null;
-  
-    if (sizeExists) {
-      // Remove from missingSize immediately
-      setMissingSize((prev) => prev?.filter(item => item !== section));
-    }
-  };
-
-  if (!isOpen) return null;
-
-  return (
-    <div className={styles.sizeContainer}>
-      <div className={styles.size}>
-        <h4>Size</h4>
-        <div className={styles.options}>
-          {selectedItem.sizes.map((size, index) => (
-            <div
-              key={index}
-              className={styles.option}
-              style={getButtonStyle(isMissingSize, sizeSelected, index)}
-              onClick={() => handlePickSize(index)}
-            >
-              <p>{size}</p>
-            </div>
-          ))}
-          {isMissingSize && (
-            <div className={styles.warning}>*Bắt buộc chọn</div>
-          )}
+    return (
+      <div className={styles.sizeContainer}>
+        <div className={styles.size}>
+          <h4>Size</h4>
+          { renderOptions(item) }
         </div>
-      </div>
 
-      {renderSizeMeasurement(sizeSelected, inventory, selectedItem)}
-    </div>
-  );
+        {/* {renderSizeMeasurement(selectedSize, inventory, item)} */}
+      </div>
+    );
 }
 
 // ==================== Helpers ====================
@@ -142,7 +159,7 @@ function getButtonStyle(isMissingSize, sizeSelected, index) {
     if (isSelected) return { border: "1px solid #331D1C" }; // selected takes priority
     if (isMissingSize) return { border: "1px solid red" };
     return { border: "none" };
-  }
+}
 
 function trackSizeSelection() {
     let count = parseInt(sessionStorage.getItem("pickSize") || "0", 10);
@@ -154,4 +171,17 @@ function trackSizeSelection() {
         event_label: "select sizes",
         click_count: count
     });
+}
+
+const sameSection = (selectedItem, inventory) => {
+
+  const firstIteminInventory = inventory.files[0]
+  if (!firstIteminInventory) return 
+
+  const item = selectedItem[inventory.section].item
+  if (!item) return
+
+  if (item.type !== firstIteminInventory.type) return false
+
+  return true
 }

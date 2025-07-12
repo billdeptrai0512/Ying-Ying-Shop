@@ -1,95 +1,43 @@
+import { useRef } from "react";
 import { useOutfit } from "../public/outfitContext";
-
 import Category from "./category";
+import styles from "./folder.module.css";
 
-export default function Inventory({ inventory,
-                                missingSize, setMissingSize, 
-                                bottomSection, jacketSection,
-                                setBottomSection, setJacketSection,
-                                resetTrigger , onImageLoad}) {
+export default function Inventory({ inventory , onImageLoad}) {
 
-  const { setOutFit, setSelectedItem } = useOutfit();
+    const { selectedItem } = useOutfit()
 
-  const updateOutFit = (item, section) => {
-        
-      setOutFit(prev => {
+    const sorted = [...inventory].sort(
+      (a, b) => sortOrder.indexOf(a.section) - sortOrder.indexOf(b.section)
+    );
 
-          if (section === "extra") {
-            return handleExtraSection(item, prev);
-          }
-    
-          const currentItem = prev[section]?.item;
-    
-          if (currentItem?.id === item.id) {
-            return {
-              ...prev,
-              [section]: { item: null, size: null },
-              total: prev.total - currentItem.total,
-            };
-          }
-    
-          return {
-              ...prev,
-              [section]: { item, size: null },
-              total: prev.total - (currentItem?.total || 0) + item.total,
-          };
+    const itemRef = useRef(null);
 
-        });
 
-      setSelectedItem(item); // Save the selected item
-  };
+    return (
+        sorted.map((inventory) => (
 
-  const updateSize = (section, size) => {
-      setOutFit(prev => ({
-          ...prev,
-          [section]: {
-              ...prev[section],
-              size,
-          }
-      }));
-  };
+          <div ref={itemRef} className={styles.item} style={opacitySetup(selectedItem, inventory)}>
 
-  const sorted = [...inventory].sort(
-    (a, b) => sortOrder.indexOf(a.section) - sortOrder.indexOf(b.section)
-  );
-    
-  return (
-    <>
-      {sorted.map((inventory, index) => (
-        <Category key={index} 
-          inventory={inventory} 
-          updateOutFit={updateOutFit} 
-          updateSize={updateSize} 
-          missingSize={missingSize} 
-          setMissingSize={setMissingSize} 
-          bottomSection={bottomSection} 
-          jacketSection={jacketSection}
-          setBottomSection={setBottomSection} 
-          setJacketSection={setJacketSection}
-          resetTrigger={resetTrigger} 
-          onImageLoad={onImageLoad}
-        />
-      ))}
-    </>
-  );
+              <Category inventory={inventory} onImageLoad={onImageLoad} />
+
+          </div>
+
+        ))
+    );
 }
 
 const sortOrder = ["top", "bottom", "sweater", "jacket", "extra"];
 
-const handleExtraSection = (item, prev) => {
-  const current = item.type === "bow" || item.type === "tie"
-    ? prev.extra.neck.item
-    : prev.extra[item.type]?.item;
+const opacitySetup = (selectedItem, inventory) => {
 
-  const isSameItem = current?.id === item.id;
-  const itemField = (item.type === "bow" || item.type === "tie") ? "neck" : item.type;
+  const firstIteminInventory = inventory.files[0]
+  if (!firstIteminInventory) return 
 
-  return {
-    ...prev,
-    extra: {
-      ...prev.extra,
-      [itemField]: { item: isSameItem ? null : item }
-    },
-    total: prev.total - (current?.total || 0) + (isSameItem ? 0 : item.total)
-  };
-};
+  const item = selectedItem[inventory.section].item
+  if (!item) return
+
+  if (item.type !== firstIteminInventory.type) return { opacity: 0.5 }
+
+  return { opacity: 1 }
+}
