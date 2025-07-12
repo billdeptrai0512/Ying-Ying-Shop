@@ -10,11 +10,11 @@ export default function Category({ inventory, resetTrigger, onImageLoad }) {
     
     const { missingSize, setMissingSize } = useOutfit()
 
-    const [sizeSelected, setSizeSelected] = useState(null);
+    // const [sizeSelected, setSizeSelected] = useState(null);
 
-    useEffect(() => {
-        setSizeSelected(null);
-    }, [resetTrigger]);
+    // useEffect(() => {
+    //     setSizeSelected(null);
+    // }, [resetTrigger]);
 
       // Scroll to the item if its size is missing
     // useEffect(() => {
@@ -54,8 +54,6 @@ export default function Category({ inventory, resetTrigger, onImageLoad }) {
                 <Size
                     inventory={inventory}
                     section={inventory.section}
-                    sizeSelected={sizeSelected}
-                    setSizeSelected={setSizeSelected}
                     missingSize={missingSize}
                     isMissingSize={missingSize ? missingSize.includes(inventory.section) : false}
                     setMissingSize={setMissingSize}

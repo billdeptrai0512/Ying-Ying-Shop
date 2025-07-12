@@ -4,9 +4,9 @@ import React from "react";
 
 export default function ListItem({inventory, section, itemRefs}) {
 
-    const { selectedItem, updateOutFit } = useOutfit()
+    const { outFit, updateOutFit } = useOutfit()
 
-    const selected = selectedItem?.[section]?.item;
+    const selected = outFit?.[section]?.item;
     
     const itemList = inventory.sort((a,b) => a.displayID - b.displayID)
 

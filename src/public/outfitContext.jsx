@@ -125,7 +125,7 @@ export function OutfitProvider({ children }) {
     }, [selectedItem]);
 
     return (
-        <OutfitContext.Provider value={{ outFit, 
+        <OutfitContext.Provider value={{ outFit, setOutFit,
             updateOutFit, resetOutfit, 
             selectedItem, updateSelectedItem,
             getSelectedItem,

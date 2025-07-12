@@ -9,10 +9,12 @@ import ListItem from "./item";
 
 export default function Image({inventory, section, onImageLoad}) {
 
-    const { selectedItem } = useOutfit()
+    const { outFit } = useOutfit()
 
     const scrollContainer = useRef(null)
     const itemRefs = useRef({});
+
+    const selectedItem = outFit[section]?.item
     const [atStart, setAtStart] = useState(true);
     const [atEnd, setAtEnd] = useState(false);
     const [imagesLoaded] = useState(0)
@@ -32,11 +34,6 @@ export default function Image({inventory, section, onImageLoad}) {
         if (scrollContainer.current) {
             scrollContainer.current.scrollBy({ left: SCROLL_OFFSET, behavior: "smooth" });
             requestAnimationFrame(updateScrollLimits);
-
-            const currentIndex = inventory.indexOf(selectedItem);
-            if (currentIndex > 0) {
-                pickItem(inventory[currentIndex - 1], section);
-            }
         }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,11 +43,6 @@ export default function Image({inventory, section, onImageLoad}) {
             const SCROLL_OFFSET = 72;
             scrollContainer.current.scrollBy({ left: SCROLL_OFFSET, behavior: "smooth" });
             requestAnimationFrame(updateScrollLimits);
-
-            const currentIndex = inventory.indexOf(selectedItem);
-            if (currentIndex < inventory.length - 1) {
-                pickItem(inventory[currentIndex + 1], section);
-            }
         }
     });
 
@@ -109,10 +101,10 @@ export default function Image({inventory, section, onImageLoad}) {
     }, [allImagesLoaded])
 
     useEffect(() => {
-        if (!selectedItem || imagesLoaded < inventory.length) return;
 
-        const el = itemRefs.current[selectedItem.id];
+        const el = itemRefs.current[selectedItem?.id];
         if (el) {
+            console.log(el)
             el.scrollIntoView({
                 behavior: "smooth",
                 inline: "center",
@@ -120,7 +112,7 @@ export default function Image({inventory, section, onImageLoad}) {
             });
         }
 
-    }, [selectedItem, imagesLoaded, inventory.length]);
+    }, [selectedItem]);
 
     if (!inventory || inventory.length === 0) return null;
 

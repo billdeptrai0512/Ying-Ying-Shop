@@ -6,10 +6,10 @@ import styles from "./folder.module.css";
 // ==================== Component ====================
 export default function Size({inventory}) {
 
-    const { selectedItem, updateSize } = useOutfit()
+    const { outFit, updateSize } = useOutfit()
     const [selectedSize, setSelectedSize] = useState(null)
 
-    const item = selectedItem[inventory.section].item
+    const item = outFit[inventory.section].item
 
     useEffect(() => {
 
@@ -69,7 +69,7 @@ export default function Size({inventory}) {
   
 
     // if (!isOpen) return null;
-    if (!sameSection(selectedItem, inventory)) return
+    if (!sameSection(outFit, inventory)) return
 
     const renderOptions = (item) => {
 
@@ -175,12 +175,12 @@ function trackSizeSelection() {
     });
 }
 
-const sameSection = (selectedItem, inventory) => {
+const sameSection = (outFit, inventory) => {
 
   const firstIteminInventory = inventory.files[0]
   if (!firstIteminInventory) return 
 
-  const item = selectedItem[inventory.section].item
+  const item = outFit[inventory.section].item
   if (!item) return
 
   if (item.type !== firstIteminInventory.type) return false
