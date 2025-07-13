@@ -1,29 +1,58 @@
-import { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { useOutfit } from "../public/outfitContext";
 import Category from "./category";
 import styles from "./folder.module.css";
 
 export default function Inventory({ inventory , onImageLoad}) {
 
-    const { outFit } = useOutfit()
+    const { outFit, missingSizes } = useOutfit()
 
     const sorted = [...inventory].sort(
       (a, b) => sortOrder.indexOf(a.section) - sortOrder.indexOf(b.section)
     );
 
-    const itemRef = useRef(null);
+    const itemRefs = useRef({});
+      // Scroll to the item if its size is missing
+      useEffect(() => {
 
+        if (!missingSizes || !itemRefs.current) return;
+
+        for (const section of sortOrder) {
+            if (missingSizes.includes(section)) {
+                const ref = itemRefs.current[section]?.current;
+
+                if (ref) {
+                    ref.scrollIntoView({ behavior: "smooth", block: "center" });
+                    break;
+                }
+            }
+        }
+    }, [missingSizes]);
+
+    
 
     return (
-        sorted.map((inventory) => (
-
-          <div key={inventory.id} ref={itemRef} className={styles.item} style={opacitySetup(outFit, inventory)}>
-
-              <Category inventory={inventory} onImageLoad={onImageLoad} />
-
-          </div>
-
-        ))
+      sorted.map((inventory) => {
+          const section = inventory.section;
+      
+          if (!itemRefs.current[section]) {
+            itemRefs.current[section] = React.createRef();
+          }
+      
+          return (
+            <div
+              key={inventory.id}
+              ref={itemRefs.current[section]}
+              className={styles.item}
+              style={opacitySetup(outFit, inventory)}
+            >
+              <Category
+                inventory={inventory}
+                onImageLoad={onImageLoad}
+              />
+            </div>
+          );
+      })
     );
 }
 

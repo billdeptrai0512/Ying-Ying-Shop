@@ -8,32 +8,28 @@ import { useNavigate } from "react-router-dom";
 import { useOutfit } from "../public/outfitContext";
 import { ShoppingCart } from 'lucide-react';
 
-export default function CheckOut({setMissingSize, resetOutfit}) {
+export default function CheckOut() {
 
     const navigate = useNavigate();
 
-    const { outFit } = useOutfit();
+    const { outFit, checkMissingSizes, resetOutfit } = useOutfit();
     const { cart, saveOutFit } = useCart()
 
-    const addToCart = () => {
+    const addToCart = (outFit) => {
 
         if (isOutfitEmpty(outFit)) return
 
-        const missingSizes = Object.entries(outFit)
-            .filter(([category, item]) => 
-                category !== "total" && 
-                category !== "bow" && 
-                category !== "bag" && 
-                item.item && !item.size)
-            .map(([category]) => category)
+        const list = checkMissingSizes(outFit)
 
-        if (missingSizes.length > 0) return setMissingSize(missingSizes)
+        if (!list) {
 
-        saveOutFit(outFit)
+            saveOutFit(outFit)
 
-        googleTrackingAddToCart()
+            googleTrackingAddToCart()
+    
+            resetOutfit()
+        }
 
-        resetOutfit()
     }
 
     const springProps = useSpring({
@@ -47,7 +43,7 @@ export default function CheckOut({setMissingSize, resetOutfit}) {
 
             { renderTotalPayment(springProps) }
 
-            { renderButtonAddToCart(addToCart, cart.length) }
+            { renderButtonAddToCart(addToCart, cart.length, outFit) }
 
             { renderGoToCartButton(navigate, cart.length) }
 
@@ -81,12 +77,12 @@ const renderTotalPayment = (springProps) => {
     )
 }
 
-const renderButtonAddToCart = (addToCart, numberOfCart) => {
+const renderButtonAddToCart = (addToCart, numberOfCart, outFit) => {
 
     const buttonStyle = {width: numberOfCart > 0 ? "70%" : "100%"}
 
     return (
-        <button className={styles.cta} onClick={addToCart} style={buttonStyle}>   
+        <button className={styles.cta} onClick={() => addToCart(outFit)} style={buttonStyle}>   
             <h3 style={{fontSize: "1.25em", fontWeight: 500}}>Thêm vào giỏ hàng</h3>
         </button>
     )

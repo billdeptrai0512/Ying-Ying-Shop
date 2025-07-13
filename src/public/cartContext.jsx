@@ -75,6 +75,8 @@ export function CartProvider({ children }) {
     setCart(prevCart => prevCart.filter(outfit => outfit.id !== outfitToRemove.id));
   };
 
+
+
   return (
     <CartContext.Provider value={{ cart, saveOutFit, removeOutFit, editOutFit}}>
       {children}

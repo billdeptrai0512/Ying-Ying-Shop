@@ -1,32 +1,11 @@
-import { useEffect, useState, useRef } from "react";
-import { useOutfit } from "../public/outfitContext";
 import Information from "./information";
 import Image from "./image";
 import Size from "./size";
 import Extra from "./extra";
 
 //This should be consider as a Category - Inventory already got filter out
-export default function Category({ inventory, resetTrigger, onImageLoad }) {
+export default function Category({ inventory, onImageLoad }) {
     
-    const { missingSize, setMissingSize } = useOutfit()
-
-    // const [sizeSelected, setSizeSelected] = useState(null);
-
-    // useEffect(() => {
-    //     setSizeSelected(null);
-    // }, [resetTrigger]);
-
-      // Scroll to the item if its size is missing
-    // useEffect(() => {
-
-    //     if (!missingSize || !itemRef.current) return;
-
-    //     if (missingSize.includes(inventory.section) && itemRef.current) {
-    //         itemRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-    //     }
-        
-    // }, [missingSize, inventory.section]);
-
     const bowInventory = inventory.files.filter((item) => item.type === "bow");
     const tieInventory = inventory.files.filter((item) => item.type === "tie");
     const bagInventory = inventory.files.filter((item) => item.type === "bag");
@@ -41,7 +20,6 @@ export default function Category({ inventory, resetTrigger, onImageLoad }) {
                     bowInventory={bowInventory}
                     tieInventory={tieInventory}
                     bagInventory={bagInventory}
-                    resetTrigger={resetTrigger}
                     onImageLoad={onImageLoad}
                 />
             : 
@@ -54,9 +32,6 @@ export default function Category({ inventory, resetTrigger, onImageLoad }) {
                 <Size
                     inventory={inventory}
                     section={inventory.section}
-                    missingSize={missingSize}
-                    isMissingSize={missingSize ? missingSize.includes(inventory.section) : false}
-                    setMissingSize={setMissingSize}
                 />
             </>
 

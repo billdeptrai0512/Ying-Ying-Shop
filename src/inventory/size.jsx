@@ -6,10 +6,12 @@ import styles from "./folder.module.css";
 // ==================== Component ====================
 export default function Size({inventory}) {
 
-    const { outFit, updateSize } = useOutfit()
+    const { outFit, updateSize, missingSizes } = useOutfit()
     const [selectedSize, setSelectedSize] = useState(null)
 
     const item = outFit[inventory.section].item
+
+    const isMissingSize = missingSizes?.includes(inventory.section)
 
     useEffect(() => {
 
@@ -21,7 +23,12 @@ export default function Size({inventory}) {
 
     const pickSize = (section, size) => {
 
-      if (size === selectedSize) return setSelectedSize(null)
+      if (size === selectedSize) {
+
+        updateSize(section, null)
+        return setSelectedSize(null)
+
+      }
 
       updateSize(section, size)
 
@@ -79,7 +86,7 @@ export default function Size({inventory}) {
           <div className={styles.options}>
             {sizes.map((size, index) => (
               <div key={index} className={styles.option}
-                style={selectedSize === size ? { border: "1px solid #331D1C" } : { border: "none" }}
+                style={getButtonStyle(isMissingSize, selectedSize, size)}
                 onClick={() => pickSize(inventory.section, size)}
               >
                 <p>{size}</p>
@@ -88,7 +95,7 @@ export default function Size({inventory}) {
               </div>
             ))}
 
-            {/* {isMissingSize && <div className={styles.warning}>*Bắt buộc chọn</div>} */}
+            {isMissingSize && <div className={styles.warning}>*</div>}
           </div>
         )
     }
@@ -155,12 +162,12 @@ function SizeDetail({ label, value }) {
   );
 }
 
-function getButtonStyle(isMissingSize, sizeSelected, index) {
-    const isSelected = sizeSelected === index;
-  
-    if (isSelected) return { border: "1px solid #331D1C" }; // selected takes priority
-    if (isMissingSize) return { border: "1px solid red" };
-    return { border: "none" };
+function getButtonStyle(isMissingSize, selectedSize, size) {
+  const isSelected = selectedSize === size;
+
+  if (isSelected) return { border: "1px solid #331D1C" }; // ưu tiên nếu được chọn
+  if (isMissingSize) return { border: "1px solid red" };
+  return { border: "none" };
 }
 
 function trackSizeSelection() {

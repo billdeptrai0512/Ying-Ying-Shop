@@ -4,7 +4,7 @@ const OutfitContext = createContext();
 
 export function OutfitProvider({ children }) {
 
-    const [missingSize, setMissingSize] = useState(null);
+    const [missingSizes, setMissingSizes] = useState()  
     const [resetTrigger, setResetTrigger] = useState(false);
 
     // outfit could return not undefined but empty
@@ -95,24 +95,51 @@ export function OutfitProvider({ children }) {
     }
 
     const updateSize = (section, size) => {
-        setOutFit(prev => ({
-            ...prev,
-            [section]: {
-                ...prev[section],
-                size,
-            }
-        }));
+        setOutFit(prev => {
+            const currentSize = prev[section]?.size;
+    
+            return {
+                ...prev,
+                [section]: {
+                    ...prev[section],
+                    size: currentSize === size ? null : size, // toggle logic
+                }
+            };
+        });
     };
 
     const resetOutfit = () => {
 
         setOutFit(defaultOutfit);
         setSelectedItem(defaultSelectedItem);
-
-        //these 3 below atribute is from the outfit object
-        setMissingSize(null);
         setResetTrigger((prev) => !prev);
     };
+
+    const checkMissingSizes = (outfit) => {
+
+        const list = Object.entries(outfit)
+            .filter(([category, item]) =>
+            category !== "total" &&
+            category !== "bow" &&
+            category !== "bag" &&
+            item.item && !item.size
+            )
+            .map(([category]) => category);
+
+        if (list.length === 0) {
+            setMissingSizes(null)
+            return null
+        }
+
+        setMissingSizes(list)
+        return list
+    }
+
+    useEffect(() => {
+
+        checkMissingSizes(outFit)
+
+    }, [outFit, setOutFit])
 
     useEffect(() => {
         // Save outfit state to sessionStorage whenever it changes
@@ -129,7 +156,7 @@ export function OutfitProvider({ children }) {
             updateOutFit, resetOutfit, 
             selectedItem, updateSelectedItem,
             getSelectedItem,
-            updateSize, missingSize, 
+            updateSize, checkMissingSizes, missingSizes,
             resetTrigger }}>
             {children}
         </OutfitContext.Provider>
