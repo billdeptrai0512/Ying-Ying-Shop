@@ -8,7 +8,7 @@ import { useMediaQuery } from "react-responsive";
 import { useInventory } from "../public/inventoryContext.jsx";
 
 export default function Outfit() {
-    const { inventory, isRenderDone, setRenderDone } = useInventory();
+    const { inventory, setRenderDone } = useInventory();
     const [showLoading, setShowLoading] = useState(true);
     const isDesktop = useMediaQuery({ query: "(min-width: 1400px)" });
 
@@ -67,24 +67,17 @@ export default function Outfit() {
         ["jacket", "extra"].includes(category.section)
     );
 
-    const loadingStyle = showLoading ? {
+    const loadingStyle = {
 
         position: "fixed",
         inset: 0,
         backgroundColor: "#fff",
-        display: "flex",
+        display: showLoading ? "flex" : "none",
         justifyContent: "center",
         alignItems: "center",
         zIndex: 9999,
-    } : {
-        position: "fixed",
-        inset: 0,
-        backgroundColor: "#fff",
-        display: "none",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 9999,
-    }
+
+    } 
 
     return (
         <>

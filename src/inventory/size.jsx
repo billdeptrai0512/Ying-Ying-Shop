@@ -69,7 +69,7 @@ export default function Size({inventory}) {
           { renderOptions(item) }
         </div>
 
-        {/* {renderSizeMeasurement(selectedSize, inventory, item)} */}
+        {renderSizeMeasurement(selectedSize, inventory)}
       </div>
     );
 }
@@ -86,16 +86,16 @@ const keyTranslator = {
   length: "Dài Áo"
 };
 
-function renderSizeMeasurement(sizeSelected, inventory, selectedItem) {
+function renderSizeMeasurement(sizeSelected, inventory) {
+
   if (sizeSelected == null) return null;
 
-  const sizeKey = selectedItem.sizes?.[sizeSelected];
-  const measurements = inventory.measurements[sizeKey];
+  const measurements = inventory.measurements[sizeSelected];
 
   if (!measurements) return null;
 
   return (
-    <div style={{ display: "flex", gap: "1em" }}>
+    <div style={{ display: "flex", gap: "0.5em", paddingTop:"2px"}}>
       {Object.entries(measurements).map(([key, value], index) => (
         <SizeDetail key={index} label={key} value={value} />
       ))}
@@ -112,8 +112,9 @@ function SizeDetail({ label, value }) {
   };
 
   const textStyle = {
-    backgroundColor: "#FFFFFF",
-    padding: "0 0.75rem"
+    backgroundColor:"#6E6E6E",
+    color: "#FFFFFF",
+    padding: "2px 1rem"
   };
 
   return (
