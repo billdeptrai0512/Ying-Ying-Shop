@@ -2,12 +2,13 @@ import { useOutfit } from "../public/outfitContext";
 import imageCover from "./../assets/tickweb.png"
 import React from "react";
 
-export default function ListItem({inventory, section, itemRefs}) {
+export default function ListItem({inventory, section, extraType, itemRefs}) {
 
     const { outFit, updateOutFit } = useOutfit()
 
-    const selected = outFit?.[section]?.item;
-    
+    const selected = section !== "extra" ? outFit?.[section]?.item : outFit?.[section]?.[extraType]?.item;
+    console.log(selected, extraType)
+
     const itemList = inventory.sort((a,b) => a.displayID - b.displayID)
 
     const borderStyle = (item) => ({

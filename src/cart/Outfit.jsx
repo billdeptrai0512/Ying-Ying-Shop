@@ -1,6 +1,9 @@
+import { useCart } from "../public/cartContext"
 import Image from "./image";
 
-export default function Outfit({cart, pickOutFit, removeOutFit, editOutFit, paidStatus}) {
+export default function Outfit({ pickOutFit, paidStatus}) {
+
+    const { cart, removeOutFit, editOutFit } = useCart()
 
     if (!cart || cart.length === 0) {
         return <div>No outfits in cart.</div>;

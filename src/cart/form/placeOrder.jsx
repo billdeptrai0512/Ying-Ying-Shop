@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../../public/cartContext";
 import styles from "../cart.module.css"
 import axios from "axios";
 
-export default function FormPlaceOrder({cart, formId}) {
+export default function FormPlaceOrder({formId}) {
 
+    const { cart } = useCart()
     const navigate = useNavigate()
 
     const [errors, setErrors] = useState([]); // State to store validation errors

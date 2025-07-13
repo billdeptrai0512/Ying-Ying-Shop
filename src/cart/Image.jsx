@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
-import styles from './cart.module.css';
 import { SquareMinus, Play  } from 'lucide-react'; // adjust import if needed
+import styles from './cart.module.css';
 
 export default function Image({ outfit, index, pickOutFit, removeOutFit, editOutFit, paidStatus}) {
     const scrollRef = useRef(null);

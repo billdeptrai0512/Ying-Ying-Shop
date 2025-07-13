@@ -57,7 +57,7 @@ export default function Outfit() {
         }, 3000); // 3 seconds
       
         return () => clearTimeout(timeout); // Cleanup
-      }, []);
+    }, []);
 
 
     const leftInventory = inventory.filter((category) =>

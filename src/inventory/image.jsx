@@ -1,13 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { Play } from "lucide-react"
 import { useOutfit } from "../public/outfitContext";
-import imageCover from "./../assets/tickweb.png"
 import styles from "./folder.module.css"
 import React from "react";
-import Item from "./item";
 import ListItem from "./item";
 
-export default function Image({inventory, section, onImageLoad}) {
+export default function Image({inventory, section, extraType}) {
 
     const { outFit } = useOutfit()
 
@@ -124,7 +122,7 @@ export default function Image({inventory, section, onImageLoad}) {
 
             <div className={styles.container} ref={scrollContainer} >
 
-                <ListItem inventory={inventory} section={section} itemRefs={itemRefs} />
+                <ListItem inventory={inventory} section={section} itemRefs={itemRefs} extraType={extraType} />
 
             </div>
 
