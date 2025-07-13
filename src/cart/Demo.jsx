@@ -91,12 +91,11 @@ export default function Demo({selectedOutFit}) {
     return (
         <div className={styles.board}>
             <div className={styles.demo}>
+                
                 {selectedOutfitImages}
-                <img 
-                    key="watermark"
-                    style={{zIndex: 7}} 
-                    src={watermark} 
-                    alt={"watermark"} 
+
+                <img key="watermark" style={{zIndex: 7}} 
+                    src={watermark}  alt={"watermark"} 
                 />
             </div>
         </div>

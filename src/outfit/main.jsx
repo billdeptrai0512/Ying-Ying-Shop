@@ -54,10 +54,11 @@ export default function Outfit() {
         const timeout = setTimeout(() => {
           setShowLoading(false);
           console.log('end')
-        }, 3000); // 3 seconds
+        }, inventory.length !== 0 ? 500 : 3000); // 3 seconds
       
         return () => clearTimeout(timeout); // Cleanup
-    }, []);
+
+    }, [inventory]);
 
 
     const leftInventory = inventory.filter((category) =>
