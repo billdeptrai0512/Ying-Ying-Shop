@@ -35,6 +35,7 @@ const renderPath = (user) => {
         <div className={styles.path}>
             <Link to={`/admin/inventory`} >INVENTORY </Link>
             <Link to={`/admin/order`} >ORDER </Link>
+            <Link to={`/admin/favorite`} >FAVORITE </Link>
             <Logout />
         </div>
     )

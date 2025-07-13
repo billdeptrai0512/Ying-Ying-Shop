@@ -24,6 +24,7 @@ import { WebSocketProvider } from './public/webSocket.jsx';
 import { OutfitProvider } from './public/outfitContext.jsx';
 
 import './index.css'
+import Favorite from './admin/favorite/main.jsx';
 
 
 export default function App() {
@@ -63,6 +64,10 @@ export default function App() {
             {
               path: "",
               element: <Login />,
+            },
+            {
+              path: "favorite",
+              element: <Favorite />,
             },
             {
               path: "order",

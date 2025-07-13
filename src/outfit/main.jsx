@@ -79,9 +79,12 @@ export default function Outfit() {
         zIndex: 9999,
 
     } 
+          {/* <div className={styles.body}> 
+        <Outlet />
+      </div> */}
 
     return (
-        <>
+        <div className={styles.body}> 
             {/* 🔄 Always Render UI, Just Hide It If Not Ready */}
                 
                 <div style={loadingStyle}>
@@ -122,6 +125,6 @@ export default function Outfit() {
                     </>
                 )}
 
-        </>
+        </div>
     );
 }

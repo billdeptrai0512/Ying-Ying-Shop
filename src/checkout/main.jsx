@@ -7,7 +7,6 @@ import styles from "./checkout.module.css";
 import Outfit from "../cart/outfit";
 import Demo from "../cart/demo";
 import Bill from "./bill";
-import Total from "./total";
 
 export default function CheckOut() {
 
@@ -17,15 +16,13 @@ export default function CheckOut() {
     const [selectedOutFit, setSelectedOutFit] = useState(0)
     const pickOutFit = (index) => setSelectedOutFit(index)
 
-    console.log(orderId)
-
     const isDeskop = useMediaQuery({ query: '(min-width: 1400px)'})
     const isMobile = useMediaQuery({ query: '(max-width: 1000px)'})
 
     if (isDeskop) {
 
         return (
-            <>
+            <div className={styles.body}>
                 <section className={styles.main}>
                     <Demo cart={cart} selectedOutFit={selectedOutFit} />
                 </section>
@@ -39,23 +36,23 @@ export default function CheckOut() {
                 <section className={styles.checkout}>
                     <Bill orderId={orderId} />
                 </section>
-            </>
+            </div>
         );
 
     }
 
     if (isMobile) {
         return (
-            
-            <section className={styles.checkout} style={{ gridRow: "1/8"}}>
-                <Bill orderId={orderId} />
-            </section>    
-            
+            <div className={styles.body}>
+                <section className={styles.checkout} style={{ gridRow: "1/8"}}>
+                    <Bill orderId={orderId} />
+                </section>    
+            </div>
         );
     }
 
     return (
-        <>
+        <div className={styles.body}>
             <section className={styles.primary} style={{gridColumn: "1", position: "absolute", minWidth: "unset"}}>
                 <Outfit 
                     cart={cart} 
@@ -66,7 +63,7 @@ export default function CheckOut() {
             <section className={styles.checkout} style={{ gridRow: "1/8"}}>
                 <Bill orderId={orderId} />
             </section>
-        </>
+        </div>
     );
 
 }

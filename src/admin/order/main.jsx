@@ -50,7 +50,7 @@ export default function Order() {
     }, [filteredOrder]);
   
     return (
-      <>
+      <div className={styles.body}>
         <div className={styles.sectionBoard}>
           {renderDateFilter(monthYear, setMonthYear)}
           {renderPaidStatusFilter(status, setStatus)}
@@ -73,7 +73,7 @@ export default function Order() {
         <div className={styles.orderDetailWrapper}>
           {renderItemList(selectedOrder)}
         </div>
-      </>
+      </div>
     );
   }
 

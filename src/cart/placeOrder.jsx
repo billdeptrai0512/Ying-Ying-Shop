@@ -15,10 +15,12 @@ export default function PlaceOrder() {
     const pickOutFit = (index) => setSelectedOutFit(index)
 
     const isMobile = useMediaQuery({ query: '(max-width: 1000px)'})
-
+              {/* <div className={styles.body}> 
+        <Outlet />
+      </div> */}
     if (isMobile) {
         return (
-            <>  
+            <div className={styles.body}>  
                 <section className={styles.main}>
                     <FormPlaceOrder formId={"placeOrderForm"} />
                 </section>
@@ -32,12 +34,12 @@ export default function PlaceOrder() {
                         <button className={styles.cta} type="submit" form="placeOrderForm">THANH TOÁN</button>
                     </div>
                 </section>
-            </>
+            </div>
         );
     }
 
     return (
-        <>
+        <div className={styles.body}>
             <section className={styles.primary} style={{gridColumn: "1", position: "absolute", minWidth: "unset"}}>
                 <Outfit pickOutFit={pickOutFit}/>
             </section>
@@ -49,6 +51,6 @@ export default function PlaceOrder() {
                     <button className={styles.cta} type="submit" form="placeOrderForm">THANH TOÁN</button>
                 </div>
             </section>
-        </>
+        </div>
     );
 }

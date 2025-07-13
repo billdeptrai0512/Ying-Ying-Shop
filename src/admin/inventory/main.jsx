@@ -48,7 +48,7 @@ export default function Inventory() {
     }, [id]);
 
     return (
-        <>
+        <div className={styles.body}>
             <SectionBoard setId={setId} id={id} />
 
             <div className={styles.orderListWrapper}>
@@ -94,7 +94,7 @@ export default function Inventory() {
                     />
                 )}
             </div>
-        </>
+        </div>
     );
   }
 

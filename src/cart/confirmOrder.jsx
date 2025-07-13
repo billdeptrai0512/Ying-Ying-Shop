@@ -19,7 +19,7 @@ export default function ConfirmOrder() {
 
     if (isDeskop) {
         return (
-            <>
+            <div className={styles.body}>
                 <section className={styles.main}>
                    <Demo selectedOutFit={selectedOutFit} />
                 </section>
@@ -34,12 +34,12 @@ export default function ConfirmOrder() {
                         <button className={styles.cta} type="submit" form="placeOrderForm">THANH TOÁN</button> 
                     </div>
                 </section>
-            </>
+            </div>
         )
     }
 
     return (
-        <>
+        <div className={styles.body}>
             <section className={styles.main}>
                 <Demo selectedOutFit={selectedOutFit} />
             </section>
@@ -53,6 +53,6 @@ export default function ConfirmOrder() {
                     <button className={styles.cta} onClick={() => navigate('/cart/placeorder')}>CHỌN NGÀY THUÊ</button> 
                 </div>
             </section>
-        </>
+        </div>
     );
 }

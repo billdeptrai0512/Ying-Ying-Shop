@@ -1,3 +1,51 @@
+.body {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100vh;
+    overflow-y: scroll;
+}
+
+@media (min-width: 1000px) and (max-width: 2100px) {
+
+    .body {
+        display: grid;
+        grid-template-columns: 1fr 1fr ;
+        grid-template-rows: repeat(10, auto);
+        align-self: center;
+        justify-content: space-between;
+        max-width: 960px; 
+        min-width: 960px;
+        gap: 3em;
+    }
+
+} 
+
+
+@media (min-width: 1400px) {
+
+    .body {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto;
+        align-self: center;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 1500px;
+        gap: 2em;
+    }
+
+} 
+
+@supports (-webkit-touch-callout: none) {
+    body {
+      /* The hack for Safari */
+      height: -webkit-fill-available;
+    }
+}
+
+
+
 .error {
     font-size: 0.8em;
     color: red;
