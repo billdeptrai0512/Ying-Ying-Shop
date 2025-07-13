@@ -17,7 +17,10 @@ export default function ListItem({inventory, section, itemRefs}) {
     
     return itemList.map((item) => (
                 <React.Fragment key={item.id}>
-                    <div onClick={() => updateOutFit(item, section)} 
+                    <div onClick={() => {
+                        googleTrackingPickItem()
+                        updateOutFit(item, section)
+                    }} 
                         ref={(el) => itemRefs.current[item.id] = el}
                         style={borderStyle(item)}> 
             
@@ -38,4 +41,18 @@ const renderImageCover = (selected, item) => {
         </img>
     )
 
+}
+
+// googleTrackingPickItem()
+const googleTrackingPickItem = () => {
+    
+    let count = parseInt(sessionStorage.getItem('pickItem') || '0', 10);
+    count++;
+    sessionStorage.setItem('pickItem', count);
+
+    return window.gtag('event', 'click', {
+        event_category: 'Button',
+        event_label: 'pick an item',
+        click_count: count,
+    });
 }

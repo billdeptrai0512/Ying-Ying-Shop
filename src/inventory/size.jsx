@@ -30,52 +30,14 @@ export default function Size({inventory}) {
 
       }
 
+      trackSizeSelection()
+
       updateSize(section, size)
 
       return setSelectedSize(size)
       
     } 
 
-    // useEffect(() => {
-    //   if (!selectedItem || !inventory.files.length) return;
-
-    //   const sameCategory = selectedItem.type === inventory.files[0].type;
-    //   if (!sameCategory) return;
-
-    //   const selectedSize = sizeSelected !== null && selectedItem.sizes?.[sizeSelected];
-    //   updateSize(section, selectedSize || null);
-
-    //   if (isMissingSize && !selectedSize) {
-    //     const updatedMissing = missingSize.filter(item => item !== section);
-    //     setMissingSize(updatedMissing);
-    //   }
-
-    // // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [sizeSelected]);
-
-    // useEffect(() => {
-    //   updateSize(null);
-    // // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [selectedItem]);
-
-    // const handlePickSize = (index, size) => {
-    //   console.log(size)
-    //   const isSameSize = sizeSelected === index;
-    //   const newIndex = isSameSize ? null : index;
-    //   //we need section and the size they choose
-    //   updateSize(newIndex);
-    //   trackSizeSelection();
-    
-    //   const sizeExists = selectedItem?.sizes?.[newIndex] != null;
-    
-    //   if (sizeExists) {
-    //     // Remove from missingSize immediately
-    //     setMissingSize((prev) => prev?.filter(item => item !== section));
-    //   }
-    // };
-  
-
-    // if (!isOpen) return null;
     if (!sameSection(outFit, inventory)) return
 
     const renderOptions = (item) => {

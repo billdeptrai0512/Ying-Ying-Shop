@@ -40,17 +40,3 @@ export default function Category({ inventory, onImageLoad }) {
     )
     
 }
-
-// googleTrackingPickItem()
-const googleTrackingPickItem = () => {
-    
-    let count = parseInt(sessionStorage.getItem('pickItem') || '0', 10);
-    count++;
-    sessionStorage.setItem('pickItem', count);
-
-    return window.gtag('event', 'click', {
-        event_category: 'Button',
-        event_label: 'pick an item',
-        click_count: count,
-    });
-}

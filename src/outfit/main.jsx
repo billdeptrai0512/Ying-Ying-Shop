@@ -119,6 +119,7 @@ export default function Outfit() {
                         <section className={styles.primary}>
                             <Inventory
                                 inventory={inventory}
+                                onImageLoad={handleImageLoad}
                             />
                         </section>
                         <section className={styles.checkout}>
