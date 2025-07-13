@@ -25,6 +25,7 @@ import { OutfitProvider } from './public/outfitContext.jsx';
 
 import './index.css'
 
+
 export default function App() {
 
   const router = createBrowserRouter([
@@ -112,6 +113,8 @@ export default function App() {
 
   );
 }
+
+sessionStorage.clear();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
