@@ -1,9 +1,8 @@
 // Cleaned-up version of Demo component
 
 import styles from "./outfit.module.css";
-import axios from "axios";
 import Imgix from "react-imgix";
-import { useState, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 
 export default function Demo({outFit}) {
 
@@ -82,34 +81,4 @@ function getDemoImages(outFit) {
   }
 
   return images;
-}
-
-function getAllItem(outFit) {
-  const allItem = [];
-  Object.entries(outFit)
-    .filter(([key]) => key !== "total" && key !== "id")
-    .forEach(([section, value]) => {
-      if (section === "extra") {
-        const { neck, bag } = value;
-        if (neck?.item) allItem.push({ id: neck.item.id });
-        if (bag?.item) allItem.push({ id: bag.item.id });
-        return;
-      }
-      if (value?.item) {
-        allItem.push({ id: value.item.id, size: value.size });
-      }
-    });
-  return allItem;
-}
-
-function googleTrackingRollADices() {
-  let count = parseInt(sessionStorage.getItem("randomOutFit") || "0", 10);
-  count++;
-  sessionStorage.setItem("randomOutFit", count);
-
-  window.gtag("event", "roll a dices", {
-    event_category: "Button",
-    event_label: "Random Outfit",
-    click_count: count,
-  });
 }
