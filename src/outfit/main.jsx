@@ -79,9 +79,7 @@ export default function Outfit() {
         zIndex: 9999,
 
     } 
-          {/* <div className={styles.body}> 
-        <Outlet />
-      </div> */}
+
 
     return (
         <div className={styles.body}> 
