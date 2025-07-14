@@ -53,11 +53,10 @@ export default function Size({inventory}) {
               >
                 <p>{size}</p>
                 {renderImageCover(selectedSize, size)}
-
               </div>
             ))}
 
-            {isMissingSize && <div className={styles.warning}>*</div>}
+            {selectedSize === null && <div className={styles.warning}>*</div>}
           </div>
         )
     }
@@ -128,8 +127,8 @@ function SizeDetail({ label, value }) {
 function getButtonStyle(isMissingSize, selectedSize, size) {
   const isSelected = selectedSize === size;
 
-  if (isSelected) return { border: "1px solid #331D1C" }; // ưu tiên nếu được chọn
-  if (isMissingSize) return { border: "1px solid red" };
+  if (selectedSize === null) return { border: "1px solid red" }
+  if (isSelected) return { border: "1px solid #331D1C" };
   return { border: "none" };
 }
 

@@ -102,7 +102,7 @@ export default function Image({inventory, section, extraType}) {
 
         const el = itemRefs.current[selectedItem?.id];
         if (el) {
-            console.log(el)
+
             el.scrollIntoView({
                 behavior: "smooth",
                 inline: "center",

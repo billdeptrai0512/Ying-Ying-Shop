@@ -54,7 +54,7 @@ export default function Demo() {
                 combination: JSON.stringify(getAllItem(outFit)),
             };
 
-            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/favorite/add`, favorite);
+            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/favorite/create`, favorite);
 
             } catch (err) {
                 console.error("add favorite failed:", err);
@@ -65,7 +65,7 @@ export default function Demo() {
 
     const handleRandomFavoriteOutfit = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/favorite`);
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/favorite/random`);
             setOutFit(response.data.outfit);
         } catch (err) {
             console.error("get random favorite failed:", err);

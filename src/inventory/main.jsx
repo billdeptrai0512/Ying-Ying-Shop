@@ -13,9 +13,11 @@ export default function Inventory({ inventory , onImageLoad}) {
 
     const itemRefs = useRef({});
       // Scroll to the item if its size is missing
-      useEffect(() => {
+    useEffect(() => {
 
         if (!missingSizes || !itemRefs.current) return;
+
+        console.log('this scroll behaivor')
 
         for (const section of sortOrder) {
             if (missingSizes.includes(section)) {
@@ -27,9 +29,8 @@ export default function Inventory({ inventory , onImageLoad}) {
                 }
             }
         }
-    }, [missingSizes]);
 
-    
+    }, [missingSizes]);
 
     return (
       sorted.map((inventory) => {
@@ -63,7 +64,7 @@ const opacitySetup = (outFit, inventory) => {
   const firstIteminInventory = inventory.files[0]
   if (!firstIteminInventory) return 
 
-  const item = outFit[inventory.section].item
+  const item = outFit[inventory.section]?.item
   if (!item) return
 
   if (item.type !== firstIteminInventory.type) return { opacity: 0.5 }

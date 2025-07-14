@@ -135,11 +135,11 @@ export function OutfitProvider({ children }) {
         return list
     }
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        checkMissingSizes(outFit)
+    //     checkMissingSizes(outFit)
 
-    }, [outFit, setOutFit])
+    // }, [outFit])
 
     useEffect(() => {
         // Save outfit state to sessionStorage whenever it changes

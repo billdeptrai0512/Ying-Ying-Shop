@@ -2,6 +2,9 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Analytics } from '@vercel/analytics/react';
+
+sessionStorage.clear();
+
 import MainPage from "./mainpage/main.jsx"
 import ErrorPage from './public/error-page.jsx';
 import Cart from './cart/main.jsx';
@@ -25,6 +28,13 @@ import { OutfitProvider } from './public/outfitContext.jsx';
 
 import './index.css'
 import Favorite from './admin/favorite/main.jsx';
+
+import { registerSW } from 'virtual:pwa-register'
+
+registerSW({
+  onNeedRefresh() {},
+  onOfflineReady() {},
+})
 
 
 export default function App() {
@@ -58,13 +68,13 @@ export default function App() {
           ]
         },
         {
+          path: "/login",
+          element: <Login />,
+        },
+        {
           path: "admin",
           element: <Admin />,
           children: [
-            {
-              path: "",
-              element: <Login />,
-            },
             {
               path: "favorite",
               element: <Favorite />,
@@ -106,20 +116,18 @@ export default function App() {
     <AuthProvider>
       <WebSocketProvider>
         <InventoryProvider>
-          <CartProvider>
-            <OutfitProvider>
+          <OutfitProvider>
+            <CartProvider>
               <RouterProvider router={router} />
               <Analytics />
-            </OutfitProvider>
-          </CartProvider>
+            </CartProvider>
+          </OutfitProvider>
         </InventoryProvider>
       </WebSocketProvider>
     </AuthProvider>
 
   );
 }
-
-sessionStorage.clear();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

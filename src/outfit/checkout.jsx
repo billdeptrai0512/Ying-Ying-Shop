@@ -12,23 +12,16 @@ export default function CheckOut() {
 
     const navigate = useNavigate();
 
-    const { outFit, checkMissingSizes, resetOutfit } = useOutfit();
+    const { outFit, resetOutfit } = useOutfit();
     const { cart, saveOutFit } = useCart()
 
     const addToCart = (outFit) => {
 
         if (isOutfitEmpty(outFit)) return
 
-        const list = checkMissingSizes(outFit)
+        const result = saveOutFit(outFit)
 
-        if (!list) {
-
-            saveOutFit(outFit)
-
-            googleTrackingAddToCart()
-    
-            resetOutfit()
-        }
+        if (result === true) return resetOutfit()
 
     }
 
@@ -86,20 +79,6 @@ const renderButtonAddToCart = (addToCart, numberOfCart, outFit) => {
             <h3 style={{fontSize: "1.25em", fontWeight: 500}}>Thêm vào giỏ hàng</h3>
         </button>
     )
-}
-
-const googleTrackingAddToCart = () => {
-    
-    let count = parseInt(sessionStorage.getItem('addToCart') || '0', 10);
-
-    count++;
-    sessionStorage.setItem('addToCart', count);
-
-    return window.gtag('event', 'click', {
-        event_category: 'Button',
-        event_label: 'add to cart',
-        click_count: count,
-    });
 }
 
 const formatCurrency = (value) => {

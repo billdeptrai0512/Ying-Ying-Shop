@@ -51,6 +51,7 @@
     "postcss": "^8.5.3",
     "postcss-100vh-fix": "^2.0.0",
     "vite": "^6.2.0",
+    "vite-plugin-pwa": "^1.0.1",
     "vitest": "^3.0.9"
   }
 }
