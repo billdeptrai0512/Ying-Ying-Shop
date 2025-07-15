@@ -65,7 +65,7 @@ export default function Bill({ orderId }) {
                     console.log("Updated cart information:", updateInformation);
 
                     // Use axios.patch to update the backend
-                    axios.patch(`${import.meta.env.VITE_BACKEND_URL}/order/place-order/edit/${orderId}`, updateInformation, {
+                    axios.patch(`${import.meta.env.VITE_BACKEND_URL}/order/place-order/update/${orderId}`, updateInformation, {
                         headers: {
                             "ngrok-skip-browser-warning": "true",
                         },
@@ -96,27 +96,26 @@ export default function Bill({ orderId }) {
         );
     }
 
-    if (paidStatus) {
-        return (
-            <div id="screenshot-area">
+    return (
+        <div id="screenshot-area">
 
-                {renderConfirmation(order)}
+            {renderConfirmation(order)}
 
-                <div style={{display: "flex", flexDirection: "column", gap: "1rem", justifyContent: "center", marginTop:  editMode ? "0em" : "2em", padding: "0 2.5em"}}>
-                    <>
-                        {editMode ? 
-                            <FormEditOrder order={order} formId={"formEditOrder"} setEditMode={setEditMode} setUpdateOrder={setUpdateOrder}/>
-                            :
-                            renderCustomerInformation(order, cart, editMode)
-                        }
-                    </> 
-                </div>
-
-                {renderButton(editMode, setEditMode)}
-
+            <div style={{display: "flex", flexDirection: "column", gap: "1rem", justifyContent: "center", marginTop:  editMode ? "0em" : "2em", padding: "0 2.5em"}}>
+                <>
+                    {editMode ? 
+                        <FormEditOrder order={order} formId={"formEditOrder"} setEditMode={setEditMode} setUpdateOrder={setUpdateOrder}/>
+                        :
+                        renderCustomerInformation(order, cart, editMode)
+                    }
+                </> 
             </div>
-        );
-    }
+
+            {renderButton(editMode, setEditMode)}
+
+        </div>
+    );
+
 
 }
 
