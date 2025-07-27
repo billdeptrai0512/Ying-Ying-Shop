@@ -48,14 +48,13 @@ export default function Bill({ orderId }) {
     useEffect(() => {
         if (!socket) return;
 
-        const handleMessage = (event) => {
+        const handleMessage = async (event) => {
             try {
                 const data = JSON.parse(event.data);
-                console.log("Message from backend:", data);
 
                 if (data.id === orderId) {
 
-                    setPaidStatus(data.paid_status);
+                    setPaidStatus(true);
 
                     const updateInformation = {
                         total: cart.reduce((acc, item) => acc + item.total, 0),
@@ -65,11 +64,7 @@ export default function Bill({ orderId }) {
                     console.log("Updated cart information:", updateInformation);
 
                     // Use axios.patch to update the backend
-                    axios.patch(`${import.meta.env.VITE_BACKEND_URL}/order/place-order/update/${orderId}`, updateInformation, {
-                        headers: {
-                            "ngrok-skip-browser-warning": "true",
-                        },
-                    })
+                    await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/order/place-order/edit/${orderId}`, updateInformation)
 
                 }
             } catch (error) {
@@ -83,11 +78,19 @@ export default function Bill({ orderId }) {
             socket.removeEventListener("message", handleMessage);
         };
 
-    }, [socket, orderId, cart, setPaidStatus]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [socket, orderId]);
+
+    useEffect(() => {
+        console.log("Component re-rendered. paidStatus:", paidStatus);
+      }, [paidStatus]);
 
     if (!order.total) return <div className={styles.loading}>Loading...</div>;
 
-    if (!paidStatus) {
+    const isPaid = paidStatus || order.paid_status;
+
+    if (!isPaid) {
+
         return (
             <div id="screenshot-area">
                 {renderQRCode(order)}
