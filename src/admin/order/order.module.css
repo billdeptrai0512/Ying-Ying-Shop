@@ -7,7 +7,7 @@
     overflow-y: scroll;
 }
 
-@media (min-width: 1000px) and (max-width: 2100px) {
+/* @media (min-width: 1000px) and (max-width: 2100px) {
 
     .body {
         display: grid;
@@ -20,10 +20,10 @@
         gap: 3em;
     }
 
-} 
+}  */
 
 
-@media (min-width: 1400px) {
+@media (min-width: 1000px) {
 
     .body {
         display: grid;
@@ -44,9 +44,6 @@
       height: -webkit-fill-available;
     }
 }
-
-
-
 
 .container {
     display: flex;
@@ -77,7 +74,6 @@
 
 .sectionBoard {
     display: flex;
-    flex-direction: column;
     gap: 1em;
     grid-column: 1;
     margin: 1em;
@@ -142,6 +138,14 @@ button {
     margin: 0;
 }
 
+.cartList {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    gap: 12px; /* spacing between items */
+    padding: 0;
+    margin-top: 1rem;
+}
+
 .orderItem,
 .cartItem {
     display: flex;
@@ -187,6 +191,9 @@ button {
 /* ========== Enhanced Order Detail Layout ========== */
 
 .orderHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 1.125rem;
     font-weight: bold;
     margin-bottom: 0.75rem;
@@ -210,7 +217,7 @@ button {
 .orderActions {
     margin-top: 1rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 /* ========== Size Measurement Form Layout ========== */

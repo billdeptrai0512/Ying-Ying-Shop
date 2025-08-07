@@ -1,41 +1,12 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useEffect } from "react";
 import styles from "./order.module.css"
 
 
-export default function SearchOrder({ status, setStatus, setFilterOrder }) {
-
-  const [searchId, setSearchId] = useState('')
-
-  const handleSearch = async (orderId) => {
-
-    try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/order/search/${orderId}`, {
-          headers: {
-            "ngrok-skip-browser-warning": "true",
-          }
-        });
-        setFilterOrder(response.data)
-
-      } catch (err) {
-        console.error("Error updating status:", err);
-      }
-  };
-
-  useEffect(() => {
-    const delayDebounce = setTimeout(() => {
-      if (searchId.trim() !== "") {
-        handleSearch(searchId.trim());
-      }
-    }, 500); // wait 500ms after user stops typing
-  
-    return () => clearTimeout(delayDebounce); 
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchId]);
+export default function SearchOrder({ status, setStatus, searchId, setSearchId }) {
 
   useEffect(() => {
     setSearchId('');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
   return (

@@ -10,6 +10,7 @@ export default function Order() {
     const [listOrder, setListOrder] = useState([]);
     const [status, setStatus] = useState("unpaid");
     const [filter, setFilter] = useState("");
+    const [searchId, setSearchId] = useState("");
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [refresh, setRefresh] = useState(false);
   
@@ -26,6 +27,11 @@ export default function Order() {
   
       fetchOrder();
     }, [refresh]);
+
+    const filteredBySearchId = useMemo(() => {
+      if (searchId === "") return [];
+      return listOrder.filter(order => order.id === parseInt(searchId));
+    }, [listOrder, searchId]);
   
     const filteredByDate = useMemo(() => {
       if (!monthYear) return listOrder;
@@ -41,9 +47,14 @@ export default function Order() {
     }, [filteredByDate, status]);
   
     const filteredOrder = useMemo(() => {
+      if (searchId.trim() !== "") {
+        console.log(filteredBySearchId)
+        return filteredBySearchId;
+      }
+    
       if (!filter) return filteredByPaidStatus;
       return filteredByPaidStatus.filter(order => order.order_status === filter);
-    }, [filteredByPaidStatus, filter]);
+    }, [searchId, filteredBySearchId, filteredByPaidStatus, filter]);
   
     useEffect(() => {
       if (filteredOrder.length > 0) setSelectedOrder(filteredOrder[0]);
@@ -54,59 +65,25 @@ export default function Order() {
         <div className={styles.sectionBoard}>
           {renderDateFilter(monthYear, setMonthYear)}
           {renderPaidStatusFilter(status, setStatus)}
-          <Static status={status} statusOrder={filteredByPaidStatus} monthYear={monthYear} />
+          {/* <Static status={status} statusOrder={filteredByPaidStatus} monthYear={monthYear} /> */}
         </div>
   
         <div className={styles.orderListWrapper}>
           <div style={{ display: "flex", gap: "2rem" }}>
-            <SearchOrder status={status} setStatus={setStatus} setRefresh={setRefresh} setFilterOrder={undefined /* no need anymore */} />
+            <SearchOrder status={status} setStatus={setStatus} setRefresh={setRefresh} searchId={searchId} setSearchId={setSearchId} />
             {renderOrderStatusFilter(filter, setFilter)}
           </div>
-          <ListOrder
-            filterOrder={filteredOrder}
-            selectedOrder={selectedOrder}
-            setSelectedOrder={setSelectedOrder}
-            setRefresh={setRefresh}
-          />
+          <ListOrder filterOrder={filteredOrder} selectedOrder={selectedOrder} setSelectedOrder={setSelectedOrder} setRefresh={setRefresh} />
         </div>
   
-        <div className={styles.orderDetailWrapper}>
-          {renderItemList(selectedOrder)}
-        </div>
       </div>
     );
   }
 
-const renderItemList = (selectedOrder) => {
-
-    if (!selectedOrder) return <p className={styles.emptyText}>No order selected</p>
-
-    if (selectedOrder) return (
-
-        <ul className={styles.cartList}>
-            {selectedOrder.cart.map(item => (
-                <li key={item.id} className={styles.cartItem}>
-                    <img
-                        src={item.file.image}
-                        alt={`Item ${item.id}`}
-                        className={styles.itemImage}
-                    />
-                    <div>
-                        <p className={styles.itemSize}>Size: {item.size}</p>
-                        <p className={styles.itemId}>ID: {item.fileId}</p>
-                    </div>
-                </li>
-            ))}
-        </ul>
-
-    )
-
-}
-
 const renderDateFilter = (monthYear, setMonthYear) => {
 
     return (
-        <select name="status" className={styles.input} style={{ marginBottom: 'unset' }}
+      <select name="status" className={styles.input} style={{ marginBottom: 'unset' }}
         onChange={(e) => setMonthYear(e.target.value)} value={monthYear}>
            <option value="">Tất cả</option>
            <option value="6/2025">Tháng 6</option>
@@ -123,21 +100,11 @@ const renderDateFilter = (monthYear, setMonthYear) => {
 const renderPaidStatusFilter = (status, setStatus) => {
 
     return (
-        <>
-            <div className={styles.section} 
-                onClick={() => setStatus('unpaid')} 
-                style={status === 'unpaid' ? { border: '5px solid #E3C4C1' } : {}}
-                >
-                Chưa thanh toán 
-            </div>
-            <div className={styles.section} 
-                onClick={() => setStatus('paid')} 
-                style={status === 'paid' ? { border: '5px solid #E3C4C1' } : {}}
-                >
-                Đã thanh toán
-            </div>
-        
-        </>
+      <select name="status" className={styles.input} style={{ marginBottom: 'unset' }}
+          onChange={(e) => setStatus(e.target.value)} value={status}>
+          <option value="unpaid">Chưa thanh toán</option>
+          <option value="paid">Đã thanh toán</option>
+      </select>
     )
 }
 

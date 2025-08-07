@@ -1,5 +1,5 @@
+import { X } from 'lucide-react';
 import axios from 'axios';
-import styles from "./order.module.css"
 
 export default function DeleteOrder({orderId, setRefresh}) {
 
@@ -20,8 +20,6 @@ export default function DeleteOrder({orderId, setRefresh}) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className={styles.form}>
-            <button type="submit">Delete</button>
-        </form>
+        <X onClick={handleSubmit} style={{cursor: "pointer"}}/>
     );
 }
