@@ -28,7 +28,7 @@ export default function Logout() {
 
     return (
         <form onSubmit={handleLogout} className={styles.form}>
-            <button type="submit" style={{cursor: "pointer"}}> <LogOut size={18}/> </button>
+            <button type="submit" style={{cursor: "pointer"}}> Log Out </button>
         </form>
     );
 }
