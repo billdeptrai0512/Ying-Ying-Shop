@@ -33,6 +33,7 @@ export default function Path() {
                     <Link to={`/admin/inventory`} >INVENTORY </Link>
                     <Link to={`/admin/order`} >ORDER </Link>
                     <Link to={`/admin/favorite`} >FAVORITE </Link>
+                    <Link to={`/admin/static`} >PROFIT </Link>
                     <Link to={`/`} onClick={handleLogout}>LOG OUT </Link>
                 </>
 

@@ -30,6 +30,7 @@ import './index.css'
 import Favorite from './admin/favorite/main.jsx';
 
 import { registerSW } from 'virtual:pwa-register'
+import Profit from './admin/static/main.jsx';
 
 registerSW({
   onNeedRefresh() {},
@@ -82,6 +83,10 @@ export default function App() {
             {
               path: "order",
               element: <Order />,
+            },
+            {
+              path: "static",
+              element: <Profit />,
             },
             {
               path: "inventory",

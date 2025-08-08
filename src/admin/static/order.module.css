@@ -1,0 +1,334 @@
+/* ========== Layout & Containers ========== */
+.body {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100vh;
+    overflow-y: scroll;
+}
+
+/* @media (min-width: 1000px) and (max-width: 2100px) {
+
+    .body {
+        display: grid;
+        grid-template-columns: 1fr 1fr ;
+        grid-template-rows: repeat(10, auto);
+        align-self: center;
+        justify-content: space-between;
+        max-width: 960px; 
+        min-width: 960px;
+        gap: 3em;
+    }
+
+}  */
+
+
+@media (min-width: 1000px) {
+
+    .body {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto;
+        align-self: center;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 1500px;
+        gap: 2em;
+    }
+
+} 
+
+@supports (-webkit-touch-callout: none) {
+    body {
+      /* The hack for Safari */
+      height: -webkit-fill-available;
+    }
+}
+
+.container {
+    display: flex;
+    grid-column: 2;
+    justify-content: center;
+    align-self: center;
+    background-color: #E3C4C1;
+    border-radius: 10px;
+}
+
+.sectionBoard,
+.orderListWrapper,
+.orderDetailWrapper {
+    padding: 1rem;
+    margin: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+}
+
+.orderListWrapper,
+.orderDetailWrapper {
+    height: auto;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+.sectionBoard {
+    display: flex;
+    gap: 1em;
+    grid-column: 1;
+    margin: 1em;
+}
+
+.orderListWrapper {
+    grid-column: 2;
+    display: inline-block;
+    width: auto;
+    max-width: 100%;
+}
+
+.orderDetailWrapper {
+    grid-column: 3;
+    margin: 1em;
+    display: inline-block;
+    width: auto;
+}
+
+/* ========== Form Styles ========== */
+
+
+button {
+    cursor: pointer;
+}
+
+/* ========== Utility & Interaction ========== */
+
+.action {
+    display: flex;
+    justify-content: space-around;
+}
+
+.emptyText {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+}
+
+.sectionBoard > .section {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 1em;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.input {
+    margin: 0 1em;
+    padding: 1em;
+    border: none;
+    border-radius: 12px;
+    text-align: center;
+    min-width: 0;
+}
+
+/* ========== Order List & Cart ========== */
+
+.orderList,
+.cartList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cartList {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    gap: 12px; /* spacing between items */
+    padding: 0;
+    margin-top: 1rem;
+}
+
+.orderItem,
+.cartItem {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    color: #333;
+}
+
+.orderItem {
+    border: 1px solid #ccc;
+}
+
+.cartItem {
+    align-items: center;
+}
+
+.orderItem strong,
+.itemSize {
+    font-weight: 600;
+    margin: 0;
+    color: #333;
+}
+
+.itemId {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #777;
+}
+
+.itemImage {
+    width: 6em;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+/* ========== Enhanced Order Detail Layout ========== */
+
+.orderHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.125rem;
+    font-weight: bold;
+    margin-bottom: 0.75rem;
+    color: #444;
+}
+
+.orderInfoGrid {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    row-gap: 0.5rem;
+    column-gap: 1rem;
+    font-size: 0.95rem;
+}
+
+.label {
+    font-weight: 600;
+    color: #666;
+}
+
+.orderActions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+/* ========== Size Measurement Form Layout ========== */
+
+.sizeForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.sizeRow {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: #fff;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.sizeLabel {
+    font-weight: 600;
+    width: 50px;
+    color: #444;
+}
+
+.input {
+    margin: 0;
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 10px;
+    background-color: #f3f3f3;
+    color: #333;
+    flex: 1;
+}
+
+/* Optional: highlight selected measurement or validation error */
+.input:focus {
+    outline: 2px solid #E3C4C1;
+}
+
+select:focus,
+select:hover {
+  outline: none;
+  box-shadow: none;
+  border: none;
+}
+
+/* Save button inside measurement form */
+.saveButton {
+    background-color: #E3C4C1;
+    font-weight: bold;
+    color: #333;
+    border-radius: 10px;
+    padding: 1em;
+    margin-top: 1rem;
+    align-self: center;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.saveButton:hover {
+    background-color: #d5b1ad;
+}
+
+.deleteButton {
+    background-color: #444;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 10px;
+    padding: 1em;
+    margin-top: 1rem;
+    align-self: center;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.deleteButton:hover {
+    background-color: #333;
+}
+
+/* static */
+.static {
+    display: flex;
+    background-color: #fff;
+    flex-direction: column;
+    gap: 1em;
+    padding: 1em;
+    border-radius: 10px;
+    border: 1px solid #888;
+}
+
+.statusLabel {
+    font-weight: 600;
+    color: #666;
+}
+
+.statusValue {
+    font-weight: bold;
+    color: #444;
+}
+
+.date {
+    display: flex;
+    justify-content: space-around;
+}
+
+.date > input {
+    width: 45%;
+    text-align: center; 
+    padding: 10px 0;
+    border-radius: 10px;
+}
+
