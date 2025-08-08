@@ -2,7 +2,6 @@ import { useEffect, useState, useMemo } from "react"
 import styles from "./order.module.css"
 import axios from "axios";
 import SearchOrder from "./search-order";
-import Static from "./static";
 import ListOrder from "./listOrder";
 
 export default function Order() {
@@ -65,7 +64,6 @@ export default function Order() {
         <div className={styles.sectionBoard}>
           {renderDateFilter(monthYear, setMonthYear)}
           {renderPaidStatusFilter(status, setStatus)}
-          {/* <Static status={status} statusOrder={filteredByPaidStatus} monthYear={monthYear} /> */}
         </div>
   
         <div className={styles.orderListWrapper}>
