@@ -39,20 +39,18 @@ export default function SectionBoard({ setId, id }) {
     };
 
     const renderCategories = () => {
-        return categories.map((category) => (
-            <div
-                key={category.id} className={styles.section}
-                onClick={() => setId(category.id)}
-                style={id === category.id ? { backgroundColor: '#E3C4C1' } : {}}
-            >
-                {category.name}
-            </div>
-        ));
+        return (
+            <select name="categories" className={styles.input} onChange={(e) => setId(Number(e.target.value))} value={id}>
+                {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                        {category.name}
+                    </option>
+                ))}
+            </select>
+        );
     };
 
-    if (error) {
-        return renderError();
-    }
+    if (error)  return renderError();
 
-    return <div className={styles.sectionBoard}>{renderCategories()}</div>;
+    return <div className={styles.sectionBoard}> {renderCategories()} </div>;
 }

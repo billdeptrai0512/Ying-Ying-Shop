@@ -127,6 +127,7 @@ button {
     border: none;
     border-radius: 12px;
     text-align: center;
+    min-width: 0;
 }
 
 /* ========== Order List & Cart ========== */
@@ -164,7 +165,6 @@ button {
 }
 
 .cartItem {
-    flex-direction: row;
     align-items: center;
 }
 
@@ -202,7 +202,7 @@ button {
 
 .orderInfoGrid {
     display: grid;
-    grid-template-columns: 150px 1fr;
+    grid-template-columns: 100px 1fr;
     row-gap: 0.5rem;
     column-gap: 1rem;
     font-size: 0.95rem;
@@ -211,7 +211,6 @@ button {
 .label {
     font-weight: 600;
     color: #666;
-    text-align: right;
 }
 
 .orderActions {

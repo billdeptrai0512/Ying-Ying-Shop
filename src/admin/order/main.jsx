@@ -69,7 +69,7 @@ export default function Order() {
         </div>
   
         <div className={styles.orderListWrapper}>
-          <div style={{ display: "flex", gap: "2rem" }}>
+          <div style={{ display: "flex", gap: "1rem" }}>
             <SearchOrder status={status} setStatus={setStatus} setRefresh={setRefresh} searchId={searchId} setSearchId={setSearchId} />
             {renderOrderStatusFilter(filter, setFilter)}
           </div>

@@ -16,10 +16,7 @@ export default function ListOrder({filterOrder, selectedOrder, setSelectedOrder,
                     style={selectedOrder?.id === order.id ? { border: '5px solid #E3C4C1' } : {}}>
                 <header className={styles.orderHeader}>
 
-                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                        <Link to={`/checkout/${order.id}`} >#{order.id}</Link>
-                        {order.paid_status === true && <UpdateStatusOrder orderId={order.id} setRefresh={setRefresh} currentStatus={order.order_status}/> }
-                    </div>
+                    <Link to={`/checkout/${order.id}`} >#{order.id}</Link>
 
                     <DeleteOrder orderId={order.id} setRefresh={setRefresh} />
 
@@ -40,12 +37,16 @@ export default function ListOrder({filterOrder, selectedOrder, setSelectedOrder,
                     <span className={styles.label}>Số điện thoại:</span>
                     <span>{order.phone || "Không rõ"}</span>
 
-                    <span className={styles.label}>Địa chỉ nhận hàng:</span>
+                    <span className={styles.label}>Địa chỉ:</span>
                     <span>{order.address || "Không rõ"}</span>
 
                     <span className={styles.label}>Tổng tiền:</span>
                     <span>{order.total ? `${order.total.toLocaleString()}₫` : "N/A"}</span>
 
+                    <span className={styles.label}>Status:</span>
+                    <span>{order.paid_status === true && <UpdateStatusOrder orderId={order.id} setRefresh={setRefresh} currentStatus={order.order_status}/> }</span>
+
+                    
                 </div>
                 <div className={styles.orderActions} >
                     {/* <DeleteOrder orderId={order.id} setRefresh={setRefresh} /> */}

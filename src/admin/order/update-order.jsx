@@ -19,7 +19,7 @@ export default function UpdateStatusOrder({ orderId, currentStatus, setRefresh }
 
   return (
     <form style={{padding: "unset"}}>
-      <select name="status" value={currentStatus} onChange={handleStatusChange} >
+      <select name="status" value={currentStatus} onChange={handleStatusChange} style={{padding: "unset"}}>
         <option value="not-ready">Chưa đóng đơn</option>
         <option value="ready">Đã đóng đơn</option>
         <option value="delivered">Đã gửi hàng</option>
