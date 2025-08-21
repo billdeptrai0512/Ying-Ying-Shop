@@ -18,6 +18,10 @@
         gap: 3em;
     }
 
+    .main {
+        padding: 0 0.5em;
+    }
+
 } 
 
 
@@ -43,12 +47,9 @@
     }
 }
 
-
-
-
-.main {
+/* .main {
     padding: 0 0.5em;
-}
+} */
 
 .board {
     text-align: center;
@@ -56,8 +57,6 @@
     margin: 0 auto;
     max-width: 425px;
     font-size: 0.65rem;
-    border-top-right-radius: 50%;
-    border-top-left-radius: 50%;
 }
 
 .demo {
@@ -178,6 +177,9 @@
 
     .board {
         max-width: 400px;
+        /* border-top-right-radius: 50%;
+        border-top-left-radius: 50%; */
+        border-radius: 5px;
     }
 
     .primary {
@@ -206,8 +208,9 @@
 
     .board {
         /* max-width: unset; */
-        border-top-right-radius: 45%;
-        border-top-left-radius: 45%;
+        border-radius: 5px;
+        /* border-top-right-radius: 45%;
+        border-top-left-radius: 45%; */
     }
 
     .demo {
@@ -255,8 +258,9 @@
 
     .board {
         /* max-width: unset; */
-        border-top-right-radius: 45%;
-        border-top-left-radius: 45%;
+        border-radius: 5px;
+        /* border-top-right-radius: 45%;
+        border-top-left-radius: 45%; */
     }
 
     .board .example {
