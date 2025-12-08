@@ -32,13 +32,13 @@ export default function CheckOut() {
 
     return (
 
-        <div className={styles.submit}> 
+        <div className={styles.submit}>
 
-            { renderTotalPayment(springProps) }
+            {renderTotalPayment(springProps)}
 
-            { renderButtonAddToCart(addToCart, cart.length, outFit) }
+            {renderButtonAddToCart(addToCart, cart.length, outFit)}
 
-            { renderGoToCartButton(navigate, cart.length) }
+            {renderGoToCartButton(navigate, cart.length)}
 
         </div>
     )
@@ -48,13 +48,33 @@ const renderGoToCartButton = (navigate, numberOfCart) => {
 
     if (numberOfCart === 0) return null
 
-    const shoppingCartStyle = {fontWeight: "800", marginRight: "0.5em",}
+    const shoppingCartStyle = { fontWeight: "800", marginRight: "0.5em", }
     const spanStyle = { fontWeight: "650", color: '#DC1E1E', fontSize: "1.5em" }
 
     return (
         <button className={styles.back} onClick={() => navigate("/cart")}>
-            <ShoppingCart size={22} color="#000000" style={shoppingCartStyle} />
-            <span style={spanStyle}> ( {numberOfCart} )</span>
+            <div style={{ position: "relative", display: "inline-block" }}>
+                <ShoppingCart
+                    size={27}
+                    color="#000000"
+                    style={{ fontWeight: 800 }}
+                />
+
+                {/* Badge số lượng */}
+                <span
+                    style={{
+                        position: "absolute",
+                        top: "-8px",
+                        right: "9px",
+                        zIndex: 2,
+                        fontWeight: 700,
+                        color: "#DC1E1E",
+                        fontSize: "1.2em",
+                    }}
+                >
+                    {numberOfCart}
+                </span>
+            </div>
         </button>
     )
 }
@@ -62,7 +82,7 @@ const renderGoToCartButton = (navigate, numberOfCart) => {
 const renderTotalPayment = (springProps) => {
     return (
         <div className={styles.total}>
-            <span data-testid="total-text">Tổng tiền: </span>    
+            <span data-testid="total-text">Tổng tiền: </span>
             <animated.span>
                 {springProps.value.to((val) => ` ${formatCurrency(val)}`)}
             </animated.span>
@@ -72,11 +92,11 @@ const renderTotalPayment = (springProps) => {
 
 const renderButtonAddToCart = (addToCart, numberOfCart, outFit) => {
 
-    const buttonStyle = {width: numberOfCart > 0 ? "70%" : "100%"}
+    const buttonStyle = { width: numberOfCart > 0 ? "70%" : "100%" }
 
     return (
-        <button className={styles.cta} onClick={() => addToCart(outFit)} style={buttonStyle}>   
-            <h3 style={{fontSize: "1.25em", fontWeight: 500}}>Thêm vào giỏ hàng</h3>
+        <button className={styles.cta} onClick={() => addToCart(outFit)} style={buttonStyle}>
+            <h3 style={{ fontSize: "1.25em", fontWeight: 500 }}>Thêm vào giỏ hàng</h3>
         </button>
     )
 }

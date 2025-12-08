@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./checkout.module.css"
 
-export default function Total({cart, selectedOutFit}) {
+export default function Total({ cart, selectedOutFit }) {
 
     const [total, setTotal] = useState(null)
     const [count, setCount] = useState(null)
@@ -18,32 +18,32 @@ export default function Total({cart, selectedOutFit}) {
 
         // console.log(data)
         const countItems = (section) => {
-          if (section && typeof section === 'object') {
-              if ('item' in section) {
-                  if (section.item !== null) {
-                      itemCount += 1;
-                  }
-              }
-  
-              // Recursively check nested objects
-              Object.values(section).forEach(value => {
-                  if (typeof value === 'object') {
-                      countItems(value);
-                  }
-              });
-          }
+            if (section && typeof section === 'object') {
+                if ('item' in section) {
+                    if (section.item !== null) {
+                        itemCount += 1;
+                    }
+                }
+
+                // Recursively check nested objects
+                Object.values(section).forEach(value => {
+                    if (typeof value === 'object') {
+                        countItems(value);
+                    }
+                });
+            }
         };
-      
+
         cart.forEach(outfit => {
             Object.values(outfit).forEach(section => {
                 countItems(section);
             });
-    
+
             if (typeof outfit.total === 'number') {
                 totalSum += outfit.total;
             }
-      });
-      
+        });
+
         return { itemCount, totalSum };
     };
 
