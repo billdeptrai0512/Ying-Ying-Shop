@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from "../inventory.module.css"
-export default function CreateItem({folderId, setReset}) {
+export default function CreateItem({ folderId, setReset, setIsCreating }) {
 
     const [image, setImage] = useState(null);
     const [demoImage, setDemoImage] = useState([]);
@@ -42,7 +42,7 @@ export default function CreateItem({folderId, setReset}) {
 
             await axios.post(`${import.meta.env.VITE_BACKEND_URL}/item/create/${folderId}`, data, {
                 headers: {
-                    'Content-Type' : 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data'
                 }
             });
 
@@ -99,26 +99,21 @@ export default function CreateItem({folderId, setReset}) {
 
     return (
         <form onSubmit={handleSubmit} className={styles.sizeForm}>
-            <div style={{display: "flex", justifyContent: "space-around"}}>
-                <div style={{display: "flex", flexDirection: "column", gap: "2em"}}>
+            <div style={{ display: "flex", justifyContent: "space-around" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: "2em" }}>
+                    <label htmlFor="image">Inventory Image</label>
                     {image && (
-                        <img
-                        src={URL.createObjectURL(image)}
-                        alt="Preview"
-                        style={{ width: '200px', objectFit: 'cover', border: '1px solid #ccc' }}
+                        <img src={URL.createObjectURL(image)} alt="Preview"
+                            style={{ width: '200px', objectFit: 'cover', border: '1px solid #ccc' }}
                         />
                     )}
-                    <label htmlFor="image">Inventory Image</label>
-                    <input type="file" name="image" onChange={(e) =>  setImage(e.target.files[0])}/>
+                    <input type="file" name="image" onChange={(e) => setImage(e.target.files[0])} />
                 </div>
 
-                <div style={{display: "flex", flexDirection: "column", gap: "2em"}}>
+                <div style={{ display: "flex", flexDirection: "column", gap: "2em" }}>
                     {demoImage && demoImage.length > 0 && demoImage.map((img, index) => (
-                        <img
-                        key={index}
-                        src={URL.createObjectURL(img)}
-                        alt={`Preview ${index + 1}`}
-                        style={{ width: '200px', objectFit: 'cover', border: '1px solid #ccc' }}
+                        <img key={index} src={URL.createObjectURL(img)} alt={`Preview ${index + 1}`}
+                            style={{ width: '200px', objectFit: 'cover', border: '1px solid #ccc' }}
                         />
                     ))}
                     <label htmlFor="demo_image">Demo Image</label>
@@ -137,7 +132,7 @@ export default function CreateItem({folderId, setReset}) {
             {folderId === 8 && (
                 <>
                     <label htmlFor="image">Loại</label>
-                    <select name="type" value={itemInformation.type+"-"+itemInformation.z_index} onChange={handleChange}>
+                    <select name="type" value={itemInformation.type + "-" + itemInformation.z_index} onChange={handleChange}>
                         <option value="bow-5">Bow</option>
                         <option value="tie-3">Tie</option>
                         <option value="bag-6">Bag</option>
@@ -199,6 +194,9 @@ export default function CreateItem({folderId, setReset}) {
                 )}
 
             <div className={styles.action} >
+                <button className={styles.deleteButton} onClick={() => setIsCreating(false)} >
+                    Quay lại
+                </button>
                 <button type="submit" className={styles.saveButton} >
                     Hoàn tất
                 </button>

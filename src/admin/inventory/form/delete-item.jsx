@@ -1,7 +1,7 @@
 import axios from 'axios';
 import styles from "../inventory.module.css"
 
-export default function DeleteItem({fileId, setReset}) {
+export default function DeleteItem({ fileId, setReset }) {
 
     const handleSubmit = async (e) => {
 
@@ -25,10 +25,8 @@ export default function DeleteItem({fileId, setReset}) {
     };
 
     return (
-        <form className={styles.form}>
-            <button onClick={handleSubmit} className={styles.deleteButton}>
-                Xóa Item
-            </button>
-        </form>
+        <button onClick={handleSubmit} className={styles.deleteButton}>
+            Xóa Item
+        </button>
     );
 }

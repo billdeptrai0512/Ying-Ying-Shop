@@ -3,7 +3,7 @@ import styles from "./inventory.module.css";
 import axios from "axios";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
-export default function ListItem({ id , selectedItem, setSelectedItem}) {
+export default function ListItem({ id, selectedItem, setSelectedItem }) {
 
     const [loading, setLoading] = useState(true);
     const [items, setItems] = useState([]);
@@ -41,15 +41,15 @@ export default function ListItem({ id , selectedItem, setSelectedItem}) {
             return items.filter(item => item.type === extraType);
         }
         return items;
-    },  [items, extraType]);
-    
+    }, [items, extraType]);
+
 
     const selectItem = (itemId) => {
 
         const item = items.find(item => item.id === itemId);
 
         if (!item) return;
-        
+
         const isNotThePreviousItem = selectedItem?.id !== item.id;
 
         setSelectedItem(isNotThePreviousItem ? item : null);
@@ -73,7 +73,7 @@ export default function ListItem({ id , selectedItem, setSelectedItem}) {
 
         } catch (err) {
 
-        console.error("Failed to reorder:", err);
+            console.error("Failed to reorder:", err);
 
         }
 
@@ -161,6 +161,17 @@ export default function ListItem({ id , selectedItem, setSelectedItem}) {
         <p style={{ padding: "1em" }}>Đang tải dữ liệu...</p>
     );
 
+    const renderButtonAddItem = () => (
+        <div className={styles.action}>
+
+            <button type="button" className={styles.saveButton}
+                onClick={() => setIsCreating(true)}>
+                Thêm Item
+            </button>
+
+        </div>
+    )
+
     if (loading) {
         return renderLoading();
     }
@@ -171,9 +182,15 @@ export default function ListItem({ id , selectedItem, setSelectedItem}) {
             <>
                 {renderExtraTypeSelector}
                 {renderItemList()}
+                {renderButtonAddItem()}
             </>
         );
     }
 
-    return renderItemList()
+    return (
+        <>
+            {renderItemList()}
+            {renderButtonAddItem()}
+        </>
+    )
 }

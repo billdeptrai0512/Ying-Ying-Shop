@@ -31,13 +31,13 @@ export default function Inventory() {
             return [];
         }
     };
-    
+
     useEffect(() => {
         const loadMeasurements = async () => {
             const measurementsData = await fetchMeasurements(id);
             setMeasurements(measurementsData);
         };
-    
+
         loadMeasurements();
     }, [id]);
 
@@ -49,53 +49,36 @@ export default function Inventory() {
 
     return (
         <div className={styles.body}>
-            <SectionBoard setId={setId} id={id} />
-
-            <div className={styles.orderListWrapper}>
-                <ListItem id={id} selectedItem={selectedItem} setSelectedItem={setSelectedItem} reset={reset}/>
-
-                <div className={styles.action}>
-
-                    {isCreating ? (
-                        <button type="button" className={styles.deleteButton}
-                            onClick={() => setIsCreating(false)} >
-                            Quay lại
-                        </button>
-                    ) : (
-                        <button type="button" className={styles.saveButton}
-                            onClick={() => setIsCreating(true)}>
-                            Thêm Item
-                        </button>
-                    )}
-
-                </div>
+            <div className={styles.sectionBoard}>
+                <SectionBoard setId={setId} id={id} />
+                <UpdateMeasurements folderId={id} measurements={measurements} setMeasurements={setMeasurements} />
             </div>
 
-            <div className={styles.orderDetailWrapper}>
+            <div className={styles.orderListWrapper}>
+
                 {!selectedItem && !isCreating && (
-                    <UpdateMeasurements
-                        folderId={id}
-                        measurements={measurements}
-                        setMeasurements={setMeasurements}
-                    />
+                    <ListItem id={id} selectedItem={selectedItem} setSelectedItem={setSelectedItem}
+                        setIsCreating={setIsCreating} reset={reset} />
                 )}
 
                 {selectedItem && !isCreating && (
-                    <EditItem 
-                        selectedItem={selectedItem} 
-                        setReset={setReset} 
+                    <EditItem
+                        selectedItem={selectedItem}
+                        setSelectedItem={setSelectedItem}
+                        setReset={setReset}
                     />
                 )}
 
                 {isCreating && (
-                    <CreateItem 
-                        folderId={id} 
-                        setReset={setReset} 
+                    <CreateItem
+                        folderId={id}
+                        setIsCreating={setIsCreating}
+                        setReset={setReset}
                     />
                 )}
             </div>
+
         </div>
     );
-  }
+}
 
-  

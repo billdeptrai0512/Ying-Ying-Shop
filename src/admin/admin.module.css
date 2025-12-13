@@ -3,7 +3,6 @@
     grid-template-columns: auto auto auto
 }
 
-
 .container {
     display: flex;
     grid-column: 2;
@@ -64,9 +63,9 @@ form {
     gap: 1em;
 }
 
-form > input,
-form > button,
-form > select {
+form>input,
+form>button,
+form>select {
     border: none;
     padding: 1em;
     border-radius: 10px;
@@ -89,7 +88,7 @@ button {
     font-style: italic;
 }
 
-.sectionBoard > .section {
+.sectionBoard>.section {
     padding: 1em;
     border-radius: 10px;
     cursor: pointer;
@@ -239,4 +238,3 @@ button {
 .saveButton:hover {
     background-color: #d5b1ad;
 }
-

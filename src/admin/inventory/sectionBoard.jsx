@@ -8,7 +8,7 @@ export default function SectionBoard({ setId, id }) {
 
     useEffect(() => {
         fetchCategories();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const fetchCategories = async () => {
@@ -38,19 +38,15 @@ export default function SectionBoard({ setId, id }) {
         return <div className={styles.error}>{error}</div>;
     };
 
-    const renderCategories = () => {
-        return (
-            <select name="categories" className={styles.input} onChange={(e) => setId(Number(e.target.value))} value={id}>
-                {categories.map((category) => (
-                    <option key={category.id} value={category.id}>
-                        {category.name}
-                    </option>
-                ))}
-            </select>
-        );
-    };
+    if (error) return renderError();
 
-    if (error)  return renderError();
-
-    return <div className={styles.sectionBoard}> {renderCategories()} </div>;
+    return (
+        <select name="categories" className={styles.input} onChange={(e) => setId(Number(e.target.value))} value={id}>
+            {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                    {category.name}
+                </option>
+            ))}
+        </select>
+    );
 }
