@@ -1,10 +1,10 @@
 
 import { useEffect, useState, useMemo } from "react"
 import axios from "axios";
+import Expense from "../static/expense";
 import styles from "./order.module.css"
-import Expense from "./expense";
 
-export default function Static({ status, statusOrder, monthYear }) {
+export default function Profit({ status, listOrder, monthYear }) {
 
     const [allExpense, setAllExpense] = useState()
     const [totalExpense, setTotalExpense] = useState();
@@ -64,19 +64,19 @@ export default function Static({ status, statusOrder, monthYear }) {
     // then we got the expense
 
     const statusGroups = {
-        notReady: statusOrder.filter(order => order.order_status === "not-ready"),
-        ready: statusOrder.filter(order => order.order_status === "ready"),
-        delivered: statusOrder.filter(order => order.order_status === "delivered"),
-        buyerReceived: statusOrder.filter(order => order.order_status === "buyer-received"),
-        buyerReturn: statusOrder.filter(order => order.order_status === "buyer-return"),
-        finished: statusOrder.filter(order => order.order_status === "finished")
+        notReady: listOrder.filter(order => order.order_status === "not-ready"),
+        ready: listOrder.filter(order => order.order_status === "ready"),
+        delivered: listOrder.filter(order => order.order_status === "delivered"),
+        buyerReceived: listOrder.filter(order => order.order_status === "buyer-received"),
+        buyerReturn: listOrder.filter(order => order.order_status === "buyer-return"),
+        finished: listOrder.filter(order => order.order_status === "finished")
     };
 
     if (status === "unpaid") return (
 
         <div className={styles.static}>
 
-            {renderExpectProfit(statusOrder)}
+            {renderExpectProfit(listOrder)}
 
         </div>
     )
@@ -85,13 +85,9 @@ export default function Static({ status, statusOrder, monthYear }) {
     return (
         <div className={styles.static}>
 
-            {renderExpectProfit(statusOrder)}
-
-            <span className={styles.statusLabel}>-----------------------------------------------------------------------</span>
+            {renderExpectProfit(listOrder)}
 
             <Expense allExpense={filteredByDate ? filteredByDate : allExpense} totalExpense={totalExpense} reset={reset} setReset={setReset} />
-
-            <span className={styles.statusLabel}>-----------------------------------------------------------------------</span>
 
             {renderTotalRevenue(statusGroups, totalExpense)}
 
@@ -112,7 +108,7 @@ const renderTotalRevenue = (statusGroups, totalExpense) => {
     const totalRevenue = totalProfit - totalExpense
 
     return (
-        <>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: "1em", paddingTop: "1em", borderTop: "1px solid #ccc" }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span className={styles.statusLabel}>Đã hoàn thành:</span>
                 <span className={styles.statusLabel}>{totalCountFinishedOrder} đơn</span>
@@ -122,7 +118,7 @@ const renderTotalRevenue = (statusGroups, totalExpense) => {
                 <span className={styles.statusLabel}>Tổng lợi nhuận:</span>
                 <span className={styles.statusLabel}>{totalRevenue.toLocaleString()}đ</span>
             </div>
-        </>
+        </div>
 
 
     )
@@ -138,7 +134,7 @@ const renderExpectProfit = (statusOrder) => {
     }, 0);
 
     return (
-        <>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: "1em", paddingBottom: "1em", borderBottom: "1px solid #ccc" }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span className={styles.statusLabel}>Tổng cộng:</span>
                 <span className={styles.statusLabel}>{totalCountofOrders} đơn</span>
@@ -148,7 +144,7 @@ const renderExpectProfit = (statusOrder) => {
                 <span className={styles.statusLabel}>Doanh thu dự kiến:</span>
                 <span className={styles.statusLabel}>{totalPreRevenue.toLocaleString()}đ</span>
             </div>
-        </>
+        </div>
     )
 
 

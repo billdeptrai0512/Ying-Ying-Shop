@@ -2,28 +2,33 @@
 .body {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     height: 100vh;
     overflow-y: scroll;
+    flex: 1
 }
 
-/* @media (min-width: 1000px) and (max-width: 2100px) {
+@media (min-width: 1000px) and (max-width: 1400px) {
 
     .body {
         display: grid;
-        grid-template-columns: 1fr 1fr ;
-        grid-template-rows: repeat(10, auto);
+        grid-template-columns: 1fr 1fr;
         align-self: center;
         justify-content: space-between;
-        max-width: 960px; 
+        max-width: 960px;
         min-width: 960px;
         gap: 3em;
     }
 
-}  */
+
+    .orderListWrapper,
+    .orderDetailWrapper {
+        overflow-y: scroll;
+    }
+
+}
 
 
-@media (min-width: 1000px) {
+@media (min-width: 1400px) {
 
     .body {
         display: grid;
@@ -36,12 +41,23 @@
         gap: 2em;
     }
 
-} 
+    .orderListWrapper,
+    .orderDetailWrapper {
+        overflow-y: scroll;
+    }
+
+    .orderList {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1em;
+    }
+
+}
 
 @supports (-webkit-touch-callout: none) {
     body {
-      /* The hack for Safari */
-      height: -webkit-fill-available;
+        /* The hack for Safari */
+        height: -webkit-fill-available;
     }
 }
 
@@ -68,29 +84,24 @@
 .orderListWrapper,
 .orderDetailWrapper {
     height: auto;
-    overflow-y: scroll;
     scrollbar-width: none;
 }
 
 .sectionBoard {
     display: flex;
+    flex-direction: column;
     gap: 1em;
     grid-column: 1;
     margin: 1em;
 }
 
 .orderListWrapper {
-    grid-column: 2;
-    display: inline-block;
-    width: auto;
-    max-width: 100%;
+    grid-column: 2 / 4;
 }
 
 .orderDetailWrapper {
-    grid-column: 3;
+    grid-column: 2 / 3;
     margin: 1em;
-    display: inline-block;
-    width: auto;
 }
 
 /* ========== Form Styles ========== */
@@ -113,7 +124,7 @@ button {
     font-style: italic;
 }
 
-.sectionBoard > .section {
+.sectionBoard>.section {
     background-color: #fff;
     border: 1px solid #ccc;
     padding: 1em;
@@ -141,8 +152,10 @@ button {
 
 .cartList {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 columns */
-    gap: 12px; /* spacing between items */
+    grid-template-columns: repeat(2, 1fr);
+    /* 2 columns */
+    gap: 12px;
+    /* spacing between items */
     padding: 0;
     margin-top: 1rem;
 }
@@ -261,9 +274,9 @@ button {
 
 select:focus,
 select:hover {
-  outline: none;
-  box-shadow: none;
-  border: none;
+    outline: none;
+    box-shadow: none;
+    border: none;
 }
 
 /* Save button inside measurement form */
@@ -325,10 +338,9 @@ select:hover {
     justify-content: space-around;
 }
 
-.date > input {
+.date>input {
     width: 45%;
-    text-align: center; 
+    text-align: center;
     padding: 10px 0;
     border-radius: 10px;
 }
-

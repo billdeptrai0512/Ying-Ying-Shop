@@ -31,10 +31,9 @@ export default function Path() {
 
             {extend === true && (
                 <div className={styles.admin_dropdown} >
-                    <Link to={`/admin/inventory`} >INVENTORY </Link>
-                    <Link to={`/admin/order`} >ORDER </Link>
-                    <Link to={`/admin/favorite`} >FAVORITE </Link>
-                    <Link to={`/admin/static`} >PROFIT </Link>
+                    <Link to={`/admin/inventory`} onClick={() => setExtend(false)}>INVENTORY </Link>
+                    <Link to={`/admin/order`} onClick={() => setExtend(false)}>ORDER </Link>
+                    <Link to={`/admin/favorite`} onClick={() => setExtend(false)}>FAVORITE </Link>
                     <Link to={`/`} onClick={handleLogout}>LOG OUT </Link>
                 </div>
             )}

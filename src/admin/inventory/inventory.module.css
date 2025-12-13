@@ -12,7 +12,6 @@
     .body {
         display: grid;
         grid-template-columns: auto 1fr;
-        /* grid-template-rows: repeat(10, auto); */
         align-self: center;
         justify-content: space-between;
         max-width: 960px;

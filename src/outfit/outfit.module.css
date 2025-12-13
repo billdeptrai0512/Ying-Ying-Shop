@@ -211,7 +211,7 @@
 @media (min-width: 1000px) and (max-width: 1400px) {
 
     .main {
-        grid-row: 2/10;
+        grid-row: 1/9;
         align-self: center;
     }
 
@@ -227,7 +227,7 @@
     }
 
     .primary {
-        grid-row: 2/9;
+        grid-row: 1/8;
         grid-column: 2;
         min-width: 100%;
         padding: 0 1.25em;
@@ -238,7 +238,7 @@
     }
 
     .checkout {
-        grid-row: 8/10;
+        grid-row: 7/9;
         grid-column: 2;
         max-width: unset;
     }
