@@ -1,48 +1,49 @@
 import { useEffect, useState, useMemo } from "react"
 import axios from "axios";
-import { ShoppingBag, TrendingUp, CheckCircle, Wallet } from "lucide-react";
+import { ShoppingBag, TrendingUp, CheckCircle, Wallet, AlertCircle } from "lucide-react";
 import Expense from "../static/expense";
 import styles from "./order.module.css"
 
 export default function Profit({ status, listOrder, monthYear }) {
 
-    const [allExpense, setAllExpense] = useState()
-    const [totalExpense, setTotalExpense] = useState();
-    const [reset, setReset] = useState(true)
+    const [allExpense, setAllExpense] = useState([]);
+    const [totalExpense, setTotalExpense] = useState(0);
+    const [reset, setReset] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const fecthExpense = async () => {
+    const fetchExpense = async () => {
+        setIsLoading(true);
+        setError(null);
         try {
-
             const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/expense`);
             return response.data || [];
-
         } catch (err) {
             console.error("Failed to fetch expenses:", err);
+            setError("Không thể tải chi phí");
             return [];
+        } finally {
+            setIsLoading(false);
         }
     }
 
     useEffect(() => {
-
         const fetchAndSetExpense = async () => {
-            const expenses = await fecthExpense();
-
-            setAllExpense(expenses)
+            const expenses = await fetchExpense();
+            setAllExpense(expenses);
 
             const total = expenses.reduce((sum, expense) => {
-                return sum + (expense.total || 0); // giả sử `expense.total` là số tiền chi phí
+                return sum + (expense.total || 0);
             }, 0);
 
             setTotalExpense(total);
         }
 
         fetchAndSetExpense();
-
-    }, [reset])
+    }, [reset]);
 
     const filteredByDate = useMemo(() => {
-
-        if (!allExpense) return
+        if (!allExpense || allExpense.length === 0) return [];
         if (!monthYear) return allExpense;
 
         const filterExpense = allExpense.filter(expense => {
@@ -51,17 +52,13 @@ export default function Profit({ status, listOrder, monthYear }) {
         });
 
         const total = filterExpense.reduce((sum, expense) => {
-            return sum + (expense.total || 0); // giả sử `expense.total` là số tiền chi phí
+            return sum + (expense.total || 0);
         }, 0);
 
         setTotalExpense(total);
 
-        return filterExpense
-
+        return filterExpense;
     }, [allExpense, monthYear]);
-
-
-    // then we got the expense
 
     const statusGroups = {
         notReady: listOrder.filter(order => order.order_status === "not-ready"),
@@ -76,21 +73,44 @@ export default function Profit({ status, listOrder, monthYear }) {
         <div className={styles.static}>
             <StatCards listOrder={listOrder} />
         </div>
-    )
-
+    );
 
     return (
         <div className={styles.static}>
+            <StatCards
+                listOrder={listOrder}
+                statusGroups={statusGroups}
+                totalExpense={totalExpense}
+                showProfit
+            />
 
-            <StatCards listOrder={listOrder} statusGroups={statusGroups} totalExpense={totalExpense} showProfit />
-
-            <Expense allExpense={filteredByDate ? filteredByDate : allExpense} totalExpense={totalExpense} reset={reset} setReset={setReset} />
-
+            {error ? (
+                <ErrorMessage message={error} onRetry={() => setReset(prev => !prev)} />
+            ) : (
+                <Expense
+                    allExpense={filteredByDate.length > 0 ? filteredByDate : allExpense}
+                    totalExpense={totalExpense}
+                    reset={reset}
+                    setReset={setReset}
+                    isLoading={isLoading}
+                />
+            )}
         </div>
     );
 }
 
-// New Stat Cards Component
+// Error Message Component
+const ErrorMessage = ({ message, onRetry }) => (
+    <div className={styles.errorBox}>
+        <AlertCircle size={20} color="#991b1b" />
+        <span>{message}</span>
+        <button className={styles.retryButton} onClick={onRetry}>
+            Thử lại
+        </button>
+    </div>
+);
+
+// Stat Cards Component
 const StatCards = ({ listOrder, statusGroups, totalExpense, showProfit }) => {
     const totalOrders = listOrder.length;
     const totalRevenue = listOrder.reduce((sum, order) => sum + (order.total || 0), 0);
