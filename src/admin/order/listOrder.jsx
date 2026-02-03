@@ -1,57 +1,87 @@
-
 import { Link } from "react-router-dom"
 import styles from "./order.module.css"
 import DeleteOrder from "./delete-order";
 import UpdateStatusOrder from "./update-order";
 
+// Status badge mapping
+const STATUS_CONFIG = {
+    "not-ready": { label: "Chưa đóng đơn", className: styles.statusNotReady },
+    "ready": { label: "Đã đóng đơn", className: styles.statusReady },
+    "delivered": { label: "Đã gửi hàng", className: styles.statusDelivered },
+    "buyer-received": { label: "Đã nhận hàng", className: styles.statusBuyerReceived },
+    "buyer-return": { label: "Đang trả hàng", className: styles.statusBuyerReturn },
+    "finished": { label: "Xong đơn", className: styles.statusFinished },
+};
 
-export default function ListOrder({filterOrder, selectedOrder, setSelectedOrder, setRefresh}) {
+// Relative date formatter
+const getRelativeDate = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffTime = now - date;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-    if (filterOrder.length === 0) return <p className={styles.emptyText}> no order</p>
+    if (diffDays === 0) return "Hôm nay";
+    if (diffDays === 1) return "Hôm qua";
+    if (diffDays < 7) return `${diffDays} ngày trước`;
+    if (diffDays < 30) return `${Math.floor(diffDays / 7)} tuần trước`;
+    return date.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" });
+};
+
+export default function ListOrder({ filterOrder, selectedOrder, setSelectedOrder, setRefresh }) {
+
+    if (filterOrder.length === 0) return <p className={styles.emptyText}>Không có đơn hàng</p>
 
     return (
         <ul className={styles.orderList}>
             {filterOrder.map((order, index) => (
-                <li key={order.id} className={styles.orderItem} onClick={() => setSelectedOrder(filterOrder[index])}
-                    style={selectedOrder?.id === order.id ? { border: '5px solid #E3C4C1' } : {}}>
-                <header className={styles.orderHeader}>
+                <li
+                    key={order.id}
+                    className={`${styles.orderItem} ${selectedOrder?.id === order.id ? styles.orderItemSelected : ''}`}
+                    onClick={() => setSelectedOrder(filterOrder[index])}
+                >
+                    <header className={styles.orderHeader}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                            <Link to={`/checkout/${order.id}`} className={styles.orderId}>#{order.id}</Link>
+                            <span className={styles.orderDate}>{getRelativeDate(order.date)}</span>
+                        </div>
+                        <DeleteOrder orderId={order.id} setRefresh={setRefresh} />
+                    </header>
 
-                    <Link to={`/checkout/${order.id}`} >#{order.id}</Link>
+                    {/* Status Badge */}
+                    {order.paid_status && order.order_status && (
+                        <div style={{ marginBottom: '0.5rem' }}>
+                            <span className={`${styles.statusBadge} ${STATUS_CONFIG[order.order_status]?.className || ''}`}>
+                                {STATUS_CONFIG[order.order_status]?.label || order.order_status}
+                            </span>
+                        </div>
+                    )}
 
-                    <DeleteOrder orderId={order.id} setRefresh={setRefresh} />
+                    <div className={styles.orderInfoGrid}>
+                        <span className={styles.label}>Khách hàng:</span>
+                        <span>{order.name || "Không rõ"}</span>
 
-                </header>
-                <div className={styles.orderInfoGrid}>
-                    <span className={styles.label}>Ngày thuê:</span>
-                    <span>
-                        {new Date(order.date).toLocaleDateString("vi-VN", {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "numeric",
-                        })}
-                    </span>
+                        <span className={styles.label}>SĐT:</span>
+                        <span>{order.phone || "Không rõ"}</span>
 
-                    <span className={styles.label}>Khách hàng:</span>
-                    <span>{order.name || "Không rõ"}</span>
+                        <span className={styles.label}>Địa chỉ:</span>
+                        <span>{order.address || "Không rõ"}</span>
 
-                    <span className={styles.label}>Số điện thoại:</span>
-                    <span>{order.phone || "Không rõ"}</span>
+                        <span className={styles.label}>Tổng tiền:</span>
+                        <span style={{ fontWeight: 600, color: '#E3C4C1' }}>
+                            {order.total ? `${order.total.toLocaleString()}₫` : "N/A"}
+                        </span>
 
-                    <span className={styles.label}>Địa chỉ:</span>
-                    <span>{order.address || "Không rõ"}</span>
+                        {order.paid_status === true && (
+                            <>
+                                <span className={styles.label}>Cập nhật:</span>
+                                <span><UpdateStatusOrder orderId={order.id} setRefresh={setRefresh} currentStatus={order.order_status} /></span>
+                            </>
+                        )}
+                    </div>
 
-                    <span className={styles.label}>Tổng tiền:</span>
-                    <span>{order.total ? `${order.total.toLocaleString()}₫` : "N/A"}</span>
-
-                    <span className={styles.label}>Status:</span>
-                    <span>{order.paid_status === true && <UpdateStatusOrder orderId={order.id} setRefresh={setRefresh} currentStatus={order.order_status}/> }</span>
-
-                    
-                </div>
-                <div className={styles.orderActions} >
-                    {/* <DeleteOrder orderId={order.id} setRefresh={setRefresh} /> */}
-                    {renderItemList(order)}
-                </div>
+                    <div className={styles.orderActions}>
+                        {renderItemList(order)}
+                    </div>
                 </li>
             ))}
         </ul>
@@ -63,10 +93,9 @@ const renderItemList = (selectedOrder) => {
     if (!selectedOrder) return <p className={styles.emptyText}>No order selected</p>
 
     if (selectedOrder) return (
-
         <ul className={styles.cartList}>
             {selectedOrder.cart.map(item => (
-                <li key={item.id} className={styles.cartItem} style={{width: "fit-content"}}>
+                <li key={item.id} className={styles.cartItem} style={{ width: "fit-content" }}>
                     <img
                         src={item.file.image}
                         alt={`Item ${item.id}`}
@@ -79,8 +108,5 @@ const renderItemList = (selectedOrder) => {
                 </li>
             ))}
         </ul>
-
     )
-
 }
-  

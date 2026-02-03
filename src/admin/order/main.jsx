@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from "react"
 import styles from "./order.module.css"
 import axios from "axios";
+import { Calendar, CreditCard, Filter, RotateCcw } from "lucide-react";
 import SearchOrder from "./search-order";
 import Profit from "./profit";
 import ListOrder from "./listOrder";
@@ -60,26 +61,85 @@ export default function Order() {
     if (filteredOrder.length > 0) setSelectedOrder(filteredOrder[0]);
   }, [filteredOrder]);
 
+  const handleResetFilters = () => {
+    setMonthYear(getCurrentMonthYear());
+    setStatus("unpaid");
+    setFilter("");
+    setSearchId("");
+  };
+
+  const hasActiveFilters = monthYear !== getCurrentMonthYear() || status !== "unpaid" || filter !== "" || searchId !== "";
+
   return (
     <div className={styles.body}>
       <div className={styles.sectionBoard}>
-        {/* the default month will always base on current date */}
-        <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-          {renderDateFilter(monthYear, setMonthYear)}
-          {renderPaidStatusFilter(status, setStatus)}
+        {/* Enhanced Filter Section */}
+        <div className={styles.filterWrapper}>
+          {/* Date Filter */}
+          <div className={styles.filterGroup}>
+            <Calendar size={18} />
+            <select
+              className={styles.filterSelect}
+              value={monthYear}
+              onChange={(e) => setMonthYear(e.target.value)}
+            >
+              <option value="">Tất cả</option>
+              {generateMonthOptions().map(m => (
+                <option key={m.value} value={m.value}>
+                  {m.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Paid Status Filter */}
+          <div className={styles.filterGroup}>
+            <CreditCard size={18} />
+            <select
+              className={styles.filterSelect}
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+            >
+              <option value="unpaid">Chưa thanh toán</option>
+              <option value="paid">Đã thanh toán</option>
+            </select>
+          </div>
+
+          {/* Reset Button */}
+          {hasActiveFilters && (
+            <button className={styles.resetButton} onClick={handleResetFilters}>
+              <RotateCcw size={14} />
+              Reset
+            </button>
+          )}
         </div>
 
         {/* show profit based on month here */}
-
         <Profit monthYear={monthYear} status={status} listOrder={filteredOrder} />
-
-
       </div>
 
       <div className={styles.orderListWrapper}>
-        <div style={{ display: "flex", gap: "1rem" }}>
+        <div className={styles.filterWrapper}>
           <SearchOrder status={status} setStatus={setStatus} setRefresh={setRefresh} searchId={searchId} setSearchId={setSearchId} />
-          {renderOrderStatusFilter(filter, setFilter)}
+
+          {/* Order Status Filter */}
+          <div className={styles.filterGroup}>
+            <Filter size={18} />
+            <select
+              className={styles.filterSelect}
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+            >
+              <option value="">Tất cả trạng thái</option>
+              <option value="not-ready">Chưa đóng đơn</option>
+              <option value="ready">Đã đóng đơn</option>
+              <option value="delivered">Đã gửi hàng</option>
+              <option value="buyer-received">Đã nhận hàng</option>
+              <option value="buyer-return">Đang trả hàng</option>
+              <option value="finished">Xong đơn</option>
+            </select>
+            {filter && <span className={styles.filterBadge}>{filteredOrder.length}</span>}
+          </div>
         </div>
         <ListOrder filterOrder={filteredOrder} selectedOrder={selectedOrder} setSelectedOrder={setSelectedOrder} setRefresh={setRefresh} />
       </div>
@@ -93,52 +153,14 @@ const getCurrentMonthYear = () => {
   return `${now.getMonth() + 1}/${now.getFullYear()}`;
 };
 
-const renderDateFilter = (monthYear, setMonthYear) => {
-  const year = new Date().getFullYear();
-  const months = Array.from({ length: 12 }, (_, i) => ({
-    value: `${i + 1}/${year}`,
-    label: `Tháng ${i + 1}`,
-  }));
-
-  return (
-    <select
-      className={styles.input}
-      style={{ marginBottom: 'unset' }}
-      value={monthYear}
-      onChange={(e) => setMonthYear(e.target.value)}
-    >
-      <option value="">Tất cả</option>
-      {months.map(m => (
-        <option key={m.value} value={m.value}>
-          {m.label}
-        </option>
-      ))}
-    </select>
+const generateMonthOptions = () => {
+  const startYear = 2025;
+  const endYear = 2030;
+  const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i);
+  return years.flatMap(year =>
+    Array.from({ length: 12 }, (_, i) => ({
+      value: `${i + 1}/${year}`,
+      label: `Tháng ${i + 1}/${year}`,
+    }))
   );
 };
-
-const renderPaidStatusFilter = (status, setStatus) => {
-
-  return (
-    <select name="status" className={styles.input} style={{ marginBottom: 'unset' }}
-      onChange={(e) => setStatus(e.target.value)} value={status}>
-      <option value="unpaid">Chưa thanh toán</option>
-      <option value="paid">Đã thanh toán</option>
-    </select>
-  )
-}
-
-const renderOrderStatusFilter = (filter, setFilter) => {
-
-  return (
-    <select name="status" className={styles.input} onChange={(e) => setFilter(e.target.value)} value={filter}>
-      <option value="">Tất cả</option>
-      <option value="not-ready">Chưa đóng đơn</option>
-      <option value="ready">Đã đóng đơn</option>
-      <option value="delivered">Đã gửi hàng</option>
-      <option value="buyer-received">Đã nhận hàng</option>
-      <option value="buyer-return">Đang trả hàng</option>
-      <option value="finished">Xong đơn</option>
-    </select>
-  )
-}

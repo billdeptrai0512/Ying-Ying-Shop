@@ -344,3 +344,460 @@ select:hover {
     padding: 10px 0;
     border-radius: 10px;
 }
+
+/* ========== Status Badges ========== */
+.statusBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    padding: 0.35em 0.75em;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.statusNotReady {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.statusReady {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.statusDelivered {
+    background-color: #e9d5ff;
+    color: #6b21a8;
+}
+
+.statusBuyerReceived {
+    background-color: #cffafe;
+    color: #0e7490;
+}
+
+.statusBuyerReturn {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.statusFinished {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+/* ========== Enhanced Filter Section ========== */
+.filterWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.filterGroup {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #fff;
+    padding: 0.5rem 0.75rem;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+}
+
+.filterGroup:hover {
+    border-color: #E3C4C1;
+}
+
+.filterGroup svg {
+    color: #888;
+    flex-shrink: 0;
+}
+
+.filterSelect {
+    border: none;
+    background: transparent;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    color: #333;
+    cursor: pointer;
+    min-width: 120px;
+}
+
+.filterSelect:focus {
+    outline: none;
+}
+
+.filterBadge {
+    background-color: #E3C4C1;
+    color: #333;
+    padding: 0.2em 0.5em;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.resetButton {
+    display: flex;
+    align-items: center;
+    gap: 0.35em;
+    padding: 0.5rem 1rem;
+    background-color: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.resetButton:hover {
+    background-color: #e5e7eb;
+    color: #333;
+}
+
+/* ========== Enhanced Order Cards ========== */
+.orderItem {
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.orderItem:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border-color: #E3C4C1;
+}
+
+.orderItemSelected {
+    border: 3px solid #E3C4C1;
+    box-shadow: 0 4px 15px rgba(227, 196, 193, 0.3);
+}
+
+.orderHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 0.75rem;
+}
+
+.orderId {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #E3C4C1;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.orderId:hover {
+    color: #d5b1ad;
+}
+
+.deleteBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    color: #999;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.deleteBtn:hover {
+    background-color: #fee2e2;
+    color: #dc2626;
+}
+
+.orderDate {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+/* ========== Stat Cards ========== */
+.statGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.statCard {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, #fff 0%, #fafafa 100%);
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.statCard.highlight {
+    background: linear-gradient(135deg, #E3C4C1 0%, #d5b1ad 100%);
+    border: none;
+}
+
+.statCard.highlight .statValue,
+.statCard.highlight .statLabel {
+    color: #333;
+}
+
+.statHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.statIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background-color: #f3f4f6;
+}
+
+.statCard.highlight .statIcon {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.statLabel {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.statValue {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+}
+
+/* ========== Enhanced Search ========== */
+.searchWrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #fff;
+    padding: 0.5rem 0.75rem;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+    flex: 1;
+    max-width: 250px;
+}
+
+.searchWrapper:focus-within {
+    border-color: #E3C4C1;
+    box-shadow: 0 0 0 3px rgba(227, 196, 193, 0.2);
+}
+
+.searchWrapper svg {
+    color: #888;
+    flex-shrink: 0;
+}
+
+.searchInput {
+    border: none;
+    background: transparent;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    color: #333;
+    width: 100%;
+}
+
+.searchInput:focus {
+    outline: none;
+}
+
+.searchInput::placeholder {
+    color: #aaa;
+}
+
+.clearBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #e5e7eb;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.clearBtn:hover {
+    background-color: #d1d5db;
+    color: #333;
+}
+
+/* ========== Confirmation Dialog ========== */
+.dialogOverlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.dialog {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 16px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.2s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.dialogTitle {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.dialogMessage {
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.dialogActions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+}
+
+.dialogBtn {
+    padding: 0.75rem 1.25rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.dialogBtnCancel {
+    background-color: #f3f4f6;
+    color: #333;
+}
+
+.dialogBtnCancel:hover {
+    background-color: #e5e7eb;
+}
+
+.dialogBtnConfirm {
+    background-color: #dc2626;
+    color: #fff;
+}
+
+.dialogBtnConfirm:hover {
+    background-color: #b91c1c;
+}
+
+/* ========== Mobile Responsive ========== */
+@media (max-width: 768px) {
+    .body {
+        padding: 0.5rem;
+    }
+
+    .sectionBoard,
+    .orderListWrapper,
+    .orderDetailWrapper {
+        margin: 0.5rem;
+        padding: 0.75rem;
+    }
+
+    .filterWrapper {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filterGroup {
+        width: 100%;
+    }
+
+    .filterSelect {
+        flex: 1;
+        min-width: unset;
+    }
+
+    .searchWrapper {
+        max-width: 100%;
+    }
+
+    .statGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .orderItem {
+        padding: 0.75rem;
+    }
+
+    .orderInfoGrid {
+        grid-template-columns: 90px 1fr;
+        font-size: 0.85rem;
+    }
+
+    .cartList {
+        grid-template-columns: 1fr;
+    }
+
+    .itemImage {
+        width: 5em;
+    }
+
+    .dialogActions {
+        flex-direction: column;
+    }
+
+    .dialogBtn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Tablet improvements */
+@media (min-width: 768px) and (max-width: 999px) {
+    .body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .orderList {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+}

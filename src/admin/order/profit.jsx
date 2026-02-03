@@ -1,6 +1,6 @@
-
 import { useEffect, useState, useMemo } from "react"
 import axios from "axios";
+import { ShoppingBag, TrendingUp, CheckCircle, Wallet } from "lucide-react";
 import Expense from "../static/expense";
 import styles from "./order.module.css"
 
@@ -73,11 +73,8 @@ export default function Profit({ status, listOrder, monthYear }) {
     };
 
     if (status === "unpaid") return (
-
         <div className={styles.static}>
-
-            {renderExpectProfit(listOrder)}
-
+            <StatCards listOrder={listOrder} />
         </div>
     )
 
@@ -85,69 +82,72 @@ export default function Profit({ status, listOrder, monthYear }) {
     return (
         <div className={styles.static}>
 
-            {renderExpectProfit(listOrder)}
+            <StatCards listOrder={listOrder} statusGroups={statusGroups} totalExpense={totalExpense} showProfit />
 
             <Expense allExpense={filteredByDate ? filteredByDate : allExpense} totalExpense={totalExpense} reset={reset} setReset={setReset} />
-
-            {renderTotalRevenue(statusGroups, totalExpense)}
 
         </div>
     );
 }
 
-const renderTotalRevenue = (statusGroups, totalExpense) => {
+// New Stat Cards Component
+const StatCards = ({ listOrder, statusGroups, totalExpense, showProfit }) => {
+    const totalOrders = listOrder.length;
+    const totalRevenue = listOrder.reduce((sum, order) => sum + (order.total || 0), 0);
 
-    const finishedOrder = statusGroups.finished
-
-    const totalCountFinishedOrder = finishedOrder.length;
-
-    const totalProfit = finishedOrder.reduce((sum, order) => {
-        return sum + (order.total || 0);
-    }, 0);
-
-    const totalRevenue = totalProfit - totalExpense
+    const finishedOrders = statusGroups?.finished?.length || 0;
+    const finishedRevenue = statusGroups?.finished?.reduce((sum, order) => sum + (order.total || 0), 0) || 0;
+    const netProfit = finishedRevenue - (totalExpense || 0);
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: "1em", paddingTop: "1em", borderTop: "1px solid #ccc" }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span className={styles.statusLabel}>Đã hoàn thành:</span>
-                <span className={styles.statusLabel}>{totalCountFinishedOrder} đơn</span>
+        <div className={styles.statGrid}>
+            {/* Total Orders */}
+            <div className={styles.statCard}>
+                <div className={styles.statHeader}>
+                    <div className={styles.statIcon}>
+                        <ShoppingBag size={18} color="#666" />
+                    </div>
+                    <span className={styles.statLabel}>Tổng đơn</span>
+                </div>
+                <span className={styles.statValue}>{totalOrders}</span>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span className={styles.statusLabel}>Tổng lợi nhuận:</span>
-                <span className={styles.statusLabel}>{totalRevenue.toLocaleString()}đ</span>
+            {/* Expected Revenue */}
+            <div className={styles.statCard}>
+                <div className={styles.statHeader}>
+                    <div className={styles.statIcon}>
+                        <TrendingUp size={18} color="#666" />
+                    </div>
+                    <span className={styles.statLabel}>Doanh thu dự kiến</span>
+                </div>
+                <span className={styles.statValue}>{totalRevenue.toLocaleString()}₫</span>
             </div>
+
+            {showProfit && (
+                <>
+                    {/* Completed Orders */}
+                    <div className={styles.statCard}>
+                        <div className={styles.statHeader}>
+                            <div className={styles.statIcon}>
+                                <CheckCircle size={18} color="#065f46" />
+                            </div>
+                            <span className={styles.statLabel}>Đã hoàn thành</span>
+                        </div>
+                        <span className={styles.statValue}>{finishedOrders} đơn</span>
+                    </div>
+
+                    {/* Net Profit - Highlighted */}
+                    <div className={`${styles.statCard} ${styles.highlight}`}>
+                        <div className={styles.statHeader}>
+                            <div className={styles.statIcon}>
+                                <Wallet size={18} color="#333" />
+                            </div>
+                            <span className={styles.statLabel}>Lợi nhuận</span>
+                        </div>
+                        <span className={styles.statValue}>{netProfit.toLocaleString()}₫</span>
+                    </div>
+                </>
+            )}
         </div>
-
-
-    )
-
-}
-
-const renderExpectProfit = (statusOrder) => {
-
-    const totalCountofOrders = statusOrder.length;
-
-    const totalPreRevenue = statusOrder.reduce((sum, order) => {
-        return sum + (order.total || 0);
-    }, 0);
-
-    return (
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: "1em", paddingBottom: "1em", borderBottom: "1px solid #ccc" }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span className={styles.statusLabel}>Tổng cộng:</span>
-                <span className={styles.statusLabel}>{totalCountofOrders} đơn</span>
-            </div>
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span className={styles.statusLabel}>Doanh thu dự kiến:</span>
-                <span className={styles.statusLabel}>{totalPreRevenue.toLocaleString()}đ</span>
-            </div>
-        </div>
-    )
-
-
-
-}
-
+    );
+};
