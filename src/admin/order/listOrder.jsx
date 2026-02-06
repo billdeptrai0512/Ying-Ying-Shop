@@ -13,18 +13,27 @@ const STATUS_CONFIG = {
     "finished": { label: "Xong đơn", className: styles.statusFinished },
 };
 
-// Relative date formatter
-const getRelativeDate = (dateString) => {
+// Format delivery date (the date buyer requested to receive the order)
+const formatDeliveryDate = (dateString) => {
     const date = new Date(dateString);
     const now = new Date();
-    const diffTime = now - date;
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-    if (diffDays === 0) return "Hôm nay";
-    if (diffDays === 1) return "Hôm qua";
-    if (diffDays < 7) return `${diffDays} ngày trước`;
-    if (diffDays < 30) return `${Math.floor(diffDays / 7)} tuần trước`;
-    return date.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" });
+    // Reset time to compare dates only
+    const dateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const nowOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const diffTime = dateOnly - nowOnly;
+    const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+
+    const formattedDate = date.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" });
+
+    // Add relative text in parentheses if within 1 week
+    if (diffDays === 0) return `${formattedDate} (Hôm nay)`;
+    if (diffDays === 1) return `${formattedDate} (Ngày mai)`;
+    if (diffDays === -1) return `${formattedDate} (Hôm qua)`;
+    if (diffDays > 1 && diffDays <= 7) return `${formattedDate} (${diffDays} ngày nữa)`;
+    if (diffDays < -1 && diffDays >= -7) return `${formattedDate} (${Math.abs(diffDays)} ngày trước)`;
+
+    return formattedDate;
 };
 
 export default function ListOrder({ filterOrder, selectedOrder, setSelectedOrder, setRefresh }) {
@@ -42,7 +51,7 @@ export default function ListOrder({ filterOrder, selectedOrder, setSelectedOrder
                     <header className={styles.orderHeader}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                             <Link to={`/checkout/${order.id}`} className={styles.orderId}>#{order.id}</Link>
-                            <span className={styles.orderDate}>{getRelativeDate(order.date)}</span>
+                            <span className={styles.orderDate}>{formatDeliveryDate(order.date)}</span>
                         </div>
                         <DeleteOrder orderId={order.id} setRefresh={setRefresh} />
                     </header>
