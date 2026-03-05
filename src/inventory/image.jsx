@@ -5,7 +5,7 @@ import styles from "./folder.module.css"
 import React from "react";
 import ListItem from "./item";
 
-export default function Image({inventory, section, extraType}) {
+export default function Image({ inventory, section, extraType, onImageLoad }) {
 
     const { outFit } = useOutfit()
 
@@ -36,7 +36,7 @@ export default function Image({inventory, section, extraType}) {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const scrollRight = useCallback(() => {
-        
+
         if (scrollContainer.current) {
             const SCROLL_OFFSET = 72;
             scrollContainer.current.scrollBy({ left: SCROLL_OFFSET, behavior: "smooth" });
@@ -48,7 +48,7 @@ export default function Image({inventory, section, extraType}) {
     useEffect(() => {
         const el = scrollContainer.current;
         if (!el) return;
-    
+
         const handleWheel = (e) => {
             if (Math.abs(e.deltaX) === 0 && Math.abs(e.deltaY) > 0) {
                 // Convert vertical scroll into horizontal
@@ -56,15 +56,15 @@ export default function Image({inventory, section, extraType}) {
                 el.scrollBy({ left: e.deltaY });
             }
         };
-    
+
         el.addEventListener('wheel', handleWheel, { passive: false });
-    
+
         return () => {
             el.removeEventListener('wheel', handleWheel);
         };
 
     }, []);
-    
+
     //scroll effect
     useEffect(() => {
 
@@ -95,7 +95,7 @@ export default function Image({inventory, section, extraType}) {
         if (allImagesLoaded) {
             updateScrollLimits();
         }
-        
+
     }, [allImagesLoaded])
 
     useEffect(() => {
@@ -117,17 +117,17 @@ export default function Image({inventory, section, extraType}) {
     return (
 
         <div className={styles.row} >
-            
-            { renderScrollLeftButton(inventory, scrollLeft, atStart) }
+
+            {renderScrollLeftButton(inventory, scrollLeft, atStart)}
 
             <div className={styles.container} ref={scrollContainer} >
 
-                <ListItem inventory={inventory} section={section} itemRefs={itemRefs} extraType={extraType} />
+                <ListItem inventory={inventory} section={section} itemRefs={itemRefs} extraType={extraType} onImageLoad={onImageLoad} />
 
             </div>
 
-            { renderScrollRightButton(inventory, scrollRight, atEnd) }
-                         
+            {renderScrollRightButton(inventory, scrollRight, atEnd)}
+
         </div>
 
     )
@@ -135,16 +135,16 @@ export default function Image({inventory, section, extraType}) {
 
 const renderScrollLeftButton = (inventory, scrollLeft, atStart) => {
 
-    const haveEnoughItems = inventory.length > 6 
+    const haveEnoughItems = inventory.length > 6
 
     if (!haveEnoughItems) return null
 
     return (
-        
-        <Play color="#331D1C" fill="#331D1C" onClick={scrollLeft} 
-        style={{ 
+
+        <Play color="#331D1C" fill="#331D1C" onClick={scrollLeft}
+            style={{
                 display: atStart === true ? 'none' : 'block',
-                position: "absolute", 
+                position: "absolute",
                 alignSelf: "center",
                 width: "1em",
                 transform: "translateX(-130%) rotate(180deg)"
@@ -156,19 +156,19 @@ const renderScrollLeftButton = (inventory, scrollLeft, atStart) => {
 
 const renderScrollRightButton = (inventory, scrollRight, atEnd) => {
 
-    const haveEnoughItems = inventory.length > 6 
+    const haveEnoughItems = inventory.length > 6
 
     if (!haveEnoughItems) return null
 
     return (
-        
-        <Play color="#331D1C" fill="#331D1C" onClick={scrollRight} 
-        style={{ 
-            display: atEnd === false ? 'block' : 'none',
-            position: "absolute",
-            width: "1em",
-            alignSelf: "center",
-        }} />
+
+        <Play color="#331D1C" fill="#331D1C" onClick={scrollRight}
+            style={{
+                display: atEnd === false ? 'block' : 'none',
+                position: "absolute",
+                width: "1em",
+                alignSelf: "center",
+            }} />
 
     )
 }

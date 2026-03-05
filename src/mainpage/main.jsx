@@ -5,14 +5,10 @@ export default function MainPage() {
 
   return (
     <>
-      <Header/>
-      {/* <div className={styles.body}> 
-        <Outlet />
-      </div> */}
+      <Header />
       <Outlet />
     </>
   )
 }
 
 
-        

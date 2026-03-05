@@ -18,22 +18,26 @@ export default function Outfit() {
     const renderLabel = useRef(null);
     useEffect(() => {
         if (!inventory || !Array.isArray(inventory)) return;
-    
-        // Compute total number of images
+
         const totalImages = inventory.reduce((sum, section) => sum + (section.files?.length || 0), 0);
-    
-        if (totalImages === 0) return;
-    
+
+        if (totalImages === 0) {
+            setShowLoading(false);
+            return;
+        }
+
         imageCount.current = totalImages;
         imagesLoaded.current = 0;
-    
-        // Update label dynamically
+
+        // Log render time
         renderLabel.current = `images-rendered-${Date.now()}`;
-    
         console.time(renderLabel.current);
-        
+
+        // Safety fallback: hide loader after 5s even if some images fail silently
+        const safetyTimeout = setTimeout(() => setShowLoading(false), 5000);
+
         return () => {
-            // Optional cleanup
+            clearTimeout(safetyTimeout);
             console.timeEnd(renderLabel.current);
             setRenderDone(true);
         };
@@ -42,24 +46,10 @@ export default function Outfit() {
 
     const handleImageLoad = () => {
         imagesLoaded.current += 1;
-    
-        if (imagesLoaded.current === imageCount.current) {
-            console.timeEnd(renderLabel.current); // ✅ Now the label matches
+        if (imagesLoaded.current >= imageCount.current) {
+            setShowLoading(false); // ✅ All images done — hide the loader
         }
     };
-
-    useEffect(() => {
-        console.log('start')
-
-        const timeout = setTimeout(() => {
-          setShowLoading(false);
-          console.log('end')
-        }, inventory.length !== 0 ? 500 : 3000); // 3 seconds
-      
-        return () => clearTimeout(timeout); // Cleanup
-
-    }, [inventory]);
-
 
     const leftInventory = inventory.filter((category) =>
         ["top", "bottom", "sweater"].includes(category.section)
@@ -78,50 +68,50 @@ export default function Outfit() {
         alignItems: "center",
         zIndex: 9999,
 
-    } 
+    }
 
 
     return (
-        <div className={styles.body}> 
+        <div className={styles.body}>
             {/* 🔄 Always Render UI, Just Hide It If Not Ready */}
-                
-                <div style={loadingStyle}>
-                    <img src={loadingGif} alt="Loading..." />
-                </div>
-            
-                {isDesktop ? (
-                    <>
-                        <section className={styles.main}>
-                            <Demo />
-                        </section>
-                        <section className={styles.primary}>
-                            <Inventory
-                                inventory={leftInventory}
-                                onImageLoad={handleImageLoad}
-                            />
-                        </section>
-                        <section className={styles.checkout} style={{ backgroundColor: "unset" }}>
-                            <Inventory
-                                inventory={rightInventory}
-                                onImageLoad={handleImageLoad}
-                            />
-                            <CheckOut />
-                        </section>
-                    </>
-                ) : (
-                    <>
-                        <section className={styles.main}><Demo /></section>
-                        <section className={styles.primary}>
-                            <Inventory
-                                inventory={inventory}
-                                onImageLoad={handleImageLoad}
-                            />
-                        </section>
-                        <section className={styles.checkout}>
-                            <CheckOut/>
-                        </section>
-                    </>
-                )}
+
+            <div style={loadingStyle}>
+                <img src={loadingGif} alt="Loading..." />
+            </div>
+
+            {isDesktop ? (
+                <>
+                    <section className={styles.main}>
+                        <Demo />
+                    </section>
+                    <section className={styles.primary}>
+                        <Inventory
+                            inventory={leftInventory}
+                            onImageLoad={handleImageLoad}
+                        />
+                    </section>
+                    <section className={styles.checkout} style={{ backgroundColor: "unset" }}>
+                        <Inventory
+                            inventory={rightInventory}
+                            onImageLoad={handleImageLoad}
+                        />
+                        <CheckOut />
+                    </section>
+                </>
+            ) : (
+                <>
+                    <section className={styles.main}><Demo /></section>
+                    <section className={styles.primary}>
+                        <Inventory
+                            inventory={inventory}
+                            onImageLoad={handleImageLoad}
+                        />
+                    </section>
+                    <section className={styles.checkout}>
+                        <CheckOut />
+                    </section>
+                </>
+            )}
 
         </div>
     );
