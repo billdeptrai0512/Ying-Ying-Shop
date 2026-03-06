@@ -258,7 +258,8 @@ button {
     flex: 1 1 auto;
 }
 
-div>input {
+div>input,
+div>textarea {
     margin: 0;
     padding: 0.75rem;
     border: none;

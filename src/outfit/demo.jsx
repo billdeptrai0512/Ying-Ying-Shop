@@ -10,95 +10,99 @@ import { useOutfit } from "../public/outfitContext";
 import { Star, Dices } from "lucide-react";
 
 export default function Demo() {
-    const { user } = useAuth();
-    const { outFit, setOutFit } = useOutfit();
-    const [filled, setFilled] = useState(false);
+  const { user } = useAuth();
+  const { outFit, setOutFit } = useOutfit();
+  const [filled, setFilled] = useState(false);
+  const [spinning, setSpinning] = useState(false);
 
-    useEffect(() => {
-        if (outFit) setFilled(false);
-    }, [outFit]);
+  useEffect(() => {
+    if (outFit) setFilled(false);
+  }, [outFit]);
 
-    const selectedOutfitImages = useMemo(() => {
-        if (!outFit) return null;
+  const selectedOutfitImages = useMemo(() => {
+    if (!outFit) return null;
 
-        return getDemoImages(outFit)
-            .sort((a, b) => a.zIndex - b.zIndex)
-            .map(({ key, image, zIndex }, index) => (
-                <div
-                    key={`${key}-${index}`}
-                    style={{
-                        position: "absolute",
-                        zIndex,
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                    }}
-                    >
-                    <Imgix
-                        src={image}
-                        sizes="340px"
-                        alt={key}
-                        imgixParams={{ auto: "format,compress" }}
-                        htmlAttributes={{ alt: "layer image" }}
-                    />
-                </div>
-        ));
-    }, [outFit]);
-
-    const handleAddToFavorite = async () => {
-
-        try {
-
-            const favorite = {
-                outfit: outFit,
-                combination: JSON.stringify(getAllItem(outFit)),
-            };
-
-            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/favorite/create`, favorite);
-
-            } catch (err) {
-                console.error("add favorite failed:", err);
-            } finally {
-                setFilled(true);
-            }      
-    };
-
-    const handleRandomFavoriteOutfit = async () => {
-        try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/favorite/random`);
-            setOutFit(response.data.outfit);
-        } catch (err) {
-            console.error("get random favorite failed:", err);
-        } finally {
-            googleTrackingRollADices();
-        }
-    };
-
-    return (
-        <div className={styles.board}>
-                {user && (
-                        <Star
-                            size={30}
-                            fill={filled ? "yellow" : "none"}
-                            onClick={handleAddToFavorite}
-                            style={{ cursor: "pointer" }}
-                        />
-                )}
-
-            <div className={styles.demo}>
-                {selectedOutfitImages}
-                <img key="watermark" src={watermark} alt="watermark" style={{ zIndex: 7 }} />
-            </div>
-
-            <div className={styles.example}>
-                <Dices
-                size={30}
-                onClick={handleRandomFavoriteOutfit}
-                style={{ cursor: "pointer", alignSelf: "baseline", marginTop: 0, zIndex: 10 }}
-                />
-            </div>
+    return getDemoImages(outFit)
+      .sort((a, b) => a.zIndex - b.zIndex)
+      .map(({ key, image, zIndex }, index) => (
+        <div
+          key={`${key}-${index}`}
+          style={{
+            position: "absolute",
+            zIndex,
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Imgix
+            src={image}
+            sizes="340px"
+            alt={key}
+            imgixParams={{ auto: "format,compress" }}
+            htmlAttributes={{ alt: "layer image" }}
+          />
         </div>
-    );
+      ));
+  }, [outFit]);
+
+  const handleAddToFavorite = async () => {
+
+    try {
+
+      const favorite = {
+        outfit: outFit,
+        combination: JSON.stringify(getAllItem(outFit)),
+      };
+
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/favorite/create`, favorite);
+
+    } catch (err) {
+      console.error("add favorite failed:", err);
+    } finally {
+      setFilled(true);
+    }
+  };
+
+  const handleRandomFavoriteOutfit = async () => {
+    setSpinning(true);
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/favorite/random`);
+      setOutFit(response.data.outfit);
+    } catch (err) {
+      console.error("get random favorite failed:", err);
+    } finally {
+      googleTrackingRollADices();
+    }
+  };
+
+  return (
+    <div className={styles.board}>
+      {user && (
+        <Star
+          size={30}
+          fill={filled ? "yellow" : "none"}
+          onClick={handleAddToFavorite}
+          style={{ cursor: "pointer" }}
+        />
+      )}
+
+      <div className={styles.demo}>
+        {selectedOutfitImages}
+        <img key="watermark" src={watermark} alt="watermark" style={{ zIndex: 7 }} />
+      </div>
+
+      <div className={styles.example}>
+        <Dices
+          size={30}
+          onClick={handleRandomFavoriteOutfit}
+          className={spinning ? styles.dicesSpin : styles.dicesWiggle}
+          onAnimationEnd={() => setSpinning(false)}
+          style={{ alignSelf: "baseline", marginTop: 0, zIndex: 10 }}
+        />
+      </div>
+    </div>
+  );
 }
 
 function getDemoImages(outFit) {

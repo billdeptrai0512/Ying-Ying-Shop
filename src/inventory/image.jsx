@@ -2,8 +2,8 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { Play } from "lucide-react"
 import { useOutfit } from "../public/outfitContext";
 import styles from "./folder.module.css"
-import React from "react";
 import ListItem from "./item";
+import { useMediaQuery } from "react-responsive";
 
 export default function Image({ inventory, section, extraType, onImageLoad }) {
 
@@ -13,9 +13,12 @@ export default function Image({ inventory, section, extraType, onImageLoad }) {
     const itemRefs = useRef({});
 
     const selectedItem = outFit[section]?.item
+
     const [atStart, setAtStart] = useState(true);
     const [atEnd, setAtEnd] = useState(false);
     const [imagesLoaded] = useState(0)
+
+    const isMobile = useMediaQuery({ query: "(max-width: 468px)" });
 
     const allImagesLoaded = imagesLoaded === inventory.length;
 
@@ -118,7 +121,7 @@ export default function Image({ inventory, section, extraType, onImageLoad }) {
 
         <div className={styles.row} >
 
-            {renderScrollLeftButton(inventory, scrollLeft, atStart)}
+            {!isMobile && renderScrollLeftButton(inventory, scrollLeft, atStart)}
 
             <div className={styles.container} ref={scrollContainer} >
 
@@ -126,7 +129,7 @@ export default function Image({ inventory, section, extraType, onImageLoad }) {
 
             </div>
 
-            {renderScrollRightButton(inventory, scrollRight, atEnd)}
+            {!isMobile && renderScrollRightButton(inventory, scrollRight, atEnd)}
 
         </div>
 

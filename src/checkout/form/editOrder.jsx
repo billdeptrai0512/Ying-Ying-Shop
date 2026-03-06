@@ -7,9 +7,9 @@ export default function FormEditOrder({ order, formId, setEditMode, setUpdateOrd
 
     const [errors, setErrors] = useState([]); // State to store validation errors
     const [formData, setFormData] = useState({
-        date: new Date(order.date).toLocaleDateString('vi-VN', {day: '2-digit'}) || '',
-        month: new Date(order.date).toLocaleDateString('vi-VN', {month: '2-digit'}) || '',
-        year: new Date(order.date).toLocaleDateString('vi-VN', {year: 'numeric'}) || '',
+        date: new Date(order.date).toLocaleDateString('vi-VN', { day: '2-digit' }) || '',
+        month: new Date(order.date).toLocaleDateString('vi-VN', { month: '2-digit' }) || '',
+        year: new Date(order.date).toLocaleDateString('vi-VN', { year: 'numeric' }) || '',
         name: order.name || '',
         phone: order.phone || '', // encrypt phone - email - address
         address: order.address || '',
@@ -41,7 +41,7 @@ export default function FormEditOrder({ order, formId, setEditMode, setUpdateOrd
             setEditMode(false)
 
             setUpdateOrder((prev => !prev))
-            
+
         } catch (err) {
             if (err.response && err.response.status === 400) {
                 setErrors(err.response.data.errors); // Set validation errors from the backend
@@ -64,34 +64,39 @@ export default function FormEditOrder({ order, formId, setEditMode, setUpdateOrd
     };
 
     return (
-        <form id={formId} className={styles.form} onSubmit={handleSubmit}>
-            <div className={styles.details} style={{ padding: "0 1em" }}>
-                <div>
-                    <div className={styles.date}>
-                        <input type="number" name="date" placeholder="Ngày" value={formData.date} onChange={handleChange} />
-                        <input type="number" name="month" placeholder="Tháng" value={formData.month} onChange={handleChange} />
-                        <input type="number" name="year" placeholder="Năm" value={formData.year} onChange={handleChange} />
-                    </div>
-                    {(getErrorForField("date") || getErrorForField("month") || getErrorForField("year")) && (
-                        <p className={styles.error}>
-                            {getErrorForField("date") || getErrorForField("month") || getErrorForField("year")}
-                        </p>
-                    )}
+        <form id={formId} className={styles.customerInfo} onSubmit={handleSubmit} style={{ gap: '0.8rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4em' }}>
+                <p className={styles.copyable} style={{ margin: 0 }}>Ngày thuê:</p>
+                <div style={{ display: 'flex', gap: '0.4em', alignItems: 'center' }}>
+                    <input className={styles.editInput} style={{ flex: 1, textAlign: 'center' }} type="number" name="date" placeholder="DD" value={formData.date} onChange={handleChange} />
+                    <span style={{ color: '#331D1C', fontWeight: 600 }}>/</span>
+                    <input className={styles.editInput} style={{ flex: 1, textAlign: 'center' }} type="number" name="month" placeholder="MM" value={formData.month} onChange={handleChange} />
+                    <span style={{ color: '#331D1C', fontWeight: 600 }}>/</span>
+                    <input className={styles.editInput} style={{ flex: 1.2, textAlign: 'center' }} type="number" name="year" placeholder="YYYY" value={formData.year} onChange={handleChange} />
                 </div>
-                <div>
-                    {getErrorForField("name") && (<p className={styles.error}>{getErrorForField("name")}</p>)}
-                    <input className={styles.name} type="text" name="name" placeholder="Tên:" value={formData.name} onChange={handleChange} />
-                </div>
+                {(getErrorForField("date") || getErrorForField("month") || getErrorForField("year")) && (
+                    <p className={styles.error} style={{ margin: 0 }}>
+                        {getErrorForField("date") || getErrorForField("month") || getErrorForField("year")}
+                    </p>
+                )}
+            </div>
 
-                <div>
-                    {getErrorForField("phone") && (<p className={styles.error}>{getErrorForField("phone")}</p>)}
-                    <input className={styles.phone} type="number" name="phone" placeholder="Số điện thoại:" value={formData.phone} onChange={handleChange} />
-                </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4em' }}>
+                <p className={styles.copyable} style={{ margin: 0 }}>Họ và tên:</p>
+                <input className={styles.editInput} type="text" name="name" placeholder="Tên" value={formData.name} onChange={handleChange} />
+                {getErrorForField("name") && (<p className={styles.error} style={{ margin: 0 }}>{getErrorForField("name")}</p>)}
+            </div>
 
-                <div>
-                    {getErrorForField("address") && (<p className={styles.error}>{getErrorForField("address")}</p>)}
-                    <textarea className={styles.address} name="address" placeholder="Địa chỉ:" value={formData.address} onChange={handleChange} rows={6} />
-                </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4em' }}>
+                <p className={styles.copyable} style={{ margin: 0 }}>Số điện thoại:</p>
+                <input className={styles.editInput} type="number" name="phone" placeholder="Số điện thoại" value={formData.phone} onChange={handleChange} />
+                {getErrorForField("phone") && (<p className={styles.error} style={{ margin: 0 }}>{getErrorForField("phone")}</p>)}
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4em' }}>
+                <p className={styles.copyable} style={{ margin: 0 }}>Địa chỉ:</p>
+                <textarea className={`${styles.editInput} ${styles.editInputArea}`} name="address" placeholder="Địa chỉ" value={formData.address} onChange={handleChange} />
+                {getErrorForField("address") && (<p className={styles.error} style={{ margin: 0 }}>{getErrorForField("address")}</p>)}
             </div>
         </form>
     );

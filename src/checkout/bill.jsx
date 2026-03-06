@@ -9,7 +9,7 @@ import QRCodeSection, { BankInfo, TotalInfo } from "./button/qr-section";
 import OrderConfirmation from "./button/order-confirmation";
 import CustomerInfo from "./button/customer-info";
 import ScreenShotButton from "./button/screenshot";
-import CopyButton from "./button/copy";
+import ContactButton from "./button/contact";
 import EditButton from "./button/edit";
 import SaveButton from "./button/save";
 import DenyButton from "./button/deny";
@@ -21,6 +21,7 @@ export default function Bill({ orderId }) {
 
     const [order, setOrder] = useState({});
     const [paidStatus, setPaidStatus] = useState(false);
+    const [justPaid, setJustPaid] = useState(false);
     const [updateOrder, setUpdateOrder] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
@@ -58,17 +59,7 @@ export default function Bill({ orderId }) {
                 const data = JSON.parse(event.data);
 
                 if (data.id === orderId) {
-                    setPaidStatus(true);
-
-                    const updateInfo = {
-                        total: cart.reduce((acc, item) => acc + item.total, 0),
-                        cart: getAllItems(cart),
-                    };
-
-                    await axios.patch(
-                        `${import.meta.env.VITE_BACKEND_URL}/order/place-order/edit/${orderId}`,
-                        updateInfo
-                    );
+                    handlePaymentSuccess();
                 }
             } catch (err) {
                 console.error("Error parsing WebSocket message:", err.message);
@@ -78,6 +69,36 @@ export default function Bill({ orderId }) {
         socket.addEventListener("message", handleMessage);
         return () => socket.removeEventListener("message", handleMessage);
     }, [socket, orderId, cart]);
+
+    // Shared success logic (used by both socket and mock button)
+    const handlePaymentSuccess = async () => {
+        setJustPaid(true); // Trigger transition animation
+        setPaidStatus(true);
+
+        try {
+            const updateInfo = {
+                total: cart.reduce((acc, item) => acc + item.total, 0),
+                cart: getAllItems(cart),
+            };
+
+            await axios.patch(
+                `${import.meta.env.VITE_BACKEND_URL}/order/place-order/edit/${orderId}`,
+                updateInfo
+            );
+        } catch (err) {
+            console.error("Error updating order on payment success:", err);
+        }
+    };
+
+    // Handle transition phase
+    useEffect(() => {
+        if (justPaid) {
+            const timer = setTimeout(() => {
+                setJustPaid(false);
+            }, 2000); // Show toast for 2 seconds before full swap
+            return () => clearTimeout(timer);
+        }
+    }, [justPaid]);
 
     // Loading state
     if (isLoading) {
@@ -102,15 +123,29 @@ export default function Bill({ orderId }) {
     const isPaid = paidStatus || order.paid_status;
 
     // Unpaid order - show QR code
-    if (!isPaid) {
+    if (!isPaid || justPaid) {
         return (
             <div id="screenshot-area">
+                {import.meta.env.DEV && (
+                    <button
+                        onClick={handlePaymentSuccess}
+                        style={{ position: 'absolute', top: 10, left: 10, zIndex: 9999, background: 'red', color: 'white', padding: '5px 10px', borderRadius: 4, cursor: 'pointer', border: 'none' }}
+                    >
+                        [DEV] Mock Pay
+                    </button>
+                )}
+                {justPaid && (
+                    <div className={styles.paymentToast}>
+                        <div className={styles.toastPulse}></div>
+                        Đã nhận thanh toán. Đang xác nhận...
+                    </div>
+                )}
                 <QRCodeSection order={order} />
                 <div className={styles.paymentSection}>
                     <BankInfo />
                     <TotalInfo order={order} />
                     <div className={styles.buttonGroup}>
-                        <ScreenShotButton />
+                        <ContactButton />
                     </div>
                 </div>
             </div>
@@ -138,8 +173,8 @@ export default function Bill({ orderId }) {
             <div className={styles.buttonGroup}>
                 {editMode ? (
                     <>
-                        <SaveButton />
                         <DenyButton setEditMode={setEditMode} />
+                        <SaveButton />
                     </>
                 ) : (
                     <>

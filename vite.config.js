@@ -48,5 +48,8 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: "./tests/setup.js"
+  },
+  server: {
+    allowedHosts: ['helps-purpose-ethernet-shirts.trycloudflare.com']
   }
 })

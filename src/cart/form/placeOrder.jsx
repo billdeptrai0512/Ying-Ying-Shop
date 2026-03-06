@@ -4,7 +4,7 @@ import { useCart } from "../../public/cartContext";
 import styles from "../cart.module.css"
 import axios from "axios";
 
-export default function FormPlaceOrder({formId}) {
+export default function FormPlaceOrder({ formId }) {
 
     const { cart } = useCart()
     const navigate = useNavigate()
@@ -20,7 +20,7 @@ export default function FormPlaceOrder({formId}) {
     })
 
     const handleSubmit = async (e) => {
-        
+
         e.preventDefault();
         setErrors([]); // Clear previous errors
 
@@ -65,12 +65,12 @@ export default function FormPlaceOrder({formId}) {
         const error = errors.find((err) => err.path === fieldName);
         return error ? error.msg : null;
     };
-    
+
     return (
         <form id={formId} className={styles.form} onSubmit={handleSubmit}  >
             <div className={styles.details}>
-                <div>
-                    <label htmlFor="date">Ngày thuê:</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <label htmlFor="date">Chọn ngày thuê:</label>
                     <div className={styles.date}>
                         <input type="number" name="date" placeholder="Ngày" value={formData.date} onChange={handleChange} />
                         <input type="number" name="month" placeholder="Tháng" value={formData.month} onChange={handleChange} />
@@ -83,7 +83,7 @@ export default function FormPlaceOrder({formId}) {
                     )}
                 </div>
                 <div>
-                    {getErrorForField("name") && (<p className={styles.error}>{getErrorForField("name")}</p>)}       
+                    {getErrorForField("name") && (<p className={styles.error}>{getErrorForField("name")}</p>)}
                     <input className={styles.name} type="text" name="name" placeholder="Tên:" value={formData.name} onChange={handleChange} />
                 </div>
 
@@ -91,9 +91,9 @@ export default function FormPlaceOrder({formId}) {
                     {getErrorForField("phone") && (<p className={styles.error}>{getErrorForField("phone")}</p>)}
                     <input className={styles.phone} type="number" name="phone" placeholder="Số điện thoại:" value={formData.phone} onChange={handleChange} />
                 </div>
-                
+
                 <div>
-                    {getErrorForField("address") && (<p className={styles.error}>{getErrorForField("address")}</p>)}    
+                    {getErrorForField("address") && (<p className={styles.error}>{getErrorForField("address")}</p>)}
                     <textarea className={styles.address} name="address" placeholder="Địa chỉ:" value={formData.address} onChange={handleChange} rows={6} />
                 </div>
             </div>
@@ -128,7 +128,7 @@ function getAllItem(cart) {
                     if (bag.item) {
 
                         const item = bag.item
-                        
+
                         const data = {
                             id: item.id,
                         }
@@ -139,7 +139,7 @@ function getAllItem(cart) {
                 }
 
                 if (value.item) {
-                    
+
                     const item = value.item
 
                     const data = {

@@ -8,14 +8,15 @@ export default function CustomerInfo({ order, cart }) {
             <InfoRow label="Họ và tên:" value={order.name} />
             <InfoRow label="Số điện thoại:" value={`(+84) ${order.phone}`} />
             <InfoRow
-                label={`Đặt ${itemCount} sản phẩm`}
+                label="Ngày thuê:"
                 value={new Date(order.date).toLocaleDateString('vi-VN', {
                     day: '2-digit',
                     month: '2-digit',
                     year: 'numeric',
                 })}
             />
-            <InfoRow label="Địa chỉ nhận hàng:" value={order.address} />
+            <InfoRow label="Tổng cộng:" value={`${itemCount} sản phẩm`} />
+            <InfoRow label="Địa chỉ:" value={order.address} />
         </div>
     );
 }

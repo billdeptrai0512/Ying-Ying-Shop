@@ -1,13 +1,16 @@
 import { useRef, useState, useEffect } from 'react';
-import { SquareMinus, Play  } from 'lucide-react'; // adjust import if needed
+import { useMediaQuery } from 'react-responsive';
+import { SquareMinus, Play } from 'lucide-react'; // adjust import if needed
 import styles from './cart.module.css';
 
-export default function Image({ outfit, index, pickOutFit, removeOutFit, editOutFit, paidStatus}) {
-    
-    
+export default function Image({ outfit, index, pickOutFit, removeOutFit, editOutFit, paidStatus }) {
+
+
     const scrollRef = useRef(null);
     const [atStart, setAtStart] = useState(true);
     const [atEnd, setAtEnd] = useState(false);
+
+    const isMobile = useMediaQuery({ query: '(max-width: 468px)' });
 
     const updateScrollLimits = () => {
         const el = scrollRef.current;
@@ -34,26 +37,26 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
     const getImages = (outfit) => {
 
         const images = [];
-    
+
         // Loop through top-level keys
         for (const [key, value] of Object.entries(outfit)) {
             if (key === "total") continue;
-    
+
             // If demo_image exists directly
             if (value?.item?.image) {
-                images.push({section: key, item: value.item});
+                images.push({ section: key, item: value.item });
             }
-    
+
             // If it's the 'extra' category, loop its sub-categories
             if (key === "extra") {
                 for (const [, subValue] of Object.entries(value)) {
                     if (subValue?.item?.image) {
-                        images.push({section: key, item: subValue.item});
+                        images.push({ section: key, item: subValue.item });
                     }
                 }
             }
         }
-    
+
         return images;
     };
 
@@ -61,7 +64,7 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
     // useEffect(() => {
     //     const el = scrollRef.current;
     //     if (!el) return;
-    
+
     //     const handleWheel = (e) => {
     //         if (Math.abs(e.deltaX) === 0 && Math.abs(e.deltaY) > 0) {
     //             // Convert vertical scroll into horizontal
@@ -69,9 +72,9 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
     //             el.scrollBy({ left: e.deltaY });
     //         }
     //     };
-    
+
     //     el.addEventListener('wheel', handleWheel, { passive: false });
-    
+
     //     return () => {
     //         el.removeEventListener('wheel', handleWheel);
     //     };
@@ -104,20 +107,20 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
 
     return (
 
-            <div className={styles.row}>
-                <div className={styles.set}>
-                    <h3>SET {index + 1}</h3>
+        <div className={styles.row}>
+            <div className={styles.set}>
+                <h3>SET {index + 1}</h3>
 
-                    { !paidStatus ? (
-                        <button className={styles.remove} onClick={() => removeOutFit(outfit)}>XÓA</button>
-                    ) : null }
-                    
-                    
-                </div>
+                {!paidStatus ? (
+                    <button className={styles.remove} onClick={() => removeOutFit(outfit)}>XÓA</button>
+                ) : null}
 
-                <div className={styles.outfit} onClick={() => pickOutFit(index)}>
 
-       
+            </div>
+
+            <div className={styles.outfit} onClick={() => pickOutFit(index)}>
+
+                {!isMobile ? (
                     <Play
                         color="#626262"
                         onClick={scrollLeft}
@@ -128,27 +131,28 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
                             transform: 'translateX(-1.25em) rotate(180deg)'
                         }}
                     />
+                ) : null}
 
-                    <div className={styles.cart_container} ref={scrollRef}>
-                        {getImages(outfit).map((object, index) => (
-                            <div key={`${outfit.id}-${index}`} className={styles.item}>
-                                <img
-                                    src={object.item.image}
-                                    alt={`item-${index}`}/>
+                <div className={styles.cart_container} ref={scrollRef}>
+                    {getImages(outfit).map((object, index) => (
+                        <div key={`${outfit.id}-${index}`} className={styles.item}>
+                            <img
+                                src={object.item.image}
+                                alt={`item-${index}`} />
 
-                                { !paidStatus ? (
-                                    <button
-                                        className={styles.edit}
-                                        onClick={() => editOutFit(outfit, object.item, object.section || index)}>
-                                        <SquareMinus size={14}/> 
-                                    </button>
-                                ) : null }
-                                
-                            </div>
-                        ))}
-                    </div>
+                            {!paidStatus ? (
+                                <button
+                                    className={styles.edit}
+                                    onClick={() => editOutFit(outfit, object.item, object.section || index)}>
+                                    <SquareMinus size={14} />
+                                </button>
+                            ) : null}
 
+                        </div>
+                    ))}
+                </div>
 
+                {!isMobile ? (
                     <Play
                         color="#626262"
                         onClick={scrollRight}
@@ -159,11 +163,12 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
                             width: "1em",
                         }}
                     />
+                ) : null}
 
 
-                </div>
             </div>
+        </div>
 
-            
+
     );
 }

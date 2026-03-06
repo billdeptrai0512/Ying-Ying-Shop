@@ -24,6 +24,7 @@ section p {
     display: flex;
     position: relative;
     overflow-x: visible;
+    margin-bottom: 5px;
 }
 
 .row svg:nth-child(n+1) {
@@ -37,15 +38,18 @@ section p {
     grid-auto-columns: 3.5rem;
     gap: 0.5rem;
     width: calc(4 * 3.5rem + 3 * 0.5rem);
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none;  /* IE 10+ */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE 10+ */
 }
 
 .container::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Edge */
+    display: none;
+    /* Chrome, Safari, Edge */
 }
 
-.container > div {
+.container>div {
     background-color: #fff;
 }
 
@@ -53,7 +57,7 @@ section p {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    gap: 2.5rem; 
+    gap: 2.5rem;
     /* position: absolute;  */
 }
 
@@ -61,24 +65,26 @@ section p {
     padding-top: 2px;
 }
 
-.size > h4,
-.sizeContainer > div > div > h4 {
+.size>h4,
+.sizeContainer>div>div>h4 {
     font-size: 0.75rem;
 }
 
-.sizeContainer > div > div > p {
+.sizeContainer>div>div>p {
     font-size: 0.6rem;
 }
 
 .measurements {
-    flex: 0; /* Prevent measurements from stretching */
+    flex: 0;
+    /* Prevent measurements from stretching */
     padding: 5px;
     border-radius: 8px;
     text-align: center;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1em;
-    min-width: 150px; /* Ensure a minimum width for the measurements box */
+    min-width: 150px;
+    /* Ensure a minimum width for the measurements box */
 }
 
 .options {
@@ -104,22 +110,22 @@ section p {
     .row svg:nth-child(n+1) {
         transform: translateX(calc(5 * 395%));
     }
-    
+
     .container {
         grid-auto-columns: 3.5rem;
         gap: 0.5rem;
         width: calc(5 * 3.5rem + 4 * 0.5rem);
     }
 
-} 
+}
 
 @media (min-width: 600px) and (max-width: 1000px) {
 
-    .information > h3 {
+    .information>h3 {
         font-size: 1rem;
     }
 
-    .information > p {
+    .information>p {
         font-size: 0.75rem;
     }
 
@@ -133,12 +139,12 @@ section p {
         width: calc(5 * 4.25rem + 4* 0.75rem);
     }
 
-    .size > h4,
-    .sizeContainer > div > div > h4 {
+    .size>h4,
+    .sizeContainer>div>div>h4 {
         font-size: 1rem;
     }
 
-    .sizeContainer > div > div > p {
+    .sizeContainer>div>div>p {
         font-size: 0.9rem;
     }
 
@@ -146,16 +152,16 @@ section p {
         font-size: 1.5rem;
     }
 
-} 
+}
 
 
-@media (min-width: 1000px) and (max-width: 1400px){
+@media (min-width: 1000px) and (max-width: 1400px) {
 
-    .information > h3 {
+    .information>h3 {
         font-size: 1.1rem;
     }
 
-    .information > p {
+    .information>p {
         font-size: 0.75rem;
     }
 
@@ -169,27 +175,28 @@ section p {
         width: calc(5 * 4.25rem + 4* 0.75rem);
     }
 
-    .size > h4,
-    .sizeContainer > div > div > h4 {
+    .size>h4,
+    .sizeContainer>div>div>h4 {
         font-size: 1rem;
     }
 
-    .sizeContainer > div > div > p {
+    .sizeContainer>div>div>p {
         font-size: 0.9rem;
     }
+
     .option {
         width: 1.75em;
         font-size: 1.5rem;
     }
-} 
+}
 
 @media (min-width: 1400px) {
 
-    .information > h3 {
+    .information>h3 {
         font-size: 1.15rem;
     }
 
-    .information > p {
+    .information>p {
         font-size: 0.75rem;
     }
 
@@ -203,7 +210,7 @@ section p {
         width: calc(5 * 4.25rem + 4* 0.75rem);
     }
 
-    .row > div {
+    .row>div {
         min-width: 4.25em;
     }
 
@@ -211,25 +218,28 @@ section p {
         display: flex;
         flex-direction: row;
         align-items: flex-start;
-        gap: 2.5rem; /* Space between size options and measurements */
-        position: absolute; /* Ensure proper positioning for child elements */
+        gap: 2.5rem;
+        /* Space between size options and measurements */
+        position: absolute;
+        /* Ensure proper positioning for child elements */
     }
 
     .size {
         flex: 1;
     }
 
-    .size > h4,
-    .sizeContainer > div > div > h4 {
+    .size>h4,
+    .sizeContainer>div>div>h4 {
         font-size: 1rem;
     }
 
-    .sizeContainer > div > div > p {
+    .sizeContainer>div>div>p {
         font-size: 0.9rem;
     }
 
     .measurements {
-        flex: 0; /* Prevent measurements from stretching */
+        flex: 0;
+        /* Prevent measurements from stretching */
         padding: 5px;
         border-radius: 8px;
         text-align: center;
@@ -237,7 +247,8 @@ section p {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 10px;
-        min-width: 150px; /* Ensure a minimum width for the measurements box */
+        min-width: 150px;
+        /* Ensure a minimum width for the measurements box */
     }
 
     .option {
@@ -245,4 +256,4 @@ section p {
         font-size: 1.5rem;
     }
 
-} 
+}

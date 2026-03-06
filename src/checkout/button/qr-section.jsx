@@ -7,13 +7,22 @@ const account = import.meta.env.VITE_BANK_ACCOUNT;
 export default function QRCodeSection({ order }) {
     return (
         <div style={{ textAlign: "center" }}>
-            <img
-                className={styles.qr}
-                id="qr-code"
-                src={`https://qr.sepay.vn/img?acc=${account}&bank=${bank}&amount=${order.total.toLocaleString()}&des=YS${order.id}&template=compact`}
-                alt="QR Code"
-                crossOrigin="anonymous"
-            />
+            <div className={styles.qrWrapper}>
+                <img
+                    className={styles.qr}
+                    id="qr-code"
+                    src={`https://qr.sepay.vn/img?acc=${account}&bank=${bank}&amount=${order.total.toLocaleString()}&des=YS${order.id}&template=compact`}
+                    alt="QR Code"
+                    crossOrigin="anonymous"
+                />
+                {/* Corner brackets */}
+                <span className={`${styles.corner} ${styles.cornerTL}`} />
+                <span className={`${styles.corner} ${styles.cornerTR}`} />
+                <span className={`${styles.corner} ${styles.cornerBL}`} />
+                <span className={`${styles.corner} ${styles.cornerBR}`} />
+                {/* Scan line */}
+                <div className={styles.scanLine} />
+            </div>
         </div>
     );
 }

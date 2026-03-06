@@ -36,9 +36,13 @@ export default function CheckOut() {
 
             {renderTotalPayment(springProps)}
 
-            {renderButtonAddToCart(addToCart, cart.length, outFit)}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 
-            {renderGoToCartButton(navigate, cart.length)}
+                {renderButtonAddToCart(addToCart, cart.length, outFit)}
+
+                {renderGoToCartButton(navigate, cart.length)}
+
+            </div>
 
         </div>
     )
@@ -47,9 +51,6 @@ export default function CheckOut() {
 const renderGoToCartButton = (navigate, numberOfCart) => {
 
     if (numberOfCart === 0) return null
-
-    const shoppingCartStyle = { fontWeight: "800", marginRight: "0.5em", }
-    const spanStyle = { fontWeight: "650", color: '#DC1E1E', fontSize: "1.5em" }
 
     return (
         <button className={styles.back} onClick={() => navigate("/cart")}>
@@ -96,7 +97,7 @@ const renderButtonAddToCart = (addToCart, numberOfCart, outFit) => {
 
     return (
         <button className={styles.cta} onClick={() => addToCart(outFit)} style={buttonStyle}>
-            <h3 style={{ fontSize: "1.25em", fontWeight: 500 }}>Thêm vào giỏ hàng</h3>
+            <h3 style={{ fontWeight: 500 }}>Thêm vào giỏ hàng</h3>
         </button>
     )
 }
