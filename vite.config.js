@@ -50,6 +50,6 @@ export default defineConfig({
     setupFiles: "./tests/setup.js"
   },
   server: {
-    allowedHosts: ['helps-purpose-ethernet-shirts.trycloudflare.com']
+    allowedHosts: ['geographical-allowance-kent-actual.trycloudflare.com']
   }
 })
