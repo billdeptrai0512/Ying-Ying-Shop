@@ -100,7 +100,9 @@ export default function Outfit() {
                 </>
             ) : (
                 <>
-                    <section className={styles.main}><Demo /></section>
+                    <section className={styles.main}>
+                        <Demo />
+                    </section>
                     <section className={styles.primary}>
                         <Inventory
                             inventory={inventory}

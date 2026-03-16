@@ -4,73 +4,73 @@ import imageCover from "./../assets/tickweb.png"
 import styles from "./folder.module.css";
 
 // ==================== Component ====================
-export default function Size({inventory}) {
+export default function Size({ inventory }) {
 
-    const { outFit, updateSize, missingSizes } = useOutfit()
-    const [selectedSize, setSelectedSize] = useState(null)
+  const { outFit, updateSize, missingSizes } = useOutfit()
+  const [selectedSize, setSelectedSize] = useState(null)
 
-    const item = outFit[inventory.section].item
+  const item = outFit[inventory.section].item
 
-    const isMissingSize = missingSizes?.includes(inventory.section)
+  const isMissingSize = missingSizes?.includes(inventory.section)
 
-    useEffect(() => {
+  useEffect(() => {
 
-      setSelectedSize(null)
+    setSelectedSize(null)
 
-    }, [item])
+  }, [item])
 
-    if (!item) return 
+  if (!item) return
 
-    const pickSize = (section, size) => {
+  const pickSize = (section, size) => {
 
-      if (size === selectedSize) {
+    if (size === selectedSize) {
 
-        updateSize(section, null)
-        return setSelectedSize(null)
+      updateSize(section, null)
+      return setSelectedSize(null)
 
-      }
-
-      trackSizeSelection()
-
-      updateSize(section, size)
-
-      return setSelectedSize(size)
-      
-    } 
-
-    if (!sameSection(outFit, inventory)) return
-
-    const renderOptions = (item) => {
-
-        const sizes = item.sizes
-
-        return (
-          <div className={styles.options}>
-            {sizes.map((size, index) => (
-              <div key={index} className={styles.option}
-                style={getButtonStyle(isMissingSize, selectedSize, size)}
-                onClick={() => pickSize(inventory.section, size)}
-              >
-                <p>{size}</p>
-                {renderImageCover(selectedSize, size)}
-              </div>
-            ))}
-
-            {selectedSize === null && <div className={styles.warning}>*</div>}
-          </div>
-        )
     }
 
-    return (
-      <div className={styles.sizeContainer}>
-        <div className={styles.size}>
-          <h4>Size</h4>
-          { renderOptions(item) }
-        </div>
+    trackSizeSelection()
 
-        {renderSizeMeasurement(selectedSize, inventory)}
+    updateSize(section, size)
+
+    return setSelectedSize(size)
+
+  }
+
+  if (!sameSection(outFit, inventory)) return
+
+  const renderOptions = (item) => {
+
+    const sizes = item.sizes
+
+    return (
+      <div className={styles.options}>
+        {sizes.map((size, index) => (
+          <div key={index} className={styles.option}
+            style={getButtonStyle(isMissingSize, selectedSize, size)}
+            onClick={() => pickSize(inventory.section, size)}
+          >
+            <p>{size}</p>
+            {renderImageCover(selectedSize, size)}
+          </div>
+        ))}
+
+        {selectedSize === null && <div className={styles.warning}>*</div>}
       </div>
-    );
+    )
+  }
+
+  return (
+    <div className={styles.sizeContainer}>
+      <div className={styles.size}>
+        <h4>Size</h4>
+        {renderOptions(item)}
+      </div>
+
+      {renderSizeMeasurement(selectedSize, inventory)}
+    </div>
+  );
 }
 
 // ==================== Helpers ====================
@@ -94,7 +94,7 @@ function renderSizeMeasurement(sizeSelected, inventory) {
   if (!measurements) return null;
 
   return (
-    <div style={{ display: "flex", gap: "0.5em", paddingTop:"2px"}}>
+    <div style={{ display: "flex", gap: "0.5em", paddingTop: "2px" }}>
       {Object.entries(measurements).map(([key, value], index) => (
         <SizeDetail key={index} label={key} value={value} />
       ))}
@@ -107,11 +107,10 @@ function SizeDetail({ label, value }) {
     display: "flex",
     flexDirection: "column",
     gap: "0.05em",
-    textAlign: "center"
   };
 
   const textStyle = {
-    backgroundColor:"#6E6E6E",
+    backgroundColor: "#6E6E6E",
     color: "#FFFFFF",
     padding: "2px 1rem"
   };
@@ -133,21 +132,21 @@ function getButtonStyle(isMissingSize, selectedSize, size) {
 }
 
 function trackSizeSelection() {
-    let count = parseInt(sessionStorage.getItem("pickSize") || "0", 10);
-    count++;
-    sessionStorage.setItem("pickSize", count);
+  let count = parseInt(sessionStorage.getItem("pickSize") || "0", 10);
+  count++;
+  sessionStorage.setItem("pickSize", count);
 
-    return window.gtag("event", "click", {
-        event_category: "Button",
-        event_label: "select sizes",
-        click_count: count
-    });
+  return window.gtag("event", "click", {
+    event_category: "Button",
+    event_label: "select sizes",
+    click_count: count
+  });
 }
 
 const sameSection = (outFit, inventory) => {
 
   const firstIteminInventory = inventory.files[0]
-  if (!firstIteminInventory) return 
+  if (!firstIteminInventory) return
 
   const item = outFit[inventory.section].item
   if (!item) return
@@ -158,12 +157,12 @@ const sameSection = (outFit, inventory) => {
 }
 
 const renderImageCover = (selected, size) => {
-    if (selected !== size) return null
+  if (selected !== size) return null
 
-    return (
-        <img src={imageCover} alt="selectedItem" 
-            style={{ position: "absolute", bottom: "0", right: "0", width: "33%" }}>
-        </img>
-    )
+  return (
+    <img src={imageCover} alt="selectedItem"
+      style={{ position: "absolute", bottom: "0", right: "0", width: "33%" }}>
+    </img>
+  )
 
 }

@@ -11,6 +11,7 @@ export default function Image({ inventory, section, extraType, onImageLoad }) {
 
     const scrollContainer = useRef(null)
     const itemRefs = useRef({});
+    const isMounted = useRef(false);
 
     const selectedItem = outFit[section]?.item
 
@@ -103,13 +104,20 @@ export default function Image({ inventory, section, extraType, onImageLoad }) {
 
     useEffect(() => {
 
-        const el = itemRefs.current[selectedItem?.id];
-        if (el) {
+        if (!isMounted.current) {
+            isMounted.current = true;
+            return;
+        }
 
-            el.scrollIntoView({
-                behavior: "smooth",
-                inline: "center",
-                block: "nearest"
+        const el = itemRefs.current[selectedItem?.id];
+        const container = scrollContainer.current;
+        if (el && container) {
+            const elLeft = el.offsetLeft;
+            const elWidth = el.offsetWidth;
+            const containerWidth = container.offsetWidth;
+            container.scrollTo({
+                left: elLeft - containerWidth / 2 + elWidth / 2,
+                behavior: "smooth"
             });
         }
 

@@ -50,6 +50,6 @@ export default defineConfig({
     setupFiles: "./tests/setup.js"
   },
   server: {
-    allowedHosts: ['geographical-allowance-kent-actual.trycloudflare.com']
+    allowedHosts: ['chose-nokia-publisher-identity.trycloudflare.com']
   }
 })

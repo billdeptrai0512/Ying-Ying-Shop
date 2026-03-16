@@ -55,9 +55,9 @@ section p {
 
 .sizeContainer {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: flex-start;
-    gap: 2.5rem;
+    gap: 1rem;
     /* position: absolute;  */
 }
 
@@ -217,8 +217,7 @@ section p {
     .sizeContainer {
         display: flex;
         flex-direction: row;
-        align-items: flex-start;
-        gap: 2.5rem;
+        gap: 1.5rem;
         /* Space between size options and measurements */
         position: absolute;
         /* Ensure proper positioning for child elements */

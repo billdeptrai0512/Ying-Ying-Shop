@@ -16,7 +16,13 @@ export default function Demo() {
   const [spinning, setSpinning] = useState(false);
 
   useEffect(() => {
+    handleRandomFavoriteOutfit()
+  }, [])
+
+  useEffect(() => {
+
     if (outFit) setFilled(false);
+
   }, [outFit]);
 
   const selectedOutfitImages = useMemo(() => {
@@ -72,6 +78,7 @@ export default function Demo() {
     } catch (err) {
       console.error("get random favorite failed:", err);
     } finally {
+      setSpinning(false);
       googleTrackingRollADices();
     }
   };
