@@ -14,13 +14,13 @@ export default function PlaceOrder() {
 
     const pickOutFit = (index) => setSelectedOutFit(index)
 
-    const isMobile = useMediaQuery({ query: '(max-width: 1000px)'})
-              {/* <div className={styles.body}> 
+    const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
+    {/* <div className={styles.body}> 
         <Outlet />
       </div> */}
     if (isMobile) {
         return (
-            <div className={styles.body}>  
+            <div className={styles.body}>
                 <section className={styles.main}>
                     <FormPlaceOrder formId={"placeOrderForm"} />
                 </section>
@@ -29,8 +29,8 @@ export default function PlaceOrder() {
                 </section>
                 <section className={styles.checkout}>
                     <div className={styles.submit}>
-                        <Total /> 
-                        <button className={styles.back} onClick={() => navigate(isMobile ? '/cart' : '/')}>TRỞ VỀ</button> 
+                        <Total />
+                        <button className={styles.back} onClick={() => navigate(isMobile ? '/cart' : '/')}>TRỞ VỀ</button>
                         <button className={styles.cta} type="submit" form="placeOrderForm">THANH TOÁN</button>
                     </div>
                 </section>
@@ -40,14 +40,14 @@ export default function PlaceOrder() {
 
     return (
         <div className={styles.body}>
-            <section className={styles.primary} style={{gridColumn: "1", position: "absolute", minWidth: "unset"}}>
-                <Outfit pickOutFit={pickOutFit}/>
+            <section className={styles.primary} style={{ gridColumn: "1", position: "absolute", minWidth: "unset" }}>
+                <Outfit pickOutFit={pickOutFit} />
             </section>
-            <section className={styles.checkout} style={{gridRow: "1/8"}}>
-                <FormPlaceOrder formId={"placeOrderForm"}/>
-                <div className={styles.submit} style={{padding: "1em 1.6em"}}>
+            <section className={styles.checkout} style={{ gridRow: "1/8" }}>
+                <FormPlaceOrder formId={"placeOrderForm"} />
+                <div className={styles.submit} style={{ padding: "1em 1.6em" }}>
                     <Total />
-                    <button className={styles.back} onClick={() => navigate('/cart')}>TRỞ VỀ</button> 
+                    <button className={styles.back} onClick={() => navigate('/cart')}>TRỞ VỀ</button>
                     <button className={styles.cta} type="submit" form="placeOrderForm">THANH TOÁN</button>
                 </div>
             </section>
