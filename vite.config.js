@@ -50,6 +50,6 @@ export default defineConfig({
     setupFiles: "./tests/setup.js"
   },
   server: {
-    allowedHosts: ['chose-nokia-publisher-identity.trycloudflare.com']
+    allowedHosts: ['warcraft-older-cases-academic.trycloudflare.com']
   }
 })

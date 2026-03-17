@@ -172,9 +172,11 @@ function googleTrackingRollADices() {
   count++;
   sessionStorage.setItem("randomOutFit", count);
 
-  window.gtag("event", "roll a dices", {
-    event_category: "Button",
-    event_label: "Random Outfit",
-    click_count: count,
-  });
+  if (typeof window.gtag === "function") {
+    window.gtag("event", "roll a dices", {
+      event_category: "Button",
+      event_label: "Random Outfit",
+      click_count: count,
+    });
+  }
 }
