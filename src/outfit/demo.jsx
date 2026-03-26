@@ -73,13 +73,22 @@ export default function Demo() {
   const handleRandomFavoriteOutfit = async () => {
     setSpinning(true);
     try {
+      console.log("Fetching random favorite outfit...");
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/favorite/random`);
+      console.log("Random outfit response:", response.data);
       setOutFit(response.data.outfit);
     } catch (err) {
-      console.error("get random favorite failed:", err);
+      console.error("fetch /favorite/random failed:", err);
+      if (err.response) {
+        console.error("Server responded with:", err.response.status, err.response.data);
+      }
     } finally {
       setSpinning(false);
-      googleTrackingRollADices();
+      try {
+        googleTrackingRollADices();
+      } catch (e) {
+        console.error("google tracking failed", e);
+      }
     }
   };
 

@@ -64,10 +64,20 @@ export default function EditItem({ selectedItem, setReset, setSelectedItem }) {
 
         const { name, value } = e.target;
 
-        setItemInformation(prev => ({
-            ...prev,
-            [name]: value
-        }));
+        if (name === 'type') {
+            const type = value.split('-')[0];
+            const z_index = value.split('-')[1];
+            setItemInformation(prev => ({
+                ...prev,
+                [name]: type,
+                z_index: z_index
+            }));
+        } else {
+            setItemInformation(prev => ({
+                ...prev,
+                [name]: value
+            }));
+        }
     };
 
     useEffect(() => {
@@ -217,6 +227,16 @@ export default function EditItem({ selectedItem, setReset, setSelectedItem }) {
                 }}
             >
                 <div style={{ display: "flex", gap: "8px", flexDirection: "column", minWidth: 0 }}>
+                    <label style={{ whiteSpace: "nowrap" }}>Tên</label>
+                    <input
+                        type="text"
+                        name="name"
+                        value={itemInformation.name}
+                        onChange={handleChange}
+                        style={{ width: "50%", minWidth: 0 }}
+                    />
+                </div>
+                <div style={{ display: "flex", gap: "8px", flexDirection: "column", minWidth: 0 }}>
                     <label style={{ whiteSpace: "nowrap" }}>Giá tiền</label>
                     <input
                         type="text"
@@ -237,6 +257,16 @@ export default function EditItem({ selectedItem, setReset, setSelectedItem }) {
                         style={{ width: "50%", minWidth: 0 }}
                     />
                 </div>
+                <div style={{ display: "flex", gap: "8px", flexDirection: "column", minWidth: 0 }}>
+                    <label style={{ whiteSpace: "nowrap" }}>Z-index</label>
+                    <input
+                        type="number"
+                        name="z_index"
+                        value={itemInformation.z_index}
+                        onChange={handleChange}
+                        style={{ width: "50%", minWidth: 0 }}
+                    />
+                </div>
             </div>
 
             {['bow', 'tie', 'bag'].includes(itemInformation.type) && (
@@ -244,7 +274,7 @@ export default function EditItem({ selectedItem, setReset, setSelectedItem }) {
                     <label htmlFor="image">Loại</label>
                     <select name="type" style={{ width: "fit-content", whiteSpace: "wrap" }} value={itemInformation.type + "-" + itemInformation.z_index} onChange={handleChange}>
                         <option value="bow-5">Bow</option>
-                        <option value="tie-3">Tie</option>
+                        <option value="tie-5">Tie</option>
                         <option value="bag-6">Bag</option>
                     </select>
                 </>

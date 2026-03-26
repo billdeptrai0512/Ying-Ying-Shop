@@ -134,7 +134,7 @@ export default function CreateItem({ folderId, setReset, setIsCreating }) {
                     <label htmlFor="image">Loại</label>
                     <select name="type" value={itemInformation.type + "-" + itemInformation.z_index} onChange={handleChange}>
                         <option value="bow-5">Bow</option>
-                        <option value="tie-3">Tie</option>
+                        <option value="tie-5">Tie</option>
                         <option value="bag-6">Bag</option>
                     </select>
                 </>

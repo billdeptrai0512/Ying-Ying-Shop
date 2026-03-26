@@ -50,6 +50,6 @@ export default defineConfig({
     setupFiles: "./tests/setup.js"
   },
   server: {
-    allowedHosts: ['warcraft-older-cases-academic.trycloudflare.com']
+    allowedHosts: ['prior-molecules-kong-liberty.trycloudflare.com']
   }
 })
