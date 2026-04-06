@@ -19,7 +19,7 @@ export default function Order() {
     const fetchOrder = async () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/order`);
-        const sorted = response.data.sort((a, b) => new Date(a.date) - new Date(b.date));
+        const sorted = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
         setListOrder(sorted);
       } catch (err) {
         console.error("fetch order:", err);
