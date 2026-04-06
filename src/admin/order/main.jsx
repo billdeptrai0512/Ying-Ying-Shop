@@ -7,9 +7,9 @@ import Profit from "./profit";
 import ListOrder from "./listOrder";
 
 export default function Order() {
-  const [monthYear, setMonthYear] = useState(getCurrentMonthYear());
+  const [monthYear, setMonthYear] = useState("");
   const [listOrder, setListOrder] = useState([]);
-  const [status, setStatus] = useState("unpaid");
+  const [status, setStatus] = useState("paid");
   const [filter, setFilter] = useState("");
   const [searchId, setSearchId] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -62,20 +62,18 @@ export default function Order() {
   }, [filteredOrder]);
 
   const handleResetFilters = () => {
-    setMonthYear(getCurrentMonthYear());
-    setStatus("unpaid");
+    setMonthYear("");
+    setStatus("paid");
     setFilter("");
     setSearchId("");
   };
 
-  const hasActiveFilters = monthYear !== getCurrentMonthYear() || status !== "unpaid" || filter !== "" || searchId !== "";
+  const hasActiveFilters = monthYear !== "" || status !== "paid" || filter !== "" || searchId !== "";
 
   return (
     <div className={styles.body}>
       <div className={styles.sectionBoard}>
-        {/* Enhanced Filter Section */}
         <div className={styles.filterWrapper}>
-          {/* Date Filter */}
           <div className={styles.filterGroup}>
             <Calendar size={18} />
             <select

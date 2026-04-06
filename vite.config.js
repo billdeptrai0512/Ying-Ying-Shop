@@ -50,6 +50,6 @@ export default defineConfig({
     setupFiles: "./tests/setup.js"
   },
   server: {
-    allowedHosts: ['prior-molecules-kong-liberty.trycloudflare.com']
+    allowedHosts: ['kong-enrollment-publication-fine.trycloudflare.com']
   }
 })
