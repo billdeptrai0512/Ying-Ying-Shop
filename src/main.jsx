@@ -3,8 +3,6 @@ import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Analytics } from '@vercel/analytics/react';
 
-sessionStorage.clear();
-
 // Customer path: eager — this is the first paint for shoppers.
 import MainPage from "./mainpage/main.jsx"
 import ErrorPage from './public/error-page.jsx';
