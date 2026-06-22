@@ -24,6 +24,13 @@ export default function FormPlaceOrder({ formId }) {
         e.preventDefault();
         setErrors([]); // Clear previous errors
 
+        // Validate at the boundary before hitting the backend (which also validates).
+        const clientErrors = validateOrder(formData, cart);
+        if (clientErrors.length > 0) {
+            setErrors(clientErrors);
+            return;
+        }
+
         const data = new FormData();
 
         data.append('date', formData.date);
@@ -99,6 +106,37 @@ export default function FormPlaceOrder({ formId }) {
             </div>
         </form>
     )
+}
+
+// Client-side order validation. Returns express-validator-shaped errors
+// ({ path, msg }) so the existing per-field error display renders them.
+// eslint-disable-next-line react-refresh/only-export-components
+export function validateOrder(formData, cart) {
+    const errors = [];
+    const { date, month, year, name, phone, address } = formData;
+
+    if (!date || !month || !year) {
+        errors.push({ path: "date", msg: "Vui lòng nhập đầy đủ ngày, tháng, năm thuê." });
+    } else {
+        const d = Number(date), m = Number(month), y = Number(year);
+        const dt = new Date(y, m - 1, d);
+        const realDate = dt.getFullYear() === y && dt.getMonth() === m - 1 && dt.getDate() === d;
+        if (!realDate) errors.push({ path: "date", msg: "Ngày thuê không hợp lệ." });
+    }
+
+    if (!name?.trim()) errors.push({ path: "name", msg: "Vui lòng nhập tên." });
+
+    if (!/^\d{9,11}$/.test(String(phone))) {
+        errors.push({ path: "phone", msg: "Số điện thoại không hợp lệ (9–11 chữ số)." });
+    }
+
+    if (!address?.trim()) errors.push({ path: "address", msg: "Vui lòng nhập địa chỉ." });
+
+    if (!cart || cart.length === 0) {
+        errors.push({ path: "name", msg: "Giỏ hàng đang trống." });
+    }
+
+    return errors;
 }
 
 function getAllItem(cart) {
