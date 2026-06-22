@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Analytics } from '@vercel/analytics/react';
+import './public/axiosAuth';
 
 // Single Query client for all server-state. staleTime + no focus-refetch keep
 // behaviour close to the previous fetch-once-on-mount contexts.
