@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import styles from "./order.module.css"
+import { formatCurrency } from "../../public/money";
 import DeleteOrder from "./delete-order";
 import UpdateStatusOrder from "./update-order";
 
@@ -77,7 +78,7 @@ export default function ListOrder({ filterOrder, selectedOrder, setSelectedOrder
 
                         <span className={styles.label}>Tổng tiền:</span>
                         <span style={{ fontWeight: 600, color: '#E3C4C1' }}>
-                            {order.total ? `${order.total.toLocaleString()}₫` : "N/A"}
+                            {order.total ? formatCurrency(order.total) : "N/A"}
                         </span>
 
                         {order.paid_status === true && (

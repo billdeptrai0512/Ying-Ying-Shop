@@ -2,6 +2,7 @@
 import { useEffect, useState, useMemo } from "react"
 import axios from "axios";
 import styles from "./order.module.css"
+import { formatCurrency } from "../../public/money";
 import Expense from "./expense";
 
 export default function Static({ status, statusOrder, monthYear }) {
@@ -120,7 +121,7 @@ const renderTotalRevenue = (statusGroups, totalExpense) => {
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span className={styles.statusLabel}>Tổng lợi nhuận:</span>
-                <span className={styles.statusLabel}>{totalRevenue.toLocaleString()}đ</span>
+                <span className={styles.statusLabel}>{formatCurrency(totalRevenue)}</span>
             </div>
         </>
 
@@ -146,7 +147,7 @@ const renderExpectProfit = (statusOrder) => {
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span className={styles.statusLabel}>Doanh thu dự kiến:</span>
-                <span className={styles.statusLabel}>{totalPreRevenue.toLocaleString()}đ</span>
+                <span className={styles.statusLabel}>{formatCurrency(totalPreRevenue)}</span>
             </div>
         </>
     )

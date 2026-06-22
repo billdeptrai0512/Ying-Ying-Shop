@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { formatCurrency } from "../../../public/money";
 import styles from "../inventory.module.css"
 export default function CreateItem({ folderId, setReset, setIsCreating }) {
 
@@ -152,7 +153,7 @@ export default function CreateItem({ folderId, setReset, setIsCreating }) {
                 }}
                 onBlur={(e) => {
                     // Format the value when the input loses focus
-                    const formattedValue = itemInformation.total ? `${Number(itemInformation.total).toLocaleString()}đ` : '';
+                    const formattedValue = itemInformation.total ? formatCurrency(itemInformation.total) : '';
                     e.target.value = formattedValue;
                 }}
                 onFocus={(e) => {

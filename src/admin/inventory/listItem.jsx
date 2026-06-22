@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import styles from "./inventory.module.css";
+import { formatCurrency } from "../../public/money";
 import axios from "axios";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
@@ -113,7 +114,7 @@ export default function ListItem({ id, selectedItem, setSelectedItem }) {
             />
             <div>
                 <p className={styles.itemSize}>{item.name}</p>
-                <p className={styles.itemId}>Giá: {Number(item.total).toLocaleString()}đ</p>
+                <p className={styles.itemId}>Giá: {formatCurrency(item.total)}</p>
                 <p className={styles.itemId}>Số lượng: {item.amount}</p>
                 <p className={styles.itemId}>
                     Sizes: {Array.isArray(item.sizes)

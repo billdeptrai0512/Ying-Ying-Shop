@@ -3,6 +3,7 @@ import { ChevronDown , ChevronUp , CirclePlus, CircleMinus, CircleX  } from "luc
 import { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./order.module.css"
+import { formatCurrency } from "../../public/money";
 import CreateExpense from "./form/createExpense";
 import EditExpense from "./form/editExpense";
 
@@ -81,7 +82,7 @@ export default function Expense({allExpense, totalExpense, reset, setReset}) {
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span className={styles.statusLabel}>Tổng chi phí:</span>
-                <span className={styles.statusLabel}>{totalExpense.toLocaleString()}đ</span>
+                <span className={styles.statusLabel}>{formatCurrency(totalExpense)}</span>
             </div>  
         </>
     )
@@ -107,7 +108,7 @@ const renderExpenseList = (expenses, setShowEditModal, setSelectedExpense, handl
                             {formatDateToDDMM(expense.date)} | {expense.name}</span>
                             
                         <span className={styles.statusLabel}>
-                            {expense.total ? expense.total.toLocaleString() + "đ" : "-"}
+                            {expense.total ? formatCurrency(expense.total) : "-"}
                         </span>
                     </div>
                 </li>

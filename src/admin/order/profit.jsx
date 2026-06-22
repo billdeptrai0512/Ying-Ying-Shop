@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from "react"
 import axios from "axios";
 import { ShoppingBag, TrendingUp, CheckCircle, Wallet, AlertCircle } from "lucide-react";
 import Expense from "../static/expense";
+import { formatCurrency } from "../../public/money";
 import styles from "./order.module.css"
 
 export default function Profit({ status, listOrder, monthYear }) {
@@ -140,7 +141,7 @@ const StatCards = ({ listOrder, statusGroups, totalExpense, showProfit }) => {
                     </div>
                     <span className={styles.statLabel}>Doanh thu dự kiến</span>
                 </div>
-                <span className={styles.statValue}>{totalRevenue.toLocaleString()}₫</span>
+                <span className={styles.statValue}>{formatCurrency(totalRevenue)}</span>
             </div>
 
             {showProfit && (
@@ -164,7 +165,7 @@ const StatCards = ({ listOrder, statusGroups, totalExpense, showProfit }) => {
                             </div>
                             <span className={styles.statLabel}>Lợi nhuận</span>
                         </div>
-                        <span className={styles.statValue}>{netProfit.toLocaleString()}₫</span>
+                        <span className={styles.statValue}>{formatCurrency(netProfit)}</span>
                     </div>
                 </>
             )}
