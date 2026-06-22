@@ -1,7 +1,16 @@
 import { StrictMode, Suspense, lazy, createElement } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Analytics } from '@vercel/analytics/react';
+
+// Single Query client for all server-state. staleTime + no focus-refetch keep
+// behaviour close to the previous fetch-once-on-mount contexts.
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: { staleTime: 5 * 60 * 1000, refetchOnWindowFocus: false },
+  },
+});
 
 // Customer path: eager — this is the first paint for shoppers.
 import MainPage from "./mainpage/main.jsx"
@@ -127,18 +136,20 @@ export default function App() {
 
   return (
 
-    <AuthProvider>
-      <WebSocketProvider>
-        <InventoryProvider>
-          <OutfitProvider>
-            <CartProvider>
-              <RouterProvider router={router} />
-              <Analytics />
-            </CartProvider>
-          </OutfitProvider>
-        </InventoryProvider>
-      </WebSocketProvider>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <WebSocketProvider>
+          <InventoryProvider>
+            <OutfitProvider>
+              <CartProvider>
+                <RouterProvider router={router} />
+                <Analytics />
+              </CartProvider>
+            </OutfitProvider>
+          </InventoryProvider>
+        </WebSocketProvider>
+      </AuthProvider>
+    </QueryClientProvider>
 
   );
 }

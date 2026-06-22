@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useFolder } from '../../../public/inventoryContext';
+import { useInventory } from '../../../public/inventoryContext';
 import { Link } from 'react-router-dom';
 import styles from "../inventory.module.css"
 
 
 export default function CreateFolder() {
 
-    const { refreshFolders } = useFolder()
+    const { refreshFolders } = useInventory()
     const navigate = useNavigate()
 
     const [folderData, setFolderData] = useState({
