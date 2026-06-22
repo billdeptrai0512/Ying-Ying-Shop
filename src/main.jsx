@@ -1,25 +1,31 @@
-import { StrictMode } from 'react'
+import { StrictMode, Suspense, lazy, createElement } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Analytics } from '@vercel/analytics/react';
 
 sessionStorage.clear();
 
+// Customer path: eager — this is the first paint for shoppers.
 import MainPage from "./mainpage/main.jsx"
 import ErrorPage from './public/error-page.jsx';
 import Cart from './cart/main.jsx';
-import Admin from './admin/main.jsx';
-import Login from './admin/login.jsx';
-import Order from './admin/order/main.jsx';
-import Inventory from './admin/inventory/main.jsx';
 import Outfit from './outfit/main.jsx';
 import ConfirmOrder from './cart/confirmOrder.jsx';
 import PlaceOrder from './cart/placeOrder.jsx';
 import CheckOut from './checkout/main.jsx';
-import UpdateMeasurements from './admin/inventory/form/update-measurement.jsx';
-import EditItem from './admin/inventory/form/edit-item.jsx';
-import CreateItem from './admin/inventory/form/create-item.jsx';
-import DeleteFile from './admin/inventory/form/delete-item.jsx';
+
+// Back-office path: lazy — shoppers never download the admin bundle.
+const Admin = lazy(() => import('./admin/main.jsx'));
+const Login = lazy(() => import('./admin/login.jsx'));
+const Order = lazy(() => import('./admin/order/main.jsx'));
+const Inventory = lazy(() => import('./admin/inventory/main.jsx'));
+const Favorite = lazy(() => import('./admin/favorite/main.jsx'));
+const Profit = lazy(() => import('./admin/static/main.jsx'));
+const UpdateMeasurements = lazy(() => import('./admin/inventory/form/update-measurement.jsx'));
+const EditItem = lazy(() => import('./admin/inventory/form/edit-item.jsx'));
+const CreateItem = lazy(() => import('./admin/inventory/form/create-item.jsx'));
+const DeleteFile = lazy(() => import('./admin/inventory/form/delete-item.jsx'));
+
 import { InventoryProvider } from './public/inventoryContext.jsx';
 import { CartProvider } from './public/cartContext.jsx';
 import { AuthProvider } from './public/authContext.jsx'
@@ -27,15 +33,20 @@ import { WebSocketProvider } from './public/webSocket.jsx';
 import { OutfitProvider } from './public/outfitContext.jsx';
 
 import './index.css'
-import Favorite from './admin/favorite/main.jsx';
 
 import { registerSW } from 'virtual:pwa-register'
-import Profit from './admin/static/main.jsx';
 
 registerSW({
   onNeedRefresh() {},
   onOfflineReady() {},
 })
+
+// Wrap a lazy element in a Suspense boundary so the chunk can load.
+const lazyEl = (C) => (
+  <Suspense fallback={<div className="route-loading" />}>
+    {createElement(C)}
+  </Suspense>
+);
 
 
 export default function App() {
@@ -70,43 +81,43 @@ export default function App() {
         },
         {
           path: "/login",
-          element: <Login />,
+          element: lazyEl(Login),
         },
         {
           path: "admin",
-          element: <Admin />,
+          element: lazyEl(Admin),
           children: [
             {
               path: "favorite",
-              element: <Favorite />,
+              element: lazyEl(Favorite),
             },
             {
               path: "order",
-              element: <Order />,
+              element: lazyEl(Order),
             },
             {
               path: "static",
-              element: <Profit />,
+              element: lazyEl(Profit),
             },
             {
               path: "inventory",
-              element: <Inventory />,
+              element: lazyEl(Inventory),
               children: [
                 {
                   path: "",
-                  element: <UpdateMeasurements />,
+                  element: lazyEl(UpdateMeasurements),
                 },
                 {
                   path: "create/:folderId",
-                  element: <CreateItem />,
+                  element: lazyEl(CreateItem),
                 },
                 {
                   path: "edit/:itemId",
-                  element: <EditItem />,
+                  element: lazyEl(EditItem),
                 },
                 {
                   path: "delete/:itemId",
-                  element: <DeleteFile />,
+                  element: lazyEl(DeleteFile),
                 },
               ]
             },
@@ -139,7 +150,3 @@ createRoot(document.getElementById('root')).render(
     <App />
   </StrictMode>,
 )
-
-
-
-

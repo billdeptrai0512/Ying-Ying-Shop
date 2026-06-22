@@ -1,118 +1,51 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render } from '@testing-library/react';
-import userEvent from "@testing-library/user-event";
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
-import Item from './item';
+import ListItem from './item';
+import { OutfitProvider } from '../public/outfitContext';
 
-describe("Item component", () => {
+// ListItem renders one clickable image per inventory item and reads/writes
+// the picked item through OutfitProvider, so it must run inside the provider.
 
-    const top = {
-        type: "top",
-        name: "Áo sơ mi / Sailor",
-        inventory: [
-            {
-                id: 1,
-                image: "A",
-                amount: 10,
-                size: ["S", "M", "L", "XL"]
-            },
-            {
-                id: 2,
-                image: "B",
-                amount: 20,
-                size: ["S", "XL"]
-            },
-            {
-                id: 3,
-                image: "C",
-                amount: 15,
-                size: ["M", "L", "XL"]
-            },
-            {
-                id: 4,
-                image: "D",
-                amount: 15,
-                size: ["M", "XXL", "XL"]
-            },
-            {
-                id: 5,
-                image: "E",
-                amount: 15,
-                size: ["S", "M", "XL"]
-            },
-        ]
-    } 
+const inventory = [
+    { id: 1, displayID: 1, image: 'A', name: 'a', total: 50000, type: 'top' },
+    { id: 2, displayID: 2, image: 'B', name: 'b', total: 60000, type: 'top' },
+    { id: 3, displayID: 3, image: 'C', name: 'c', total: 70000, type: 'top' },
+];
 
-    const UpdateOutFit = vi.fn()
-    const UpdateSize = vi.fn()
-    it("render all image in the inventory", () => {
+const renderList = () =>
+    render(
+        <ListItem inventory={inventory} section="top" itemRefs={{ current: {} }} />,
+        { wrapper: ({ children }) => <OutfitProvider>{children}</OutfitProvider> }
+    );
 
-        render(<Item props={top} UpdateOutFit={UpdateOutFit} UpdateSize={UpdateSize}/>);
+describe('ListItem', () => {
 
-        const imageContainer = document.querySelector('div._image_95376f')
-        expect(imageContainer.children.length).toBe(top.inventory.length)
-
+    it('renders one image per inventory item', () => {
+        renderList();
+        expect(screen.getAllByRole('img')).toHaveLength(inventory.length);
     });
 
-    it("reder amount + size when user click the image", async () => {
+    it('marks an item selected when clicked', async () => {
+        const user = userEvent.setup();
+        renderList();
 
-        render(<Item props={top} UpdateOutFit={UpdateOutFit} UpdateSize={UpdateSize}/>);
+        // each item image sits inside its own clickable div
+        await user.click(screen.getByAltText('a').parentElement);
 
-        const user = userEvent.setup()
-        const imageContainer = document.querySelector('div._image_95376f')
-        const image = imageContainer.children[0]
-        
-        await user.click(image)
-
-        const sizeContainer = document.querySelector('div._options_95376f')
-        const amountContainer = document.querySelector('._amount_95376f')
-
-        expect(amountContainer.textContent).toBe(`Số lượng: ${top.inventory[0].amount}`)
-        expect(sizeContainer.children.length).toBe(top.inventory[0].size.length)
-
-
+        // selection overlays a "selected" cover image
+        expect(screen.getByAltText('selectedItem')).toBeInTheDocument();
     });
 
-    it("unmounted amount + size when user click image twice ", async () => {
+    it('deselects when the same item is clicked twice', async () => {
+        const user = userEvent.setup();
+        renderList();
 
-        render(<Item props={top} UpdateOutFit={UpdateOutFit} UpdateSize={UpdateSize}/>);
+        const tile = screen.getByAltText('a').parentElement;
+        await user.click(tile);
+        await user.click(tile);
 
-        const user = userEvent.setup()
-        const imageContainer = document.querySelector('div._image_95376f')
-        const image = imageContainer.children[0]
-        
-        await user.click(image)
-
-        const sizeContainer = document.querySelector('div._options_95376f')
-        const amountContainer = document.querySelector('._amount_95376f')
-
-        await user.click(image)
-
-        expect(amountContainer).not.toBeInTheDocument()
-        expect(sizeContainer).not.toBeInTheDocument()
-
-
+        expect(screen.queryByAltText('selectedItem')).not.toBeInTheDocument();
     });
-
-    it("reder amount + size again when user click other image", async () => {
-
-        render(<Item props={top} UpdateOutFit={UpdateOutFit} UpdateSize={UpdateSize}/>);
-
-        const user = userEvent.setup()
-        const imageContainer = document.querySelector('div._image_95376f')
-        const image1 = imageContainer.children[0]
-        const image2 = imageContainer.children[2]
-        
-        await user.click(image1)
-        await user.click(image2)
-
-        const sizeContainer = document.querySelector('div._options_95376f')
-        const amountContainer = document.querySelector('._amount_95376f')
-
-        expect(amountContainer.textContent).toBe(`Số lượng: ${top.inventory[2].amount}`)
-        expect(sizeContainer.children.length).toBe(top.inventory[2].size.length)
-
-
-    });
-
-  });
+});

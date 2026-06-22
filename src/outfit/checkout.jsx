@@ -6,6 +6,7 @@ import { useSpring, animated } from "@react-spring/web";
 import { useCart } from "../public/cartContext";
 import { useNavigate } from "react-router-dom";
 import { useOutfit } from "../public/outfitContext";
+import { formatCurrency } from "../public/money";
 import { ShoppingCart } from 'lucide-react';
 
 export default function CheckOut() {
@@ -101,11 +102,6 @@ const renderButtonAddToCart = (addToCart, numberOfCart, outFit) => {
         </button>
     )
 }
-
-const formatCurrency = (value) => {
-    const intValue = Math.floor(value);
-    return intValue.toString().replace(/\d{1,3}(?=(\d{3})+(?!\d))/g, "$&,") + "đ";
-};
 
 const isOutfitEmpty = (outFit) => {
     // Check if all keys (except "total") have null or empty values

@@ -32,18 +32,6 @@ export default defineConfig({
       }
     })
   ],
-  workbox: {
-    runtimeCaching: [
-      {
-        // This matches your backend API URL
-        urlPattern: ({ url }) => url.pathname.startsWith('/inventory') || url.href.includes(import.meta.env.VITE_BACKEND_URL),
-        handler: 'NetworkOnly',
-        options: {
-          cacheName: 'api-cache',
-        }
-      }
-    ]
-  },
   test: {
     globals: true,
     environment: 'jsdom',

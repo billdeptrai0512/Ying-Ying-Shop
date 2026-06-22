@@ -1,24 +1,29 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-// import userEvent from "@testing-library/user-event";
+import { MemoryRouter } from 'react-router-dom';
 
-import Header from './Header';
+import Header from './main';
+import { AuthProvider } from '../public/authContext';
 
-describe("Header component", () => {
-    it("render title = YING YING COSPLAY SHOP", () => {
+// Header's banner links home and Path reads useAuth, so it needs a router + auth.
+const renderHeader = () =>
+    render(
+        <MemoryRouter>
+            <AuthProvider>
+                <Header />
+            </AuthProvider>
+        </MemoryRouter>
+    );
 
-      render(<Header />);
+describe('Header', () => {
 
-      expect(screen.getByRole("heading").textContent).toBe("YING YING COSPLAY SHOP")
-      
+    it('shows the shop name', () => {
+        renderHeader();
+        expect(screen.getByRole('link', { name: /YING YING COSPLAY SHOP/ })).toBeInTheDocument();
     });
 
-    it("activities = Tự phối seifuku theo style của bạn! ❤", () => {
-
-        render(<Header />);
-  
-        expect(screen.getByText('Tự phối seifuku theo style của bạn! ❤')).toBeInTheDocument()
-        
-      });
-
-  });
+    it('shows the tagline', () => {
+        renderHeader();
+        expect(screen.getByText(/Tự phối seifuku theo style của bạn!/)).toBeInTheDocument();
+    });
+});
