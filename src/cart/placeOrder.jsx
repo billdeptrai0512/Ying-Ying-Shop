@@ -11,6 +11,7 @@ export default function PlaceOrder() {
     const navigate = useNavigate()
 
     const [, setSelectedOutFit] = useState(0)
+    const [submitting, setSubmitting] = useState(false)
 
     const pickOutFit = (index) => setSelectedOutFit(index)
 
@@ -22,7 +23,7 @@ export default function PlaceOrder() {
         return (
             <div className={styles.body}>
                 <section className={styles.main}>
-                    <FormPlaceOrder formId={"placeOrderForm"} />
+                    <FormPlaceOrder formId={"placeOrderForm"} setSubmitting={setSubmitting} />
                 </section>
                 <section className={styles.primary}>
                     <Outfit pickOutFit={pickOutFit} />
@@ -31,7 +32,7 @@ export default function PlaceOrder() {
                     <div className={styles.submit}>
                         <Total />
                         <button className={styles.back} onClick={() => navigate(isMobile ? '/cart' : '/')}>TRỞ VỀ</button>
-                        <button className={styles.cta} type="submit" form="placeOrderForm">THANH TOÁN</button>
+                        <button className={styles.cta} type="submit" form="placeOrderForm" disabled={submitting}>{submitting ? "ĐANG XỬ LÝ..." : "THANH TOÁN"}</button>
                     </div>
                 </section>
             </div>
@@ -44,11 +45,11 @@ export default function PlaceOrder() {
                 <Outfit pickOutFit={pickOutFit} />
             </section>
             <section className={styles.checkout} style={{ gridRow: "1/8" }}>
-                <FormPlaceOrder formId={"placeOrderForm"} />
+                <FormPlaceOrder formId={"placeOrderForm"} setSubmitting={setSubmitting} />
                 <div className={styles.submit} style={{ padding: "1em 1.6em" }}>
                     <Total />
                     <button className={styles.back} onClick={() => navigate('/cart')}>TRỞ VỀ</button>
-                    <button className={styles.cta} type="submit" form="placeOrderForm">THANH TOÁN</button>
+                    <button className={styles.cta} type="submit" form="placeOrderForm" disabled={submitting}>{submitting ? "ĐANG XỬ LÝ..." : "THANH TOÁN"}</button>
                 </div>
             </section>
         </div>
