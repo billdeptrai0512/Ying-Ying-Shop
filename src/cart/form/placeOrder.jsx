@@ -1,15 +1,23 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../public/cartContext";
 import styles from "../cart.module.css"
 import axios from "axios";
 
-export default function FormPlaceOrder({ formId }) {
+export default function FormPlaceOrder({ formId, setSubmitting }) {
 
     const { cart } = useCart()
     const navigate = useNavigate()
 
+    const topRef = useRef(null)
     const [errors, setErrors] = useState([]); // State to store validation errors
+
+    // Surface errors where the user is looking: the submit button lives in a
+    // separate section, so scroll the form's notice into view on failure.
+    const showErrors = (errs) => {
+        setErrors(errs);
+        topRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    };
     const [formData, setFormData] = useState({
         date: '',
         month: '',
@@ -27,9 +35,11 @@ export default function FormPlaceOrder({ formId }) {
         // Validate at the boundary before hitting the backend (which also validates).
         const clientErrors = validateOrder(formData, cart);
         if (clientErrors.length > 0) {
-            setErrors(clientErrors);
+            showErrors(clientErrors);
             return;
         }
+
+        setSubmitting(true);
 
         const data = new FormData();
 
@@ -54,11 +64,13 @@ export default function FormPlaceOrder({ formId }) {
 
         } catch (err) {
             if (err.response && err.response.status === 400) {
-                setErrors(err.response.data.errors); // Set validation errors from the backend
-                console.log(err.response.data.errors);
+                showErrors(err.response.data.errors); // Set validation errors from the backend
             } else {
                 console.error("Upload failed", err);
+                showErrors([{ path: "name", msg: "Tạo đơn thất bại, vui lòng thử lại." }]);
             }
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -76,6 +88,9 @@ export default function FormPlaceOrder({ formId }) {
     return (
         <form id={formId} className={styles.form} onSubmit={handleSubmit}  >
             <div className={styles.details}>
+                <p ref={topRef} className={styles.error} style={{ display: errors.length ? "block" : "none" }}>
+                    Vui lòng kiểm tra lại thông tin đơn hàng.
+                </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     <label htmlFor="date">Chọn ngày thuê:</label>
                     <div className={styles.date}>
