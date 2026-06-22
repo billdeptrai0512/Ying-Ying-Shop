@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate } from "react-router-dom";
-import styles from "./Cart.module.css"
+import styles from "./cart.module.css"
 import FormPlaceOrder from "./form/placeOrder";
 import Outfit from "./Outfit";
 import Total from "./Total";

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../public/cartContext";
-import styles from "../Cart.module.css"
+import styles from "../cart.module.css"
 import axios from "axios";
 
 export default function FormPlaceOrder({ formId }) {

@@ -1,6 +1,6 @@
 import { useCart } from "../public/cartContext";
 import OutfitLayers from "../public/outfitLayers";
-import styles from "./Cart.module.css"
+import styles from "./cart.module.css"
 import watermark from "./../assets/wtm.png"
 
 export default function Demo({ selectedOutFit }) {

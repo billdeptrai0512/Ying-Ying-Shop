@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
-import styles from "./Cart.module.css"
+import styles from "./cart.module.css"
 import Outfit from "./Outfit";
 import Total from "./Total";
 import Demo from "./Demo";
@@ -15,23 +15,23 @@ export default function ConfirmOrder() {
 
     const navigate = useNavigate()
 
-    const isDeskop = useMediaQuery({ query: '(min-width: 1400px)'})
+    const isDeskop = useMediaQuery({ query: '(min-width: 1400px)' })
 
     if (isDeskop) {
         return (
             <div className={styles.body}>
                 <section className={styles.main}>
-                   <Demo selectedOutFit={selectedOutFit} />
+                    <Demo selectedOutFit={selectedOutFit} />
                 </section>
                 <section className={styles.primary}>
-                    <Outfit pickOutFit={pickOutFit}/>
+                    <Outfit pickOutFit={pickOutFit} />
                 </section>
                 <section className={styles.checkout}>
                     <FormPlaceOrder formId={"placeOrderForm"} />
                     <div className={styles.submit}>
                         <Total />
-                        <button className={styles.back} onClick={() => navigate('/')}>TRỞ VỀ</button> 
-                        <button className={styles.cta} type="submit" form="placeOrderForm">THANH TOÁN</button> 
+                        <button className={styles.back} onClick={() => navigate('/')}>TRỞ VỀ</button>
+                        <button className={styles.cta} type="submit" form="placeOrderForm">THANH TOÁN</button>
                     </div>
                 </section>
             </div>
@@ -44,13 +44,13 @@ export default function ConfirmOrder() {
                 <Demo selectedOutFit={selectedOutFit} />
             </section>
             <section className={styles.primary}>
-                <Outfit pickOutFit={pickOutFit}/>
+                <Outfit pickOutFit={pickOutFit} />
             </section>
             <section className={styles.checkout}>
                 <div className={styles.submit}>
                     <Total />
-                    <button className={styles.back} onClick={() => navigate('/')}>TRỞ VỀ</button> 
-                    <button className={styles.cta} onClick={() => navigate('/cart/placeorder')}>CHỌN NGÀY THUÊ</button> 
+                    <button className={styles.back} onClick={() => navigate('/')}>TRỞ VỀ</button>
+                    <button className={styles.cta} onClick={() => navigate('/cart/placeorder')}>CHỌN NGÀY THUÊ</button>
                 </div>
             </section>
         </div>

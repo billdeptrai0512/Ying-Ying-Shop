@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { AlignJustify } from 'lucide-react';
 import { useAuth } from "../public/authContext"
 
-import styles from "./Header.module.css"
+import styles from "./header.module.css"
 
 export default function Path() {
 

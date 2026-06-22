@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useCart } from "../public/cartContext"
 import { formatCurrency, analyzeInventory } from "../public/money"
-import styles from "./Cart.module.css"
+import styles from "./cart.module.css"
 
 export default function Total() {
 
