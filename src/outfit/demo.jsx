@@ -3,10 +3,10 @@
 import styles from "./outfit.module.css";
 import watermark from "./../assets/wtm.png";
 import axios from "axios";
-import Imgix from "react-imgix";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../public/authContext";
 import { useOutfit } from "../public/outfitContext";
+import OutfitLayers from "../public/outfitLayers";
 import { Star, Dices } from "lucide-react";
 
 export default function Demo() {
@@ -23,33 +23,6 @@ export default function Demo() {
 
     if (outFit) setFilled(false);
 
-  }, [outFit]);
-
-  const selectedOutfitImages = useMemo(() => {
-    if (!outFit) return null;
-
-    return getDemoImages(outFit)
-      .sort((a, b) => a.zIndex - b.zIndex)
-      .map(({ key, image, zIndex }, index) => (
-        <div
-          key={`${key}-${index}`}
-          style={{
-            position: "absolute",
-            zIndex,
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <Imgix
-            src={image}
-            sizes="340px"
-            alt={key}
-            imgixParams={{ auto: "format,compress" }}
-            htmlAttributes={{ alt: "layer image" }}
-          />
-        </div>
-      ));
   }, [outFit]);
 
   const handleAddToFavorite = async () => {
@@ -104,7 +77,7 @@ export default function Demo() {
       )}
 
       <div className={styles.demo}>
-        {selectedOutfitImages}
+        <OutfitLayers outFit={outFit} />
         <img key="watermark" src={watermark} alt="watermark" style={{ zIndex: 7 }} />
       </div>
 
@@ -119,43 +92,6 @@ export default function Demo() {
       </div>
     </div>
   );
-}
-
-function getDemoImages(outFit) {
-  const images = [];
-  if (!outFit) return images;
-
-  for (const [key, value] of Object.entries(outFit)) {
-    if (key === "total") continue;
-
-    if (value?.item?.demo_image) {
-      const demoImage = value.item.demo_image;
-      const baseZIndex = value.item.z_index || 0;
-
-      if (Array.isArray(demoImage)) {
-        demoImage.forEach((img, idx) => {
-          const zIndex = idx === 1 ? 6 : baseZIndex;
-          images.push({ key: `${key}-${idx}`, image: img, zIndex });
-        });
-      } else {
-        images.push({ key, image: demoImage, zIndex: baseZIndex });
-      }
-    }
-
-    if (key === "extra") {
-      Object.entries(value).forEach(([subKey, subValue]) => {
-        if (subValue?.item?.demo_image) {
-          images.push({
-            key: subKey,
-            image: subValue.item.demo_image[0],
-            zIndex: subValue.item.z_index || 0,
-          });
-        }
-      });
-    }
-  }
-
-  return images;
 }
 
 function getAllItem(outFit) {
