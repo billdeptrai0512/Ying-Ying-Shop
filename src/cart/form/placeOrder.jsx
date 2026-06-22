@@ -96,7 +96,7 @@ export default function FormPlaceOrder({ formId }) {
 
                 <div>
                     {getErrorForField("phone") && (<p className={styles.error}>{getErrorForField("phone")}</p>)}
-                    <input className={styles.phone} type="number" name="phone" placeholder="Số điện thoại:" value={formData.phone} onChange={handleChange} />
+                    <input className={styles.phone} type="tel" inputMode="numeric" name="phone" placeholder="Số điện thoại:" value={formData.phone} onChange={handleChange} />
                 </div>
 
                 <div>

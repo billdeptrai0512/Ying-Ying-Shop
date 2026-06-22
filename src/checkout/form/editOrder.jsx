@@ -89,7 +89,7 @@ export default function FormEditOrder({ order, formId, setEditMode, setUpdateOrd
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4em' }}>
                 <p className={styles.copyable} style={{ margin: 0 }}>Số điện thoại:</p>
-                <input className={styles.editInput} type="number" name="phone" placeholder="Số điện thoại" value={formData.phone} onChange={handleChange} />
+                <input className={styles.editInput} type="tel" inputMode="numeric" name="phone" placeholder="Số điện thoại" value={formData.phone} onChange={handleChange} />
                 {getErrorForField("phone") && (<p className={styles.error} style={{ margin: 0 }}>{getErrorForField("phone")}</p>)}
             </div>
 
