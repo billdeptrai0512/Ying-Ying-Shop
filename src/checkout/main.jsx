@@ -4,8 +4,8 @@ import { useCart } from "../public/cartContext"
 import { useMediaQuery } from "react-responsive";
 import styles from "./checkout.module.css";
 
-import Outfit from "../cart/outfit";
-import Demo from "../cart/demo";
+import Outfit from "../cart/Outfit";
+import Demo from "../cart/Demo";
 import Bill from "./bill";
 
 export default function CheckOut() {

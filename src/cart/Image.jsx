@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { SquareMinus, Play } from 'lucide-react'; // adjust import if needed
-import styles from './cart.module.css';
+import styles from './Cart.module.css';
 
 export default function Image({ outfit, index, pickOutFit, removeOutFit, editOutFit, paidStatus }) {
 

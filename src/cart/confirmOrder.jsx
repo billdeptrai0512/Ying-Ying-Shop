@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
-import styles from "./cart.module.css"
-import Outfit from "../cart/outfit";
-import Total from "../cart/total";
-import Demo from "../cart/demo";
+import styles from "./Cart.module.css"
+import Outfit from "./Outfit";
+import Total from "./Total";
+import Demo from "./Demo";
 import FormPlaceOrder from "./form/placeOrder";
 
 export default function ConfirmOrder() {
