@@ -1,7 +1,6 @@
 
 import styles from "./outfit.module.css";
 
-// eslint-disable-next-line no-unused-vars
 import { useSpring, animated } from "@react-spring/web";
 import { useCart } from "../public/cartContext";
 import { useNavigate } from "react-router-dom";

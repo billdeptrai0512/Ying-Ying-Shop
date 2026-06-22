@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useOutfit } from "../public/outfitContext";
 import imageCover from "./../assets/tickweb.png"
-import React from "react";
 
 export default function ListItem({ inventory, section, extraType, itemRefs, onImageLoad }) {
 
@@ -10,11 +9,6 @@ export default function ListItem({ inventory, section, extraType, itemRefs, onIm
     const selected = section !== "extra" ? outFit?.[section]?.item : outFit?.[section]?.[extraType]?.item;
 
     const itemList = inventory.sort((a, b) => a.displayID - b.displayID)
-
-    const borderStyle = (item) => ({
-        position: "relative",
-        border: selected?.id === item.id ? '2px solid #331D1C' : 'none'
-    });
 
     return itemList.map((item) => (
         <ImageItem

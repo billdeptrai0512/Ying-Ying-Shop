@@ -4,7 +4,7 @@ import { formatCurrency } from "../../public/money";
 import axios from "axios";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
-export default function ListItem({ id, selectedItem, setSelectedItem }) {
+export default function ListItem({ id, selectedItem, setSelectedItem, setIsCreating, reset }) {
 
     const [loading, setLoading] = useState(true);
     const [items, setItems] = useState([]);
@@ -35,7 +35,8 @@ export default function ListItem({ id, selectedItem, setSelectedItem }) {
 
         fetchItems();
 
-    }, [id])
+        // refetch when the parent toggles `reset` after a create/delete/edit
+    }, [id, reset])
 
     const filteredItems = useMemo(() => {
         if (extraType !== "") {

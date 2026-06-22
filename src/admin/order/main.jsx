@@ -146,11 +146,6 @@ export default function Order() {
   );
 }
 
-const getCurrentMonthYear = () => {
-  const now = new Date();
-  return `${now.getMonth() + 1}/${now.getFullYear()}`;
-};
-
 const generateMonthOptions = () => {
   const startYear = 2025;
   const endYear = 2030;
