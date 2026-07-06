@@ -2,7 +2,7 @@ import Image from "./image"
 import styles from "./folder.module.css"
 
 
-export default function Extra({ inventory, section, onImageLoad }) {
+export default function Extra({ inventory, section }) {
 
     const bowInventory = inventory.files.filter((item) => item.type === "bow");
     const tieInventory = inventory.files.filter((item) => item.type === "tie");
@@ -15,19 +15,16 @@ export default function Extra({ inventory, section, onImageLoad }) {
                 inventory={bowInventory}
                 section={section}
                 extraType={"neck"}
-                onImageLoad={onImageLoad}
             />
             <Image
                 inventory={tieInventory}
                 section={section}
                 extraType={"neck"}
-                onImageLoad={onImageLoad}
             />
             <Image
                 inventory={bagInventory}
                 section={section}
                 extraType={"bag"}
-                onImageLoad={onImageLoad}
             />
         </div>
     )

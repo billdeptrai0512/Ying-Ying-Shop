@@ -5,7 +5,7 @@ import styles from "./folder.module.css"
 import ListItem from "./item";
 import { useMediaQuery } from "react-responsive";
 
-export default function Image({ inventory, section, extraType, onImageLoad }) {
+export default function Image({ inventory, section, extraType }) {
 
     const { outFit } = useOutfit()
 
@@ -17,11 +17,8 @@ export default function Image({ inventory, section, extraType, onImageLoad }) {
 
     const [atStart, setAtStart] = useState(true);
     const [atEnd, setAtEnd] = useState(false);
-    const [imagesLoaded] = useState(0)
 
     const isMobile = useMediaQuery({ query: "(max-width: 468px)" });
-
-    const allImagesLoaded = imagesLoaded === inventory.length;
 
     const updateScrollLimits = () => {
         if (!scrollContainer.current) return;
@@ -96,14 +93,6 @@ export default function Image({ inventory, section, extraType, onImageLoad }) {
 
     useEffect(() => {
 
-        if (allImagesLoaded) {
-            updateScrollLimits();
-        }
-
-    }, [allImagesLoaded])
-
-    useEffect(() => {
-
         if (!isMounted.current) {
             isMounted.current = true;
             return;
@@ -133,7 +122,7 @@ export default function Image({ inventory, section, extraType, onImageLoad }) {
 
             <div className={styles.container} ref={scrollContainer} >
 
-                <ListItem inventory={inventory} section={section} itemRefs={itemRefs} extraType={extraType} onImageLoad={onImageLoad} />
+                <ListItem inventory={inventory} section={section} itemRefs={itemRefs} extraType={extraType} />
 
             </div>
 

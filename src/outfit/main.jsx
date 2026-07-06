@@ -3,53 +3,53 @@ import Demo from "./demo.jsx";
 import CheckOut from "./checkout.jsx";
 import Inventory from "../inventory/main.jsx";
 import loadingGif from "./../assets/loading.gif";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useInventory } from "../public/inventoryContext.jsx";
 
 export default function Outfit() {
-    const { inventory, setRenderDone } = useInventory();
+    const { inventory } = useInventory();
     const [showLoading, setShowLoading] = useState(true);
     const isDesktop = useMediaQuery({ query: "(min-width: 1400px)" });
+    const containerRef = useRef(null);
 
-    // Optional: restore body style after render
-    const imageCount = useRef(0);
-    const imagesLoaded = useRef(0);
-    const renderLabel = useRef(null);
+    // Gate first paint on above-the-fold images only — anything below the
+    // fold keeps its native loading="lazy" and loads as the user scrolls to it.
     useEffect(() => {
-        if (!inventory || !Array.isArray(inventory)) return;
+        if (!inventory.length || !containerRef.current) return;
 
-        const totalImages = inventory.reduce((sum, section) => sum + (section.files?.length || 0), 0);
+        const imgs = Array.from(containerRef.current.querySelectorAll("img"));
+        const viewportBottom = window.innerHeight;
+        const pending = imgs.filter(
+            (img) => img.getBoundingClientRect().top < viewportBottom && !img.complete
+        );
 
-        if (totalImages === 0) {
+        if (pending.length === 0) {
             setShowLoading(false);
             return;
         }
 
-        imageCount.current = totalImages;
-        imagesLoaded.current = 0;
+        let remaining = pending.length;
+        const onDone = () => {
+            remaining -= 1;
+            if (remaining <= 0) setShowLoading(false);
+        };
+        pending.forEach((img) => {
+            img.addEventListener("load", onDone, { once: true });
+            img.addEventListener("error", onDone, { once: true });
+        });
 
-        // Log render time
-        renderLabel.current = `images-rendered-${Date.now()}`;
-        console.time(renderLabel.current);
-
-        // Safety fallback: hide loader after 5s even if some images fail silently
-        const safetyTimeout = setTimeout(() => setShowLoading(false), 5000);
+        // ponytail: fixed cutoff, not tied to actual connection speed — raise if slow networks flash a broken layout
+        const safetyTimeout = setTimeout(() => setShowLoading(false), 4000);
 
         return () => {
             clearTimeout(safetyTimeout);
-            console.timeEnd(renderLabel.current);
-            setRenderDone(true);
+            pending.forEach((img) => {
+                img.removeEventListener("load", onDone);
+                img.removeEventListener("error", onDone);
+            });
         };
-
-    }, [inventory, setRenderDone]);
-
-    const handleImageLoad = () => {
-        imagesLoaded.current += 1;
-        if (imagesLoaded.current >= imageCount.current) {
-            setShowLoading(false); // ✅ All images done — hide the loader
-        }
-    };
+    }, [inventory]);
 
     const leftInventory = inventory.filter((category) =>
         ["top", "bottom", "sweater"].includes(category.section)
@@ -59,7 +59,6 @@ export default function Outfit() {
     );
 
     const loadingStyle = {
-
         position: "fixed",
         inset: 0,
         backgroundColor: "#fff",
@@ -67,14 +66,10 @@ export default function Outfit() {
         justifyContent: "center",
         alignItems: "center",
         zIndex: 9999,
-
-    }
-
+    };
 
     return (
-        <div className={styles.body}>
-            {/* 🔄 Always Render UI, Just Hide It If Not Ready */}
-
+        <div className={styles.body} ref={containerRef}>
             <div style={loadingStyle}>
                 <img src={loadingGif} alt="Loading..." />
             </div>
@@ -85,16 +80,10 @@ export default function Outfit() {
                         <Demo />
                     </section>
                     <section className={styles.primary}>
-                        <Inventory
-                            inventory={leftInventory}
-                            onImageLoad={handleImageLoad}
-                        />
+                        <Inventory inventory={leftInventory} />
                     </section>
                     <section className={styles.checkout} style={{ backgroundColor: "unset" }}>
-                        <Inventory
-                            inventory={rightInventory}
-                            onImageLoad={handleImageLoad}
-                        />
+                        <Inventory inventory={rightInventory} />
                         <CheckOut />
                     </section>
                 </>
@@ -104,10 +93,7 @@ export default function Outfit() {
                         <Demo />
                     </section>
                     <section className={styles.primary}>
-                        <Inventory
-                            inventory={inventory}
-                            onImageLoad={handleImageLoad}
-                        />
+                        <Inventory inventory={inventory} />
                     </section>
                     <section className={styles.checkout}>
                         <CheckOut />

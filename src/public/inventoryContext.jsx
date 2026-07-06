@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -12,8 +12,6 @@ const fetchInventory = async () => {
 };
 
 export const InventoryProvider = ({ children }) => {
-  const [isRenderDone, setRenderDone] = useState(false)
-
   // Server state via React Query: caching, dedup and refetch for free.
   const { data: inventory = [], isLoading, error, refetch } = useQuery({
     queryKey: ["inventory"],
@@ -25,8 +23,6 @@ export const InventoryProvider = ({ children }) => {
       inventory,
       isLoading,
       error: error ? "Không thể tải dữ liệu. Vui lòng thử lại." : null,
-      isRenderDone,
-      setRenderDone,
       refreshFolders: refetch
     }}>
       {children}

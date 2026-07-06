@@ -9,9 +9,9 @@ import { OutfitProvider } from '../public/outfitContext';
 // the picked item through OutfitProvider, so it must run inside the provider.
 
 const inventory = [
-    { id: 1, displayID: 1, image: 'A', name: 'a', total: 50000, type: 'top' },
-    { id: 2, displayID: 2, image: 'B', name: 'b', total: 60000, type: 'top' },
-    { id: 3, displayID: 3, image: 'C', name: 'c', total: 70000, type: 'top' },
+    { id: 1, displayID: 1, image: 'https://yingyingshop2504.imgix.net/inventory/a.png', name: 'a', total: 50000, type: 'top' },
+    { id: 2, displayID: 2, image: 'https://yingyingshop2504.imgix.net/inventory/b.png', name: 'b', total: 60000, type: 'top' },
+    { id: 3, displayID: 3, image: 'https://yingyingshop2504.imgix.net/inventory/c.png', name: 'c', total: 70000, type: 'top' },
 ];
 
 const renderList = () =>

@@ -3,7 +3,7 @@ import { useOutfit } from "../public/outfitContext";
 import Category from "./category";
 import styles from "./folder.module.css";
 
-export default function Inventory({ inventory , onImageLoad}) {
+export default function Inventory({ inventory }) {
 
     const { outFit, missingSizes } = useOutfit()
 
@@ -49,7 +49,6 @@ export default function Inventory({ inventory , onImageLoad}) {
             >
               <Category
                 inventory={inventory}
-                onImageLoad={onImageLoad}
               />
             </div>
           );

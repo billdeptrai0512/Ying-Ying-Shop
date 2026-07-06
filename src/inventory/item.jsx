@@ -1,8 +1,12 @@
 import { useState } from "react";
+import Imgix from "react-imgix";
 import { useOutfit } from "../public/outfitContext";
 import imageCover from "./../assets/tickweb.png"
 
-export default function ListItem({ inventory, section, extraType, itemRefs, onImageLoad }) {
+// Largest rendered thumbnail size across breakpoints (folder.module.css .container grid-auto-columns) — imgix scales the source down to this instead of serving full-resolution product photos.
+const THUMB_WIDTH = 68;
+
+export default function ListItem({ inventory, section, extraType, itemRefs }) {
 
     const { outFit, updateOutFit } = useOutfit()
 
@@ -18,16 +22,16 @@ export default function ListItem({ inventory, section, extraType, itemRefs, onIm
             section={section}
             itemRefs={itemRefs}
             updateOutFit={updateOutFit}
-            onImageLoad={onImageLoad}
         />
     ))
 }
 
-function ImageItem({ item, selected, section, itemRefs, updateOutFit, onImageLoad }) {
+function ImageItem({ item, selected, section, itemRefs, updateOutFit }) {
     const [loaded, setLoaded] = useState(false);
 
     const borderStyle = {
         position: "relative",
+        aspectRatio: "1",
         border: selected?.id === item.id ? '2px solid #331D1C' : 'none'
     };
 
@@ -43,6 +47,9 @@ function ImageItem({ item, selected, section, itemRefs, updateOutFit, onImageLoa
 
     const imgStyle = {
         display: "block",
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
         opacity: loaded ? 1 : 0,
         transition: "opacity 0.3s ease",
     };
@@ -65,17 +72,17 @@ function ImageItem({ item, selected, section, itemRefs, updateOutFit, onImageLoa
                 />
             )}
 
-            <img
+            <Imgix
                 src={item.image}
-                alt={item.name}
-                style={imgStyle}
-                onLoad={() => {
-                    setLoaded(true);
-                    onImageLoad?.();
-                }}
-                onError={() => {
-                    setLoaded(true); // Don't block loading screen on broken images
-                    onImageLoad?.();
+                width={THUMB_WIDTH}
+                imgixParams={{ auto: "format,compress" }}
+                htmlAttributes={{
+                    alt: item.name,
+                    style: imgStyle,
+                    loading: "lazy",
+                    decoding: "async",
+                    onLoad: () => setLoaded(true),
+                    onError: () => setLoaded(true),
                 }}
             />
         </div>
