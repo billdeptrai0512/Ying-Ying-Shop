@@ -17,9 +17,15 @@ export default function Demo() {
   const [spinning, setSpinning] = useState(false);
   const [demoLoading, setDemoLoading] = useState(false);
   const demoRef = useRef(null);
+  const isFetchingRef = useRef(false);
 
+  // outFit is restored from sessionStorage (see outfitContext), so only
+  // roll a random one on a genuinely fresh session — otherwise navigating
+  // away (e.g. to /cart) and back would remount Demo and discard whatever
+  // outfit the user was customizing.
   useEffect(() => {
-    handleRandomFavoriteOutfit()
+    if (!outFit?.total) handleRandomFavoriteOutfit()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -85,6 +91,13 @@ export default function Demo() {
   };
 
   const handleRandomFavoriteOutfit = async () => {
+    // ref, not state — state updates are batched/async, so two clicks in the
+    // same tick (double-click) would both read the old value and both slip
+    // through, firing overlapping requests whose responses can resolve out
+    // of order and land on the wrong outfit.
+    if (isFetchingRef.current) return;
+    isFetchingRef.current = true;
+
     setSpinning(true);
     setDemoLoading(true);
     try {
@@ -99,6 +112,7 @@ export default function Demo() {
       }
       setDemoLoading(false);
     } finally {
+      isFetchingRef.current = false;
       setSpinning(false);
       try {
         googleTrackingRollADices();
@@ -134,7 +148,11 @@ export default function Demo() {
               zIndex: 20,
             }}
           >
-            <img src={loadingGif} alt="Loading..." />
+            <img
+              src={loadingGif}
+              alt="Loading..."
+              style={{ width: "100%", height: "100%", objectFit: "contain" }}
+            />
           </div>
         )}
       </div>
@@ -145,7 +163,12 @@ export default function Demo() {
           onClick={handleRandomFavoriteOutfit}
           className={spinning ? styles.dicesSpin : styles.dicesWiggle}
           onAnimationEnd={() => setSpinning(false)}
-          style={{ alignSelf: "baseline", marginTop: 0, zIndex: 10 }}
+          style={{
+            alignSelf: "baseline",
+            marginTop: 0,
+            zIndex: 10,
+            visibility: demoLoading ? "hidden" : "visible",
+          }}
         />
       </div>
     </div>
