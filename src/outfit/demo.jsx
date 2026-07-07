@@ -2,8 +2,9 @@
 
 import styles from "./outfit.module.css";
 import watermark from "./../assets/wtm.png";
+import loadingGif from "./../assets/loading.gif";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../public/authContext";
 import { useOutfit } from "../public/outfitContext";
 import OutfitLayers from "../public/outfitLayers";
@@ -14,6 +15,8 @@ export default function Demo() {
   const { outFit, setOutFit } = useOutfit();
   const [filled, setFilled] = useState(false);
   const [spinning, setSpinning] = useState(false);
+  const [demoLoading, setDemoLoading] = useState(false);
+  const demoRef = useRef(null);
 
   useEffect(() => {
     handleRandomFavoriteOutfit()
@@ -23,6 +26,44 @@ export default function Demo() {
 
     if (outFit) setFilled(false);
 
+  }, [outFit]);
+
+  // Re-rolling swaps in a new set of layer images — cover just the board
+  // (not the whole page) until the new layers are loaded, so it doesn't
+  // flash half-loaded/broken images while they stream in. demoLoading is
+  // switched on as soon as the click fires (see handleRandomFavoriteOutfit),
+  // this effect only decides when it's safe to switch back off.
+  useEffect(() => {
+    if (!outFit || !demoRef.current) return;
+
+    const imgs = Array.from(demoRef.current.querySelectorAll("img"));
+    const pending = imgs.filter((img) => !img.complete);
+
+    if (pending.length === 0) {
+      setDemoLoading(false);
+      return;
+    }
+
+    let remaining = pending.length;
+    const onDone = () => {
+      remaining -= 1;
+      if (remaining <= 0) setDemoLoading(false);
+    };
+    pending.forEach((img) => {
+      img.addEventListener("load", onDone, { once: true });
+      img.addEventListener("error", onDone, { once: true });
+    });
+
+    // ponytail: fixed cutoff, same ceiling as the page-level gate
+    const safetyTimeout = setTimeout(() => setDemoLoading(false), 4000);
+
+    return () => {
+      clearTimeout(safetyTimeout);
+      pending.forEach((img) => {
+        img.removeEventListener("load", onDone);
+        img.removeEventListener("error", onDone);
+      });
+    };
   }, [outFit]);
 
   const handleAddToFavorite = async () => {
@@ -45,6 +86,7 @@ export default function Demo() {
 
   const handleRandomFavoriteOutfit = async () => {
     setSpinning(true);
+    setDemoLoading(true);
     try {
       console.log("Fetching random favorite outfit...");
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/favorite/random`);
@@ -55,6 +97,7 @@ export default function Demo() {
       if (err.response) {
         console.error("Server responded with:", err.response.status, err.response.data);
       }
+      setDemoLoading(false);
     } finally {
       setSpinning(false);
       try {
@@ -76,9 +119,24 @@ export default function Demo() {
         />
       )}
 
-      <div className={styles.demo}>
+      <div className={styles.demo} ref={demoRef}>
         <OutfitLayers outFit={outFit} />
         <img key="watermark" src={watermark} alt="watermark" style={{ zIndex: 7 }} />
+        {demoLoading && (
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundColor: "#F0E4E2",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              zIndex: 20,
+            }}
+          >
+            <img src={loadingGif} alt="Loading..." />
+          </div>
+        )}
       </div>
 
       <div className={styles.example}>

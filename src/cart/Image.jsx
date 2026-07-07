@@ -1,7 +1,11 @@
 import { useRef, useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { SquareMinus, Play } from 'lucide-react'; // adjust import if needed
+import Imgix from 'react-imgix';
 import styles from './cart.module.css';
+
+// Largest rendered thumbnail size across breakpoints (cart.module.css .cart_container grid-auto-columns).
+const THUMB_WIDTH = 68;
 
 export default function Image({ outfit, index, pickOutFit, removeOutFit, editOutFit, paidStatus }) {
 
@@ -135,20 +139,14 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
 
                 <div className={styles.cart_container} ref={scrollRef}>
                     {getImages(outfit).map((object, index) => (
-                        <div key={`${outfit.id}-${index}`} className={styles.item}>
-                            <img
-                                src={object.item.image}
-                                alt={`item-${index}`} />
-
-                            {!paidStatus ? (
-                                <button
-                                    className={styles.edit}
-                                    onClick={() => editOutFit(outfit, object.item, object.section || index)}>
-                                    <SquareMinus size={14} />
-                                </button>
-                            ) : null}
-
-                        </div>
+                        <Thumb
+                            key={`${outfit.id}-${index}`}
+                            object={object}
+                            index={index}
+                            outfit={outfit}
+                            paidStatus={paidStatus}
+                            editOutFit={editOutFit}
+                        />
                     ))}
                 </div>
 
@@ -170,5 +168,56 @@ export default function Image({ outfit, index, pickOutFit, removeOutFit, editOut
         </div>
 
 
+    );
+}
+
+function Thumb({ object, index, outfit, paidStatus, editOutFit }) {
+    const [loaded, setLoaded] = useState(false);
+
+    const skeletonStyle = {
+        position: 'absolute',
+        inset: 0,
+        background: 'linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%)',
+        backgroundSize: '200% 100%',
+        animation: loaded ? 'none' : 'shimmer 1.2s infinite',
+        opacity: loaded ? 0 : 1,
+        transition: 'opacity 0.3s ease',
+    };
+
+    const imgStyle = {
+        display: 'block',
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        opacity: loaded ? 1 : 0,
+        transition: 'opacity 0.3s ease',
+    };
+
+    return (
+        <div className={styles.item} style={{ aspectRatio: '1' }}>
+            <div style={skeletonStyle} aria-hidden="true" />
+
+            <Imgix
+                src={object.item.image}
+                width={THUMB_WIDTH}
+                imgixParams={{ auto: 'format,compress' }}
+                htmlAttributes={{
+                    alt: `item-${index}`,
+                    style: imgStyle,
+                    loading: 'lazy',
+                    decoding: 'async',
+                    onLoad: () => setLoaded(true),
+                    onError: () => setLoaded(true),
+                }}
+            />
+
+            {!paidStatus ? (
+                <button
+                    className={styles.edit}
+                    onClick={() => editOutFit(outfit, object.item, object.section || index)}>
+                    <SquareMinus size={14} />
+                </button>
+            ) : null}
+        </div>
     );
 }
