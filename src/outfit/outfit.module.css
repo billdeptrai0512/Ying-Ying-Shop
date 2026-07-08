@@ -5,6 +5,17 @@
     height: 100vh;
 }
 
+/* ponytail: desktop grid columns can be taller than one screen (long item
+   lists); let the page scroll instead of clipping the checkout button off
+   the bottom of a fixed-height viewport. */
+@media (min-width: 1000px) {
+    .body {
+        height: auto;
+        min-height: 100dvh;
+        overflow: visible;
+    }
+}
+
 @media (min-width: 1000px) and (max-width: 1400px) {
 
     .body {
@@ -264,7 +275,9 @@
 
     .main {
         grid-row: 1/9;
-        align-self: center;
+        align-self: start;
+        position: sticky;
+        top: 0;
     }
 
     .board {
@@ -284,9 +297,6 @@
         min-width: 100%;
         padding: 0 1.25em;
         margin-bottom: 2em;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: thin;
     }
 
     .checkout {
@@ -313,7 +323,9 @@
 
     .main {
         grid-column: 1;
-        align-self: center;
+        align-self: start;
+        position: sticky;
+        top: 0;
     }
 
     .board {
@@ -340,7 +352,6 @@
         grid-column: 2;
         min-width: 100%;
         align-self: center;
-        overflow-y: hidden;
     }
 
     .primary>div {
