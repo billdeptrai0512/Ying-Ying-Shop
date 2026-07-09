@@ -5,6 +5,17 @@
     height: 100vh;
 }
 
+/* ponytail: same fix as outfit/cart.module.css — desktop grid columns can be
+   taller than one screen; let the page scroll instead of clipping the
+   checkout button off the bottom of a fixed-height viewport. */
+@media (min-width: 1000px) {
+    .body {
+        height: auto;
+        min-height: 100dvh;
+        overflow: visible;
+    }
+}
+
 @media (min-width: 1000px) and (max-width: 1400px) {
 
     .body {
@@ -533,7 +544,9 @@ input[type=number]::-webkit-outer-spin-button {
 
     .main {
         grid-row: 2/8;
-        align-self: center;
+        align-self: start;
+        position: sticky;
+        top: 0;
         padding-bottom: 2.3em;
     }
 
@@ -554,9 +567,6 @@ input[type=number]::-webkit-outer-spin-button {
         min-width: 100%;
         padding: 1em;
         margin-bottom: 1rem;
-        overflow-y: auto;
-        scrollbar-width: thin;
-        /* Firefox: thin scrollbar */
     }
 
     .set>h3 {
@@ -647,7 +657,9 @@ input[type=number]::-webkit-outer-spin-button {
 
     .main {
         grid-column: 1;
-        align-self: center;
+        align-self: start;
+        position: sticky;
+        top: 0;
         padding-bottom: 1em;
     }
 
@@ -667,8 +679,6 @@ input[type=number]::-webkit-outer-spin-button {
         padding: 1.25em;
         grid-column: 2;
         min-width: 100%;
-        overflow-y: auto;
-        scrollbar-width: thin;
     }
 
     .scrollRight {
