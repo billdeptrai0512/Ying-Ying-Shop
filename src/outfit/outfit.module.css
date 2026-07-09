@@ -265,6 +265,11 @@
         height: auto;
         overflow: visible;
         position: relative;
+        /* ponytail: default align-content is stretch — with only .main
+           in-flow, the single implicit row would otherwise stretch to fill
+           .body's full flex-grown height (not just the board's height),
+           dragging .checkout's bottom-anchored position down with it. */
+        align-content: start;
     }
 
     .main {
@@ -285,7 +290,7 @@
     .primary {
         position: absolute;
         grid-column: 2;
-        grid-row: 1;
+        grid-row: 1 / 2;
         inset: 0;
         align-self: stretch;
         margin: 0;
@@ -296,7 +301,7 @@
     .checkout {
         position: absolute;
         grid-column: 2;
-        grid-row: 1;
+        grid-row: 1 / 2;
         bottom: 0;
         left: 0;
         right: 0;

@@ -361,6 +361,11 @@ input[type=number]::-webkit-outer-spin-button {
         height: auto;
         overflow: visible;
         position: relative;
+        /* ponytail: default align-content is stretch — with only .main
+           in-flow, the single implicit row would otherwise stretch to fill
+           .body's full flex-grown height (not just the board's height),
+           dragging .checkout's bottom-anchored position down with it. */
+        align-content: start;
     }
 
     .main {
@@ -380,7 +385,7 @@ input[type=number]::-webkit-outer-spin-button {
     .primary {
         position: absolute;
         grid-column: 2;
-        grid-row: 1;
+        grid-row: 1 / 2;
         top: 0;
         left: 0;
         right: 0;
@@ -408,7 +413,7 @@ input[type=number]::-webkit-outer-spin-button {
     .checkout {
         position: absolute;
         grid-column: 2;
-        grid-row: 1;
+        grid-row: 1 / 2;
         bottom: 1.5em;
         left: 0;
         right: 0;
@@ -521,7 +526,7 @@ input[type=number]::-webkit-outer-spin-button {
         padding: 1.25em;
         grid-column: 2;
         min-width: 100%;
-        align-self: center;
+        align-self: start;
     }
 
     .scrollRight {
