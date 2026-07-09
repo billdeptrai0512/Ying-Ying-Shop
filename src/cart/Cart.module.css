@@ -1,51 +1,26 @@
+/* ==========================================================================
+   Breakpoint scheme (shared by outfit/cart/checkout .module.css):
+     <1000px         mobile + tablet — single column, .primary scrolls
+                     internally, .body stays a fixed-height flex column.
+     1000px–1400px   laptop — 2-column grid.
+     >=1400px        desktop — 3-column grid.
+
+   From 1000px up, the whole page scrolls instead of just .primary — see the
+   ponytail note below for why.
+
+   Note: the .body grid-scaffold below uses "1000px–2100px" for the
+   2-column layout while the .main/.primary/.checkout overrides further
+   down use "1000px–1400px" for the same visual breakpoint. That mismatch
+   predates this cleanup pass — left as-is since narrowing it changes
+   behavior between 1400px and 2100px; flagging here so it isn't mistaken
+   for a typo introduced by this reorg.
+   ========================================================================== */
+
 .body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
     height: 100vh;
-    /* overflow-y: scroll; */
-}
-
-/* ponytail: same fix as outfit.module.css — desktop grid columns can be
-   taller than one screen; let the page scroll instead of clipping the
-   checkout button off the bottom of a fixed-height viewport. */
-@media (min-width: 1000px) {
-    .body {
-        height: auto;
-        min-height: 100dvh;
-        overflow: visible;
-    }
-}
-
-@media (min-width: 1000px) and (max-width: 2100px) {
-
-    .body {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: repeat(10, auto);
-        align-self: center;
-        justify-content: space-between;
-        max-width: 960px;
-        min-width: 960px;
-        gap: 3em;
-    }
-
-}
-
-
-@media (min-width: 1400px) {
-
-    .body {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-template-rows: auto;
-        align-self: center;
-        justify-content: space-between;
-        width: 100%;
-        max-width: 1500px;
-        gap: 2em;
-    }
-
 }
 
 @supports (-webkit-touch-callout: none) {
@@ -54,8 +29,6 @@
         height: -webkit-fill-available;
     }
 }
-
-
 
 .error {
     font-size: 0.8em;
@@ -72,8 +45,6 @@
     margin: 0 auto;
     max-width: 425px;
     font-size: 0.65rem;
-    /* border-top-right-radius: 50%;
-    border-top-left-radius: 50%; */
 }
 
 .demo {
@@ -90,7 +61,6 @@
 }
 
 .primary {
-    /* max-width: 425px; */
     padding-top: 16px;
     flex: 1 1 auto;
     margin: 0 auto;
@@ -105,7 +75,6 @@
     display: none;
     /* Chrome, Safari, Edge */
 }
-
 
 .primary>div {
     padding-bottom: 1.5em;
@@ -137,8 +106,6 @@
     font-weight: 500;
     font-size: 0.65em;
 }
-
-/* ---- */
 
 .outfit {
     position: relative;
@@ -188,8 +155,6 @@
     height: 14px;
     right: 0;
 }
-
-/* ----- */
 
 .checkout {
     display: flex;
@@ -287,20 +252,12 @@ input[type=number]::-webkit-outer-spin-button {
     margin-bottom: 0.5em;
 }
 
+/* ---------- <375px (small mobile) ---------- */
 @media (max-width: 375px) {
 
     .main {
         padding: unset;
     }
-
-    /* 
-    .board , .checkout, .form {
-        max-width: 350px;
-    }
-
-    .scrollRight {
-        transform: translateX(calc(5 * 395%));
-    }*/
 
     .cart_container {
         grid-auto-columns: 3.5rem;
@@ -310,6 +267,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 }
 
+/* ---------- 375px–600px (mobile) ---------- */
 @media (min-width: 375px) and (max-width: 600px) {
 
     .main {
@@ -338,6 +296,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 }
 
+/* ---------- 600px–1000px (tablet) ---------- */
 @media (min-width: 600px) and (max-width: 1000px) {
 
     .board,
@@ -352,7 +311,6 @@ input[type=number]::-webkit-outer-spin-button {
         align-self: center;
         padding: 1.25em;
     }
-
 
     .scrollRight {
         transform: translateX(calc(5 * 470%));
@@ -370,6 +328,34 @@ input[type=number]::-webkit-outer-spin-button {
 
 }
 
+/* ponytail: same fix as outfit.module.css — desktop grid columns can be
+   taller than one screen; let the page scroll instead of clipping the
+   checkout button off the bottom of a fixed-height viewport. */
+@media (min-width: 1000px) {
+    .body {
+        height: auto;
+        min-height: 100dvh;
+        overflow: visible;
+    }
+}
+
+/* ---------- 1000px–2100px: .body 2-column grid (see mismatch note above) ---------- */
+@media (min-width: 1000px) and (max-width: 2100px) {
+
+    .body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(10, auto);
+        align-self: center;
+        justify-content: space-between;
+        max-width: 960px;
+        min-width: 960px;
+        gap: 3em;
+    }
+
+}
+
+/* ---------- 1000px–1400px (laptop): column positioning ---------- */
 @media (min-width: 1000px) and (max-width: 1400px) {
 
     .main {
@@ -381,8 +367,6 @@ input[type=number]::-webkit-outer-spin-button {
 
     .board {
         border-radius: 5px;
-        /* border-top-right-radius: 45%;
-        border-top-left-radius: 45%; */
     }
 
     .demo {
@@ -467,7 +451,19 @@ input[type=number]::-webkit-outer-spin-button {
     }
 }
 
+/* ---------- >=1400px (desktop): 3-column grid ---------- */
 @media (min-width: 1400px) {
+
+    .body {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto;
+        align-self: center;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 1500px;
+        gap: 2em;
+    }
 
     .main {
         grid-column: 1;
@@ -480,8 +476,6 @@ input[type=number]::-webkit-outer-spin-button {
     .board {
         max-width: unset;
         border-radius: 5px;
-        /* border-top-right-radius: 45%;
-        border-top-left-radius: 45%; */
     }
 
     .demo {

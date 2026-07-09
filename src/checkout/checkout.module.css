@@ -1,50 +1,21 @@
+/* ==========================================================================
+   Breakpoint scheme (shared by outfit/cart/checkout .module.css):
+     <1000px         mobile + tablet — single column, .primary scrolls
+                     internally, .body stays a fixed-height flex column.
+     1000px–1400px   laptop — 2-column grid.
+     >=1400px        desktop — 3-column grid.
+
+   From 1000px up, the whole page scrolls instead of just .primary — see the
+   ponytail note further down for why. The rest of this file (Bill component,
+   toast, order-confirmation UI, QR scan animation) is unrelated to that
+   scaffold and untouched by this cleanup pass.
+   ========================================================================== */
+
 .body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
     height: 100vh;
-}
-
-/* ponytail: same fix as outfit/cart.module.css — desktop grid columns can be
-   taller than one screen; let the page scroll instead of clipping the
-   checkout button off the bottom of a fixed-height viewport. */
-@media (min-width: 1000px) {
-    .body {
-        height: auto;
-        min-height: 100dvh;
-        overflow: visible;
-    }
-}
-
-@media (min-width: 1000px) and (max-width: 1400px) {
-
-    .body {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: repeat(10, auto);
-        align-self: center;
-        justify-content: space-between;
-        max-width: 960px;
-        min-width: 960px;
-        gap: 3em;
-    }
-
-}
-
-
-@media (min-width: 1400px) {
-
-    .body {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-template-rows: auto;
-        align-self: center;
-        justify-content: space-between;
-        width: 100%;
-        max-width: 1500px;
-        gap: 2em;
-    }
-
 }
 
 @supports (-webkit-touch-callout: none) {
@@ -53,7 +24,6 @@
         height: -webkit-fill-available;
     }
 }
-
 
 .error {
     font-size: 0.8em;
@@ -494,6 +464,7 @@ input[type=number]::-webkit-outer-spin-button {
     box-shadow: 0 4px 10px rgba(185, 28, 28, 0.3);
 }
 
+/* ---------- 300px–600px (mobile) ---------- */
 @media (min-width: 300px) and (max-width: 600px) {
 
     .board,
@@ -508,6 +479,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 }
 
+/* ---------- 600px–1000px (tablet) ---------- */
 @media (min-width: 600px) and (max-width: 1000px) {
 
     .board,
@@ -540,7 +512,30 @@ input[type=number]::-webkit-outer-spin-button {
 
 }
 
+/* ponytail: same fix as outfit/cart.module.css — desktop grid columns can be
+   taller than one screen; let the page scroll instead of clipping the
+   checkout button off the bottom of a fixed-height viewport. */
+@media (min-width: 1000px) {
+    .body {
+        height: auto;
+        min-height: 100dvh;
+        overflow: visible;
+    }
+}
+
+/* ---------- 1000px–1400px (laptop): 2-column grid ---------- */
 @media (min-width: 1000px) and (max-width: 1400px) {
+
+    .body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(10, auto);
+        align-self: center;
+        justify-content: space-between;
+        max-width: 960px;
+        min-width: 960px;
+        gap: 3em;
+    }
 
     .main {
         grid-row: 2/8;
@@ -553,8 +548,6 @@ input[type=number]::-webkit-outer-spin-button {
     .board {
         max-width: unset;
         border-radius: 5px;
-        /* border-top-right-radius: 45%;
-        border-top-left-radius: 45%; */
     }
 
     .demo {
@@ -630,7 +623,6 @@ input[type=number]::-webkit-outer-spin-button {
     }
 
     .checkout .total {
-        /* border-top: 1px solid #000000; */
         padding-top: 1em;
         margin-bottom: 1em
     }
@@ -653,7 +645,19 @@ input[type=number]::-webkit-outer-spin-button {
     }
 }
 
+/* ---------- >=1400px (desktop): 3-column grid ---------- */
 @media (min-width: 1400px) {
+
+    .body {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto;
+        align-self: center;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 1500px;
+        gap: 2em;
+    }
 
     .main {
         grid-column: 1;
@@ -666,8 +670,6 @@ input[type=number]::-webkit-outer-spin-button {
     .board {
         max-width: unset;
         border-radius: 5px;
-        /* border-top-right-radius: 45%;
-        border-top-left-radius: 45%; */
     }
 
     .demo {
