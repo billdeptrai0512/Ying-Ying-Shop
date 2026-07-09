@@ -276,7 +276,7 @@
         align-self: stretch;
         margin: 0;
         min-width: 100%;
-        padding: 0 1.25em;
+        padding: 0 1.25em 8em;
     }
 
     .checkout {
