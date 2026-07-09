@@ -1,7 +1,11 @@
 /* ==========================================================================
    Breakpoint scheme (shared by outfit/cart/checkout .module.css):
-     <1000px         mobile + tablet — single column, .primary scrolls
-                     internally, .body stays a fixed-height flex column.
+     <1000px         mobile + tablet — single column. .checkout is pinned
+                     (position: fixed) to the bottom of the browser
+                     viewport itself, not just the .body box, so it stays
+                     put whether the app runs standalone (PWA) or in a
+                     regular mobile browser tab. .primary fills the rest of
+                     .body and scrolls internally behind it.
      1000px–1400px   laptop — 2-column grid. Column 2 (.primary + .checkout)
                      mirrors the mobile pattern: .checkout is pinned to the
                      bottom of column 1's height (level with the demo
@@ -14,7 +18,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    height: 100vh;
+    height: 100dvh;
 }
 
 @supports (-webkit-touch-callout: none) {
@@ -103,6 +107,7 @@
 
 .primary {
     padding-top: 16px;
+    padding-bottom: 7em;
     flex: 1 1 auto;
     margin: 0 auto;
     overflow-y: scroll;
@@ -128,7 +133,12 @@
 
 .checkout {
     display: flex;
-    align-self: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    margin: 0 auto;
     padding: 1em;
     width: 100%;
     max-width: 400px;
@@ -376,6 +386,8 @@
     } */
 
     .checkout {
+        position: static;
+        margin: 0;
         grid-column: 3;
         min-width: 100%;
         align-self: start;
