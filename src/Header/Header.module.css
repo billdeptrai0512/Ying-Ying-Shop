@@ -82,6 +82,32 @@ a {
     margin-left: 1em;
 }
 
+.modal_overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 999;
+}
+
+.modal_panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    background: white;
+    padding: 1.5rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    font-size: 1rem;
+}
+
+.modal_panel a {
+    color: #868686 !important;
+}
+
 @media (max-width: 375px) {
 
     .path {
