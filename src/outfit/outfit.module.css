@@ -2,11 +2,12 @@
    Breakpoint scheme (shared by outfit/cart/checkout .module.css):
      <1000px         mobile + tablet — single column, .primary scrolls
                      internally, .body stays a fixed-height flex column.
-     1000px–1400px   laptop — 2-column grid.
-     >=1400px        desktop — 3-column grid.
-
-   From 1000px up, the whole page scrolls instead of just .primary — see the
-   ponytail note below for why.
+     1000px–1400px   laptop — 2-column grid. Column 2 (.primary + .checkout)
+                     mirrors the mobile pattern: .checkout is pinned to the
+                     bottom of column 1's height (level with the demo
+                     board's dice button) and .primary scrolls internally
+                     behind it, instead of pushing the whole page taller.
+     >=1400px        desktop — 3-column grid, tall columns scroll the page.
    ========================================================================== */
 
 .body {
@@ -223,26 +224,22 @@
 
 }
 
-/* ponytail: desktop grid columns can be taller than one screen (long item
-   lists); let the page scroll instead of clipping the checkout button off
-   the bottom of a fixed-height viewport. */
-@media (min-width: 1000px) {
-    .body {
-        height: auto;
-        overflow: visible;
-    }
-}
-
 /* ---------- 1000px–1400px (laptop): 2-column grid ---------- */
 @media (min-width: 1000px) and (max-width: 1400px) {
 
-    /* ponytail: pinning .primary/.checkout to fixed row numbers on a shared
-       repeat(10, auto) track (previous fix) is fragile — Chrome distributes
-       auto-track sizing ambiguously when two items (.main and .primary)
-       span overlapping auto rows, so content can overflow its row even
-       when the declared ranges don't overlap. Giving .primary and
-       .checkout one auto row each makes their sizing unambiguous; .main
-       just spans across both. */
+    /* ponytail: .main is the only in-flow item in row 1/column 1, so the row
+       (and .body's height) is sized purely by the demo board — never by how
+       long the outfit list is. .primary and .checkout are taken out of
+       normal flow (position: absolute) so their content can't grow that
+       row; their containing block is still that same grid area (a native
+       grid feature — abspos grid children resolve against their assigned
+       grid-column/grid-row, no position: relative needed on .body). That
+       makes .checkout's bottom-anchored position line up with the bottom
+       of the demo board (the dice button) regardless of board height, and
+       .primary fills the same box with its own internal scroll for
+       whatever of the list doesn't fit — instead of the previous approach
+       of stretching .body to the list's full height and scrolling the
+       whole page. */
     .body {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -251,14 +248,15 @@
         max-width: 960px;
         min-width: 960px;
         gap: 3em;
+        height: auto;
+        overflow: visible;
+        position: relative;
     }
 
     .main {
         grid-column: 1;
-        grid-row: 1 / span 2;
+        grid-row: 1;
         align-self: start;
-        position: sticky;
-        top: 0;
         padding: 0 0.5em;
     }
 
@@ -271,14 +269,26 @@
     }
 
     .primary {
+        position: absolute;
         grid-column: 2;
+        grid-row: 1;
+        inset: 0;
+        align-self: stretch;
+        margin: 0;
         min-width: 100%;
         padding: 0 1.25em;
-        margin-bottom: 2em;
     }
 
     .checkout {
+        position: absolute;
         grid-column: 2;
+        grid-row: 1;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        align-self: auto;
+        z-index: 2;
+        margin: 0;
         max-width: unset;
     }
 
@@ -294,6 +304,21 @@
         font-size: 1em;
     }
 
+}
+
+/* ponytail: at >=1400px each grid column really can be taller than one
+   screen (both .primary and .checkout hold real item lists there); let the
+   page scroll instead of clipping the checkout button off the bottom of a
+   fixed-height viewport. */
+@media (min-width: 1400px) {
+    .body {
+        height: auto;
+        overflow: visible;
+    }
+
+    .primary {
+        overflow-y: visible;
+    }
 }
 
 /* ---------- >=1400px (desktop): 3-column grid ---------- */
