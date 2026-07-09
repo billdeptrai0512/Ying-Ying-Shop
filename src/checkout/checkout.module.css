@@ -660,7 +660,7 @@ input[type=number]::-webkit-outer-spin-button {
 
     .main {
         grid-column: 1;
-        align-self: start;
+        align-self: stretch;
         position: sticky;
         top: 0;
         padding-bottom: 1em;
@@ -668,6 +668,7 @@ input[type=number]::-webkit-outer-spin-button {
 
     .board {
         max-width: unset;
+        height: 100%;
         border-radius: 5px;
     }
 
