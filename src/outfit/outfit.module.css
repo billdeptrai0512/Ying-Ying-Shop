@@ -236,15 +236,16 @@
 /* ---------- 1000px–1400px (laptop): 2-column grid ---------- */
 @media (min-width: 1000px) and (max-width: 1400px) {
 
-    /* ponytail: .primary (rows 1-7) and .checkout (rows 7-9) used to share
-       row 7, so checkout rendered on top of the last row of the outfit
-       list, hiding those items. Non-overlapping rows fixes it; the page
-       already scrolls to reveal everything below the fold (see the
-       ponytail fix above). */
+    /* ponytail: pinning .primary/.checkout to fixed row numbers on a shared
+       repeat(10, auto) track (previous fix) is fragile — Chrome distributes
+       auto-track sizing ambiguously when two items (.main and .primary)
+       span overlapping auto rows, so content can overflow its row even
+       when the declared ranges don't overlap. Giving .primary and
+       .checkout one auto row each makes their sizing unambiguous; .main
+       just spans across both. */
     .body {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: repeat(10, auto);
         align-self: center;
         justify-content: space-between;
         max-width: 960px;
@@ -253,7 +254,8 @@
     }
 
     .main {
-        grid-row: 1/9;
+        grid-column: 1;
+        grid-row: 1 / span 2;
         align-self: start;
         position: sticky;
         top: 0;
@@ -269,7 +271,6 @@
     }
 
     .primary {
-        grid-row: 1/8;
         grid-column: 2;
         min-width: 100%;
         padding: 0 1.25em;
@@ -277,7 +278,6 @@
     }
 
     .checkout {
-        grid-row: 8/10;
         grid-column: 2;
         max-width: unset;
     }
