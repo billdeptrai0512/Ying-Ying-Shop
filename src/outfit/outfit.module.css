@@ -236,6 +236,11 @@
 /* ---------- 1000px–1400px (laptop): 2-column grid ---------- */
 @media (min-width: 1000px) and (max-width: 1400px) {
 
+    /* ponytail: .primary (rows 1-7) and .checkout (rows 7-9) used to share
+       row 7, so checkout rendered on top of the last row of the outfit
+       list, hiding those items. Non-overlapping rows fixes it; the page
+       already scrolls to reveal everything below the fold (see the
+       ponytail fix above). */
     .body {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -272,7 +277,7 @@
     }
 
     .checkout {
-        grid-row: 7/9;
+        grid-row: 8/10;
         grid-column: 2;
         max-width: unset;
     }
