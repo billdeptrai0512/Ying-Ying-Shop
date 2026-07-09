@@ -225,7 +225,7 @@
         max-width: unset;
         margin: unset;
         align-self: center;
-        padding: 1.25em;
+        padding: 1.25em 1.25em 7em;
     }
 
     .example {
