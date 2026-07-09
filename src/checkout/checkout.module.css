@@ -518,7 +518,6 @@ input[type=number]::-webkit-outer-spin-button {
 @media (min-width: 1000px) {
     .body {
         height: auto;
-        min-height: 100dvh;
         overflow: visible;
     }
 }
