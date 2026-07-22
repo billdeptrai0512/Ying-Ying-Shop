@@ -9,6 +9,7 @@ export default function EditItem({ selectedItem, setReset, setSelectedItem }) {
 
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const [image, setImage] = useState(null);
+    const [imageFile, setImageFile] = useState(null);
     const [demoPreview, setDemoPreview] = useState([]);
     const [demoFiles, setDemoFiles] = useState([]);
     const [itemInformation, setItemInformation] = useState({
@@ -26,7 +27,7 @@ export default function EditItem({ selectedItem, setReset, setSelectedItem }) {
 
         demoFiles.forEach(file => data.append("demo_image", file));
 
-        data.append('image', image);
+        if (imageFile) data.append('image', imageFile);
         data.append('amount', itemInformation.amount);
         data.append('total', itemInformation.total);
         data.append('type', itemInformation.type);
@@ -93,6 +94,7 @@ export default function EditItem({ selectedItem, setReset, setSelectedItem }) {
 
         // Selected item already contains image URLs
         setImage(selectedItem.image || []);
+        setImageFile(null); // clear pending upload
         setDemoPreview(selectedItem.demo_image || []);
         setDemoFiles([]); // clear new uploads
     }, [selectedItem]);
@@ -144,9 +146,8 @@ export default function EditItem({ selectedItem, setReset, setSelectedItem }) {
                         onChange={(e) => {
                             const file = e.target.files[0];
                             if (file) {
-                                const files = Array.from(e.target.files);
-                                const previewURLs = files.map(file => URL.createObjectURL(file));
-                                setImage(previewURLs);
+                                setImageFile(file);
+                                setImage(URL.createObjectURL(file));
                             }
                         }}
                     />
