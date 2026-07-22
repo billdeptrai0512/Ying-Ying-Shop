@@ -27,7 +27,7 @@ export function getDemoImages(outFit) {
 
     if (key === "extra") {
       Object.entries(value).forEach(([subKey, subValue]) => {
-        if (subValue?.item?.demo_image) {
+        if (subValue?.item?.demo_image?.length) {
           images.push({
             key: subKey,
             image: subValue.item.demo_image[0],

@@ -37,4 +37,11 @@ describe('getDemoImages', () => {
         ]);
         layers.forEach((l) => expect(typeof l.image).toBe('string'));
     });
+
+    it('skips an extra accessory whose demo_image was emptied out', () => {
+        const layers = getDemoImages({
+            extra: { bag: item(1, []) },
+        });
+        expect(layers).toEqual([]);
+    });
 });
