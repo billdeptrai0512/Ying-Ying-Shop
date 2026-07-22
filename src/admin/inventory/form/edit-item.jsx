@@ -10,8 +10,8 @@ export default function EditItem({ selectedItem, setReset, setSelectedItem }) {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const [image, setImage] = useState(null);
     const [imageFile, setImageFile] = useState(null);
-    const [demoPreview, setDemoPreview] = useState([]);
-    const [demoFiles, setDemoFiles] = useState([]);
+    const [existingDemoImages, setExistingDemoImages] = useState([]); // kept URLs of already-uploaded demo images
+    const [demoFiles, setDemoFiles] = useState([]); // [{ file, preview }] for newly-added demo images
     const [itemInformation, setItemInformation] = useState({
         amount: '',
         total: '',
@@ -25,14 +25,14 @@ export default function EditItem({ selectedItem, setReset, setSelectedItem }) {
 
         const data = new FormData();
 
-        demoFiles.forEach(file => data.append("demo_image", file));
+        demoFiles.forEach(({ file }) => data.append("demo_image", file));
+        existingDemoImages.forEach(url => data.append("existing_demo_image[]", url));
 
         if (imageFile) data.append('image', imageFile);
         data.append('amount', itemInformation.amount);
         data.append('total', itemInformation.total);
         data.append('type', itemInformation.type);
         data.append('z_index', itemInformation.z_index);
-        console.log(demoPreview)
 
         itemInformation.sizes.forEach(size => {
             data.append('sizes[]', size);
@@ -95,7 +95,7 @@ export default function EditItem({ selectedItem, setReset, setSelectedItem }) {
         // Selected item already contains image URLs
         setImage(selectedItem.image || []);
         setImageFile(null); // clear pending upload
-        setDemoPreview(selectedItem.demo_image || []);
+        setExistingDemoImages(selectedItem.demo_image || []);
         setDemoFiles([]); // clear new uploads
     }, [selectedItem]);
 
@@ -156,19 +156,12 @@ export default function EditItem({ selectedItem, setReset, setSelectedItem }) {
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                     <label>Demo Image</label>
 
-                    <label
-                        htmlFor="demo_image_input"
-                        style={{
-                            display: "flex", flexWrap: "wrap", gap: "1em",
-                            cursor: "pointer"
-                        }}
-                    >
-                        {demoPreview && demoPreview.length > 0 ? (
-                            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                                {demoPreview.map((img, index) => (
+                    {existingDemoImages.length > 0 || demoFiles.length > 0 ? (
+                        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                            {existingDemoImages.map((url, index) => (
+                                <div key={`existing-${index}`} style={{ position: "relative", width: "200px", height: "200px" }}>
                                     <img
-                                        key={index}
-                                        src={img}
+                                        src={url}
                                         alt={`Preview ${index + 1}`}
                                         style={{
                                             width: "200px",
@@ -178,24 +171,67 @@ export default function EditItem({ selectedItem, setReset, setSelectedItem }) {
                                             borderRadius: "6px"
                                         }}
                                     />
-                                ))}
-                            </div>
-                        ) : (
-                            <div
-                                style={{
-                                    width: "200px",
-                                    height: "200px",
-                                    border: "1px dashed #aaa",
-                                    borderRadius: "6px",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    color: "#777"
-                                }}
-                            >
-                                Click to upload
-                            </div>
-                        )}
+                                    <button
+                                        type="button"
+                                        onClick={() => setExistingDemoImages(prev => prev.filter((_, i) => i !== index))}
+                                        style={{
+                                            position: "absolute", top: "4px", right: "4px",
+                                            border: "none", borderRadius: "50%", width: "24px", height: "24px",
+                                            background: "rgba(0,0,0,0.6)", color: "#fff", cursor: "pointer"
+                                        }}
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            ))}
+                            {demoFiles.map(({ preview }, index) => (
+                                <div key={`new-${index}`} style={{ position: "relative", width: "200px", height: "200px" }}>
+                                    <img
+                                        src={preview}
+                                        alt={`New demo ${index + 1}`}
+                                        style={{
+                                            width: "200px",
+                                            height: "200px",
+                                            objectFit: "cover",
+                                            border: "1px solid #ccc",
+                                            borderRadius: "6px"
+                                        }}
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setDemoFiles(prev => prev.filter((_, i) => i !== index))}
+                                        style={{
+                                            position: "absolute", top: "4px", right: "4px",
+                                            border: "none", borderRadius: "50%", width: "24px", height: "24px",
+                                            background: "rgba(0,0,0,0.6)", color: "#fff", cursor: "pointer"
+                                        }}
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <label
+                            htmlFor="demo_image_input"
+                            style={{
+                                width: "200px",
+                                height: "200px",
+                                border: "1px dashed #aaa",
+                                borderRadius: "6px",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                color: "#777",
+                                cursor: "pointer"
+                            }}
+                        >
+                            Click to upload
+                        </label>
+                    )}
+
+                    <label htmlFor="demo_image_input" style={{ cursor: "pointer", color: "#555", textDecoration: "underline" }}>
+                        + Thêm demo image
                     </label>
 
                     {/* Hidden input for MULTIPLE uploads */}
@@ -208,10 +244,9 @@ export default function EditItem({ selectedItem, setReset, setSelectedItem }) {
                         onChange={(e) => {
                             const files = Array.from(e.target.files);
 
-                            const previewURLs = files.map(file => URL.createObjectURL(file));
+                            const newEntries = files.map(file => ({ file, preview: URL.createObjectURL(file) }));
 
-                            setDemoFiles(prev => [...prev, ...files]);       // Files for backend upload
-                            setDemoPreview(prev => [...prev, ...previewURLs]); // URLs for UI preview
+                            setDemoFiles(prev => [...prev, ...newEntries]);
                         }}
                     />
                 </div>
